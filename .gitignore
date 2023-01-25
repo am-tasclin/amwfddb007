@@ -7,3 +7,4 @@ gradle*
 *.swp
 **/*.swp
 src/main/resources/application copy.properties
+src/main/resources/application.properties
