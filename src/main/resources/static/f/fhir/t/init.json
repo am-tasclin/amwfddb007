@@ -1,0 +1,14 @@
+{
+    "customers": [
+        {
+            "CustomerName": "Alfreds Futterkiste",
+            "City": "Berlin",
+            "Country": "Germany"
+        },
+        {
+            "CustomerName": "Wolski Zajazd",
+            "City": "Warszawa",
+            "Country": "Poland"
+        }
+    ]
+}

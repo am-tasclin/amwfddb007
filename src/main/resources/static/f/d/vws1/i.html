@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title>am001: VueWebSocket</title>
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<script src="/webjars/vue/3.2.45/dist/vue.global.prod.js" type="application/javascript"></script>
+
+<body class="w3-container">
+    <div class="w3-border-bottom am-max-width-1">
+        <a href="/" class="w3-btn w3-border1 w3-padding-small w3-small">
+            <img style="display: flex;" src="/f/css/homeIcon.svg">
+        </a>
+        <a href="http://algoritmed.com/" class="am-0u">
+            <img src="/f/img/algoritmed-logo.webp" width="75px;" />
+        </a>
+    </div>
+    <div id="app">
+        <div class="w3-small">
+            <span class="w3-tiny am-b">
+                FHIR Index:
+            </span>
+            Show:
+            <button @click="increment" class="w3-btn w3-padding-small w3-border w3-round">
+                FHIR Terminology
+            </button>
+            Click Count is: {{count}}
+        </div>
+        <div v-html="rawHtml"></div>
+        <span>
+            a1->tt01
+        </span>
+        <div id="ttadd01">
+            <div @click="f01()" class="w3-gray">
+                gray
+            </div>
+        </div>
+        <template id="tt01">
+            <div class="w3-border w3-white">
+                Hello Template!
+            </div>
+        </template>
+        <span>
+            a2
+        </span>
+        <div class="w3-row w3-border-bottom">
+            <div v-for="sqlName in readSqlList"
+                :class="{'w3-half':'UseValueSet'==sqlName, 'w3-quarter':'UseValueSet'!=sqlName}">
+                <div class="w3-border-bottom">
+                    <div class="w3-small am-b">
+                        <span class="am-n w3-medium"> {{getLength(sqlName)}}::type </span>
+                        {{getSqlAppName(sqlName)}}
+                    </div>
+                </div>
+                <div class="w3-hover-shadow" v-for="item in session[sqlName] ">
+                    <span class="w3-tiny">{{item.doc_id}}</span>
+                    <span v-if="'UseValueSet'!=sqlName">
+                        <span class="w3-small"> {{item.title}} </span>
+                    </span>
+                    <span v-else>
+                        {{item.c}}{{item.c_id==item.parent?'.':'..'}}{{item.sr?item.sr:item.srr}}
+                        <span class="w3-tiny">{{item.vs_id}}:{{session.eMap[item.vs_id].title}} </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        Hello World Vue!
+        <div class="w3-row">
+            <div class="w3-half">
+                <div v-for="item in session.DomainResource01">
+                    {{item.doc_id}}
+                </div>
+                a1
+            </div>
+            <div class="w3-half">
+                <div>
+                    WebSocket
+                </div>
+                {{list[0]}}
+                <div v-for="item in list">
+                    {{item.x}}
+                </div>
+                {{list[2]}}
+                <div>
+                    <button class="w3-btn w3-border w3-round" @click="isBoolean = !isBoolean">Toggle</button>
+                    <h1 v-if="isBoolean">Vue is awesome!</h1>
+                    <h1 v-else>Oh no 😢</h1>
+                </div>
+                <h1 :title="message">{{message}}</h1>
+                <div v-bind:title="message" v-html="message"></div>
+                <button class="w3-btn w3-border w3-round" @click="count++">
+                    Count is: {{count}}
+                </button>
+                <span>VIEW
+                    or
+                    <span v-if="isEvenOdd()">even</span>
+                    <span v-if="!isEvenOdd()">&nbsp; odd</span>
+                    or
+                </span>
+                <button @click="increment">
+                    OK ++
+                </button>
+                {{isBoolean}}
+                {{isEvenOdd()?'YES':'NO'}}
+                <div class="w3-tiny">
+                    {{Math.E}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="i.js" t1ype="module"></script>
+</body>
+
+</html>

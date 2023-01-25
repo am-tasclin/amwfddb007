@@ -1,0 +1,10 @@
+<div class="w3-border-bottom">
+    〉 type:key:value →
+    <span class="w3-small">
+        <span data-ng-repeat="itemName in ['CodeSystemTitle']">
+            {{cr.pl.session[itemName].length}}</span>:<span
+            data-ng-repeat="itemName in ['ValueSetTitle']">{{cr.pl.session[itemName].length}}</span>:<span
+            data-ng-repeat="itemName in ['UseValueSet']">{{cr.pl.session[itemName].length}}</span>
+    </span>
+</div>
+<div class="w3-row" data-ng-include="'terminology.html'"></div>

@@ -1,0 +1,37 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.0.2'
+	id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'org.algoritmed'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '19'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compileOnly("org.springframework.boot:spring-boot-devtools")
+	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.webjars.npm:vue:3.2.45'
+	runtimeOnly 'org.webjars.npm:angular:1.8.3'
+	runtimeOnly 'org.webjars.npm:angular-animate:1.8.2'
+	runtimeOnly 'org.webjars.npm:angular-resource:1.8.2'
+	runtimeOnly 'org.webjars.npm:angular-route:1.8.2'
+	runtimeOnly 'org.webjars.npm:angular-sanitize:1.8.2'
+	runtimeOnly 'org.webjars.npm:angular-aria:1.8.2'
+	runtimeOnly 'org.webjars.npm:angular-i18n:1.8.2'
+	runtimeOnly 'org.webjars.npm:angular-messages:1.8.2'
+	implementation 'org.webjars:font-awesome:6.2.1'
+	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly 'org.postgresql:r2dbc-postgresql'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
