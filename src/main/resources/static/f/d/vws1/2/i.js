@@ -8,13 +8,16 @@ const app1 = createApp({
 })
 
 app1.component('am-ct01', {
-    template: `<span>Hi am-ct01 World!</span>`
+    template: `<span>Hi am-ct01 World!</span>`,
 })
 app1.component('am-tt01', {
     template: "#tt01",
-    data(){
+    props: {
+        adnId: Number
+    },
+    data() {
         return {
-            count:11
+            count: 11
         }
     }
 })
