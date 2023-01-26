@@ -38,18 +38,15 @@
     <template id="tOedNode01">
         <span class="w3-tiny w3-dropdown-hover w3-white"> {{adnId}}
             <div class="w3-dropdown-content w3-border">
-                <span class="w3-red w3-large" v-if="!parent"> No Node!</span>
+                <span class="w3-red w3-large" v-if="!p"> No Node!</span>
                 <span v-else> Hi </span>
             </div>
         </span>&nbsp;:
-        <span class="w3-hover-shadow"> {{value_22}} </span>
-        <span class="w3-tiny">
-            <sub v-if="r">r:{{r}}</sub>
-            {{rr_value_22}}<span v-if="rr_value_22">::</span>{{r_value_22}}<span v-if="r_value_22">:</span>
+        <span class="w3-hover-shadow"> {{v_22}} </span>
+        <span class="w3-tiny"> <sub v-if="r">r:{{r}}</sub>
+            {{rr_v_22}}<span v-if="rr_v_22">::</span>{{r_v_22}}<span v-if="r_v_22">:</span>
         </span>
-        <span class="w3-small am-i">
-            {{r2_value_22}} <sub v-if="r2"> r2:{{r2}} </sub>
-        </span>
+        <span class="w3-small am-i"> {{r2_v_22}} <sub v-if="r2"> r2:{{r2}} </sub> </span>
     </template>
 
     : Go:<a href="#app1">app1</a>|<a href="#app2">app2</a> {{count}}

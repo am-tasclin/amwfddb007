@@ -9,24 +9,26 @@ const oed01 = createApp({
         sum223: () => (2 + 2) ** 3,
     }
 })
+// jsLib1.makeEl = (adnId, nodeList, adnNameChange) => {
+jsLib1.makeEl = (adnId, nodeList) => {
+    const r = {}, nl = nodeList.trim().split(' ')
+    if (d.eMap[adnId]) Object.keys(adnNameChange)
+        .forEach(propName => d.eMap[adnId][adnNameChange[propName]] && (
+            r[propName] = d.eMap[adnId][adnNameChange[propName]]))
+    return r
+}
+const adnNameChange = {
+    p: 'parent', r: 'reference', r2: 'reference2',
+    v_22: 'value_22',
+    r_v_22: 'r_value_22', rr_v_22: 'rr_value_22',
+    r2_v_22: 'r2_value_22',
+}
 oed01.component('t-oed-node01', {
     props: { adnId: Number }, data() {
-        let r = {
-            parent: d.eMap[this.adnId] && d.eMap[this.adnId].parent,
-            value_22: d.eMap[this.adnId] && d.eMap[this.adnId].value_22,
-            rr_value_22: d.eMap[this.adnId] && d.eMap[this.adnId].rr_value_22,
-            r_value_22: d.eMap[this.adnId] && d.eMap[this.adnId].r_value_22,
-            r2_value_22: d.eMap[this.adnId] && d.eMap[this.adnId].r2_value_22,
-            r: d.eMap[this.adnId] && d.eMap[this.adnId].reference,
-            r2: d.eMap[this.adnId] && d.eMap[this.adnId].reference2,
-        }
-        console.log(r)
-        return r
+        return jsLib1.makeEl(this.adnId, 'p r r2 v_22 r_v_22 rr_v_22 r2_v_22 ')
     }, template: "#tOedNode01",
 })
 oed01.mount('#oed01')
-
-
 
 const app1 = createApp({
     data: () => d
