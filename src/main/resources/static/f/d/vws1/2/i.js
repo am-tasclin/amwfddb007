@@ -4,19 +4,34 @@ const { createApp } = Vue
 console.log(123, createApp)
 
 const app1 = createApp({
-    data() {
+    data: () => d
+})
+
+app1.component('am-ct01', {
+    template: `<span>Hi am-ct01 World!</span>`
+})
+app1.component('am-tt01', {
+    template: "#tt01",
+    data(){
         return {
-            count: 0
+            count:11
         }
     }
 })
+
 app1.mount('#app1')
 
 allPagesApp.app2 = createApp({
     data: () => d
 })
-
 allPagesApp.app2.mount('#app2')
-allPagesApp.pageApp = createApp()
-allPagesApp.pageApp.data = () => d
+
+const pageApp = {
+    data: () => d,
+    methods: {
+        increment: () => this.count++
+    }
+
+}
+allPagesApp.pageApp = createApp(pageApp)
 allPagesApp.pageApp.mount('#pageApp')

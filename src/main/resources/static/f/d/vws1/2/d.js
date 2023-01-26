@@ -1,6 +1,19 @@
 'use strict'
+
+const jsLib1 = {}
+jsLib1.tree = { l: [], r: [] }
+jsLib1.hash = window.location.hash
+jsLib1.isTreeHash = jsLib1.hash.includes('tree_')
+jsLib1.tree.l = jsLib1.isTreeHash && jsLib1.hash.split('tree_')[1].split(',')[0].split('_')
+jsLib1.tree.r = jsLib1.isTreeHash && jsLib1.hash.split('tree_')[1].split(',')[1].split('_')
+
+const myPort = window.location.port
+jsLib1.wsDbSelect = new WebSocket("ws://localhost:"+myPort+"/dbSelect")
+console.log(jsLib1.wsDbSelect)
+
 const d = {
     count: 4,
+    tree: jsLib1.tree,
     siteTitle: 'Vue02WebSocket: (vws1/2) ',
     hw: 'Hello World!',
     eMap: {

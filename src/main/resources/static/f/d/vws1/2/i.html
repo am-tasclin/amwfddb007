@@ -17,14 +17,33 @@
             <img src="/f/img/algoritmed-logo.webp" style="width:75px;" />
         </a>
         : Go:<a href="#app1">app1</a>|<a href="#app2">app2</a> {{count}}
+        <span class="w3-right w3-tiny">
+            Hi {{siteTitle}}!
+        </span>
     </div>
     <div id="x1"></div>
-    Hi {{siteTitle}} !
-    <div id="app1">app1
-        {{count}}
+    <div class="w3-row w3-border-bottom">
+        <div id="app1" class="w3-half">app1
+            {{count}}
+            <am-ct01></am-ct01>
+            a1
+            <am-tt01></am-tt01>
+            a2
+        </div>
+        <template id="tt01">
+            <div>Hi tt01 World! {{count}} a22</div>
+        </template>
+        <div id="app2" class="w3-half">app2
+            {{count}}
+        </div>
     </div>
-    <div id="app2">app2
-        {{count}}
+    <div class="w3-row">
+        <div class="w3-half" v-for="lr in ['l','r']" style="height: 79vh; overflow: auto;">
+            {{lr}}
+            <div v-for="adnId in tree[lr]">
+                {{adnId}}
+            </div>
+        </div>
     </div>
     <script src="i.js" t1ype="module"></script>
 </body>
