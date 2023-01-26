@@ -23,9 +23,14 @@ const adnNameChange = {
     r_v_22: 'r_value_22', rr_v_22: 'rr_value_22',
     r2_v_22: 'r2_value_22',
 }
+oed01.component('t-oed01-node-lmenu', {
+    props: { adnId: Number }, data() {
+        return jsLib1.makeEl(this.adnId, 'p r r2')
+    }, template: "#tOed01NodeLmenu",
+})
 oed01.component('t-oed-node01', {
     props: { adnId: Number }, data() {
-        return jsLib1.makeEl(this.adnId, 'p r r2 v_22 r_v_22 rr_v_22 r2_v_22 ')
+        return jsLib1.makeEl(this.adnId, 'p r r2 v_22 r_v_22 rr_v_22 r2_v_22')
     }, template: "#tOedNode01",
 })
 oed01.mount('#oed01')

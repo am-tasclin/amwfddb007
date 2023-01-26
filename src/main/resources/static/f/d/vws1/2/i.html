@@ -35,13 +35,34 @@
             </div>
         </div>
     </div>
-    <template id="tOedNode01">
-        <span class="w3-tiny w3-dropdown-hover w3-white"> {{adnId}}
-            <div class="w3-dropdown-content w3-border">
+    <template id="tOed01NodeLmenu">
+        <span class="w3-dropdown-hover w3-white">
+            <span class="w3-tiny">{{adnId}}</span>
+            <div class="w3-dropdown-content w3-border" style="width: 200px;">
                 <span class="w3-red w3-large" v-if="!p"> No Node!</span>
-                <span v-else> Hi </span>
+                <span v-else>
+                    <button class="w3-btn"> <i class="fas fa-caret-up"></i> </button>
+                    <button class="w3-btn"> <i class="fas fa-caret-down"></i> </button>&nbsp;|
+                    <button class="w3-btn"> <i class="fas fa-plus"></i> </button>
+                    <button class="w3-btn"> <i class="fas fa-minus"></i> </button>
+                    <div class="w3-border-top">
+                        <button class="w3-btn"> <i class="fas fa-edit w3-text-blue"></i> </button>
+                        <button @click="editOpen=!editOpen" class="w3-btn"> <i class="fas fa-edit"></i> </button>
+                        a1
+                        {{editOpen}}
+                        a1
+                    </div>
+                    <div class="w3-border-top">
+                        <button class="w3-btn"> <i class="fa fa-copy"></i> </button>
+                        <button class="w3-btn"><i class="fa fa-cut"></i></button>
+                        <button class="w3-btn"><i class="fa fa-paste"></i></button>
+                    </div>
+                </span>
             </div>
         </span>&nbsp;:
+    </template>
+    <template id="tOedNode01">
+        <t-oed01-node-lmenu :adn-id="adnId"></t-oed01-node-lmenu>
         <span class="w3-hover-shadow"> {{v_22}} </span>
         <span class="w3-tiny"> <sub v-if="r">r:{{r}}</sub>
             {{rr_v_22}}<span v-if="rr_v_22">::</span>{{r_v_22}}<span v-if="r_v_22">:</span>
