@@ -114,15 +114,6 @@ lib1.replaceSql = sql => {
 }
 lib1.readSql2R = sqlN => sql_app[sqlN] && lib1.replaceSql(sql_app[sqlN].sql)
 
-function f01() {
-    let tt01 = document.getElementById('tt01');
-    var clon = tt01.content.cloneNode(true)
-    console.log("-31-", clon)
-    let ttadd01 = document.getElementById('ttadd01');
-    console.log("-22-", ttadd01)
-    ttadd01.appendChild(clon);
-}
-
 const focus = {
     mounted: (el) => el.focus()
 }
@@ -136,8 +127,6 @@ const app = createApp({
     },
     created: () => {
         console.log("Starting created of Vue")
-
-
     },
     mounted: () => {
         console.log("Mounted of Vue")
@@ -152,8 +141,8 @@ const app = createApp({
         isLogic() { return d.isEvenOdd }
     },
 })
-
 app.directive('focus', focus)
+
 app.mount('#app')
 app.config.errorHandler = (err) => {
     console.error(err)

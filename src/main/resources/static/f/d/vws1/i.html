@@ -15,6 +15,7 @@
             <img src="/f/img/algoritmed-logo.webp" width="75px;" />
         </a>
     </div>
+
     <div id="app">
         <div class="w3-small">
             <span class="w3-tiny am-b">
@@ -27,20 +28,16 @@
             Click Count is: {{count}}
         </div>
         <div v-html="rawHtml"></div>
-        <span>
-            a1->tt01
-        </span>
+
         <div id="ttadd01">
             <div @click="f01()" class="w3-gray">
                 gray
             </div>
         </div>
-        <template id="tt01">
-            <div class="w3-border w3-white">
-                Hello Template!
-            </div>
-        </template>
+
         <span>
+            a2-focus?
+            <input v-focus>
             a2
         </span>
         <div class="w3-row w3-border-bottom">

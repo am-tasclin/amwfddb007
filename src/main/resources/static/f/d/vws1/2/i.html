@@ -16,33 +16,54 @@
         <a href="http://algoritmed.com/" class="am-0u">
             <img src="/f/img/algoritmed-logo.webp" style="width:75px;" />
         </a>
-        : Go:<a href="#app1">app1</a>|<a href="#app2">app2</a> {{count}}
         <span class="w3-right w3-tiny">
             Hi {{siteTitle}}!
         </span>
     </div>
-    <div id="x1"></div>
-    <div class="w3-row w3-border-bottom">
-        <div id="app1" class="w3-half">app1
-            {{count}}
-            <am-ct01></am-ct01>
-            a1
-            <am-tt01 adn-id="123"></am-tt01>
-            a2
-        </div>
-        <template id="tt01">
-            <div>Hi id:tt01 → edu Rudyk → adn-id → adnId{{adnId}}</div>
-        </template>
-        <div id="app2" class="w3-half">app2
-            {{count}}
+    <div class="w3-border-bottom am-max-width-1">
+        <span class="w3-small">
+            Моделювання даних і їх структур з кодом автоматичного SQL
+        </span>
+        <span class="w3-right">
+            <a href="https://www.compart.com/en/unicode/U+232A" class="am-0u"> 〉 </a>
+        </span>
+    </div>
+    <div class="w3-row" id="oed01">
+        <div class="w3-half" v-for="lr in ['l','r']" style="height: 39vh; overflow: auto;">
+            <div v-for="adnId in tree[lr]">
+                <t-oed-node01 :adn-id="adnId"></t-oed-node01>
+            </div>
         </div>
     </div>
-    <div class="w3-row">
-        <div class="w3-half" v-for="lr in ['l','r']" style="height: 79vh; overflow: auto;">
-            {{lr}}
-            <div v-for="adnId in tree[lr]">
-                {{adnId}}
+    <template id="tOedNode01">
+        <span class="w3-tiny w3-dropdown-hover w3-white"> {{adnId}}
+            <div class="w3-dropdown-content w3-border">
+                <span class="w3-red w3-large" v-if="!parent"> No Node!</span>
+                <span v-else> Hi </span>
             </div>
+        </span>&nbsp;:
+        <span class="w3-hover-shadow"> {{value_22}} </span>
+        <span class="w3-tiny">
+            <sub v-if="r">r:{{r}}</sub>
+            {{rr_value_22}}<span v-if="rr_value_22">::</span>{{r_value_22}}<span v-if="r_value_22">:</span>
+        </span>
+        <span class="w3-small am-i">
+            {{r2_value_22}} <sub v-if="r2"> r2:{{r2}} </sub>
+        </span>
+    </template>
+
+    : Go:<a href="#app1">app1</a>|<a href="#app2">app2</a> {{count}}
+
+    <div class="w3-row w3-border-top">
+        <div id="app1" class="w3-half">app1: →
+            <am-tt-test adn-id="369864"></am-tt-test>
+        </div>
+        <template id="ttTest">
+            {{parent}} : → : <span class="w3-tiny"> {{adnEl}} </span> {{calc}}
+        </template>
+        <div id="app2" class="w3-half">app2: →
+            <am-ct01></am-ct01>
+            <div>Hi id:ttTest → edu Rudyk → adn-id → count:{{count}}</div>
         </div>
     </div>
     <script src="i.js" t1ype="module"></script>
