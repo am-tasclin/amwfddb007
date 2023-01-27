@@ -4,9 +4,12 @@ const { createApp } = Vue
 console.log(123, createApp)
 
 const oed01 = createApp({
-    data: () => d,
+    data() { return d },
     methods: {
         sum223: () => (2 + 2) ** 3,
+        f123() {
+            console.log(123)
+        },
     }
 })
 // jsLib1.makeEl = (adnId, nodeList, adnNameChange) => {
@@ -26,7 +29,14 @@ const adnNameChange = {
 oed01.component('t-oed01-node-lmenu', {
     props: { adnId: Number }, data() {
         return jsLib1.makeEl(this.adnId, 'p r r2')
-    }, template: "#tOed01NodeLmenu",
+    },
+    methods: {
+        check() { this.checked = !this.checked; },
+        f2233: () => {
+            console.log(123, 'f2233')
+        },
+    }
+    , template: "#tOed01NodeLmenu",
 })
 oed01.component('t-oed-node01', {
     props: { adnId: Number }, data() {
@@ -35,9 +45,20 @@ oed01.component('t-oed-node01', {
 })
 oed01.mount('#oed01')
 
-const app1 = createApp({
-    data: () => d
-})
+oed01.config.errorHandler = (err) => {
+    console.error('-oed01-',err)
+}
+
+
+const app1CreateConstant = {
+    data: () => d,
+    methods: {
+        f02app1: () => {
+            console.log(123, 'f02app1')
+        },
+    }
+}
+const app1 = createApp(app1CreateConstant)
 app1.component('am-tt-test', {
     props: { adnId: Number }, data() {
         return {
@@ -47,11 +68,16 @@ app1.component('am-tt-test', {
         }
     }, template: "#ttTest",
 })
-
-
 app1.mount('#app1')
 
-allPagesApp.app2 = createApp({ data: () => d })
+allPagesApp.app2 = createApp({
+    data: () => d,
+    methods: {
+        f03app2: () => {
+            console.log(123, 'f03app2')
+        },
+    }
+})
 allPagesApp.app2.component('am-ct01', {
     template: `<span>Hi am-ct01 World!</span>`,
 })
@@ -61,9 +87,11 @@ const pageApp = {
     data: () => d,
     methods: {
         sum2: () => (2 + 2) ** 3,
-        increment: () => this.count++
+        increment: () => this.count++,
+        f01pa: () => {
+            console.log(123, 'f01pa')
+        },
     }
-
 }
 allPagesApp.pageApp = createApp(pageApp)
 allPagesApp.pageApp.mount('#pageApp')

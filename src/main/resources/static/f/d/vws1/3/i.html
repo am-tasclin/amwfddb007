@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html id="pageApp">
+<html>
 <meta charset="utf-8" />
-<title>am001: {{siteTitle}} </title>
+<title id="headTitle">am001: {{siteTitle}} </title>
 <link rel="stylesheet" href="/webjars/font-awesome/6.2.1/css/all.min.css">
 <link rel="stylesheet" href="/f/css/w3.css">
 <link rel="stylesheet" href="/f/css/am.css">
@@ -9,19 +9,23 @@
 <script src="d.js" type="application/javascript"></script>
 
 <body class="w3-container">
-    <div class="w3-border-bottom am-max-width-1">
+    <div id="headPage" class="w3-border-bottom am-max-width-1">
         <a href="/" class="w3-btn w3-border1 w3-padding-small w3-small">
             <img style="display: flex;" src="/f/css/homeIcon.svg">
         </a>
         <a href="http://algoritmed.com/" class="am-0u">
             <img src="/f/img/algoritmed-logo.webp" style="width:75px;" />
-        </a>
-        <span class="w3-right w3-tiny">
-            Hi {{siteTitle}}!
+        </a>&nbsp;
+        <button class="w3-btn w3-padding-small w3-border" @click="rld">
+            <i class="fa-solid fa-arrow-rotate-right fa-flip-horizontal"></i>
+        </button>
+        <span class="w3-right w3-tiny"> Hi: {{siteTitle}}!
+            {{count}} {{pageVl.y}}
         </span>
     </div>
+
     <div class="w3-border-bottom am-max-width-1">
-        <span class="w3-small">
+        <span class="w3-small" id="testPage">
             Моделювання даних і їх структур з кодом автоматичного SQL
         </span>
         <span class="w3-right">
@@ -29,20 +33,31 @@
         </span>
     </div>
     <div class="w3-row" id="oed01">
+        <span class="w3-hide"> {{count}} </span>
         <div class="w3-half" v-for="lr in ['l','r']" style="height: 39vh; overflow: auto;">
             <div v-for="adnId in tree[lr]">
-                <t-oed-node01 :adn-id="adnId"></t-oed-node01>
-                a1
-                <button @click="f123">a1</button>
-                a2
+                {{pageVl.y}}
+                <t-oed01-lmenu :adn-id="adnId"></t-oed01-lmenu>
+                <t-oed01-value :adn-id="adnId"></t-oed01-value>
+                {{pageVl.subSepMenuName}}
             </div>
         </div>
     </div>
-    <template id="tOed01NodeLmenu">
+    <template id="tOed01Value">
+        {{adnId}}
+        <i class="fas fa-edit w3-text-blue w3-tiny" vz-if="isMyValueEdOpen(adnId)"></i>
+        <span class="w3-hover-shadow"> {{value_22}} {{!value_22?'|?|':''}} </span>
+        <span class="w3-tiny"> <sub v-if="reference">r:{{reference}}</sub>
+            {{rr_value_22}}<span v-if="rr_v_22">::</span>{{r_value_22}}<span v-if="r_value_22">:</span>
+        </span>
+        <span class="w3-small am-i"> {{r2_value_22}} <sub v-if="r2"> r2:{{reference2}} </sub> </span>
+    </template>
+    <template id="tOed01Lmenu">
         <span class="w3-dropdown-hover w3-white">
             <span class="w3-tiny">{{adnId}}</span>
+            a1
             <div class="w3-dropdown-content w3-border" style="width: 200px;">
-                <span class="w3-red w3-large" v-if="!p"> No Node!</span>
+                <span class="w3-red w3-large" v-if="!parent"> No Node!</span>
                 <span v-else>
                     <button class="w3-btn"> <i class="fas fa-caret-up"></i> </button>
                     <button class="w3-btn"> <i class="fas fa-caret-down"></i> </button>&nbsp;|
@@ -50,7 +65,7 @@
                     <button class="w3-btn"> <i class="fas fa-minus"></i> </button>
                     <div class="w3-border-top">
                         <button class="w3-btn"> <i class="fas fa-edit w3-text-blue"></i> </button>
-                        <button @click="f123" class="w3-btn"> <i class="fas fa-edit"></i> </button>
+                        <button @click="edAdnValue01" class="w3-btn"> <i class="fas fa-edit"></i> </button>
                         a1
                         {{checked}}
                         a1
@@ -63,35 +78,14 @@
                 </span>
             </div>
         </span>&nbsp;:
-    </template>
-    <template id="tOedNode01">
-        <t-oed01-node-lmenu :adn-id="adnId"></t-oed01-node-lmenu>
-        <span class="w3-hover-shadow"> {{v_22}} </span>
-        <span class="w3-tiny"> <sub v-if="r">r:{{r}}</sub>
-            {{rr_v_22}}<span v-if="rr_v_22">::</span>{{r_v_22}}<span v-if="r_v_22">:</span>
-        </span>
-        <span class="w3-small am-i"> {{r2_v_22}} <sub v-if="r2"> r2:{{r2}} </sub> </span>
+        <Button @click="edAdnValue01">tt01</Button>
     </template>
 
-    : Go:<a href="#app1">app1</a>|<a href="#app2">app2</a> {{count}}
-    
-    <button @click="f01pa">f01pa</button>
-
-    <div class="w3-row w3-border-top">
-        <div id="app1" class="w3-half">app1: →
-            <button @click="f02app1">f02app1</button>
-            <am-tt-test adn-id="369864"></am-tt-test>
-        </div>
-        <template id="ttTest">
-            {{parent}} : → : <span class="w3-tiny"> {{adnEl}} </span> {{calc}}
-        </template>
-        <div id="app2" class="w3-half">app2: →
-            <button @click="f03app2">f03app2</button>
-            <am-ct01></am-ct01>
-            <div>Hi id:ttTest → edu Rudyk → adn-id → count:{{count}}</div>
-        </div>
+    <div id="app1"> app1: {{hw}} {{count}}
+        {{pageVl.y}}
+        <button @click="f02app1">XX</button>
     </div>
-    <script src="i.js" t1ype="module"></script>
+    <script src="i.js" type="module"></script>
 </body>
 
 </html>
