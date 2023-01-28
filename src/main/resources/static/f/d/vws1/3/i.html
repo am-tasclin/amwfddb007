@@ -20,32 +20,31 @@
             <i class="fa-solid fa-arrow-rotate-right fa-flip-horizontal"></i>
         </button>
         <span class="w3-right w3-tiny"> Hi: {{siteTitle}}!
-            {{count}} {{pageVl.y}}
+            <span class="w13-hide"> {{count}} </span>
         </span>
     </div>
 
     <div class="w3-border-bottom am-max-width-1">
-        <span class="w3-small" id="testPage">
+        <span class="w3-small">
             Моделювання даних і їх структур з кодом автоматичного SQL
         </span>
         <span class="w3-right">
             <a href="https://www.compart.com/en/unicode/U+232A" class="am-0u"> 〉 </a>
         </span>
     </div>
-    <div class="w3-row" id="oed01">
+    <div class="w3-row w3-border-bottom" id="oed01">
         <span class="w3-hide"> {{count}} </span>
-        <div class="w3-half" v-for="lr in ['l','r']" style="height: 39vh; overflow: auto;">
+        <div class="w3-half" v-for="lr in ['l','r']" style="height: 69vh; overflow: auto;">
             <div v-for="adnId in tree[lr]">
-                {{pageVl.y}}
                 <t-oed01-lmenu :adn-id="adnId"></t-oed01-lmenu>
                 <t-oed01-value :adn-id="adnId"></t-oed01-value>
-                {{pageVl.subSepMenuName}}
+                <a class="w3-btn" @click="closeAdnVlMenu" v-if="pageVl.openedAdnVlMenu==adnId">
+                    <i class="fas fa-edit w3-text-blue w3-tiny"></i>
+                </a>
             </div>
         </div>
     </div>
     <template id="tOed01Value">
-        {{adnId}}
-        <i class="fas fa-edit w3-text-blue w3-tiny" vz-if="isMyValueEdOpen(adnId)"></i>
         <span class="w3-hover-shadow"> {{value_22}} {{!value_22?'|?|':''}} </span>
         <span class="w3-tiny"> <sub v-if="reference">r:{{reference}}</sub>
             {{rr_value_22}}<span v-if="rr_v_22">::</span>{{r_value_22}}<span v-if="r_value_22">:</span>
@@ -55,20 +54,23 @@
     <template id="tOed01Lmenu">
         <span class="w3-dropdown-hover w3-white">
             <span class="w3-tiny">{{adnId}}</span>
-            a1
+            <span class="w3-hide"> {{count}} </span>
             <div class="w3-dropdown-content w3-border" style="width: 200px;">
-                <span class="w3-red w3-large" v-if="!parent"> No Node!</span>
+                <span class="w3-red w3-large" v-if="!i('parent')"> No Node!</span>
                 <span v-else>
                     <button class="w3-btn"> <i class="fas fa-caret-up"></i> </button>
                     <button class="w3-btn"> <i class="fas fa-caret-down"></i> </button>&nbsp;|
                     <button class="w3-btn"> <i class="fas fa-plus"></i> </button>
                     <button class="w3-btn"> <i class="fas fa-minus"></i> </button>
                     <div class="w3-border-top">
-                        <button class="w3-btn"> <i class="fas fa-edit w3-text-blue"></i> </button>
+                        <button @click="closeAdnVlMenu" class="w3-btn"> <i class="fas fa-edit w3-text-blue"></i>
+                        </button>
                         <button @click="edAdnValue01" class="w3-btn"> <i class="fas fa-edit"></i> </button>
-                        a1
-                        {{checked}}
-                        a1
+                        <div v-if="adnId==pageVl.openedAdnVlMenu"
+                            class="w3-dropdown-content w3-card-4 w13-container w3-leftbar">
+                            {{adnId==pageVl.openedAdnVlMenu}}
+                            a1
+                        </div>
                     </div>
                     <div class="w3-border-top">
                         <button class="w3-btn"> <i class="fa fa-copy"></i> </button>
@@ -78,13 +80,7 @@
                 </span>
             </div>
         </span>&nbsp;:
-        <Button @click="edAdnValue01">tt01</Button>
     </template>
-
-    <div id="app1"> app1: {{hw}} {{count}}
-        {{pageVl.y}}
-        <button @click="f02app1">XX</button>
-    </div>
     <script src="i.js" type="module"></script>
 </body>
 
