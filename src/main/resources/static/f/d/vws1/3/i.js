@@ -8,7 +8,8 @@ const message = () => {
 }
 export default message
 
-const dataOed01 = jsLib1.makeEl(d, 'siteTitle count hw')
+
+const dataOed01 = jsLib1.makeEl(d, 'siteTitle count')
 dataOed01.tree = jsLib1.tree
 dataOed01.pageVl = d.pageVl
 dataOed01.eMap = d.eMap
@@ -18,14 +19,17 @@ const oed01 = createApp({
         closeAdnVlMenu() {
             d.pageVl.openedAdnVlMenu = null
             this.count++
-        },
+        }, adnMO(adnId) {
+            console.log(adnId)
+            d.pageVl.adnIdMO = adnId
+            this.count++
+        }
     }
 })
 
 oed01.component('t-oed01-value', {
-    data() { return d.eMap[this.adnId] }, methods: {
-        i(n) { return d.eMap[this.adnId] && d.eMap[this.adnId][n] }
-    }, template: "#tOed01Value", props: { adnId: Number },
+    data() { return d.eMap[this.adnId] },
+    template: "#tOed01Value", props: { adnId: Number },
 })
 oed01.component('t-oed01-lmenu', {
     data() { return dataOed01 }, methods: {

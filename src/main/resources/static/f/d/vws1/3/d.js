@@ -16,7 +16,6 @@ const d = {
     count: 1,
     tree: jsLib1.tree,
     siteTitle: 'Vue02WebSocket: (vws1/2) ',
-    hw: 'Hello World!',
     eMap: {
         "369864": {
             "doc_id": 369864, "doctype": null, "reference": 369789
