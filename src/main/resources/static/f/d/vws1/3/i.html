@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/f/css/w3.css">
 <link rel="stylesheet" href="/f/css/am.css">
 <script src="/webjars/vue/3.2.45/dist/vue.global.prod.js" type="application/javascript"></script>
-<script src="d.js" type="application/javascript"></script>
+<script src="algoritmed.jsLib1.js" type="application/javascript"></script>
 
 <body class="w3-container">
     <div id="headPage" class="w3-border-bottom am-max-width-1">
@@ -16,9 +16,19 @@
         <a href="http://algoritmed.com/" class="am-0u">
             <img src="/f/img/algoritmed-logo.webp" style="width:75px;" />
         </a>&nbsp;
-        <button class="w3-btn w3-padding-small w3-border" @click="rld">
-            <i class="fa-solid fa-arrow-rotate-right fa-flip-horizontal"></i>
-        </button>
+        <span class="w3-dropdown-hover">
+            <button class="w3-btn w3-padding-small w3-border" @click="rld">
+                <i class="fa-solid fa-arrow-rotate-right fa-flip-horizontal"></i>
+            </button>
+            <div class="w3-dropdown-content w3-border" style="left: -25px;">
+                tree_<a v-bind:href="'#tree_'+treeStr()" class="w3-tiny">
+                    {{treeStr()}}
+                </a>
+                <div>
+                    ☰
+                </div>
+            </div>
+        </span>
         <span class="w3-right w3-tiny"> Hi: {{siteTitle}}!
             <span class="w13-hide"> {{count}} </span>
         </span>
@@ -37,21 +47,35 @@
         <div class="w3-half" v-for="lr in ['l','r']" style="height: 69vh; overflow: auto;">
             <div v-for="adnId in tree[lr]" class="w3-hover-shadow" @mouseover="adnMO(adnId)">
                 <t-oed01-lmenu :adn-id="adnId"></t-oed01-lmenu>
-                <t-oed01-value :adn-id="adnId"></t-oed01-value>
-                <a class="w3-btn" @click="closeAdnVlMenu" v-if="pageVl.openedAdnVlMenu==adnId">
+                <t-oed01-value :adn-id="adnId" :key="o(adnId)"></t-oed01-value>
+                <a class="w3-btn w3-right" @click="closeAdnVlMenu" v-if="pageVl.openedAdnVlMenu==adnId">
                     <i class="fas fa-edit w3-text-blue w3-tiny"></i>
                 </a>
-                <span class="w3-dropdown-hover w3-hover-shadow w3-opacity w3-right" v-if="adnId==pageVl.adnIdMO">
-                    <span class="w3-small"> &nbsp;
+                <span class="w3-dropdown-hover w3-hover-shadow  w3-right" v-if="adnId==pageVl.adnIdMO">
+                    <span class="w3-small w3-opacity"> &nbsp;
                         &nbsp; <i class="fas fa-ellipsis-v"></i> &nbsp; &nbsp;
                     </span>
-                    <div class="w3-dropdown-content w3-border" style="right: 1px;">
-                        a1
-                    </div>
+                    <t-oed01-mo :adn-id="adnId"></t-oed01-mo>
                 </span>
             </div>
         </div>
     </div>
+    END:page::content
+
+    <template id="tOed01Mo">
+        <div class="w3-dropdown-content w3-border" style="right: 5px; width: 220px;">
+            <div class="w3-tiny w3-right w3-opacity w3-hover-shadow">
+                p:{{i('parent')}}
+                <span class="w3-small">↧</span>
+            </div>
+            <div class="w3-red w3-large" v-if="!i('parent')"> No Node! </div>
+            <div v-else>
+                <button class="w3-btn w3-ripple "><i class="fas fa-level-up-alt fa-flip-horizontal"></i></button>
+                {{i('doc_id')}}
+                <button class="w3-btn w3-ripple w3-right"><i class="fas fa-level-up-alt"></i></button>
+            </div>
+        </div>
+    </template>
     <template id="tOed01Value">
         <span class="w3-hover-shadow"> {{value_22}} {{!value_22?'|?|':''}} </span>
         <span class="w3-tiny"> <sub v-if="reference">r:{{reference}}</sub>
@@ -65,7 +89,7 @@
             <span class="w3-tiny">{{adnId}}</span>
             <span class="w3-hide"> {{count}} </span>
             <div class="w3-dropdown-content w3-border" style="width: 200px;">
-                <span class="w3-red w3-large" v-if="!i('parent')"> No Node!</span>
+                <div class="w3-red w3-large" v-if="!i('parent')"> No Node!</div>
                 <span v-else>
                     <button class="w3-btn"> <i class="fas fa-caret-up"></i> </button>
                     <button class="w3-btn"> <i class="fas fa-caret-down"></i> </button>&nbsp;|
