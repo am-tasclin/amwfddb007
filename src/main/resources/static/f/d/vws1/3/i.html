@@ -20,13 +20,13 @@
             <button class="w3-btn w3-padding-small w3-border" @click="rld">
                 <i class="fa-solid fa-arrow-rotate-right fa-flip-horizontal"></i>
             </button>
-            <div class="w3-dropdown-content w3-border" style="left: -25px;">
-                tree_<a v-bind:href="'#tree_'+treeStr()" class="w3-tiny">
-                    {{treeStr()}}
+            <div class="w3-dropdown-content w3-border w3-leftbar w3-container"
+                style="left: -50px; padding-top: 10px; padding-bottom: 15px;">
+                <a v-bind:href="'#tree_'+treeStr()" class="w3-tiny ">
+                    <div class="w3-hover-shadow">
+                        tree_ {{treeStr()}}
+                    </div>
                 </a>
-                <div>
-                    ☰
-                </div>
             </div>
         </span>
         <span class="w3-right w3-tiny"> Hi: {{siteTitle}}!

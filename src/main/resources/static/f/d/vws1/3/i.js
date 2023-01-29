@@ -1,22 +1,12 @@
 'use strict'
 const { createApp } = Vue
 
-const message = () => {
-    const name = "Jesse"
-    const age = 40
-    return name + ' is ' + age + 'years old.'
-}
-//export default message
-
 jsLib1.wsDbSelect = new WebSocket("ws://localhost:8007/dbSelect"
 ); jsLib1.wsDbSelect.onopen = event => {
-    console.log(123)
     readAdns(jsLib1.tree.r)
 }; jsLib1.wsDbSelect.onmessage = event => {
     const obj = JSON.parse(event.data)
-    console.log(obj.adnId, obj.list[0])
     if (!dataOed01.eMap[obj.adnId]) {
-        console.log(obj.adnId, obj)
         dataOed01.eMap[obj.adnId] = obj.list[0]
     }
 }
@@ -72,18 +62,13 @@ const oed01 = createApp({
 
 createApp({ data() { return dataOed01 } }).mount('#headTitle')
 
-console.log(123)
-
 createApp({
     methods: {
         rld() {
-            // readAdns(jsLib1.tree.r)
-            console.log(d.eMap)
             this.count++
             if (Object.keys(dataOed01.eMap).length != dataOed01.leMap) {
                 console.log(Object.keys(dataOed01.eMap).length, dataOed01.leMap)
             }
-        },
-        treeStr() { return jsLib1.treeStr() },
+        }, treeStr() { return jsLib1.treeStr() },
     }, data() { return dataOed01 },
 }).mount('#headPage')
