@@ -6,21 +6,20 @@
 
 'use strict'
 const jsLib1 = {}, sql_app = {}
-jsLib1.tree = { l: [], r: [] }
+    , d = {}/** d: is for data */
 jsLib1.hash = window.location.hash
 jsLib1.isHash = hn => jsLib1.hash.includes(hn + '_')
 jsLib1.init = () => jsLib1.isHash('init'
 ) && JSON.parse(decodeURI(jsLib1.hash.split("init_")[1]))
 
 if (jsLib1.isHash('init')) {
-    jsLib1.tree.l = jsLib1.init().tree.l.id
-    jsLib1.tree.r = jsLib1.init().tree.r.id
+    d.init = jsLib1.init()
 } else if (jsLib1.isHash('tree')) {
-    jsLib1.tree.l = jsLib1.hash.split('tree_')[1].split(',')[0].split('_')
-    jsLib1.tree.r = jsLib1.hash.split('tree_')[1].split(',')[1].split('_')
+    jsLib1.tree.l.id = jsLib1.hash.split('tree_')[1].split(',')[0].split('_')
+    jsLib1.tree.r.id = jsLib1.hash.split('tree_')[1].split(',')[1].split('_')
 }
 
-jsLib1.treeStr = () => jsLib1.tree.l.join('_') + ',' + jsLib1.tree.r.join('_')
+jsLib1.treeStr = () => d.init.tree.l.id.join('_') + ',' + d.init.tree.r.id.join('_')
 
 jsLib1.makeElFrom = (el, propsList) => {
     const r = {}, nl = propsList.trim().split(' ')
@@ -28,30 +27,35 @@ jsLib1.makeElFrom = (el, propsList) => {
     return r
 }
 
-const d = {
-    count: 1,
-    // tree: jsLib1.tree,
-    siteTitle: 'Vue02WebSocket: (vws1/2) ',
-    eMap: {
-        "369864": {
-            "doc_id": 369864, "doctype": null, "reference": 369789
-            , "parent": 373473, "reference2": 369767, "r_doctype": null, "value_22": "ServiceRequest"
-            , "value_u_22": null, "value_24": null, "value_25": null, "rr_value_22": "Resource", "r_value_22": "DomainResource"
-            , "r2_doctype": null, "r2_value_22": "Request", "sort": 11
-        }
-        , "373530": {
-            "doc_id": 373530, "doctype": 14, "reference": null, "parent": 45, "reference2": null
-            , "r_doctype": null, "value_22": "eHealth in ua", "value_u_22": null, "value_24": null, "value_25": null
-            , "rr_value_22": null, "r_value_22": null, "r2_doctype": null, "r2_value_22": null, "sort": 1
-        }
+d.count = 1
+d.parentChild = {}
+d.eMap = {}
+d.eMap2 = {
+    "369864": {
+        "doc_id": 369864, "doctype": null, "reference": 369789
+        , "parent": 373473, "reference2": 369767, "r_doctype": null, "value_22": "ServiceRequest"
+        , "value_u_22": null, "value_24": null, "value_25": null, "rr_value_22": "Resource", "r_value_22": "DomainResource"
+        , "r2_doctype": null, "r2_value_22": "Request", "sort": 11
     }
-}, pageVl = {}
-d.pageVl = pageVl
+    , "373530": {
+        "doc_id": 373530, "doctype": 14, "reference": null, "parent": 45, "reference2": null
+        , "r_doctype": null, "value_22": "eHealth in ua", "value_u_22": null, "value_24": null, "value_25": null
+        , "rr_value_22": null, "r_value_22": null, "r2_doctype": null, "r2_value_22": null, "sort": 1
+    }
+}
+
+d.openedAdnVlMenu = 0
+d.adnIdMO = 0
+
+sql_app.adn01Childrens = {
+    name: "adn01OneNode: 'One Data Node' ::adn01",
+    sql: "SELECT x.* FROM (:sql_app.adn01 ) x , sort s \n\
+    WHERE doc_id=sort_id AND parent = :adnId ORDER BY s.sort",
+}
 
 sql_app.adn01OneNode = {
     name: "adn01OneNode: 'One Data Node' ::adn01",
-    sql: "SELECT * FROM (:sql_app.adn01 ) x \n\
-WHERE doc_id  = :adnId",
+    sql: "SELECT * FROM (:sql_app.adn01 ) x WHERE doc_id  = :adnId",
 }
 
 sql_app.adn01 = {
