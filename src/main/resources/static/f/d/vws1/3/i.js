@@ -1,16 +1,18 @@
 'use strict'
-const { createApp } = Vue
-d.siteTitle = 'Vue02WebSocket: (vws1/2) '
+const { createApp, ref } = Vue
+d.siteTitle = 'vws02: '
 
 jsLib1.wsDbSelect = new WebSocket("ws://localhost:8007/dbSelect"
-); jsLib1.wsDbSelect.onopen = event => {
+);
+jsLib1.wsDbSelect.onopen = event => {
     let m = { sqlName: 'adn01OneNode' }
     readAdns(d.init.tree.l.id, sqlFn, m)
     readAdns(d.init.tree.r.id, sqlFn, m)
     m.sqlName = 'adn01Childrens'
     readAdns(d.init.tree.l.openIds, sqlFn, m)
     readAdns(d.init.tree.r.openIds, sqlFn, m)
-}; jsLib1.wsDbSelect.onmessage = event => {
+};
+jsLib1.wsDbSelect.onmessage = event => {
     const obj = JSON.parse(event.data)
     if ('adn01Childrens' == obj.sqlName
     ) fillInParentChild(obj)
@@ -39,6 +41,7 @@ const
 
 const dataOed01 = jsLib1.makeElFrom(d, 'siteTitle count')
 dataOed01.init = d.init
+dataOed01.hashTitle = jsLib1.hashTitle
 dataOed01.openedAdnVlMenu = d.openedAdnVlMenu
 dataOed01.adnIdMO = d.adnIdMO
 dataOed01.eMap = d.eMap
@@ -53,7 +56,8 @@ const oed01 = createApp({
         , o(adnId) { return d.eMap[adnId] }
         , i(n) { return jsLib1.i(this.adnId, n) }
     }
-}); oed01.component('t-oed01-value', {
+});
+oed01.component('t-oed01-value', {
     methods: {
         i(n) { return jsLib1.i(this.adnId, n) },
         childOnOff(adnId, lr) {
@@ -62,26 +66,46 @@ const oed01 = createApp({
             else d.init.tree[lr].openIds.push(adnId)
         },
     }, data() { return dataOed01 },
-    // }, data() { return d.eMap[this.adnId] },
     template: "#tOed01Value", props: { adnId: Number, lr: String },
-}); oed01.component('t-oed01-oc', {//Oc: Open children
+});
+oed01.component('t-oed01-oc', {//Oc: Open children
     methods: {
-        i(n) { return jsLib1.i(this.adnId, n) }
+        i(n, adnId) { return jsLib1.i(adnId || this.adnId, n) }
         , adnMO(adnId) { this.adnIdMO = adnId }
         , o(adnId) { return d.eMap[adnId] }
     }, template: "#tOed01Oc", props: { parentId: Number, lr: String }, data() { return dataOed01 },
-}); oed01.component('t-oed01-mo', {
+});
+oed01.component('t-oed01-mo', {
     methods: {
         i(n) { return jsLib1.i(this.adnId, n) }
         , closeAdnVlMenu() { this.openedAdnVlMenu = null }
     }, template: "#tOed01Mo", props: { adnId: Number }, data() { return dataOed01 },
-}); oed01.component('t-oed01-lmenu', {
+});
+oed01.component('t-oed01-edv22', {
+    methods: {
+        it(e) { d.eMap[this.adnId].v22 = e.target.value }
+        , okSave() {
+            let v22 = d.eMap[this.adnId].v22
+            console.log(v22, this.adnId, 'clickEdValue22')
+            delete d.eMap[this.adnId].v22
+        },
+    }, props: { adnId: Number }, data() {
+        return d.eMap[this.adnId]
+    }, template: "#tOed01Edv22"
+});
+oed01.component('t-oed01-lmenu', {
     methods: {
         closeAdnVlMenu() { this.openedAdnVlMenu = null }
         , edAdnValue01() { this.openedAdnVlMenu = this.adnId }
-        , i(n) { return jsLib1.i(this.adnId, n) },
-    }, template: "#tOed01Lmenu", props: { adnId: Number }, data() { return dataOed01 },
-}); oed01.mount('#oed01')
+        , i(n) { return jsLib1.i(this.adnId, n) }
+    }, template: "#tOed01Lmenu", props: { adnId: Number, edValue22: String }, data() {
+        return dataOed01
+    },
+});
+oed01.mount('#oed01')
+
+oed01.config.errorHandler = err => console.error('-oed01-', err)
+
 
 createApp({ data() { return dataOed01 } }).mount('#headTitle')
 

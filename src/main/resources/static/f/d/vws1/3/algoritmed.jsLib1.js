@@ -12,15 +12,27 @@ jsLib1.isHash = hn => jsLib1.hash.includes(hn + '_')
 jsLib1.init = () => jsLib1.isHash('init'
 ) && JSON.parse(decodeURI(jsLib1.hash.split("init_")[1]))
 
+jsLib1.hashTitle = () => {
+    let ht = jsLib1.hash.split('_')[0].substr(1, 33) + ':'
+        , ht2 = jsLib1.hash.split('_')[1]
+    if (jsLib1.isHash('init'))
+        ht += decodeURI(ht2).substr(15, 25)
+    else ht += decodeURI(ht2).substr(0, 20)
+    return ht
+}
+
 if (jsLib1.isHash('init')) {
     d.init = jsLib1.init()
 } else if (jsLib1.isHash('child')) {
     let adnId = jsLib1.hash.split('child_')[1].split('_')[0]
-    d.init = { tree: { l: { id: [adnId], openIds: [] }, r: { id: [adnId] , openIds: []} } }
+    if (!d.init)
+        d.init = { tree: { l: { id: [adnId], openIds: [] }, r: { id: [adnId], openIds: [] } } }
     console.log(123, adnId, d.init)
 } else if (jsLib1.isHash('tree')) {
-    jsLib1.tree.l.id = jsLib1.hash.split('tree_')[1].split(',')[0].split('_')
-    jsLib1.tree.r.id = jsLib1.hash.split('tree_')[1].split(',')[1].split('_')
+    if (!d.init)
+        d.init = { tree: { l: { id: [], openIds: [] }, r: { id: [], openIds: [] } } }
+    d.init.tree.l.id = jsLib1.hash.split('tree_')[1].split(',')[0].split('_')
+    d.init.tree.r.id = jsLib1.hash.split('tree_')[1].split(',')[1].split('_')
 }
 
 jsLib1.treeStr = () => d.init.tree.l.id.join('_') + ',' + d.init.tree.r.id.join('_')
