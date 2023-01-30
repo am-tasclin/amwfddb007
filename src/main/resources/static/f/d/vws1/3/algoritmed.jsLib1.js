@@ -14,6 +14,10 @@ jsLib1.init = () => jsLib1.isHash('init'
 
 if (jsLib1.isHash('init')) {
     d.init = jsLib1.init()
+} else if (jsLib1.isHash('child')) {
+    let adnId = jsLib1.hash.split('child_')[1].split('_')[0]
+    d.init = { tree: { l: { id: [adnId], openIds: [] }, r: { id: [adnId] , openIds: []} } }
+    console.log(123, adnId, d.init)
 } else if (jsLib1.isHash('tree')) {
     jsLib1.tree.l.id = jsLib1.hash.split('tree_')[1].split(',')[0].split('_')
     jsLib1.tree.r.id = jsLib1.hash.split('tree_')[1].split(',')[1].split('_')

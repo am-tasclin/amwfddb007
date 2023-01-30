@@ -48,11 +48,11 @@
             <div v-for="adnId in init.tree[lr].id" :key="adnIdMO">
                 <div class="w3-hover-shadow" @mouseover="adnMO(adnId)">
                     <t-oed01-lmenu :adn-id="adnId"></t-oed01-lmenu>
-                    <t-oed01-value :adn-id="adnId"></t-oed01-value>
+                    <t-oed01-value :adn-id="adnId" :lr="lr"></t-oed01-value>
                     <t-oed01-mo :adn-id="adnId"></t-oed01-mo>
                 </div>
                 <div class="w3-border-left w3-container" v-if="init.tree[lr].openIds.includes(adnId)">
-                    <t-oed01-oc :parent-id="adnId" :key="parentChild[adnId]"></t-oed01-oc>
+                    <t-oed01-oc :parent-id="adnId" :lr="lr"></t-oed01-oc>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
         <template v-for="adnId in parentChild[parentId]">
             <div class="w3-hover-shadow" @mouseover="adnMO(adnId)">
                 <t-oed01-lmenu :adn-id="adnId"></t-oed01-lmenu>
-                <t-oed01-value :adn-id="adnId" kkey="o(adnId)"></t-oed01-value>
+                <t-oed01-value :adn-id="adnId" :lr="lr"></t-oed01-value>
                 <t-oed01-mo :adn-id="adnId" :key="adnIdMO"></t-oed01-mo>
             </div>
         </template>
@@ -73,31 +73,31 @@
     </template>
     <template id="tOed01Mo">
         <!-- <span class="w3-tiny"> -->
-            <a class="w3-btn w3-right" @click="closeAdnVlMenu" v-if="openedAdnVlMenu==adnId">
-                <i class="fas fa-edit w3-text-blue w3-tiny"></i>
-            </a>
-            <span class="w3-dropdown-hover w3-hover-shadow  w3-right" v-if="adnId==adnIdMO">
-                <span class="w3-small w3-opacity"> &nbsp;
-                    &nbsp; <i class="fas fa-ellipsis-v"></i> &nbsp; &nbsp;
-                </span>
-                <!-- <t-oed01-mo :adn-id="adnId"></t-oed01-mo> -->
-                <div class="w3-dropdown-content w3-border" style="right: 5px; width: 220px;">
-                    <div class="w3-tiny w3-right w3-opacity w3-hover-shadow">
-                        p:{{i('parent')}}
-                        <span class="w3-small">↧</span>
-                    </div>
-                    <div class="w3-red w3-large" v-if="!i('parent')"> No Node! </div>
-                    <div v-else>
-                        <button class="w3-btn w3-ripple "><i
-                                class="fas fa-level-up-alt fa-flip-horizontal"></i></button>
-                        {{i('doc_id')}}
-                        <button class="w3-btn w3-ripple w3-right"><i class="fas fa-level-up-alt"></i></button>
-                    </div>
-                </div>
+        <a class="w3-btn w3-right" @click="closeAdnVlMenu" v-if="openedAdnVlMenu==adnId">
+            <i class="fas fa-edit w3-text-blue w3-tiny"></i>
+        </a>
+        <span class="w3-dropdown-hover w3-hover-shadow  w3-right" v-if="adnId==adnIdMO">
+            <span class="w3-small w3-opacity"> &nbsp;
+                &nbsp; <i class="fas fa-ellipsis-v"></i> &nbsp; &nbsp;
             </span>
+            <div class="w3-dropdown-content w3-border" style="right: 5px; width: 220px;">
+                <div class="w3-tiny w3-right w3-opacity w3-hover-shadow">
+                    p:{{i('parent')}}
+                    <span class="w3-small">↧</span>
+                </div>
+                <div class="w3-red w3-large" v-if="!i('parent')"> No Node! </div>
+                <div v-else>
+                    <button class="w3-btn w3-ripple "><i class="fas fa-level-up-alt fa-flip-horizontal"></i></button>
+                    {{i('doc_id')}}
+                    <button class="w3-btn w3-ripple w3-right"><i class="fas fa-level-up-alt"></i></button>
+                </div>
+            </div>
+        </span>
     </template>
     <template id="tOed01Value">
-        <span class="w3-hover-shadow"> {{i('value_22')}} {{!i('value_22')?'|?|':''}} </span>
+        <a @click="childOnOff(adnId, lr)" :href="'#child_'+adnId+'_'+lr" class="w3-hover-shadow am-0u">
+            {{i('value_22')}}
+            {{(!i('value_22')&&!i('r_value_22'))?'|?|':''}} </a>
         <span class="w3-tiny"> <sub v-if="reference">r:{{i('reference')}}</sub>
             {{i('rr_value_22')}}<span v-if="i('rr_value_22')">::</span>{{i('r_value_22')}}<span
                 v-if="i('r_value_22')">:</span>
