@@ -7,7 +7,6 @@ jsLib1.wsDbSelect = new WebSocket("ws://localhost:8007/dbSelect"
     let m = { sqlName: 'adn01OneNode' }
     readAdns(d.init.tree.l.id, sqlFn, m)
     readAdns(d.init.tree.r.id, sqlFn, m)
-    console.log(sqlFn(11, 'adn01Childrens'))
     m.sqlName = 'adn01Childrens'
     readAdns(d.init.tree.l.openIds, sqlFn, m)
     readAdns(d.init.tree.r.openIds, sqlFn, m)
@@ -21,7 +20,6 @@ jsLib1.wsDbSelect = new WebSocket("ws://localhost:8007/dbSelect"
         }
     }
 }
-
 
 const
     readAdns = (a, sqlFn, m) => a && a.forEach(adnId => !d.eMap[adnId] && jsLib1.
@@ -49,13 +47,6 @@ dataOed01.leMap = Object.keys(dataOed01.eMap).length
 jsLib1.i = (adnId, n) => d.eMap[adnId] && d.eMap[adnId][n]
 export default dataOed01
 
-//MO:mouseover
-// jsLib1.adn1MO = (adnId, p) => {
-//     console.log(adnId)
-//     d.adnIdMO = adnId
-//     p.count++
-// }
-
 const oed01 = createApp({
     data() { return dataOed01 }, methods: {
         adnMO(adnId) { this.adnIdMO = adnId }
@@ -65,15 +56,20 @@ const oed01 = createApp({
 }); oed01.component('t-oed01-value', {
     methods: {
         i(n) { return jsLib1.i(this.adnId, n) },
+        childOnOff(adnId, lr) {
+            if (d.init.tree[lr].openIds.includes(adnId))
+                d.init.tree[lr].openIds = d.init.tree[lr].openIds.filter(n => n !== adnId)
+            else d.init.tree[lr].openIds.push(adnId)
+        },
     }, data() { return dataOed01 },
     // }, data() { return d.eMap[this.adnId] },
-    template: "#tOed01Value", props: { adnId: Number },
+    template: "#tOed01Value", props: { adnId: Number, lr: String },
 }); oed01.component('t-oed01-oc', {//Oc: Open children
     methods: {
         i(n) { return jsLib1.i(this.adnId, n) }
         , adnMO(adnId) { this.adnIdMO = adnId }
         , o(adnId) { return d.eMap[adnId] }
-    }, template: "#tOed01Oc", props: { parentId: Number }, data() { return dataOed01 },
+    }, template: "#tOed01Oc", props: { parentId: Number, lr: String }, data() { return dataOed01 },
 }); oed01.component('t-oed01-mo', {
     methods: {
         i(n) { return jsLib1.i(this.adnId, n) }
