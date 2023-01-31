@@ -75,6 +75,7 @@ oed01.component('t-oed01-oc', {//Oc: Open children
         , o(adnId) { return d.eMap[adnId] }
     }, template: "#tOed01Oc", props: { parentId: Number, lr: String }, data() { return d_Oed01 },
 });
+
 oed01.component('t-oed01-mo', {
     methods: {
         i(n) { return jsLib1.i(this.adnId, n) }

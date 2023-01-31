@@ -20,36 +20,62 @@
     </div>
     <div id="atac01" class="am-max-width-1" :key="edCellAdress">
         <span class="w3-tiny am-b"> aTaC: </span> {{edCellAdress}}:
-        <span class="w3-right w3-tiny">⌖ {{siteTitle}}</span>
-        <table class="w13-table w3-border-top">
-            <tr>
-                <th class="w3-border-right">&nbsp;</th>
-                <th v-for="c in tc.sqSeList()" class="w3-tiny w3-light-grey">
-                    C{{c}}
-                </th>
-            </tr>
-            <tr v-for="r in tc.sqSeList()">
-                <th class="w3-tiny w3-light-grey">R{{r}}</th>
-                <td v-for="cXr in tc.sqSeList()">
-                    <a :href="'#cell_C'+cXr+'R'+r" class="am-0u">
-                        <div class="w3-hover-shadow w3-border-right w3-border-bottom"
-                            @click="cellClick(cellCoordinate(cXr,r))"
-                            :class="{'w3-border':cellCoordinate(cXr,r)==edCellAdress}">
-                            <span v-if="cellValue(r,cXr).v.v">
-                                {{cellValue(r,cXr).v.v}}
-                                <span class="w3-small" v-if="cellValue(r,cXr).v.sum"> 𝑓<span
-                                        class="w3-tiny">{{cellValue(r,cXr).v}} </span>
-                                </span>
-                                <span class="w3-small"> ⌖{{tc.vRC[r][cXr]}} </span>
-                            </span>
-                            <span v-else>&nbsp;</span>
-                            <!-- <sup class="w3-tiny"> {{celCoordinate(cXr,r)==edCellAdress}} </sup> -->
-                        </div>
-                    </a>
-                </td>
-            </tr>
-        </table>
+        <span class="w3-right w3-tiny w3-hover-shadow" @click="tc.withFormula=!tc.withFormula">⌖ 𝑓 {{siteTitle}}</span>
+        <div class="w3-row">
+            <div class="w3-col w3-small" style="width:100px">
+                dMap:
+                <div v-for="(v,k) in dMap">
+                    {{k}}:{{v}}
+                </div>
+            </div>
+            <div class="w3-rest ">
+                <table class="w13-table w3-border-top">
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th v-for="c in tc.sqSeListC()" class="w3-tiny w3-light-grey">
+                            C{{c}}
+                        </th>
+                    </tr>
+                    <tr v-for="r in tc.sqSeList()">
+                        <th class="w3-tiny w3-light-grey">R{{r}}</th>
+                        <td v-for="cXr in tc.sqSeListC()">
+                            <div class="w13-dropdown-hover w3-white">
+                                <a :href="'#cell_C'+cXr+'R'+r" class="am-0u">
+                                    <div class="w3-hover-shadow w3-border-right w3-border-bottom"
+                                        @click="cellClick(cellCoordinate(cXr,r));tc.openEdit=!tc.openEdit"
+                                        :class="{'w3-border':cellCoordinate(cXr,r)==edCellAdress}">
+                                        <span v-if="cellValue(r,cXr).v.v">
+                                            {{cellValue(r,cXr).v.v}}
+                                            <span :class="{'w3-hide':!tc.withFormula}">
+                                                <span class="w3-small" v-if="cellValue(r,cXr).v.sum"> 𝑓<span
+                                                        class="w3-tiny">{{cellValue(r,cXr).v}} </span>
+                                                </span>
+                                                <span class="w3-small"> ⌖{{tc.vRC[r][cXr]}} </span>
+                                            </span>
+                                        </span>
+                                        <span v-else>&nbsp;</span>
+                                        <!-- <sup class="w3-tiny"> {{celCoordinate(cXr,r)==edCellAdress}} </sup> -->
+                                    </div>
+                                </a>
+                                <div class="w3-dropdown-content w3-border w3-container w3-leftbar"
+                                    :class="{'w3-show':cellCoordinate(cXr,r)==edCellAdress && tc.openEdit}">
+                                    <t-tac01-edcell :vl="cellValue(r,cXr).v.v"
+                                        :dm-key="tc.vRC[r]&&tc.vRC[r][cXr]"></t-tac01-edcell>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
+    <template id="tTac01Edcell">
+        <div>
+            ⌖⌖ <input :value="vl" @input="it">
+        </div>
+        <button class="w3-btn w3-border" @click="okSave(); tc.openEdit=false">Запис</button>
+        <button class="w3-btn w3-border" @click="tc.openEdit=false">закрити</button>
+    </template>
     <script src="p.js" type="module"></script>
 </body>
 
