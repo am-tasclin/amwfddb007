@@ -9,6 +9,7 @@ pd.tc.sqSeList = (rc) => Array.from(Array(pd.tc.square_size[rc || 0]).keys())
 pd.tc.sqSeListC = () => pd.tc.sqSeList(1)
 pd.tc.withFormula = true
 pd.tc.openEdit = false
+pd.tc.openEditFn = false
 console.log(pd.tc.sqSeList(), pd.tc.sqSeListC())
 
 pd.cellValue = (r, c) => {
@@ -24,12 +25,16 @@ pd.cellValue = (r, c) => {
 pd.tc.vRC = { 1: { 1: 1 }, 2: { 1: 2 }, 3: { 1: 3 }, }
 pd.dMap = { 1: { v: 4 }, 2: { v: 5 }, 3: { sum: [1, 2] } }
 pd.fnList = "_sum_max_cnt_avg_"
+pd.fnName = n => n && Object.keys(cdb.dMap[n]).reduce((cc, c) => cc += cdb.fnList.includes('_' + c + '_') ? c : '', '')
+pd.isFn = n => n && Object.keys(pd.dMap[n]).reduce((cc, c
+) => cc || pd.fnList.includes('_' + c + '_'), false)
 pd.dMapMaxKey = () => Object.keys(pd.dMap).reduce((a, b) => Math.max(a, b)
     , -Infinity)
 pd.count = 0
 export default pd
 console.log(pd)
 //dev
+cdb.fnName = pd.fnName
 cdb.dMap = pd.dMap
 cdb.fnList = pd.fnList
 //dev::END
@@ -46,9 +51,18 @@ const atac01 = createApp({
     }, data() { return pd }
 })
 
+const a = {
+    b() { },
+    c: 3,
+    d: () => 2 + a.c,
+}
+console.log(a, a.d())
+
 atac01.component('t-tac01-edcell', {
     props: { vl: Number, dmKey: Number }, data() { return pd },
-    methods: {
+    mounted() {
+        console.log(123, this.vl, pd.dMap[this.dmKey], this.toEdFn)
+    }, methods: {
         it(e) {
             const c = { k: 0 }
             console.log(e.target.value, this.vl, this.dmKey,)
@@ -62,11 +76,11 @@ atac01.component('t-tac01-edcell', {
                 console.log(c)
             }
             pd.dMap[this.dmKey || c.k].v = 1 * e.target.value
-        }, cellObj() {
-            return pd.dMap[this.dmKey] || {}
-        }, okSave() {
+        }, fnName() { return pd.fnName(this.dmKey) }
+        , isFn() { return pd.isFn(this.dmKey) }
+        , o() { return pd.dMap[this.dmKey] || {} }
+        , okSave() {
             console.log(pd.dMap)
-            // pd.count++
         }
     }, template: "#tTac01Edcell"
 })

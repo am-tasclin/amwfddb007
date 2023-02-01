@@ -25,7 +25,7 @@
             <div class="w3-col w3-small" style="width:100px">
                 dMap:
                 <div v-for="(v,k) in dMap">
-                    {{k}}:{{v}}
+                    ⌖{{k}}:{{v}}
                 </div>
             </div>
             <div class="w3-rest ">
@@ -69,17 +69,25 @@
             </div>
         </div>
     </div>
+
     <template id="tTac01Edcell">
-        <div>
-            ⌖⌖ <input :value="vl" @input="it">
+        <div v-if="isFn(dmKey)||tc.openEditFn">
+            <span class="w3-tiny w3-right">𝑓</span>
+            𝑓:{{fnName(dmKey)}}
+        </div>
+        <div v-else>
+            ⌖ <input :value="vl" @input="it">
         </div>
         <button class="w3-btn w3-border" @click="okSave(); tc.openEdit=false">Запис</button>
         <button class="w3-btn w3-border" @click="tc.openEdit=false">закрити</button>
-        <button class="w3-btn w3-right">𝑓</button>
+        <button class="w3-btn w3-right" @click="tc.openEditFn=!tc.openEditFn" 
+        :class="{'w3-grey':isFn(dmKey), 'w3-light-grey':tc.openEditFn}">𝑓
+        <sub>()</sub></button>
         <div class="w3-tiny">
-            {{cellObj()}}
+            {{o()}}
         </div>
     </template>
+
     <script src="p.js" type="module"></script>
 </body>
 
