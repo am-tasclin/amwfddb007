@@ -75,14 +75,14 @@
             <span class="w3-tiny w3-right">𝑓</span>
             𝑓:{{fnName(dmKey)}}
         </div>
-        <div v-else>
+        <div v-if="!isFn(dmKey)||(tc.openEditFn&&isFn(dmKey))">
             ⌖ <input :value="vl" @input="it">
         </div>
         <button class="w3-btn w3-border" @click="okSave(); tc.openEdit=false">Запис</button>
         <button class="w3-btn w3-border" @click="tc.openEdit=false">закрити</button>
-        <button class="w3-btn w3-right" @click="tc.openEditFn=!tc.openEditFn" 
-        :class="{'w3-grey':isFn(dmKey), 'w3-light-grey':tc.openEditFn}">𝑓
-        <sub>()</sub></button>
+        <button class="w3-btn w3-right" @click="tc.openEditFn=!tc.openEditFn"
+            :class="{'w3-grey':isFn(dmKey), 'w3-light-grey':tc.openEditFn}">𝑓
+            <sub>()</sub></button>
         <div class="w3-tiny">
             {{o()}}
         </div>

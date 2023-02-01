@@ -66,7 +66,6 @@ atac01.component('t-tac01-edcell', {
         it(e) {
             const c = { k: 0 }
             console.log(e.target.value, this.vl, this.dmKey,)
-            // d.eMap[this.adnId].v22 = e.target.value
             if (!this.dmKey && c.k == 0) {
                 c.k = pd.dMapMaxKey() + 1
                 pd.dMap[c.k] = {}
