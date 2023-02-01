@@ -11,8 +11,6 @@ pd.tc.withFormula = true
 pd.tc.openEdit = false
 console.log(pd.tc.sqSeList(), pd.tc.sqSeListC())
 
-pd.cellCoordinate = (c, r) => 'C' + c + 'R' + r
-
 pd.cellValue = (r, c) => {
     const v = { v: {} }
     if (pd.tc.vRC[r] && pd.tc.vRC[r][c]) {
@@ -25,12 +23,16 @@ pd.cellValue = (r, c) => {
 }
 pd.tc.vRC = { 1: { 1: 1 }, 2: { 1: 2 }, 3: { 1: 3 }, }
 pd.dMap = { 1: { v: 4 }, 2: { v: 5 }, 3: { sum: [1, 2] } }
+pd.dMapMaxKey = () => Object.keys(pd.dMap).reduce((a, b) => Math.max(a, b)
+    , -Infinity)
 pd.count = 0
 export default pd
 console.log(pd)
 cdb.dMap = pd.dMap
 
 pd.edCellAdress = window.location.hash.split('_')[1]
+pd.cellCoordinate = (c, r) => 'C' + c + 'R' + r
+pd.edCellAdressCoordinate = () => pd.edCellAdress.replace("C", "").split("R")
 const atac01 = createApp({
     methods: {
         cellClick(cellCoordinate) {
@@ -44,9 +46,18 @@ atac01.component('t-tac01-edcell', {
     props: { vl: Number, dmKey: Number }, data() { return pd },
     methods: {
         it(e) {
-            console.log(e.target.value, this.vl, this.dmKey)
+            const c = { k: 0 }
+            console.log(e.target.value, this.vl, this.dmKey,)
             // d.eMap[this.adnId].v22 = e.target.value
-            pd.dMap[this.dmKey].v = 1*e.target.value
+            if (!this.dmKey && c.k == 0) {
+                c.k = pd.dMapMaxKey() + 1
+                pd.dMap[c.k] = {}
+                c.cr = pd.edCellAdressCoordinate()
+                const vrc = {}; vrc[c.cr[0]] = c.k
+                pd.tc.vRC[c.cr[1]] = vrc
+                console.log(c)
+            }
+            pd.dMap[this.dmKey || c.k].v = 1 * e.target.value
         }, okSave() {
             console.log(pd.dMap)
             pd.count++
