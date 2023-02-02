@@ -66,16 +66,22 @@ atac01.component('t-tac01-edcell', {
                 , { k: 1 + pd.dMapMaxKey(), cr: pd.edCellAdressCoordinate() })
             !pd.dMap[dmKey] && (pd.dMap[dmKey] = { v: 0 })
             pd.dMap[dmKey].v = 1 * e.target.value
-            console.log(e.target.value, pd.newDm, pd.edCellAdress, pd.dMap[dmKey], cr)
+            // console.log(e.target.value, pd.newDm, pd.edCellAdress, pd.dMap[dmKey], cr)
             !pd.tc.vRC[cr[1]] && (pd.tc.vRC[cr[1]] = {})
             !pd.tc.vRC[cr[1]][cr[0]] && (pd.tc.vRC[cr[1]][cr[0]] = dmKey)
-            console.log(pd.tc.vRC[cr[1]][cr[0]],)
+            // console.log(pd.tc.vRC[cr[1]][cr[0]],)
+        }
+        , addFn(f) {
+            !pd.newF && (pd.newF = {fName: f })
+            pd.newF[f] = []
+            const  cr = pd.edCellAdressCoordinate()
+            console.log(123, f, pd.newF, cr)
         }
         , isIFn() { return pd.isFn(this.dmKey) }
         , dmKeysWS() { return pd.dmKeysWithoutSelf(this.dmKey) }
         , o() { return pd.dMap[this.dmKey] || {} }
         , fnAttObj() { return this.dmKey && pd.dMap[this.dmKey][pd.fnName(this.dmKey)] }
-        , fnAtt(n) {
+        , fnAtt(n) {//sum:[1,2] - add, remove numer
             if (this.fnAttObj().indexOf(1 * n) >= 0) this.fnAttObj()
                 .splice(this.fnAttObj().indexOf(1 * n), 1)
             else this.fnAttObj().push(1 * n)
