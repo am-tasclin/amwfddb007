@@ -59,28 +59,17 @@ atac01.component('t-tac01-edcell', {
     props: { vl: Number, dmKey: Number }, data() { return pd },
     methods: {
         it(e) {
-            const dmKey = this.dmKey || pd.newDmKey || (pd.newDmKey = 1 + pd.dMapMaxKey())
+            !pd.newDm && (pd.newDm = { k: 1 + pd.dMapMaxKey(), cr: pd.edCellAdress })
+            const dmKey = this.dmKey || pd.newDm.k
                 , cr = pd.edCellAdressCoordinate()
-            console.log(e.target.value, this.dmKey, pd.newDmKey, cr)
+            pd.newDm.cr != cr && Object.assign(pd.newDm
+                , { k: 1 + pd.dMapMaxKey(), cr: pd.edCellAdressCoordinate() })
             !pd.dMap[dmKey] && (pd.dMap[dmKey] = { v: 0 })
             pd.dMap[dmKey].v = 1 * e.target.value
-
+            console.log(e.target.value, pd.newDm, pd.edCellAdress, pd.dMap[dmKey], cr)
             !pd.tc.vRC[cr[1]] && (pd.tc.vRC[cr[1]] = {})
-            !pd.tc.vRC[cr[1][cr[0]]] && (pd.tc.vRC[cr[1]][cr[0]] = dmKey)
-            this.dmKey && delete pd.newDmKey
-        }
-        , it2(e) {
-            const c = { k: 0 }
-            console.log(e.target.value, this.dmKey,)
-            if (!this.dmKey && c.k == 0) {
-                c.k = pd.dMapMaxKey() + 1
-                pd.dMap[c.k] = {}
-                c.cr = pd.edCellAdressCoordinate()
-                const vrc = {}; vrc[c.cr[0]] = c.k
-                pd.tc.vRC[c.cr[1]] = vrc
-                console.log(c)
-            }
-            pd.dMap[this.dmKey || c.k].v = 1 * e.target.value
+            !pd.tc.vRC[cr[1]][cr[0]] && (pd.tc.vRC[cr[1]][cr[0]] = dmKey)
+            console.log(pd.tc.vRC[cr[1]][cr[0]],)
         }
         , isIFn() { return pd.isFn(this.dmKey) }
         , dmKeysWS() { return pd.dmKeysWithoutSelf(this.dmKey) }
