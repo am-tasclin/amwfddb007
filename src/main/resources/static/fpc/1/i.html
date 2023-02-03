@@ -49,7 +49,12 @@
     <div id="fpc01" class="am-max-width-1">
         <div class="w3-row">
             <div class="w3-half">
-                <span class="w3-tiny am-b w3-topbar">ORdeMS:</span>
+                <button class="w3-btn w3-padding-small" @click="count++">
+                    <span class="w3-tiny am-b w3-topbar">ORdeMS:</span>
+                </button>
+                <span class="w3-tiny">
+                    <sup>{{count}}</sup>
+                </span>
                 <div v-for="adnId in [fElId]">
                     <span class="w3-tiny">{{adnId}}</span>&nbsp;|
                     <span class="w3-small">
@@ -58,15 +63,16 @@
                     </span>:
                     {{i(adnId, 'value_22')}}
                     {{i(adnId, 'r2_value_22')}}
-                    <span class="w3-right w3-tiny">
-                        r: {{i(adnId, 'reference')}},
-                        r2: {{i(adnId, 'reference2')}}
-                    </span>
+                    <span class="w3-right w3-tiny"> r: {{i(adnId, 'reference')}}, r2: {{i(adnId, 'reference2')}} </span>
                 </div>
             </div>
-            <div class="w3-half">a1</div>
+            <div class="w3-half w3-container">
+                <span class="w3-tiny am-b w3-topbar">JSON:</span>
+                <div>
+                    ⌖
+                </div>
+            </div>
         </div>
-        {{count}}
     </div>
 
     <script src="p.js" type="module"></script>

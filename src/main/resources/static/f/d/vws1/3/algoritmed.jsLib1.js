@@ -65,8 +65,8 @@ d.adnIdMO = 0
 
 sql_app.adn01Childrens = {
     name: "adn01OneNode: 'One Data Node' ::adn01",
-    sql: "SELECT x.* FROM (:sql_app.adn01 ) x , sort s \n\
-    WHERE doc_id=sort_id AND parent = :adnId ORDER BY s.sort",
+    sql: "SELECT x.* FROM (:sql_app.adn01 ) x LEFT JOIN sort s ON doc_id=sort_id\n\
+    WHERE parent = :adnId ORDER BY s.sort",
 }
 
 sql_app.adn01OneNode = {

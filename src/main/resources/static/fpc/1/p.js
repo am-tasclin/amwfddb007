@@ -1,6 +1,7 @@
 'use strict'
 const { createApp, ref } = Vue
-    , eMap = {}// emap: doc_id:MCrDB ADN Element
+    , eMap = {} // emap: doc_id:MCrDB ADN Element
+    , parentChild = {} // parent:[Child ids]
     , pd = {} //pd: Page Data
 pd.siteTitle = 'FPC'
 pd.fElId = 373071
@@ -11,21 +12,25 @@ pd.isHashVr('fElId') && (pd.fElId = 1 * pd.hashVrVl[1])
 
 //for development
 fd.eMap = eMap
+fd.parentChild = parentChild
 //for development
 
 
 jsLib1.wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
 
 jsLib1.wsDbSelect.onopen = event => {
-    const m = { sqlName: 'adn01OneNode' }
-    readAdns([pd.fElId], sqlFn, m)
+    'adn01OneNode_adn01Childrens'.split('_')
+        .forEach(sqlName => readAdns([pd.fElId], sqlFn, { sqlName: sqlName }))
 }
 
 jsLib1.wsDbSelect.onmessage = event => {
     const obj = JSON.parse(event.data)
-    console.log(obj.list[0])
-    eMap[obj.list[0].doc_id] = obj.list[0]
-    console.log(eMap)
+    console.log(obj)
+    if ('adn01OneNode' == obj.sqlName)
+        eMap[obj.list[0].doc_id] = obj.list[0]
+    else 'adn01Childrens' == obj.sqlName && obj.list
+        .forEach(el => (parentChild[obj.adnId] || (parentChild[obj.adnId] = [])
+        ) && (eMap[el.doc_id] = el) && parentChild[obj.adnId].push(el.doc_id))
 }
 
 const
