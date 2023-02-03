@@ -2,7 +2,7 @@
 const { createApp, ref } = Vue
 d.siteTitle = 'vws02: '
 
-jsLib1.wsDbSelect = new WebSocket("ws://"+window.location.host+"/dbSelect")
+jsLib1.wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
 
 jsLib1.wsDbSelect.onopen = event => {
     let m = { sqlName: 'adn01OneNode' }

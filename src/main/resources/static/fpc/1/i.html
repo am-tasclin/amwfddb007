@@ -40,14 +40,24 @@
     <div id="id01" class="w3-small w3-border-bottom">
         Термінологічний сервіс лікарських засобів
         <span class="w3-right">
-            <input :value="fElId" class="w3-border">
+            <button class="w3-btn w3-border w3-round w3-yellow w3-padding-small 
+             w3-ripple w3-tiny am-b"
+                @click="count++">count:{{count}}</button>
+            &nbsp;
+            <input :value="fElId" class="w3-border w3-border-yellow">
         </span>
     </div>
     <div id="fpc01" class="am-max-width-1">
         <div class="w3-row">
-            <div class="w3-half">a1</div>
+            <div class="w3-half">
+                <span class="w3-tiny am-b w3-topbar">ORdeMS:</span>
+                <div>
+                    a1
+                </div>
+            </div>
             <div class="w3-half">a1</div>
         </div>
+        {{count}}
     </div>
 
     <script src="p.js" type="module"></script>
