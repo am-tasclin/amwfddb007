@@ -41,8 +41,7 @@
         Термінологічний сервіс лікарських засобів
         <span class="w3-right">
             <button class="w3-btn w3-border w3-round w3-yellow w3-padding-small 
-             w3-ripple w3-tiny am-b"
-                @click="count++">count:{{count}}</button>
+             w3-ripple w3-tiny am-b" @click="count++">count:{{count}}</button>
             &nbsp;
             <input :value="fElId" class="w3-border w3-border-yellow">
         </span>
@@ -51,8 +50,18 @@
         <div class="w3-row">
             <div class="w3-half">
                 <span class="w3-tiny am-b w3-topbar">ORdeMS:</span>
-                <div>
-                    a1
+                <div v-for="adnId in [fElId]">
+                    <span class="w3-tiny">{{adnId}}</span>&nbsp;|
+                    <span class="w3-small">
+                        {{i(adnId, 'r_value_22')}}
+                        {{i(adnId, 'rr_value_22')}}
+                    </span>:
+                    {{i(adnId, 'value_22')}}
+                    {{i(adnId, 'r2_value_22')}}
+                    <span class="w3-right w3-tiny">
+                        r: {{i(adnId, 'reference')}},
+                        r2: {{i(adnId, 'reference2')}}
+                    </span>
                 </div>
             </div>
             <div class="w3-half">a1</div>

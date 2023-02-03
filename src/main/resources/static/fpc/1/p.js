@@ -1,5 +1,6 @@
 'use strict'
 const { createApp, ref } = Vue
+    , eMap = {}// emap: doc_id:MCrDB ADN Element
     , pd = {} //pd: Page Data
 pd.siteTitle = 'FPC'
 pd.fElId = 373071
@@ -7,6 +8,11 @@ pd.count = 0
 pd.hashVrVl = window.location.hash.split('_')
 pd.isHashVr = n => pd.hashVrVl[0].indexOf(n) == 1
 pd.isHashVr('fElId') && (pd.fElId = 1 * pd.hashVrVl[1])
+
+//for development
+fd.eMap = eMap
+//for development
+
 
 jsLib1.wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
 
@@ -17,7 +23,9 @@ jsLib1.wsDbSelect.onopen = event => {
 
 jsLib1.wsDbSelect.onmessage = event => {
     const obj = JSON.parse(event.data)
-    console.log(obj)
+    console.log(obj.list[0])
+    eMap[obj.list[0].doc_id] = obj.list[0]
+    console.log(eMap)
 }
 
 const
@@ -28,7 +36,11 @@ const
     sqlFn = (adnId, sqlName) => jsLib1.replaceSql(sql_app[sqlName].sql)
         .replace(':adnId', adnId)
 
-createApp({ data() { return pd } }).mount('#fpc01')
+createApp({
+    methods: {
+        i(id, n) { return eMap[id] && eMap[id][n] }
+    }, data() { return pd }
+}).mount('#fpc01')
 
 createApp({ data() { return pd } }).mount('#headTitle')
 createApp({ data() { return pd } }).mount('#id01')
