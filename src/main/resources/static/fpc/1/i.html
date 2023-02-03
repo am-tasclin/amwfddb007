@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="/f/css/w3.css">
 <link rel="stylesheet" href="/f/css/am.css">
 <script src="/webjars/vue/3.2.45/dist/vue.global.prod.js" type="application/javascript"></script>
+<script src="/f/d/vws1/3/algoritmed.jsLib1.js" type="application/javascript"></script>
 <script src="i.js" type="application/javascript"></script>
 
 <body class="w3-container">
@@ -17,7 +18,30 @@
             <img src="/f/img/algoritmed-logo.webp" style="width:75px;" />
         </a>&nbsp;
         &nbsp; <span class="w3-tiny am-b w3-topbar">FPC:</span>
-        FHIR Profiles convert: SQL, JSON
+        ⁙ FHIR Profiles convert: SQL, JSON
+        <div class="w3-right">
+            <span class="w3-dropdown-hover">
+                menu
+                <div class="w3-dropdown-content w3-border w3-container" style="right: -20px;width: 250px;">
+                    <a class="am-0u"
+                        href='/f/mdm/1/i.html#!/init_{"tree":{"l":{"id":[376482,373466,373359,376479,371312,369926,373495],"selectedId":376479,"openIds":[372138,371312,373359,373466,376482]},"r":{"id":[369980,374705,375222,368833,371556],"selectedId":369980,"openIds":[368833,376482,372225]}},"selectedLR":"r"}'
+                        target="_blank">
+                        <div class="w3-hover-shadow">
+                            003_ MedicationRequest
+                        </div>
+                    </a>
+                    <div>
+                        …
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div id="id01" class="w3-small w3-border-bottom">
+        Термінологічний сервіс лікарських засобів
+        <span class="w3-right">
+            <input :value="fElId" class="w3-border">
+        </span>
     </div>
     <div id="fpc01" class="am-max-width-1">
         <div class="w3-row">

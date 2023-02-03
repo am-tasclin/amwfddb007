@@ -2,8 +2,8 @@
 const { createApp, ref } = Vue
 d.siteTitle = 'vws02: '
 
-jsLib1.wsDbSelect = new WebSocket("ws://localhost:8007/dbSelect"
-);
+jsLib1.wsDbSelect = new WebSocket("ws://"+window.location.host+"/dbSelect")
+
 jsLib1.wsDbSelect.onopen = event => {
     let m = { sqlName: 'adn01OneNode' }
     readAdns(d.init.tree.l.id, sqlFn, m)
@@ -11,7 +11,8 @@ jsLib1.wsDbSelect.onopen = event => {
     m.sqlName = 'adn01Childrens'
     readAdns(d.init.tree.l.openIds, sqlFn, m)
     readAdns(d.init.tree.r.openIds, sqlFn, m)
-};
+}
+
 jsLib1.wsDbSelect.onmessage = event => {
     const obj = JSON.parse(event.data)
     if ('adn01Childrens' == obj.sqlName

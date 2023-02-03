@@ -1,3 +1,3 @@
 'use strict'
-console.log('i')
-console.log('i')
+// const d = {} // d: data of page to change
+console.log('i', d)
