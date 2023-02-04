@@ -1,14 +1,16 @@
 'use strict'
-const { createApp, ref } = Vue
+const { createApp, nextTick, ref } = Vue
     , eMap = {} // emap: doc_id:MCrDB ADN Element
     , parentChild = {} // parent:[Child ids]
     , pd = {} //pd: Page Data
+
+
 pd.siteTitle = 'FPC'
-pd.fElId = 373071
 pd.count = 0
 pd.hashVrVl = window.location.hash.split('_')
 pd.isHashVr = n => pd.hashVrVl[0].indexOf(n) == 1
-pd.isHashVr('fElId') && (pd.fElId = 1 * pd.hashVrVl[1])
+// pd.isHashVr('fElId') && (pd.fElId = 1 * pd.hashVrVl[1])
+pd.fElId = pd.isHashVr('fElId')? (1 * pd.hashVrVl[1]): 373071
 
 //for development
 fd.eMap = eMap
@@ -41,11 +43,27 @@ const
     sqlFn = (adnId, sqlName) => jsLib1.replaceSql(sql_app[sqlName].sql)
         .replace(':adnId', adnId)
 
-createApp({
+const fpc01 = createApp({
     methods: {
         i(id, n) { return eMap[id] && eMap[id][n] }
     }, data() { return pd }
-}).mount('#fpc01')
+})
+
+fpc01.component('t-adn-view', {
+    props: { adnId: Number },
+    mounted() {
+        this.count++
+        console.log(this.count)
+    }, methods: {
+        increment() { this.count++ },
+        //i: get Adn Attribute Value
+        i(n) { return eMap[this.adnId] && eMap[this.adnId][n] },
+        p() {return parentChild[this.adnId]}
+    }, data() { return { count: 1 } },
+    template: '#tAdnView',
+})
+
+fpc01.mount('#fpc01')
 
 createApp({ data() { return pd } }).mount('#headTitle')
 createApp({ data() { return pd } }).mount('#id01')

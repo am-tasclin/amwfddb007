@@ -56,14 +56,7 @@
                     <sup>{{count}}</sup>
                 </span>
                 <div v-for="adnId in [fElId]">
-                    <span class="w3-tiny">{{adnId}}</span>&nbsp;|
-                    <span class="w3-small">
-                        {{i(adnId, 'r_value_22')}}
-                        {{i(adnId, 'rr_value_22')}}
-                    </span>:
-                    {{i(adnId, 'value_22')}}
-                    {{i(adnId, 'r2_value_22')}}
-                    <span class="w3-right w3-tiny"> r: {{i(adnId, 'reference')}}, r2: {{i(adnId, 'reference2')}} </span>
+                    <t-adn-view :adn-id="adnId"></t-adn-view>
                 </div>
             </div>
             <div class="w3-half w3-container">
@@ -74,6 +67,29 @@
             </div>
         </div>
     </div>
+
+    <template id="tAdnView">
+        <span @click="increment(); 1+1" class="w3-hover-shadow w3-tiny">{{adnId}}</span>&nbsp;|<span class="w3-hide">
+            {{count}} </span>
+        <span class="w3-small">
+            {{i('r_value_22')}}<span class="w3-tiny" v-if="i('rr_value_22')">::{{i('rr_value_22')}}</span>
+        </span>:
+        {{i('value_22')}}
+        {{i('r2_value_22')}}
+        <span class="w3-right w3-dropdown-hover w3-hover-shadow">
+            <span class="w3-tiny">
+                r: {{i('reference')}}, r2: {{i('reference2')}}
+            </span>
+            <div class="w3-border w3-dropdown-content w3-container" style="right: 1px;">
+                a1
+            </div>
+        </span>
+        <div class="w3-container w3-border-left" v-if="p()">
+            <div v-for="adnId in p()">
+                <t-adn-view :adn-id="adnId"></t-adn-view>
+            </div>
+        </div>
+    </template>
 
     <script src="p.js" type="module"></script>
 
