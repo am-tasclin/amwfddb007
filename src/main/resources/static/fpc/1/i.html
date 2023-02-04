@@ -18,7 +18,7 @@
             <img src="/f/img/algoritmed-logo.webp" style="width:75px;" />
         </a>&nbsp;
         &nbsp; <span class="w3-tiny am-b w3-topbar">FPC:</span>
-        ⁙ FHIR Profiles convert: SQL, JSON
+        ⁙ FHIR Profiles convert: MCrDB -> [SQL, JSON]
         <div class="w3-right">
             <span class="w3-dropdown-hover">
                 menu
@@ -51,25 +51,27 @@
             <div class="w3-half">
                 <button class="w3-btn w3-padding-small" @click="count++">
                     <span class="w3-tiny am-b w3-topbar">ORdeMS:</span>
+                    <span class="w3-tiny"> <sup>{{count}}</sup> </span>
                 </button>
-                <span class="w3-tiny">
-                    <sup>{{count}}</sup>
-                </span>
                 <div v-for="adnId in [fElId]">
                     <t-adn-view :adn-id="adnId"></t-adn-view>
                 </div>
             </div>
             <div class="w3-half w3-container">
-                <span class="w3-tiny am-b w3-topbar">JSON:</span>
-                <div>
+                <button class="w3-btn w3-padding-small" @click="count++">
+                    <span class="w3-tiny am-b w3-topbar">JSON:</span>
+                    <span class="w3-tiny"> <sup>{{count}}</sup> </span>
+                </button>
+                <div style="white-space: pre;" class="w3-opacity w3-small">
                     ⌖
+                    {{j()}}
                 </div>
             </div>
         </div>
     </div>
 
     <template id="tAdnView">
-        <span @click="increment(); 1+1" class="w3-hover-shadow w3-tiny">{{adnId}}</span>&nbsp;|<span class="w3-hide">
+        <span @click="icpp(); oc();" class="w3-hover-shadow w3-tiny">{{adnId}}</span>&nbsp;|<span class="w3-hide">
             {{count}} </span>
         <span class="w3-small">
             {{i('r_value_22')}}<span class="w3-tiny" v-if="i('rr_value_22')">::{{i('rr_value_22')}}</span>

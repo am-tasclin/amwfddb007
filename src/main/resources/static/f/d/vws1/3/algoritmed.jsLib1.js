@@ -43,6 +43,8 @@ jsLib1.makeElFrom = (el, propsList) => {
     return r
 }
 
+/** NOT DELETE TO 2023.09.01
+ * 
 d.count = 1
 d.parentChild = {}
 d.eMap = {}
@@ -59,9 +61,9 @@ d.eMap2 = {
         , "rr_value_22": null, "r_value_22": null, "r2_doctype": null, "r2_value_22": null, "sort": 1
     }
 }
-
 d.openedAdnVlMenu = 0
 d.adnIdMO = 0
+*/
 
 sql_app.adn01Childrens = {
     name: "adn01OneNode: 'One Data Node' ::adn01",
