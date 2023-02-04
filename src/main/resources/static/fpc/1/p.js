@@ -1,3 +1,9 @@
+/**
+ * @license Algoritmed.js v0.1.025
+ * (c) 2021-2023 Algoritmed Ltd. http://algoritmed.com
+ * License: Apache-2.0 license 
+ */
+
 'use strict'
 const { createApp, nextTick, ref } = Vue
     , eMap = {} // emap: doc_id:MCrDB ADN Element
@@ -17,12 +23,10 @@ fd.eMap = eMap
 fd.parentChild = parentChild
 //for development
 
-// jsLib1.wsDbSelect.onopen = event => 'adn01OneNode_adn01Childrens'.split('_')
-//     .forEach(sqlName => readAdn([pd.fElId], sqlFn, { sqlName: sqlName }))
-
 jsLib1.wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
 
-jsLib1.wsDbSelect.onopen = event => readAdns('adn01OneNode_adn01Childrens', [pd.fElId])
+jsLib1.wsDbSelect.onopen = event => readAdnsDirect
+    ('adn01OneNode_adn01Childrens', [pd.fElId], isNotIn_eMap)
 
 jsLib1.wsDbSelect.onmessage = event => {
     const obj = JSON.parse(event.data)
@@ -35,20 +39,12 @@ jsLib1.wsDbSelect.onmessage = event => {
 }
 
 const
-    readAdnsDirect = (strAdnsSql, idL) => idL && strAdnsSql.split('_'
-    ).forEach(sqlName => idL.forEach(adnId => true && jsLib1.wsDbSelect.send(JSON
-        .stringify({ sqlName: sqlName, adnId: adnId, sql: sqlFn(adnId, sqlName) })))),
+    readAdnsDirect = (strAdnsSql, idL, isForFor2) => idL && strAdnsSql.split('_'
+    ).forEach(sqlName => idL.forEach(adnId => isForFor2 && jsLib1
+        .wsDbSelect.send(JSON.stringify(
+            { sqlName: sqlName, adnId: adnId, sql: sqlFn(adnId, sqlName) })))),
 
-    readAdnDirect = (idL, sqlFn, m) => idL && idL.forEach(adnId => true && jsLib1.
-        wsDbSelect.send(JSON.stringify(Object.assign(m
-            , { adnId: adnId, 'sql': sqlFn(adnId, m.sqlName) })))),
-
-    readAdns = (strAdnsSql, idL) => strAdnsSql.split('_')
-        .forEach(sqlName => readAdn(idL, sqlFn, { sqlName: sqlName })),
-
-    readAdn = (a, sqlFn, m) => a && a.forEach(adnId => !eMap[adnId] && jsLib1.
-        wsDbSelect.send(JSON.stringify(Object.assign(m
-            , { adnId: adnId, 'sql': sqlFn(adnId, m.sqlName) })))),
+    isNotIn_eMap = adnId => !eMap[adnId],
 
     sqlFn = (adnId, sqlName) => jsLib1.replaceSql(sql_app[sqlName].sql)
         .replace(':adnId', adnId)
@@ -91,11 +87,8 @@ fpc01.component('t-adn-view', {
         p() { return parentChild[this.adnId] },
         //oc: Open Close Element
         oc() {
-            console.log('oc')
             if (!parentChild[this.adnId]) {
-                // console.log(this.adnId, sqlFn(this.adnId, 'adn01Childrens'))
-                readAdnsDirect('adn01Childrens', [this.adnId])
-                console.log(this.adnId)
+                readAdnsDirect('adn01Childrens', [this.adnId], () => true)
             }
         },
     }, data() { return { count: 1 } },
@@ -105,3 +98,13 @@ fpc01.mount('#fpc01')
 
 createApp({ data() { return pd } }).mount('#headTitle')
 createApp({ data() { return pd } }).mount('#id01')
+
+const menu = {
+    menuList: [{
+        text: '002_ M&D-M for 373071',
+        href: '/f/mdm/1/i.html#!/init_%7B%22tree%22:%7B%22l%22:%7B%22id%22:%5B368833,369967%5D,%22selectedId%22:372797,%22openIds%22:%5B368833,369984,376485,369975,369973,369972,369967,376483,376484,368636,372801,372800,372798,372799,372797%5D%7D,%22r%22:%7B%22id%22:%5B373071,376483,372797,368636%5D,%22selectedId%22:368636,%22openIds%22:%5B373071,373072,376485,376486,376483,376484,372797,372799,372798,372800,372801,368636%5D%7D%7D,%22selectedLR%22:%22r%22%7D',
+    }, {
+        text: '003_ MedicationRequest',
+        href: '/f/mdm/1/i.html#!/init_{"tree":{"l":{"id":[376482,373466,373359,376479,371312,369926,373495],"selectedId":376479,"openIds":[372138,371312,373359,373466,376482]},"r":{"id":[369980,374705,375222,368833,371556],"selectedId":369980,"openIds":[368833,376482,372225]}},"selectedLR":"r"}',
+    },]
+}; createApp({ data() { return menu } }).mount('#menu01')
