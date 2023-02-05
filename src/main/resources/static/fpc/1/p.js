@@ -13,20 +13,24 @@ const { createApp, nextTick, ref } = Vue
 pd.siteTitle = 'FPC'
 pd.count = 0
 // console.log(pd.icpp())
-pd.hashVrVl = window.location.hash.split('_')
-pd.isHashVr = n => pd.hashVrVl[0].indexOf(n) == 1
+
+pd.sn = {}//sn: session
+pd.sn.hashVrVl = window.location.hash.split(',')
+pd.isHashVr = n => pd.sn.hashVrVl[0].indexOf(n) == 1
 // pd.isHashVr('fElId') && (pd.fElId = 1 * pd.hashVrVl[1])
-pd.fElId = pd.isHashVr('fElId') ? (1 * pd.hashVrVl[1]) : 373071
+pd.sn.fElId = (pd.isHashVr('fElId') && 1 * pd.sn.hashVrVl[1]) || pd.sn.fElId || 373071
 
 //for development
 fd.eMap = eMap
 fd.parentChild = parentChild
+fd.sn = pd.sn
+fd.isHashVr = pd.isHashVr
 //for development
 
 jsLib1.wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
 
 jsLib1.wsDbSelect.onopen = event => readAdnsDirect
-    ('adn01OneNode_adn01Childrens', [pd.fElId], isNotIn_eMap)
+    ('adn01OneNode_adn01Childrens', [pd.sn.fElId], isNotIn_eMap)
 
 jsLib1.wsDbSelect.onmessage = event => {
     const obj = JSON.parse(event.data)
@@ -51,7 +55,8 @@ const
 
 const bj = {}
 bj.jnKv = (jn, kv) => jn[kv.k] = kv.v
-bj.is1UpperCase = s => s.substring(0, 1) === s.substring(0, 1).toUpperCase()
+
+// bj.is1UpperCase = s => s.substring(0, 1) === s.substring(0, 1).toUpperCase()
 bj.key = e => { return e.r_value_22 || e.rr_value_22 }
 bj.mc = e => {
     const mc = { id: e.doc_id }
@@ -64,7 +69,9 @@ bj.kv = e => {
     kv.k = bj.key(e)
     kv.v = e.r2_value_22 || (
         // loaded attribute: rr is Type
-        bj.is1UpperCase(e.rr_value_22) && {})
+        // bj.is1UpperCase(e.rr_value_22) && {}
+        parentChild[e.doc_id] && {}
+    )
     return kv
 }
 //bjp: build JSON from parentChild
@@ -91,13 +98,13 @@ const fpc01 = createApp({
         j() {
             const hfj = { v: 'Hello FHIR JSON! ' + this.count + '\n' },
                 jn = {}//jn: JSON Node
-            hfj.v += '⌖ ' + pd.fElId + '\n'
-            if (eMap[pd.fElId]) {
-                bj.bjd(jn, pd.fElId)
+            hfj.v += '⌖ ' + pd.sn.fElId + '\n'
+            if (eMap[pd.sn.fElId]) {
+                bj.bjd(jn, pd.sn.fElId)
                 jn.metaContentId = {}
-                console.log(bj.mc(eMap[pd.fElId]), bj.key(eMap[pd.fElId]))
+                console.log(bj.mc(eMap[pd.sn.fElId]), bj.key(eMap[pd.sn.fElId]))
 
-                bj.mcFirst(jn.metaContentId, pd.fElId)
+                bj.mcFirst(jn.metaContentId, pd.sn.fElId)
             }
             return hfj.v + JSON.stringify(jn, '', 2)
         },

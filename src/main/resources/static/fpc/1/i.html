@@ -29,14 +29,27 @@
             </span>|
         </div>
     </div>
-    <div id="id01" class="w3-small w3-border-bottom">
-        Термінологічний сервіс лікарських засобів
+    <div id="id01" class=" w3-border-bottom am-max-width-1">
+        <div class="w3-small">
+            Термінологічний сервіс лікарських засобів
+        </div>
         <span class="w3-right">
             <button class="w3-btn w3-border w3-round w3-yellow w3-padding-small 
-             w3-ripple w3-tiny am-b" @click="count++">count:{{count}}</button>
+            w3-ripple w3-tiny am-b" @click="count++">count:{{count}}</button>
             &nbsp;
-            <input :value="fElId" class="w3-border w3-border-yellow">
+            <input :value="sn.fElId" class="w3-border w3-border-yellow">
         </span>
+        <span class="w3-right">-|</span>
+        <div v-if="isHashVr('idL')">
+            <template v-for="v in sn.hashVrVl">
+                <a :href="sn.hashVrVl.join(',')" v-if="v=='#idL'"> {{v}} </a>
+                <a :href="'#fElId,'+v" v-else> {{v}} </a>
+                ,
+            </template>
+        </div>
+        <div v-else>
+            --
+        </div>
     </div>
     <div id="fpc01" class="am-max-width-1">
         <div class="w3-row">

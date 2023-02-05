@@ -8,3 +8,4 @@ gradle*
 **/*.swp
 src/main/resources/application copy.properties
 src/main/resources/application.properties
+src/main/resources/static/fpc/1/x.json
