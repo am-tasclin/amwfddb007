@@ -56,12 +56,12 @@
             <div class="w3-half">
                 <span class="w3-tooltip">
                     <button class="w3-btn w3-padding-small " @click="count++">
-                        <span class="w3-tiny am-b w3-topbar">ORdeMS: </span>
+                        <span class="w3-tiny am-b w3-topbar">ORdeMiS: </span>
                         <span class="w3-tiny"> <sup>{{count}}</sup> </span>
                     </button>
-                    <span style="position:absolute;left:0;top:-18px;width: 250px;"
-                        class="w3-text w3-tag w3-yellow w3-tiny w3-round w3-border">ORdeMS: Ontology editor Model of
-                        System</span>
+                    <span style="position:absolute;left:0;top:-20px;width: 330px;"
+                        class="w3-text w3-tag w3-yellow w3-tiny w3-round w3-border"><span class="am-b">ORdeMiS</span>:
+                        Ontology editor Models of Information System</span>
                 </span>
                 <div v-for="adnId in [fElId]">
                     <t-adn-view :adn-id="adnId"></t-adn-view>
