@@ -60,10 +60,17 @@ bj.kv = e => {
         bj.is1UpperCase(e.rr_value_22) && {})
     return kv
 }
+//bjp: build JSON from parentChild
+bj.bjp = (jn, i) => parentChild[i] && parentChild[i].forEach(j => {
+    const kv = bj.kv(eMap[j])
+    bj.jnKv(jn, kv)
+    if (typeof kv.v == 'object') bj.bjp(kv.v, j)
+})
 //bjd: build JSON deep
 bj.bjd = (jn, i) => {
-    bj.jnKv(jn, bj.kv(eMap[i]))
-    parentChild[pd.fElId].forEach(j => bj.jnKv(jn, bj.kv(eMap[j])))
+    const kv = bj.kv(eMap[i])
+    bj.jnKv(jn, kv)
+    bj.bjp(jn, i)
 }
 
 const fpc01 = createApp({
@@ -73,7 +80,7 @@ const fpc01 = createApp({
         j() {
             const hfj = { v: 'Hello FHIR JSON! ' + this.count + '\n' },
                 jn = {}, metaContentId = {}
-            hfj.v += '⌖ '+pd.fElId + '\n'
+            hfj.v += '⌖ ' + pd.fElId + '\n'
             if (eMap[pd.fElId]) {
                 bj.bjd(jn, pd.fElId)
             }
