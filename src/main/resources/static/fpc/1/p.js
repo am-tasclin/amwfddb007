@@ -30,7 +30,7 @@ jsLib1.wsDbSelect.onopen = event => readAdnsDirect
 
 jsLib1.wsDbSelect.onmessage = event => {
     const obj = JSON.parse(event.data)
-    console.log(obj)
+    // console.log(obj)
     if ('adn01OneNode' == obj.sqlName) eMap[obj.list[0]
         .doc_id] = obj.list[0]
     else 'adn01Childrens' == obj.sqlName && obj.list
@@ -49,20 +49,33 @@ const
     sqlFn = (adnId, sqlName) => jsLib1.replaceSql(sql_app[sqlName].sql)
         .replace(':adnId', adnId)
 
+const bj = {}
+bj.jnKv = (jn, kv) => jn[kv.k] = kv.v
+bj.is1UpperCase = s => s.substring(0, 1) === s.substring(0, 1).toUpperCase()
+bj.kv = e => {
+    const kv = {}
+    kv.k = e.r_value_22 || e.rr_value_22
+    kv.v = e.r2_value_22 || (
+        // loaded attribute: rr is Type
+        bj.is1UpperCase(e.rr_value_22) && {})
+    return kv
+}
+//bjd: build JSON deep
+bj.bjd = (jn, i) => {
+    bj.jnKv(jn, bj.kv(eMap[i]))
+    parentChild[pd.fElId].forEach(j => bj.jnKv(jn, bj.kv(eMap[j])))
+}
+
 const fpc01 = createApp({
     methods: {
         i(id, n) { return eMap[id] && eMap[id][n] },
-        //j: build JSON DEVELOPMENT
+        //j: build JSON in DEVELOPMENT !
         j() {
             const hfj = { v: 'Hello FHIR JSON! ' + this.count + '\n' },
-                jn = {}
-            hfj.v += pd.fElId + '\n'
+                jn = {}, metaContentId = {}
+            hfj.v += '⌖ '+pd.fElId + '\n'
             if (eMap[pd.fElId]) {
-                const e = eMap[pd.fElId]
-                let k = e.r_value_22 || e.rr_value_22,
-                    v = e.r2_value_22
-                jn[k] = v
-                console.log(k, v, e.r_value_22, e.rr_value_22, jn)
+                bj.bjd(jn, pd.fElId)
             }
             return hfj.v + JSON.stringify(jn, '', 2)
         },

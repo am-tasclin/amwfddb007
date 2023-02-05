@@ -13,11 +13,11 @@ jsLib1.init = () => jsLib1.isHash('init'
 ) && JSON.parse(decodeURI(jsLib1.hash.split("init_")[1]))
 
 jsLib1.hashTitle = () => {
-    let ht = jsLib1.hash.split('_')[0].substr(1, 33) + ':'
+    let ht = jsLib1.hash.split('_')[0].substring(1, 33) + ':'
         , ht2 = jsLib1.hash.split('_')[1]
     if (jsLib1.isHash('init'))
-        ht += decodeURI(ht2).substr(15, 25)
-    else ht += decodeURI(ht2).substr(0, 20)
+        ht += decodeURI(ht2).substring(15, 25)
+    else ht += decodeURI(ht2).substring(0, 20)
     return ht
 }
 

@@ -41,10 +41,15 @@
     <div id="fpc01" class="am-max-width-1">
         <div class="w3-row">
             <div class="w3-half">
-                <button class="w3-btn w3-padding-small" @click="count++">
-                    <span class="w3-tiny am-b w3-topbar">ORdeMS:</span>
-                    <span class="w3-tiny"> <sup>{{count}}</sup> </span>
-                </button>
+                <span class="w3-tooltip">
+                    <button class="w3-btn w3-padding-small " @click="count++">
+                        <span class="w3-tiny am-b w3-topbar">ORdeMS: </span>
+                        <span class="w3-tiny"> <sup>{{count}}</sup> </span>
+                    </button>
+                    <span style="position:absolute;left:0;top:-18px;width: 250px;"
+                        class="w3-text w3-tag w3-yellow w3-tiny w3-round w3-border">ORdeMS: Ontology editor Model of
+                        System</span>
+                </span>
                 <div v-for="adnId in [fElId]">
                     <t-adn-view :adn-id="adnId"></t-adn-view>
                 </div>
@@ -55,7 +60,6 @@
                     <span class="w3-tiny"> <sup>{{count}}</sup> </span>
                 </button>
                 <div style="white-space: pre;" class="w3-opacity w3-small">
-                    ⌖
                     {{j()}}
                 </div>
             </div>
