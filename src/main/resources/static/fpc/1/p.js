@@ -52,9 +52,16 @@ const
 const bj = {}
 bj.jnKv = (jn, kv) => jn[kv.k] = kv.v
 bj.is1UpperCase = s => s.substring(0, 1) === s.substring(0, 1).toUpperCase()
+bj.key = e => { return e.r_value_22 || e.rr_value_22 }
+bj.mc = e => {
+    const mc = { id: e.doc_id }
+    e.reference && (mc.r = e.reference)
+    e.reference2 && (mc.r2 = e.reference2)
+    return mc
+}
 bj.kv = e => {
     const kv = {}
-    kv.k = e.r_value_22 || e.rr_value_22
+    kv.k = bj.key(e)
     kv.v = e.r2_value_22 || (
         // loaded attribute: rr is Type
         bj.is1UpperCase(e.rr_value_22) && {})
@@ -68,10 +75,20 @@ bj.bjp = (jn, i) => parentChild[i] && parentChild[i].forEach(j => {
 })
 //bjd: build JSON deep
 bj.bjd = (jn, i) => {
-    const kv = bj.kv(eMap[i])
-    bj.jnKv(jn, kv)
+    bj.jnKv(jn, bj.kv(eMap[i]))
     bj.bjp(jn, i)
 }
+
+bj.mcParent = (jn, i) => parentChild[i] && parentChild[i].forEach(j => {
+    const n = bj.mcOne(jn, j)
+    console.log(bj.key(eMap[j]), n)
+    bj.mcParent(n, j)
+})
+
+bj.mcOne = (jn, i) => (
+    jn[bj.key(eMap[i])] = { mc: bj.mc(eMap[i]) }) && jn[bj.key(eMap[i])]
+
+bj.mcFirst = (jn, i) => bj.mcOne(jn, i) && bj.mcParent(jn, i)
 
 const fpc01 = createApp({
     methods: {
@@ -79,10 +96,14 @@ const fpc01 = createApp({
         //j: build JSON in DEVELOPMENT !
         j() {
             const hfj = { v: 'Hello FHIR JSON! ' + this.count + '\n' },
-                jn = {}, metaContentId = {}
+                jn = {}//jn: JSON Node
             hfj.v += '⌖ ' + pd.fElId + '\n'
             if (eMap[pd.fElId]) {
                 bj.bjd(jn, pd.fElId)
+                jn.metaContentId = {}
+                console.log(bj.mc(eMap[pd.fElId]), bj.key(eMap[pd.fElId]))
+
+                bj.mcFirst(jn.metaContentId, pd.fElId)
             }
             return hfj.v + JSON.stringify(jn, '', 2)
         },
