@@ -74,16 +74,10 @@ bj.bjp = (jn, i) => parentChild[i] && parentChild[i].forEach(j => {
     if (typeof kv.v == 'object') bj.bjp(kv.v, j)
 })
 //bjd: build JSON deep
-bj.bjd = (jn, i) => {
-    bj.jnKv(jn, bj.kv(eMap[i]))
-    bj.bjp(jn, i)
-}
+bj.bjd = (jn, i) => bj.jnKv(jn, bj.kv(eMap[i])) && bj.bjp(jn, i)
 
-bj.mcParent = (jn, i) => parentChild[i] && parentChild[i].forEach(j => {
-    const n = bj.mcOne(jn, j)
-    console.log(bj.key(eMap[j]), n)
-    bj.mcParent(n, j)
-})
+bj.mcParent = (jn, i) => parentChild[i] && parentChild[i]
+    .forEach(j => bj.mcParent(bj.mcOne(jn, j), j))
 
 bj.mcOne = (jn, i) => (
     jn[bj.key(eMap[i])] = { mc: bj.mc(eMap[i]) }) && jn[bj.key(eMap[i])]
