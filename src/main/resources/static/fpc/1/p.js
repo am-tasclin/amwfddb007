@@ -16,6 +16,12 @@ pd.count = 0
 
 pd.sn = {}//sn: session
 pd.sn.hashVrVl = window.location.hash.split(',')
+pd.sn.hashVrVlto1 = p => {
+    let x = Object.assign([], fd.sn.hashVrVl)
+    x.splice(1, 0, x.splice(p, 1)[0])
+    console.log(p, x)
+    return x.join(',')
+}
 pd.isHashVr = n => pd.sn.hashVrVl[0].indexOf(n) == 1
 // pd.isHashVr('fElId') && (pd.fElId = 1 * pd.hashVrVl[1])
 pd.sn.fElId = (pd.isHashVr('fElId') && 1 * pd.sn.hashVrVl[1]) || pd.sn.fElId || 373071
@@ -30,7 +36,8 @@ fd.isHashVr = pd.isHashVr
 jsLib1.wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
 
 jsLib1.wsDbSelect.onopen = event => readAdnsDirect
-    ('adn01OneNode_adn01Childrens', [pd.sn.fElId], isNotIn_eMap)
+    ('adn01OneNode_adn01Childrens', pd.sn.hashVrVl.filter((v, i) => i > 0), isNotIn_eMap)
+// ('adn01OneNode_adn01Childrens', [pd.sn.fElId], isNotIn_eMap)
 
 jsLib1.wsDbSelect.onmessage = event => {
     const obj = JSON.parse(event.data)
@@ -112,22 +119,28 @@ const fpc01 = createApp({
 })
 
 pd.icpp = ts => ts.count++
-pd.i = (ts, n) => eMap[ts.adnId] && eMap[ts.adnId][n]
+pd.e = ts => eMap[ts.adnId]
+pd.i = (ts, n) => pd.e(ts) && pd.e(ts)[n]
 
 fpc01.component('t-adn-view', {
     template: '#tAdnView',
     props: { adnId: Number },
     mounted() {
         this.count++
-        console.log(this.count)
+        // console.log(this.count, this.adnId)
     }, methods: {
         //icpp: increment count++
-        icpp() { pd.icpp(this) },
+        icpp() { this.count++ },
+        //e: get Adn Element
+        e() { return pd.e(this) },
         //i: get Adn Attribute Value
         i(n) { return pd.i(this, n) },
         //p: get parentChild
         p() { return parentChild[this.adnId] },
         //oc: Open Close Element
+        opc() {
+            return eMap[this.adnId] && (eMap[this.adnId].opened = !eMap[this.adnId].opened)
+        },
         oc() {
             if (!parentChild[this.adnId]) {
                 readAdnsDirect('adn01Childrens', [this.adnId], () => true)
