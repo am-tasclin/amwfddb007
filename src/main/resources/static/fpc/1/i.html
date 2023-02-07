@@ -67,14 +67,14 @@
                     </div>
                 </template>
             </div>
-            <div class="w3-half w3-container">
+            <div class="w3-half w3-container w3-border-left">
                 <span class="w3-dropdown-hover">
                     <button class="w3-btn w3-ripple w3-padding-small w3-white" @click="count++">
                         <span class="w3-tiny am-b w3-topbar">JSON: </span>
                     </button>
                     <div class="w3-dropdown-content w3-border w3-container">
                         <div class="w3-hover-shadow">
-                            +/-
+                            +/- <span class="w3-small"> metaContentId </span>
                         </div>
                     </div>
                 </span>
@@ -82,16 +82,16 @@
                 <button class="w3-btn w3-ripple w3-padding-small">
                     <span class="w3-tiny am-b w3-topbar">SQL</span>
                 </button>
-                <div style="white-space: pre;" class="w3-opacity w3-small">
+                <div style="white-space: pre;" class="w3-opacity w3-small w3-border-bottom">
                     {{j()}}
                 </div>
+                <div>&nbsp;</div>
             </div>
         </div>
     </div>
 
     <template id="tAdnView">
-        <span @click="icpp(); oc(); opc()" class="w3-hover-shadow w3-tiny">{{adnId}}</span>&nbsp;|<span
-            class="w3-hide">
+        <span @click="icpp(); oc(); opc()" class="w3-hover-shadow w3-tiny">{{adnId}}</span>&nbsp;|<span class="w3-hide">
             {{count}} </span>
         <span class="w3-small">
             {{i('r_value_22')}}<span class="w3-tiny" v-if="i('rr_value_22')">::{{i('rr_value_22')}}</span>

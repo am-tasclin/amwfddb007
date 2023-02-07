@@ -123,11 +123,9 @@ pd.e = ts => eMap[ts.adnId]
 pd.i = (ts, n) => pd.e(ts) && pd.e(ts)[n]
 
 fpc01.component('t-adn-view', {
-    template: '#tAdnView',
-    props: { adnId: Number },
+    template: '#tAdnView', props: { adnId: Number },
     mounted() {
         this.count++
-        // console.log(this.count, this.adnId)
     }, methods: {
         //icpp: increment count++
         icpp() { this.count++ },
@@ -139,10 +137,10 @@ fpc01.component('t-adn-view', {
         p() { return parentChild[this.adnId] },
         //oc: Open Close Element
         opc() {
-            return eMap[this.adnId] && (eMap[this.adnId].opened = !eMap[this.adnId].opened)
-        },
-        oc() {
+            return pd.e(this) && (pd.e(this).opened = !pd.e(this).opened)
+        }, oc() {
             if (!parentChild[this.adnId]) {
+                eMap[this.adnId].opened = true
                 readAdnsDirect('adn01Childrens', [this.adnId], () => true)
             }
         },
