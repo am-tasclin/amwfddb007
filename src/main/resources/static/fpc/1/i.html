@@ -73,9 +73,10 @@
                         <span class="w3-tiny am-b w3-topbar">JSON: </span>
                     </button>
                     <div class="w3-dropdown-content w3-border w3-container">
-                        <div class="w3-hover-shadow">
-                            +/- <span class="w3-small"> metaContentId </span>
-                        </div>
+                        <button @click="pmClick('metaContentId')" class="w3-padding-small w3-btn"
+                            :class="{'w3-yellow':plusMinuList.includes('metaContentId')}">
+                            <div> +/- <span class="w3-small"> metaContentId </span> </div>
+                        </button>
                     </div>
                 </span>
                 <span class="w3-tiny"> <sup>{{count}}</sup> </span>

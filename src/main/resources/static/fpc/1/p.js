@@ -65,12 +65,6 @@ bj.jnKv = (jn, kv) => jn[kv.k] = kv.v
 
 // bj.is1UpperCase = s => s.substring(0, 1) === s.substring(0, 1).toUpperCase()
 bj.key = e => { return e.r_value_22 || e.rr_value_22 }
-bj.mc = e => {
-    const mc = { id: e.doc_id }
-    e.reference && (mc.r = e.reference)
-    e.reference2 && (mc.r2 = e.reference2)
-    return mc
-}
 bj.kv = e => {
     const kv = {}
     kv.k = bj.key(e)
@@ -91,16 +85,30 @@ bj.bjp = (jn, i) => parentChild[i] && parentChild[i].forEach(j => {
 bj.bjd = (jn, i) => bj.jnKv(jn, bj.kv(eMap[i])) && bj.bjp(jn, i)
 
 bj.mcParent = (jn, i) => parentChild[i] && parentChild[i]
-    .forEach(j => bj.mcParent(bj.mcOne(jn, j), j))
+    .forEach(j => bj.mcParent(bj.add1Mc(jn, j), j))
 
-bj.mcOne = (jn, i) => (
+// add and return (1)one mc
+bj.add1Mc = (jn, i) => (
     jn[bj.key(eMap[i])] = { mc: bj.mc(eMap[i]) }) && jn[bj.key(eMap[i])]
+bj.mc = e => {
+    const mc = { id: e.doc_id }
+    e.reference && (mc.r = e.reference)
+    e.reference2 && (mc.r2 = e.reference2)
+    return mc
+}
 
-bj.mcFirst = (jn, i) => bj.mcOne(jn, i) && bj.mcParent(jn, i)
+bj.mcFirst = (jn, i) => bj.add1Mc(jn, i) && bj.mcParent(jn, i)
+
+pd.plusMinuList = ','
 
 const fpc01 = createApp({
     methods: {
         i(id, n) { return eMap[id] && eMap[id][n] },
+        //pmClick: plus/minus click
+        pmClick(n) {
+            (!pd.plusMinuList.includes(n) && (pd.plusMinuList += n + ','
+            )) || (pd.plusMinuList = pd.plusMinuList.replace(n + ',', ''))
+        },
         //j: build JSON in DEVELOPMENT !
         j() {
             const hfj = { v: 'Hello FHIR JSON! ' + this.count + '\n' },
@@ -109,9 +117,11 @@ const fpc01 = createApp({
             if (eMap[pd.sn.fElId]) {
                 bj.bjd(jn, pd.sn.fElId)
                 jn.metaContentId = {}
-                console.log(bj.mc(eMap[pd.sn.fElId]), bj.key(eMap[pd.sn.fElId]))
 
-                bj.mcFirst(jn.metaContentId, pd.sn.fElId)
+                //console.log(pd.plusMinuList.includes('metaContentId') , bj.mc(eMap[pd.sn.fElId]), bj.key(eMap[pd.sn.fElId]))
+
+                !pd.plusMinuList.includes('metaContentId') && bj
+                    .mcFirst(jn.metaContentId, pd.sn.fElId)
             }
             return hfj.v + JSON.stringify(jn, '', 2)
         },
