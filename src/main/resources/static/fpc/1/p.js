@@ -16,10 +16,15 @@ pd.count = 0
 
 pd.sn = {}//sn: session
 pd.sn.hashVrVl = window.location.hash.split(',')
+pd.sn.or2tree = () => {
+    let x = Object.assign([], fd.sn.hashVrVl)
+    x.shift()
+    return 'tree_' + x.join('_') + ',' + x[0]
+}
 pd.sn.hashVrVlto1 = p => {
     let x = Object.assign([], fd.sn.hashVrVl)
     x.splice(1, 0, x.splice(p, 1)[0])
-    console.log(p, x)
+    // console.log(p, x)
     return x.join(',')
 }
 pd.isHashVr = n => pd.sn.hashVrVl[0].indexOf(n) == 1
@@ -60,67 +65,103 @@ const
     sqlFn = (adnId, sqlName) => jsLib1.replaceSql(sql_app[sqlName].sql)
         .replace(':adnId', adnId)
 
-const bj = {}
-bj.jnKv = (jn, kv) => jn[kv.k] = kv.v
+//bj: buildJSON
+const buildJSON = {}
 
 // bj.is1UpperCase = s => s.substring(0, 1) === s.substring(0, 1).toUpperCase()
-bj.key = e => { return e.r_value_22 || e.rr_value_22 }
-bj.kv = e => {
-    const kv = {}
-    kv.k = bj.key(e)
-    kv.v = e.r2_value_22 || (
+buildJSON.key = e => { return e.r_value_22 || e.rr_value_22 }
+buildJSON.keyValue = e => {
+    const keyValue = {}
+    keyValue.k = buildJSON.key(e)
+    keyValue.v = e.r2_value_22 || (
         // loaded attribute: rr is Type
         // bj.is1UpperCase(e.rr_value_22) && {}
         parentChild[e.doc_id] && {}
     )
-    return kv
+    return keyValue
 }
-//bjp: build JSON from parentChild
-bj.bjp = (jn, i) => parentChild[i] && parentChild[i].forEach(j => {
-    const kv = bj.kv(eMap[j])
-    bj.jnKv(jn, kv)
-    if (typeof kv.v == 'object') bj.bjp(kv.v, j)
-})
-//bjd: build JSON deep
-bj.bjd = (jn, i) => bj.jnKv(jn, bj.kv(eMap[i])) && bj.bjp(jn, i)
 
-bj.mcParent = (jn, i) => parentChild[i] && parentChild[i]
-    .forEach(j => bj.mcParent(bj.add1Mc(jn, j), j))
+//bjp: build JSON from parentChild
+buildJSON.bjParent = (jn, i) => parentChild[i] && parentChild[i].forEach(j => {
+    const kv = buildJSON.keyValue(eMap[j])
+    buildJSON.jnAddKeyValue(jn, kv)
+    if (typeof kv.v == 'object') buildJSON.bjParent(kv.v, j)
+})
+buildJSON.jnAddKeyValue = (jn, keyValue) => jn[keyValue.k] = keyValue.v
+buildJSON.jnAddKeyObjNameValue = (jn, keyValue) => (jn[keyValue
+    .keyAsObjName] = keyValue[keyValue.keyAsObjName]) && (jn
+        .k = keyValue.keyAsObjName)
+
+//bjd: build JSON deep
+buildJSON.bjDeep = (jn, i) => buildJSON.jnAddKeyValue(jn, buildJSON
+    .keyValue(eMap[i])) && buildJSON.bjParent(jn, i)
+
+buildJSON.mcParent = (jn, i) => parentChild[i] && parentChild[i]
+    .forEach(j => buildJSON.mcParent(buildJSON.add1Mc(jn, j), j))
 
 // add and return (1)one mc
-bj.add1Mc = (jn, i) => (
-    jn[bj.key(eMap[i])] = { mc: bj.mc(eMap[i]) }) && jn[bj.key(eMap[i])]
-bj.mc = e => {
+buildJSON.add1Mc = (jn, i) => (
+    jn[buildJSON.key(eMap[i])] = { mc: buildJSON.mc(eMap[i]) }) && jn[buildJSON.key(eMap[i])]
+
+//build mc: meta-content id block
+buildJSON.mc = e => {
     const mc = { id: e.doc_id }
     e.reference && (mc.r = e.reference)
     e.reference2 && (mc.r2 = e.reference2)
     return mc
 }
 
-bj.mcFirst = (jn, i) => bj.add1Mc(jn, i) && bj.mcParent(jn, i)
+buildJSON.mcFirst = (jn, i) => buildJSON.add1Mc(jn, i) && buildJSON.mcParent(jn, i)
 
 pd.plusMinuList = ','
-
+buildJSON.jt = {
+    //jt: jsonType
+}
+pd.jsonType = '?'
+buildJSON.jt.Structure = () => {
+    const jn = {}
+    
+    jn.keyAsObjName = eMap[pd.sn.fElId].value_22 || eMap[pd.sn.fElId].r_value_22
+    const jnRoot = jn[jn.keyAsObjName] = {}
+    console.log(pd.sn.fElId,  eMap[pd.sn.fElId].value_22, jnRoot)
+    
+    parentChild[pd.sn.fElId].forEach(eId => {
+        const kName = eMap[eId].value_22 || eMap[eId].r_value_22
+        jnRoot[kName] = ''
+        eMap[eId].doctype && (jnRoot[kName] = eMap[eId].doctype + ' ::_dataType_')
+        console.log(eId, eMap[eId].doctype)
+    })
+    console.log(jnRoot)
+    return jn
+}
 const fpc01 = createApp({
     methods: {
         i(id, n) { return eMap[id] && eMap[id][n] },
-        //pmClick: plus/minus click
-        pmClick(n) {
+        jsonTypeClick(jt) {
+            pd.jsonType = jt
+            this.count++
+        }, pmClick(n) {
+            //pmClick: plus/minus click
             (!pd.plusMinuList.includes(n) && (pd.plusMinuList += n + ','
             )) || (pd.plusMinuList = pd.plusMinuList.replace(n + ',', ''))
-        },
-        //j: build JSON in DEVELOPMENT !
-        j() {
+            this.count++
+        }, buildJSON() {
+            //j: buildJSON in DEVELOPMENT !
             const hfj = { v: 'Hello FHIR JSON! ' + this.count + '\n' },
                 jn = {}//jn: JSON Node
             hfj.v += '⌖ ' + pd.sn.fElId + '\n'
             if (eMap[pd.sn.fElId]) {
-                bj.bjd(jn, pd.sn.fElId)
-                jn.metaContentId = {}
+
+                //Build JSON from defined type 
+                buildJSON.jt[pd.jsonType] && buildJSON.jnAddKeyObjNameValue(jn,
+                    buildJSON.jt[pd.jsonType]())
+
+                !buildJSON.jt[pd.jsonType] && buildJSON.bjDeep(jn, pd.sn.fElId)
 
                 //console.log(pd.plusMinuList.includes('metaContentId') , bj.mc(eMap[pd.sn.fElId]), bj.key(eMap[pd.sn.fElId]))
 
-                !pd.plusMinuList.includes('metaContentId') && bj
+                jn.metaContentId = {}
+                !pd.plusMinuList.includes('metaContentId') && buildJSON
                     .mcFirst(jn.metaContentId, pd.sn.fElId)
             }
             return hfj.v + JSON.stringify(jn, '', 2)

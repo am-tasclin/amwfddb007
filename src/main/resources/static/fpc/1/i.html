@@ -39,7 +39,11 @@
             &nbsp;
             <input :value="sn.fElId" class="w3-border w3-border-yellow">
         </span>
-        <span class="w3-right">-|</span>
+        <span class="w3-right">
+            <a :href="'/f/mdm/1/i.html#!/'+sn.or2tree()" target="_blank" class="w3-tiny">
+                OLD or002
+            </a>
+            -|</span>
         --
         <template v-for="(v, ix) in sn.hashVrVl">
             <a :href="sn.hashVrVl.join(',')" v-if="ix&lt;=1"> {{v}} </a>
@@ -72,19 +76,27 @@
                     <button class="w3-btn w3-ripple w3-padding-small w3-white" @click="count++">
                         <span class="w3-tiny am-b w3-topbar">JSON: </span>
                     </button>
-                    <div class="w3-dropdown-content w3-border w3-container">
+                    <div class="w3-dropdown-content w3-border w3-container" style="width: 16em;">
                         <button @click="pmClick('metaContentId')" class="w3-padding-small w3-btn"
                             :class="{'w3-yellow':plusMinuList.includes('metaContentId')}">
                             <div> +/- <span class="w3-small"> metaContentId </span> </div>
                         </button>
+                        <div>
+                            Type
+                            <template v-for="jt in ['Structure', 'ValueSet', 'Profile01']">
+                                <button @click="jsonTypeClick(jt)" class="w3-padding-small w3-btn"
+                                    :class="{'w3-yellow':jsonType==jt}">{{jt}}</button>
+                            </template>
+                        </div>
                     </div>
                 </span>
                 <span class="w3-tiny"> <sup>{{count}}</sup> </span>
                 <button class="w3-btn w3-ripple w3-padding-small">
                     <span class="w3-tiny am-b w3-topbar">SQL</span>
                 </button>
+                <span title="json type">jt</span>.{{jsonType}}
                 <div style="white-space: pre;" class="w3-opacity w3-small w3-border-bottom">
-                    {{j()}}
+                    {{buildJSON()}}
                 </div>
                 <div>&nbsp;</div>
             </div>
@@ -109,7 +121,7 @@
                     <span class="w3-hover-shadow">{{i('parent')}}</span>
                     <span class="am-b">↥</span>
                 </span>
-                -MENU-
+                ⏻-MENU-
             </div>
         </span>
         <!-- <div class="w3-container w3-border-left" v-if="p()"> -->
