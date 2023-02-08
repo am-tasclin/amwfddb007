@@ -96,8 +96,9 @@ buildJSON.jnAddKeyObjNameValue = (jn, keyValue) => (jn[keyValue
 buildJSON.bjDeep = (jn, i) => buildJSON.jnAddKeyValue(jn, buildJSON
     .keyValue(eMap[i])) && buildJSON.bjParent(jn, i)
 
-buildJSON.mc2Parent = (jn, i) => parentChild[i]
-    .forEach(j => jn[buildJSON.jt.keyAsObjName(j)] = { mc: buildJSON.mc(eMap[j]) })
+buildJSON.mc2Parent = (jn, i) => parentChild[i] && parentChild[i]
+    .forEach(j => (jn[buildJSON.jt.keyAsObjName(j)] = { mc: buildJSON.mc(eMap[j]) }
+    ) && buildJSON.mc2Parent(jn[buildJSON.jt.keyAsObjName(j)], j))
 
 buildJSON.mcParent = (jn, i) => parentChild[i] && parentChild[i]
     .forEach(j => buildJSON.mcParent(buildJSON.add1Mc(jn, j), j))
@@ -129,20 +130,38 @@ buildJSON.jt.mc.Structure = (jn, i) => {
     //parentChild[i].forEach(j => jn2[buildJSON.jt.keyAsObjName(j)] = { mc: buildJSON.mc(eMap[j]) })
 }
 buildJSON.jt.keyAsObjName = i => eMap[i].value_22 || eMap[i].r_value_22
+buildJSON.jt.se2Parent = (jn, pId) => parentChild[pId].forEach(eId => {
+    // const kName = eMap[eId].value_22 || eMap[eId].r_value_22
+    const kName = buildJSON.jt.keyAsObjName(eId)
+        , doctype = eMap[eId].doctype || eMap[eId].r_doctype
+
+    jn[kName] = ''
+    eMap[eId].doctype && (jn[kName] = eMap[eId].doctype + ' ::_dataType_')
+
+    console.log(123, eId, eMap[eId].doctype, doctype == 37)
+
+    doctype == 37 && (jn[kName] = [{}])
+    parentChild[eId] && doctype != 37 && (jn[kName] = {})
+    let e = doctype == 37 && jn[kName][0] || jn[kName]
+    parentChild[eId] && buildJSON.jt.se2Parent(e, eId)
+})
 buildJSON.jt.Structure = () => {
     const jn = {}
-
+    console.log(123)
     jn.keyAsObjName = buildJSON.jt.keyAsObjName(pd.sn.fElId)
     const jnRoot = jn[jn.keyAsObjName] = {}
     console.log(pd.sn.fElId, eMap[pd.sn.fElId].value_22, jnRoot)
 
-    parentChild[pd.sn.fElId].forEach(eId => {
-        const kName = eMap[eId].value_22 || eMap[eId].r_value_22
-        jnRoot[kName] = ''
-        eMap[eId].doctype && (jnRoot[kName] = eMap[eId].doctype + ' ::_dataType_')
-        console.log(eId, eMap[eId].doctype)
-    })
-    console.log(jnRoot)
+    buildJSON.jt.se2Parent(jnRoot, pd.sn.fElId)
+
+    // parentChild[pd.sn.fElId].forEach(eId => {
+    //     // const kName = eMap[eId].value_22 || eMap[eId].r_value_22
+    //     const kName = buildJSON.jt.keyAsObjName(eId)
+    //     jnRoot[kName] = ''
+    //     eMap[eId].doctype && (jnRoot[kName] = eMap[eId].doctype + ' ::_dataType_')
+    //     console.log(eId, eMap[eId].doctype)
+    // })
+    // console.log(jnRoot)
     return jn
 }
 const fpc01 = createApp({
