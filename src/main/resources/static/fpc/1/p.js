@@ -96,8 +96,13 @@ buildJSON.jnAddKeyObjNameValue = (jn, keyValue) => (jn[keyValue
 buildJSON.bjDeep = (jn, i) => buildJSON.jnAddKeyValue(jn, buildJSON
     .keyValue(eMap[i])) && buildJSON.bjParent(jn, i)
 
+buildJSON.mc2Parent = (jn, i) => parentChild[i]
+    .forEach(j => jn[buildJSON.jt.keyAsObjName(j)] = { mc: buildJSON.mc(eMap[j]) })
+
 buildJSON.mcParent = (jn, i) => parentChild[i] && parentChild[i]
     .forEach(j => buildJSON.mcParent(buildJSON.add1Mc(jn, j), j))
+
+buildJSON.mcFirst = (jn, i) => buildJSON.add1Mc(jn, i) && buildJSON.mcParent(jn, i)
 
 // add and return (1)one mc
 buildJSON.add1Mc = (jn, i) => (
@@ -111,20 +116,26 @@ buildJSON.mc = e => {
     return mc
 }
 
-buildJSON.mcFirst = (jn, i) => buildJSON.add1Mc(jn, i) && buildJSON.mcParent(jn, i)
-
 pd.plusMinuList = ','
-buildJSON.jt = {
-    //jt: jsonType
-}
+
 pd.jsonType = '?'
+//jt: jsonType
+buildJSON.jt = { mc: {} }
+buildJSON.jt.mc.Structure = (jn, i) => {
+    jn[buildJSON.jt.keyAsObjName(i)] = { mc: buildJSON.mc(eMap[i]) }
+    console.log(jn)
+    const jn2 = jn[buildJSON.jt.keyAsObjName(i)]
+    buildJSON.mc2Parent(jn2, i)
+    //parentChild[i].forEach(j => jn2[buildJSON.jt.keyAsObjName(j)] = { mc: buildJSON.mc(eMap[j]) })
+}
+buildJSON.jt.keyAsObjName = i => eMap[i].value_22 || eMap[i].r_value_22
 buildJSON.jt.Structure = () => {
     const jn = {}
-    
-    jn.keyAsObjName = eMap[pd.sn.fElId].value_22 || eMap[pd.sn.fElId].r_value_22
+
+    jn.keyAsObjName = buildJSON.jt.keyAsObjName(pd.sn.fElId)
     const jnRoot = jn[jn.keyAsObjName] = {}
-    console.log(pd.sn.fElId,  eMap[pd.sn.fElId].value_22, jnRoot)
-    
+    console.log(pd.sn.fElId, eMap[pd.sn.fElId].value_22, jnRoot)
+
     parentChild[pd.sn.fElId].forEach(eId => {
         const kName = eMap[eId].value_22 || eMap[eId].r_value_22
         jnRoot[kName] = ''
@@ -161,8 +172,15 @@ const fpc01 = createApp({
                 //console.log(pd.plusMinuList.includes('metaContentId') , bj.mc(eMap[pd.sn.fElId]), bj.key(eMap[pd.sn.fElId]))
 
                 jn.metaContentId = {}
-                !pd.plusMinuList.includes('metaContentId') && buildJSON
-                    .mcFirst(jn.metaContentId, pd.sn.fElId)
+
+
+                //if with metaContentId
+                !pd.plusMinuList.includes('metaContentId') && (
+                    (buildJSON.jt.mc[pd.jsonType] && buildJSON
+                        .jt.mc[pd.jsonType](jn.metaContentId, pd.sn.fElId)) ||
+                    (!buildJSON.jt.mc[pd.jsonType] && buildJSON
+                        .mcFirst(jn.metaContentId, pd.sn.fElId))
+                )
             }
             return hfj.v + JSON.stringify(jn, '', 2)
         },
