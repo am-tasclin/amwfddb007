@@ -184,7 +184,6 @@ const fpc01 = createApp({
 
                 jn.metaContentId = {}
 
-
                 //if with metaContentId
                 !pd.plusMinuList.includes('metaContentId') && (
                     (buildJSON.jt.mc[pd.jsonType] && buildJSON
@@ -193,54 +192,52 @@ const fpc01 = createApp({
                         .mcFirst(jn.metaContentId, pd.sn.fElId))
                 )
             }
-            buildJSON.jt.fmcStrignify(jn)
-            return hfj.v + JSON.stringify(jn, '', 1)
+            const so = { s: '' };
+            buildJSON.jt.fhirMcStrignify(jn, '\n', so)
+            // return hfj.v + JSON.stringify(jn, '', 1)
+            return hfj.v + so.s
         },
     }, data() { return pd }
 })
 
-//fmc: FHIR Meta Content
-buildJSON.jt.fmcSpace = ' '
-buildJSON.jt.fmcArrayStrignify = (json, k, so) => {
-    0 == Object.keys(json[k][0]).length && (so.s += JSON.stringify(json[k]) + ',')
-    // console.log(k, json[k].length, Object.keys(json[k][0]).length)
+//fmc: FHIR Meta Content'
+buildJSON.jt.fmcSpace = '   '
+
+buildJSON.jt.test = (json, key, so) => {
+    // console.log(key, json[key].length, Array.isArray(json[key]))
+    // console.log(123, key, json[key], json[key][0])
+    // console.log(key, 1 == json[key].length && 0 == Object.keys(json[key][0]).length, Array.isArray(json[key]))
+    console.log(key, Array.isArray(json[key]), so, json)
     return true
 }
-buildJSON.jt.fmcObjectStrignify = (json, prefixStr, so) => Object.keys(json).forEach(key => {
-    console.log(key)
-    so.s += '{'
-    // buildJSON.jt.fmc2ElementStrignify(json[key], prefixStr + buildJSON.jt.fmcSpace, so)
-    so.s += prefixStr.replace(buildJSON.jt.fmcSpace, '') + '},'
-    return true
-})
-buildJSON.jt.fmc2ElementStrignify = (json, prefixStr, so) => Object.keys(json).forEach(key => {
-    // console.log(123, key, Array.isArray(json[key]));
-    (so.s += prefixStr + '"' + key + '":')
-        && (typeof json[key] === 'object' && (
-            Array.isArray(json[key]) && buildJSON.jt.fmcArrayStrignify(json, key, so))
-            || (key == 'mc' && (so.s += '{"mc":' + JSON.stringify(json[key]) + '},'))
-            || buildJSON.jt
-                .fmcObjectStrignify(json[key], prefixStr + buildJSON.jt.fmcSpace, so))
-        || (typeof json[key] === 'string' && (so.s += '"' + json[key] + '",'))
-})
-buildJSON.jt.fmcElementStrignify = (json, prefixStr, so) => Object.keys(json).forEach(key => {
-    key == 'mc' && (so.s += '{"mc":' + JSON.stringify(json[key]) + '},') || (
-        (so.s += prefixStr + '"' + key + '":'
-        ) && typeof json[key] === 'string' && (so.s += '"' + json[key] + '"')) || (
-            Array.isArray(json[key]) && buildJSON.jt.fmcArrayStrignify(json, key, so)
+
+console.log(123)
+
+buildJSON.jt.fhirMcStrignify = (json, prefixStr, so) => (
+    so.s += '{') && 'object' === typeof json && buildJSON.jt
+        .fhirMcElementStrignify(json, prefixStr, so
+        ) && (so.s += prefixStr + '}') || true
+
+buildJSON.jt.fhirMcListStrignify = (json, prefixStr, so) => (
+    so.s += prefixStr + '[') && json.forEach(json2 => buildJSON.jt
+        .fhirMcStrignify(json2, prefixStr + buildJSON.jt.fmcSpace, so)
+    ) && false || (so.s += prefixStr + ']') || true
+
+buildJSON.jt.fhirMcElementStrignify = (json, prefixStr, so) => Object.keys(json)
+    .forEach((key, i) => (so.s += prefixStr + (i > 0 ? ',' : '') + '"' + key + '":')
+        && ('string' === typeof json[key] && (so.s += '"' + json[key] + '"'))
+        || ('object' === typeof json[key]
+            && ('mc' === key && (so.s += JSON.stringify(json[key]) + ''))
+            || (Array.isArray(json[key])
+                && (1 == json[key].length && 0 == Object.keys(json[key][0]).length
+                    && (so.s += JSON.stringify(json[key]))
+                    || buildJSON.jt.fhirMcListStrignify(json[key], prefixStr + buildJSON.jt.fmcSpace, so)
+                )
+            )
+            || buildJSON.jt.fhirMcStrignify(json[key], prefixStr + buildJSON.jt.fmcSpace, so)
         )
-        || (typeof json[key] === 'object' && buildJSON.jt
-            .fmc2ElementStrignify(json[key], prefixStr + buildJSON.jt.fmcSpace, so)
-        )
-    // console.log(k, typeof jn[k], JSON.stringify(jn[k]))
-})
-buildJSON.jt.fmcStrignify = jn => {
-    const so = { s: '{' };
-    typeof jn === 'object' && buildJSON.jt
-        .fmcElementStrignify(jn, '\n' + buildJSON.jt.fmcSpace, so)
-    so.s += '\n}'
-    console.log(so.s)
-}
+    ) || true
+
 
 pd.icpp = ts => ts.count++
 pd.e = ts => eMap[ts.adnId]
