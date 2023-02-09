@@ -138,7 +138,7 @@ buildJSON.jt.se2Parent = (jn, pId) => parentChild[pId].forEach(eId => {
     jn[kName] = ''
     eMap[eId].doctype && (jn[kName] = eMap[eId].doctype + ' ::_dataType_')
 
-    console.log(123, eId, eMap[eId].doctype, doctype == 37)
+    // console.log(123, eId, eMap[eId].doctype, doctype == 37)
 
     doctype == 37 && (jn[kName] = [{}])
     parentChild[eId] && doctype != 37 && (jn[kName] = {})
@@ -154,14 +154,6 @@ buildJSON.jt.Structure = () => {
 
     buildJSON.jt.se2Parent(jnRoot, pd.sn.fElId)
 
-    // parentChild[pd.sn.fElId].forEach(eId => {
-    //     // const kName = eMap[eId].value_22 || eMap[eId].r_value_22
-    //     const kName = buildJSON.jt.keyAsObjName(eId)
-    //     jnRoot[kName] = ''
-    //     eMap[eId].doctype && (jnRoot[kName] = eMap[eId].doctype + ' ::_dataType_')
-    //     console.log(eId, eMap[eId].doctype)
-    // })
-    // console.log(jnRoot)
     return jn
 }
 const fpc01 = createApp({
@@ -201,10 +193,49 @@ const fpc01 = createApp({
                         .mcFirst(jn.metaContentId, pd.sn.fElId))
                 )
             }
-            return hfj.v + JSON.stringify(jn, '', 2)
+            buildJSON.jt.fmcStrignify(jn)
+            return hfj.v + JSON.stringify(jn, '', 1)
         },
     }, data() { return pd }
 })
+
+//fmc: FHIR Meta Content
+buildJSON.jt.fmcSpace = ' '
+buildJSON.jt.fmcArrayStrignify = (json, k, so) => {
+    0 == Object.keys(json[k][0]).length && (so.s += JSON.stringify(json[k]) + ',')
+    // console.log(k, json[k].length, Object.keys(json[k][0]).length)
+}
+buildJSON.jt.fmc3ElementStrignify = (json, prefixStr, so) => Object.keys(json).forEach(key => {
+    console.log(key)
+})
+buildJSON.jt.fmc2ElementStrignify = (json, prefixStr, so) => Object.keys(json).forEach(key => {
+    // console.log(123, key, Array.isArray(json[key]));
+    (so.s += prefixStr + '"' + key + '":') && (
+        Array.isArray(json[key]) && buildJSON.jt.fmcArrayStrignify(json, key, so))
+        || (key == 'mc' && (so.s += '{"mc":' + JSON.stringify(json[key]) + '},'))
+        || (typeof json[key] === 'string' && (so.s += '"' + json[key] + '",'))
+        || (typeof json[key] === 'object' && buildJSON.jt
+            .fmc3ElementStrignify(json[key], prefixStr + buildJSON.jt.fmcSpace, so)
+        )
+})
+buildJSON.jt.fmcElementStrignify = (json, prefixStr, so) => Object.keys(json).forEach(key => {
+    key == 'mc' && (so.s += '{"mc":' + JSON.stringify(json[key]) + '},') || (
+        (so.s += prefixStr + '"' + key + '":'
+        ) && typeof json[key] === 'string' && (so.s += '"' + json[key] + '"')) || (
+            Array.isArray(json[key]) && buildJSON.jt.fmcArrayStrignify(json, key, so)
+        )
+        || (typeof json[key] === 'object' && buildJSON.jt
+            .fmc2ElementStrignify(json[key], prefixStr + buildJSON.jt.fmcSpace, so)
+        )
+    // console.log(k, typeof jn[k], JSON.stringify(jn[k]))
+})
+buildJSON.jt.fmcStrignify = jn => {
+    const so = { s: '{' };
+    typeof jn === 'object' && buildJSON.jt
+        .fmcElementStrignify(jn, '\n' + buildJSON.jt.fmcSpace, so)
+    so.s += '\n}'
+    console.log(so.s)
+}
 
 pd.icpp = ts => ts.count++
 pd.e = ts => eMap[ts.adnId]
