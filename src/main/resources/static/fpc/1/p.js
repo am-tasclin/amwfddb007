@@ -204,19 +204,24 @@ buildJSON.jt.fmcSpace = ' '
 buildJSON.jt.fmcArrayStrignify = (json, k, so) => {
     0 == Object.keys(json[k][0]).length && (so.s += JSON.stringify(json[k]) + ',')
     // console.log(k, json[k].length, Object.keys(json[k][0]).length)
+    return true
 }
-buildJSON.jt.fmc3ElementStrignify = (json, prefixStr, so) => Object.keys(json).forEach(key => {
+buildJSON.jt.fmcObjectStrignify = (json, prefixStr, so) => Object.keys(json).forEach(key => {
     console.log(key)
+    so.s += '{'
+    // buildJSON.jt.fmc2ElementStrignify(json[key], prefixStr + buildJSON.jt.fmcSpace, so)
+    so.s += prefixStr.replace(buildJSON.jt.fmcSpace, '') + '},'
+    return true
 })
 buildJSON.jt.fmc2ElementStrignify = (json, prefixStr, so) => Object.keys(json).forEach(key => {
     // console.log(123, key, Array.isArray(json[key]));
-    (so.s += prefixStr + '"' + key + '":') && (
-        Array.isArray(json[key]) && buildJSON.jt.fmcArrayStrignify(json, key, so))
-        || (key == 'mc' && (so.s += '{"mc":' + JSON.stringify(json[key]) + '},'))
+    (so.s += prefixStr + '"' + key + '":')
+        && (typeof json[key] === 'object' && (
+            Array.isArray(json[key]) && buildJSON.jt.fmcArrayStrignify(json, key, so))
+            || (key == 'mc' && (so.s += '{"mc":' + JSON.stringify(json[key]) + '},'))
+            || buildJSON.jt
+                .fmcObjectStrignify(json[key], prefixStr + buildJSON.jt.fmcSpace, so))
         || (typeof json[key] === 'string' && (so.s += '"' + json[key] + '",'))
-        || (typeof json[key] === 'object' && buildJSON.jt
-            .fmc3ElementStrignify(json[key], prefixStr + buildJSON.jt.fmcSpace, so)
-        )
 })
 buildJSON.jt.fmcElementStrignify = (json, prefixStr, so) => Object.keys(json).forEach(key => {
     key == 'mc' && (so.s += '{"mc":' + JSON.stringify(json[key]) + '},') || (
