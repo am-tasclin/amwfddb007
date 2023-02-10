@@ -83,7 +83,7 @@
                         </button>
                         <div>
                             Type
-                            <template v-for="jt in ['Structure', 'ValueSet', 'Profile01']">
+                            <template v-for="jt in ['Structure', 'ValueSet', 'Profile01','NativeMetaContent']">
                                 <button @click="jsonTypeClick(jt)" class="w3-padding-small w3-btn"
                                     :class="{'w3-yellow':jsonType==jt}">{{jt}}</button>
                             </template>

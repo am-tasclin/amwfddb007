@@ -195,13 +195,14 @@ const fpc01 = createApp({
             const so = { s: '' };
             buildJSON.jt.fhirMcStrignify(jn, '\n', so)
             // return hfj.v + JSON.stringify(jn, '', 1)
+            so.s = so.s.replace(/{\s+"mc/g,'{"mc')
             return hfj.v + so.s
         },
     }, data() { return pd }
 })
 
 //fmc: FHIR Meta Content'
-buildJSON.jt.fmcSpace = '   '
+buildJSON.jt.fmcSpace = '  '
 
 buildJSON.jt.test = (json, key, so) => {
     // console.log(key, json[key].length, Array.isArray(json[key]))
@@ -211,17 +212,18 @@ buildJSON.jt.test = (json, key, so) => {
     return true
 }
 
-console.log(123)
-
 buildJSON.jt.fhirMcStrignify = (json, prefixStr, so) => (
     so.s += '{') && 'object' === typeof json && buildJSON.jt
         .fhirMcElementStrignify(json, prefixStr, so
-        ) && (so.s += prefixStr + '}') || true
+        ) && (so.s += '}') || true
+// ) && (so.s += prefixStr + '}') || true
 
 buildJSON.jt.fhirMcListStrignify = (json, prefixStr, so) => (
-    so.s += prefixStr + '[') && json.forEach(json2 => buildJSON.jt
+    // so.s += prefixStr + '[') && json.forEach(json2 => buildJSON.jt
+    so.s += '[') && json.forEach(json2 => buildJSON.jt
         .fhirMcStrignify(json2, prefixStr + buildJSON.jt.fmcSpace, so)
-    ) && false || (so.s += prefixStr + ']') || true
+    ) && false || (so.s += ']') || true
+// ) && false || (so.s += prefixStr + ']') || true
 
 buildJSON.jt.fhirMcElementStrignify = (json, prefixStr, so) => Object.keys(json)
     .forEach((key, i) => (so.s += prefixStr + (i > 0 ? ',' : '') + '"' + key + '":')
