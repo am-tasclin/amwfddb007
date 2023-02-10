@@ -122,6 +122,7 @@ pd.plusMinuList = ','
 pd.jsonType = '?'
 //jt: jsonType
 buildJSON.jt = { mc: {} }
+// buildJSON.jt = {}
 buildJSON.jt.mc.Structure = (jn, i) => {
     jn[buildJSON.jt.keyAsObjName(i)] = { mc: buildJSON.mc(eMap[i]) }
     console.log(jn)
@@ -182,20 +183,23 @@ const fpc01 = createApp({
 
                 //console.log(pd.plusMinuList.includes('metaContentId') , bj.mc(eMap[pd.sn.fElId]), bj.key(eMap[pd.sn.fElId]))
 
-                jn.metaContentId = {}
+
 
                 //if with metaContentId
-                !pd.plusMinuList.includes('metaContentId') && (
-                    (buildJSON.jt.mc[pd.jsonType] && buildJSON
-                        .jt.mc[pd.jsonType](jn.metaContentId, pd.sn.fElId)) ||
-                    (!buildJSON.jt.mc[pd.jsonType] && buildJSON
-                        .mcFirst(jn.metaContentId, pd.sn.fElId))
-                )
+                !pd.plusMinuList.includes('metaContentId')
+                    && (jn.metaContentId = {})
+                    && (
+                        (buildJSON.jt.mc[pd.jsonType] && buildJSON
+                            .jt.mc[pd.jsonType](jn.metaContentId, pd.sn.fElId)) ||
+                        (!buildJSON.jt.mc[pd.jsonType] && buildJSON
+                            .mcFirst(jn.metaContentId, pd.sn.fElId))
+                    )
             }
             const so = { s: '' };
             buildJSON.jt.fhirMcStrignify(jn, '\n', so)
             // return hfj.v + JSON.stringify(jn, '', 1)
-            so.s = so.s.replace(/{\s+"mc/g,'{"mc')
+            console.log(jn, so)
+            so.s = so.s.replace(/{\s+"mc/g, '{"mc')
             return hfj.v + so.s
         },
     }, data() { return pd }
@@ -263,7 +267,7 @@ fpc01.component('t-adn-view', {
             return pd.e(this) && (pd.e(this).opened = !pd.e(this).opened)
         }, oc() {
             if (!parentChild[this.adnId]) {
-                eMap[this.adnId].opened = true
+                // eMap[this.adnId].opened = true
                 readAdnsDirect('adn01Childrens', [this.adnId], () => true)
             }
         },
