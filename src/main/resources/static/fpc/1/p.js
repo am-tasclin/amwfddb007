@@ -267,7 +267,7 @@ fpc01.component('t-adn-view', {
             return pd.e(this) && (pd.e(this).opened = !pd.e(this).opened)
         }, oc() {
             if (!parentChild[this.adnId]) {
-                // eMap[this.adnId].opened = true
+                eMap[this.adnId].opened = true
                 readAdnsDirect('adn01Childrens', [this.adnId], () => true)
             }
         },

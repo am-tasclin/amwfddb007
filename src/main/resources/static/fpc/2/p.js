@@ -90,14 +90,17 @@ buildJSON.mc = e => {
     e.reference2 && (mc.r2 = e.reference2)
     return mc
 }
-buildJSON.key = e => e && (e.r_value_22 || e.rr_value_22)
+buildJSON.key = e => e && (e.value_22 || e.r_value_22 || e.rr_value_22)
 // add and return (1)one mc
 buildJSON.add1Mc = (jn, i) => eMap[i] && (
     jn[buildJSON.key(eMap[i])] = { mc: buildJSON.mc(eMap[i]) }) && jn[buildJSON.key(eMap[i])]
 buildJSON.mcParent = (jn, i) => parentChild[i] && parentChild[i]
     .forEach(j => buildJSON.mcParent(buildJSON.add1Mc(jn, j), j))
 buildJSON.mcFirst = (jn, i) => buildJSON.add1Mc(jn, i) && buildJSON.mcParent(jn, i)
-
+buildJSON.test = (jn, i) => {
+    console.log(123, jn, i, buildJSON.key(eMap[i]))
+    return true
+}
 pd.jsonType = '?'
 
 const fpc01 = createApp({
@@ -127,6 +130,11 @@ const fpc01 = createApp({
             return hfj.v + so.s
         }, jsonTypeClick(jt) {
             pd.jsonType = jt
+            this.count++
+        }, pmClick(n) { //pmClick: plus/minus click
+            !pd.plusMinuList.includes(n)
+                && (pd.plusMinuList += n + ',')
+                || (pd.plusMinuList = pd.plusMinuList.replace(n + ',', ''))
             this.count++
         }
     }
@@ -168,7 +176,7 @@ fpc01.component('t-adn-view', {
         opc() {
             return pd.e(this) && (pd.e(this).opened = !pd.e(this).opened)
         }, oc() {
-            !parentChild[this.adnId] &&
+            !parentChild[this.adnId] && (eMap[this.adnId].opened = true) &&
                 readAdnsDirect('adn01Childrens', [this.adnId], () => true)
         },
         //icpp: increment count++
@@ -208,3 +216,4 @@ createApp({ data() { return menu } }).mount('#menu01')
 pd.siteTitle = 'FPC'
 createApp({ data() { return { siteTitle: pd.siteTitle } } }).mount('#headTitle')
 createApp({ data() { return { sn: pd.sn, count: pd.count } } }).mount('#id01')
+
