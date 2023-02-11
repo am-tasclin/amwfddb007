@@ -206,7 +206,7 @@ pd.sn.hashVrVlto1 = p => {
 
 const menu = {
     menuList: [{
-        text: '[370040] code:*::medication #Loaded attribute дані: Medication ',
+        text: '[370040] code:*::medication #Loaded attribute дані: Medication',
         href: '/f/mdm/1/i.html#!/init_%7B%22tree%22:%7B%22l%22:%7B%22id%22:%5B370040%5D,%22selectedId%22:370040,%22openIds%22:%5B370040%5D%7D,%22r%22:%7B%22id%22:%5B370031,368597,370040,369993%5D,%22selectedId%22:372807,%22openIds%22:%5B371306,369993,370031,368597,369998,370001,372807%5D%7D%7D,%22selectedLR%22:%22r%22%7D',
     }, {
         text: '002_ M&D-M for 373071',
@@ -220,4 +220,3 @@ createApp({ data() { return menu } }).mount('#menu01')
 pd.siteTitle = 'FPC'
 createApp({ data() { return { siteTitle: pd.siteTitle } } }).mount('#headTitle')
 createApp({ data() { return { sn: pd.sn, count: pd.count } } }).mount('#id01')
-
