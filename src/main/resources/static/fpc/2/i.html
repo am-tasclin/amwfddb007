@@ -21,10 +21,13 @@
         ⁙ FHIR Profiles convert: MCrDB -> [SQL, JSON]
         <div id="menu01" class="w3-right">
             |<span class="w3-dropdown-hover"> menu
-                <div class="w3-dropdown-content w3-border w3-container" style="right: -20px;width: 250px;">
+                <div class="w3-dropdown-content w3-border w3-container w3-hover-shadow"
+                    style="right: -2em; width: 30em;">
+                    <div class="w3-border-bottom"> &nbsp; </div>
                     <a class="am-0u" target="_blank" v-for="mItem in menuList" :href="mItem.href">
-                        <div class="w3-hover-shadow"> {{mItem.text}} </div>
+                        <div class="w3-hover-shadow w3-border-bottom"> {{mItem.text}} </div>
                     </a>
+                    &nbsp;
                 </div>
             </span>|
         </div>
@@ -74,18 +77,21 @@
                     <button class="w3-btn w3-ripple w3-padding-small w3-white" @click="count++">
                         <span class="w3-tiny am-b w3-topbar">JSON: </span>
                     </button>
-                    <div class="w3-dropdown-content w3-border w3-container" style="width: 16em;">
+                    <div class="w3-dropdown-content w3-border w3-container w3-hover-shadow"
+                     style="width: 20em;">
+                        <div>&nbsp;</div>
                         <button @click="pmClick('metaContentId')" class="w3-padding-small w3-btn"
                             :class="{'w3-yellow':plusMinuList.includes('metaContentId')}">
                             <div> +/- <span class="w3-small"> metaContentId </span> </div>
                         </button>
                         <div>
-                            Type
+                            <span class="w3-tiny am-b">Type:</span>
                             <template v-for="jt in ['Structure', 'ValueSet', 'Profile01','NativeMetaContent']">
                                 <button @click="jsonTypeClick(jt)" class="w3-padding-small w3-btn"
                                     :class="{'w3-yellow':jsonType==jt}">{{jt}}</button>
                             </template>
                         </div>
+                        <div>&nbsp;</div>
                     </div>
                 </span>
                 <span class="w3-tiny"> <sup>{{count}}</sup> </span>
@@ -101,6 +107,7 @@
                 </span>
                 <div style="white-space: pre; overflow: auto;" class="w3-opacity w3-small">
                     {{buildJSON()}}
+                    <div>&nbsp;</div>
                 </div>
                 <div>&nbsp;</div>
             </div>

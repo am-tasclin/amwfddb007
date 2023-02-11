@@ -50,8 +50,7 @@ buildJSON.jsonType.se2Parent = (jn, pId) => parentChild[pId].forEach(eId => {
 })
 
 buildJSON.stringify.NativeMetaContent = json => JSON.stringify(json, (k, v) => (
-    ('eMap' == k || 'parentChild' == k) && JSON.stringify(v))
-    || v, 2)
+    ('eMap' == k || 'parentChild' == k) && JSON.stringify(v)) || v, 2)
     .replace(/\\"/g, '"')
     .replace(/},"/g, '},\n"')
     .replace(/}}"/g, '}}')
@@ -68,7 +67,7 @@ buildJSON.jsonType.NativeMetaContent = () => {
         mcn.eMap[dId] = {}) && Object.keys(eMap[dId]).filter(key => eMap[dId][key])
             .forEach(key => mcn.eMap[dId][key] = eMap[dId][key]))
     json[json.keyAsObjName].parentChild = parentChild
-    console.log(11, json)
+    // console.log(11, json)
     return json
 }
 
@@ -207,6 +206,9 @@ pd.sn.hashVrVlto1 = p => {
 
 const menu = {
     menuList: [{
+        text: '[370040] code:*::medication #Loaded attribute дані: Medication ',
+        href: '/f/mdm/1/i.html#!/init_%7B%22tree%22:%7B%22l%22:%7B%22id%22:%5B370040%5D,%22selectedId%22:370040,%22openIds%22:%5B370040%5D%7D,%22r%22:%7B%22id%22:%5B370031,368597,370040,369993%5D,%22selectedId%22:372807,%22openIds%22:%5B371306,369993,370031,368597,369998,370001,372807%5D%7D%7D,%22selectedLR%22:%22r%22%7D',
+    }, {
         text: '002_ M&D-M for 373071',
         href: '/f/mdm/1/i.html#!/init_%7B%22tree%22:%7B%22l%22:%7B%22id%22:%5B368833,369967%5D,%22selectedId%22:372797,%22openIds%22:%5B368833,369984,376485,369975,369973,369972,369967,376483,376484,368636,372801,372800,372798,372799,372797%5D%7D,%22r%22:%7B%22id%22:%5B373071,376483,372797,368636%5D,%22selectedId%22:368636,%22openIds%22:%5B373071,373072,376485,376486,376483,376484,372797,372799,372798,372800,372801,368636%5D%7D%7D,%22selectedLR%22:%22r%22%7D',
     }, {
