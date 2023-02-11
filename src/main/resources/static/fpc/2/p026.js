@@ -1,5 +1,5 @@
 /**
- * @license Algoritmed.js v0.1.027
+ * @license Algoritmed.js v0.1.026
  * (c) 2021-2023 Algoritmed Ltd. http://algoritmed.com
  * License: Apache-2.0 license 
  */
@@ -23,10 +23,40 @@ const buildJSON = {}
 
 //jt: jsonType
 buildJSON.jsonType = { mc: {} }
-buildJSON.stringify = {}
+// buildJSON.jt = {}
 
 //fmc: FHIR Meta Content'
 buildJSON.jsonType.fmcSpace = '  '
+
+buildJSON.jsonType.fhirMcStrignify = (json, prefixStr, so) => (
+    so.s += '{') && 'object' === typeof json && buildJSON.jsonType
+        .fhirMcElementStrignify(json, prefixStr, so
+        ) && (so.s += '}') || true
+// ) && (so.s += prefixStr + '}') || true
+
+// so.s += prefixStr + '[') && json.forEach(json2 => buildJSON.jt
+buildJSON.jsonType.fhirMcListStrignify = (json, prefixStr, so) => (
+    so.s += '[') && json.forEach(json2 => buildJSON.jsonType
+        .fhirMcStrignify(json2, prefixStr + buildJSON.jsonType.fmcSpace, so)) && false ||
+    (so.s += ']') || true
+// ) && false || (so.s += prefixStr + ']') || true
+
+buildJSON.jsonType.fhirMcElementStrignify = (json, prefixStr, so) => Object.keys(json)
+    .forEach((key, i) => (so.s += prefixStr + (i > 0 ? ',' : '') + '"' + key + '":')
+        && ('number' === typeof json[key] && (so.s += '' + json[key]))
+        && buildJSON.test(json, key)
+        && ('string' === typeof json[key] && (so.s += '"' + json[key] + '"'))
+        || ('object' === typeof json[key]
+            && ('mc' === key && (so.s += JSON.stringify(json[key]) + ''))
+            || (Array.isArray(json[key])
+                && (1 == json[key].length && 0 == Object.keys(json[key][0]).length
+                    && (so.s += JSON.stringify(json[key]))
+                    || buildJSON.jsonType.fhirMcListStrignify(json[key], prefixStr + buildJSON.jsonType.fmcSpace, so)
+                )
+            )
+            || buildJSON.jsonType.fhirMcStrignify(json[key], prefixStr + buildJSON.jsonType.fmcSpace, so)
+        )
+    ) || true
 
 buildJSON.jnAddKeyObjNameValue = (json, keyValue) => keyValue.keyAsObjName
     && (json[keyValue.keyAsObjName] = keyValue[keyValue.keyAsObjName])
@@ -48,37 +78,16 @@ buildJSON.jsonType.se2Parent = (jn, pId) => parentChild[pId].forEach(eId => {
     let e = doctype == 37 && jn[kName][0] || jn[kName]
     parentChild[eId] && buildJSON.jsonType.se2Parent(e, eId)
 })
-
-buildJSON.stringify.NativeMetaContent = json => JSON.stringify(json, (k, v) => (
-    ('eMap' == k || 'parentChild' == k) && JSON.stringify(v))
-    || v, 2)
-    .replace(/\\"/g, '"')
-    .replace(/},"/g, '},\n"')
-    .replace(/}}"/g, '}}')
-    .replace(/eMap": "{"/g, 'eMap": {\n"')
-    .replace(/],"/g, '],\n"')
-    .replace(/parentChild": "{/g, 'parentChild": {\n')
-    .replace(/]}"/g, ']}')
-
 buildJSON.jsonType.NativeMetaContent = () => {
     const json = {}
     json.keyAsObjName = 'metContentNative01'
     const mcn = json[json.keyAsObjName] = { eMap: {} }
-    Object.keys(eMap).forEach(dId => (
+    Object.keys(eMap).filter(i => i == 368597).forEach(dId => (
         mcn.eMap[dId] = {}) && Object.keys(eMap[dId]).filter(key => eMap[dId][key])
             .forEach(key => mcn.eMap[dId][key] = eMap[dId][key]))
-    json[json.keyAsObjName].parentChild = parentChild
-    console.log(11, json)
+    console.log(11, mcn.eMap)
     return json
 }
-
-buildJSON.stringify.Structure = json => JSON.stringify(json, (k, v) => (
-    'mc' == k && JSON.stringify(v)) || v, 2)
-    .replace(/\s+}/g, '}')
-    .replace(/mc":\s"{/g, 'mc":{').replace(/{\s+"mc":/g, '{"mc":')
-    .replace(/}"}/g, '}}').replace(/}",/g, '},').replace(/\\"/g, '"')
-    .replace(/\[\s+{/g, '[{').replace(/}\s+]/g, '}]')
-
 buildJSON.jsonType.Structure = () => {
     const json = {}
     json.keyAsObjName = buildJSON.jsonType.keyAsObjName(pd.sn.fElId)
@@ -125,8 +134,23 @@ const fpc01 = createApp({
 
             fd.json = json
 
-            buildJSON.stringify[pd.jsonType] &&
-                (hfj.v += buildJSON.stringify[pd.jsonType](json))
+            // hfj.v += JSON.stringify(json,'',2)
+
+            hfj.v += JSON.stringify(fd.json, (k, v) => (
+                'mc' == k && JSON.stringify(v)) || v, 2)
+                .replace(/\s+}/g,'}')
+                .replace(/mc":\s"{/g,'mc": {')
+                .replace(/{\s+"mc":/g,'{ "mc":')
+                .replace(/}"}/g,'}}')
+                .replace(/\\"/g,'"')
+
+            console.log(11, hfj.v)
+            const so = { s: '' }
+            buildJSON.jsonType.fhirMcStrignify(json, '\n', so)
+            so.s = so.s.replace(/{\s+"mc/g, '{"mc')
+            console.log(11, so.s)
+
+            // return             hfj.v + so.s
 
             return hfj.v
         }, jsonTypeClick(jt) {

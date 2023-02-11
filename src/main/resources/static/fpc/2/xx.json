@@ -1,0 +1,27 @@
+{
+    "metContentNative01": {
+      "eMap": {
+  "368597":{"doc_id":368597,"reference":369787,"parent":375242,"value_22":"Coding","rr_value_22":"Base","r_value_22":"Element","sort":2},
+  "368598":{"doc_id":368598,"doctype":40,"parent":368597,"value_22":"system","sort":1},
+  "368599":{"doc_id":368599,"doctype":41,"reference":372052,"parent":368597,"r_value_22":"code","sort":2},
+  "372154":{"doc_id":372154,"doctype":22,"parent":368597,"value_22":"display","sort":3},
+  "373481":{"doc_id":373481,"reference":369789,"parent":373532,"value_22":"CodeSystem","rr_value_22":"Resource","r_value_22":"DomainResource","sort":1},
+  "373540":{"doc_id":373540,"reference":359249,"parent":373481,"value_22":"valueSet","rr_value_22":"DomainResource","r_value_22":"ValueSet","sort":7},
+  "373541":{"doc_id":373541,"doctype":37,"parent":373481,"value_22":"concept","sort":13},
+  "373544":{"doc_id":373544,"reference":373481,"parent":373481,"value_22":"supplements","rr_value_22":"DomainResource","r_value_22":"CodeSystem","sort":9},
+  "373554":{"doc_id":373554,"reference":373552,"parent":373481,"r_doctype":37,"rr_value_22":"BackboneElement","r_value_22":"property","sort":12},
+  "373557":{"doc_id":373557,"reference":373556,"parent":373481,"r_doctype":37,"rr_value_22":"BackboneElement","r_value_22":"filter","sort":11},
+  "373574":{"doc_id":373574,"reference":371997,"parent":373481,"r_doctype":22,"r_value_22":"name","sort":2},
+  "373575":{"doc_id":373575,"reference":85066,"parent":373481,"r_doctype":22,"r_value_22":"title","sort":3},
+  "374617":{"doc_id":374617,"reference":373486,"parent":373481,"reference2":368825,"rr_value_22":"uri","r_value_22":"url","r2_doctype":40,"r2_value_22":"uri","sort":1},
+  "374912":{"doc_id":374912,"reference":370020,"parent":373481,"rr_value_22":"code","r_value_22":"status","sort":4},
+  "375088":{"doc_id":375088,"reference":375075,"parent":373481,"r_doctype":37,"rr_value_22":"CodeableConcept","r_value_22":"topic","sort":6},
+  "375853":{"doc_id":375853,"reference":375694,"parent":373481,"r_doctype":37,"rr_value_22":"CodeableConcept","r_value_22":"jurisdiction","sort":5},
+  "375855":{"doc_id":375855,"reference":372052,"parent":373481,"value_22":"hierarchyMeaning","r_value_22":"code","sort":8},
+  "376037":{"doc_id":376037,"reference":376036,"parent":373481,"rr_value_22":"code","r_value_22":"content","sort":10}},
+      "parentChild": {
+  "368597":[368598,368599,372154],
+  "373481":[374617,373574,373575,374912,375853,375088,373540,375855,373544,376037,373557,373554,373541]}
+    },
+    "docKey": "metContentNative01"
+  }
