@@ -20,12 +20,15 @@
     </div>
     <div class="w3-border-right am-max-width-1">
         <div> &nbsp; </div>
-        <div>
-            <span class="w3-tiny am-b"> FHIR in MCrDB:</span>
+        <div class="w3-hover-shadow">
+            <span class="w3-topbar">
+                <span class="w3-tiny am-b"> FHIR in MCrDB:</span>
+            </span>
             <a href="/f/fhir/01/i.html">FHIR Classes, Conceptualization</a> |
             <a href="/f/fhir/t/i.html">FHIR Terminology viewer</a>
-
-            <div class="w3-right w3-small w3-container">
+        </div>
+        <div>
+            <div class="w3-right w3-small w3-container w3-white w3-border-left w3-hover-shadow">
                 <div>
                     Единий Замінник подібних світових сервісів:
                 </div>
@@ -68,23 +71,31 @@
             </div>
             <div> &nbsp; </div>
             <div>
-                <span class="w3-tiny  w3-topbar w3-tooltip" title="Terminological service of medicines">
-                    <span class="am-b"> TSofMiS: </span>
-                    <span style="position:absolute;left:0;top:-20px;width: 400px;"
-                        class="w3-text w3-tag w3-yellow w3-tiny w3-round w3-border"><span class="am-b">TSofMiS</span>:
-                        Terminological service — Modeling of Information System</span>
-                </span>
-                <span class="w3-small am-i"> Experiment: </span>
-                Термінологічний сервіс лікарських засобів
+                <div class="w3-border-bottom w3-hover-shadow">
+                    <span class="w3-tiny w3-topbar w3-tooltip">
+                        <span class="am-b"> TSofMiS: </span>
+                        <span style="position:absolute;left:0;top:-20px;width: 400px;"
+                            class="w3-text w3-tag w3-yellow w3-tiny w3-round w3-border"><span
+                                class="am-b">TSofMiS</span>:
+                            Terminological service — Modeling of Information System</span>
+                    </span>
+                    <span class="w3-small am-i "> Experiment: </span>
+                    Термінологічний сервіс лікарських засобів
+                </div>
                 <div>
-                    <a href="/fpc/1/i.html#fElId,369993,373071,370040">
-                        373071 MedicationRequest
-                    </a>
+                    <a class="w3-small" href="/fpc/2/i.html#fElId,369993">
+                        369993 Medication</a>,
+                    FHIR: ⇒ JSON.type: Structure + ,metaContentId.
+                </div>
+                <div>
+                    <a class="w3-small" href="/fpc/2/i.html#fElId,370040,370031,368597,369993">
+                        370040 code:*::medication #Loaded attribute</a>
+                    FHIR.Profile: ⇒ JSON.type: NativeMetaContent
                 </div>
                 <div>&nbsp;</div>
             </div>
         </div>
-        <div>
+        <div class="w3-hover-shadow">
             <span class="w3-tiny w3-topbar w3-tooltip">
                 <span class="am-b">ORdeMiS</span>:
                 <span style="position:absolute;left:0;top:-20px;width: 330px;"

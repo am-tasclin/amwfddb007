@@ -14,6 +14,8 @@ pd.sn = {}//sn: session
 pd.count = 0
 pd.plusMinuList = ','
 
+//for AM003-«e-Stock»
+
 pd.sn.hashVrVl = window.location.hash.split(',')
 pd.isHashVr = n => pd.sn.hashVrVl[0].indexOf(n) == 1
 pd.sn.fElId = (pd.isHashVr('fElId') && 1 * pd.sn.hashVrVl[1]) || pd.sn.fElId || 373071

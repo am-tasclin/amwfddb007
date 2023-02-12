@@ -97,12 +97,9 @@
                 <button class="w3-btn w3-ripple w3-padding-small">
                     <span class="w3-tiny am-b w3-topbar">SQL</span>
                 </button>
-                <span class="w3-tiny"> =></span>
-                <span class="w3-hover-shadow">
-                    <span class="am-b w3-tiny">&nbsp;JSON.type</span>.{{jsonType}}
-                    <span v-if="plusMinuList.length>1">
-                        + {{plusMinuList}}
-                    </span>
+                ⇒ <span class="w3-hover-shadow">
+                    <span class="am-b w3-tiny">&nbsp;JSON.type:&nbsp;</span>{{jsonType}}
+                    <span v-if="plusMinuList.length>1"> + {{plusMinuList}} </span>
                 </span>
                 <div style="white-space: pre; overflow: auto;" class="w3-opacity w3-small">
                     {{buildJSON()}}
