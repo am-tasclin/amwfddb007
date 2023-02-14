@@ -1,6 +1,14 @@
 'use strict'
+import { square, cube } from 'lib'
+import { sum } from 'lib2'
+console.log(square(8)) //64
+console.log(cube(8)) //512
+console.log(sum(2, 3)) //5
 
-export default {
+// import { createApp } from 'vue'
+const { createApp } = Vue
+
+const pd = {
     data() {
         return {
             a: 1,
@@ -15,7 +23,7 @@ export default {
     watch: {
         // watching top-level property
         a(val, oldVal) {
-            console.log(`new: ${val}, old: ${oldVal}`)
+            console.log(` "pd.a" new: ${val}, old: ${oldVal}`)
         },
         // string method name
         b: 'someMethod',
@@ -29,11 +37,12 @@ export default {
         // watching a single nested property:
         'c.d': function (val, oldVal) {
             // do something
+            console.log(` "c.d : " new: ${val}, old: ${oldVal}`, this.c)
         },
         // the callback will be called immediately after the start of the observation
         e: {
             handler(val, oldVal) {
-                console.log('e changed')
+                console.log('e changed ', this.e, val, oldVal)
             },
             immediate: true
         },
@@ -53,17 +62,22 @@ export default {
     },
     methods: {
         someMethod() {
-            console.log('b changed')
+            console.log('b changed', this.b)
         },
         handle1() {
-            console.log('handle 1 triggered')
+            console.log('\n handle 1 triggered')
         }
     },
     created() {
         this.a = 3 // => new: 3, old: 1
     }
 }
+export default pd
 
+console.log(pd, 123123)
+
+createApp(pd).mount('#app')
+createApp(pd).mount('#app2')
 
 
 let numbers = [11, 22, 33]

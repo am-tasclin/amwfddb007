@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<script src="/webjars/vue/3.2.45/dist/vue.global.prod.js" type="application/javascript"></script>
+
+<body>
+
+  <div id="app">
+    <button @click="increment">Count is: {{ count }}</button>
+  </div>
+
+  <script type="module">
+    const { createApp } = Vue
+    createApp({
+      // reactive state
+      data() {
+        return {
+          count: 0
+        }
+      },
+      // functions that mutate state and trigger updates
+      methods: {
+        increment() {
+          this.count++
+        }
+      },
+      // lifecycle hooks
+      mounted() {
+        console.log(`The initial count is ${this.count}.`)
+      }
+    }).mount('#app')
+  </script>
+
+</body>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<!-- <script type="importmap"> { "imports": { "lib": "./lib_import.js"
+  , "lib2": "./lib2_import.js" 
+  , "vue": "/webjars/vue/3.2.45/dist/vue.esm-browser.prod.js" 
+  } }</script> -->
+<script type="importmap"> { "imports": { "lib": "./lib_import.js", "lib2": "./lib2_import.js" } }</script>
+<script src="/webjars/vue/3.2.45/dist/vue.global.prod.js" type="application/javascript"></script>
+
+<body>
+  app
+  <div id="app">
+    <button @click="a++">Count is: a= {{ a }}</button>
+    <button @click="b++">Count is: b= {{ b }}</button>
+    <button @click="c.d++">Count is: c.d= {{ c.d }}</button>
+    <button @click="e++">Count is: e= {{ e }}</button>
+  </div>
+  app2
+  <div id="app2">
+    <button @click="a++">Count is: a= {{ a }}</button>
+    <button @click="a++;b++">Count a and b: {{a}} and {{b}}</button>
+    <button @click="c.d++">Count is: c.d= {{ c.d }}</button>
+    <button @click="e++">Count is: e= {{ e }}</button>
+    f=
+    <button @click="f++">Count is: f= {{ f }}</button>
+  </div>
+  <script src="p.js" type="module"></script>
+
+</body>
+
+</html>
