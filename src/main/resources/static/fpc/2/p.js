@@ -161,8 +161,8 @@ jsLib1.wsDbSelect.onmessage = event => {
 }
 
 const
-    readAdnsDirect = (strAdnsSql, idL, isForFor2) => idL && strAdnsSql.split('_'
-    ).forEach(sqlName => idL.forEach(adnId => isForFor2 && jsLib1
+    readAdnsDirect = (strAdnsSql, idL, isDoFor2) => idL && strAdnsSql.split('_'
+    ).forEach(sqlName => idL.forEach(adnId => isDoFor2 && jsLib1
         .wsDbSelect.send(JSON.stringify(
             { sqlName: sqlName, adnId: adnId, sql: sqlFn(adnId, sqlName) }))))
 
@@ -178,9 +178,11 @@ fpc01.component('t-adn-view', {
     template: '#tAdnView', props: { adnId: Number }, methods: {
         opc() {
             return pd.e(this) && (pd.e(this).opened = !pd.e(this).opened)
-        }, oc() {
+        },
+        async oc() {
             !parentChild[this.adnId] && (eMap[this.adnId].opened = true) &&
                 readAdnsDirect('adn01Childrens', [this.adnId], () => true)
+
         },
         //icpp: increment count++
         icpp() { this.count++ },

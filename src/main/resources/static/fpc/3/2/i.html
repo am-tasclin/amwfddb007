@@ -6,10 +6,11 @@
 <link rel="stylesheet" href="/f/css/w3.css">
 <link rel="stylesheet" href="/f/css/am.css">
 <script src="/webjars/vue/3.2.45/dist/vue.global.prod.js" type="application/javascript"></script>
-<script src="algoritmed.l1.js" type="application/javascript"></script>
+<script src="l1.js" type="module"></script>
 <script>
-    const fd ={}
+    const fd = {}
 </script>
+
 <body class="w3-container">
     <div id="headPage" class="w3-border-bottom am-max-width-1">
         <a href="/" class="w3-btn w3-border1 w3-padding-small w3-small">
@@ -21,29 +22,16 @@
         &nbsp; <span class="w3-tiny am-b w3-topbar">FPC:</span>
         ⁙ FPC 3/1
     </div>
+
     Hi 3/1
     <div id="app">{{ message }}
         -:-
-        <div>
-            {{sn.hashVrVl[1]}}
-        </div>
-        <div v-bind:id="dynamicId">{{dynamicId}}</div>
-        <div :id="dynamicId2">{{dynamicId2}}</div>
-        <button :disabled="isButtonDisabled">Button</button>
-
-        <div v-bind="objectOfAttrs">objectOfAttrs</div>
-
-        <button @click="count++">{{ count }}</button>
-        |
-        <button @click="increment">{{ count }}</button>
-        |
-        <button id="increment2" @click="increment2">increment2 - {{ count }}</button>
-
-        <p>Using text interpolation: {{ rawHtml }}</p>
-        <p>Using v-html directive: <span v-html="rawHtml"></span></p>
-
     </div>
 
+    <div>
+        <button id="btn">Создать Promise!</button>
+        <div id="log"></div>
+    </div>
     <script src="p.js" type="module"></script>
 
 </body>
