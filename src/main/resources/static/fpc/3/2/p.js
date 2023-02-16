@@ -30,6 +30,36 @@ pd.i = (ts, n) => pd.e(ts) && pd.e(ts)[n]
 pd.sqlAdnData = event => JSON.parse(event.data).list.forEach(e => (eMap[e.doc_id] = e) && eMap[e.parent] &&
     (parentChild[e.parent] || (parentChild[e.parent] = [])).push(e.doc_id))
 
+const fpc01 =
+    createApp({
+        data() {
+            return {
+                count: ++promiseCount,
+                sn: pd.sn,
+            }
+        }
+    })
+
+fpc01.component('t-adntree', {
+    template: '#tAdntree', props: { adnId: Number },
+    methods: {
+        ee() {
+            console.log(this.adnId, eMap[this.adnId], eMap, Object.keys(eMap))
+            return eMap[this.adnId] },
+        async e() { return await eMap[this.adnId] },
+        i(n) {
+            console.log(this.adnId, n, pd.i(this, n), pd.e(this), pd, 123, this)
+            return pd.i(this, n)
+        },
+    },
+    data() {
+        return {
+            count: ++promiseCount,
+        }
+    }
+})
+fpc01.mount('#fpc01')
+
 const app =
     createApp({
         mounted() {
@@ -47,9 +77,7 @@ const app =
                 }
                 this.count++
             },
-            //e: get Adn Element
             e() { return pd.e(this) },
-            //i: get Adn Attribute Value
             i(n) { return pd.i(this, n) },
         },
         data() {
@@ -62,6 +90,7 @@ const app =
         }
     })
 app.mount('#app')
+
 
 const log = document.getElementById('log')
 log.insertAdjacentHTML('beforeend', '<br>' + promiseCount +

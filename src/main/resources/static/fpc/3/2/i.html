@@ -20,9 +20,33 @@
             <img src="/f/img/algoritmed-logo.webp" style="width:75px;" />
         </a>&nbsp;
         &nbsp; <span class="w3-tiny am-b w3-topbar">FPC:</span>
-        ⁙ FPC 3/1
+        ⁙ FPC 3/1 ⁙ FHIR Profiles convert: MCrDB -> [SQL, JSON]
     </div>
-
+    <div id="fpc01" class="am-max-width-1">
+        <div class="w3-row">
+            <div class="w3-half">
+                {{count}} a11 => {{sn}}
+                <template v-for="(adnId, ix) in sn.hashVrVl">
+                    <div v-if="ix>0" class="w3-border-bottom">
+                        <span class="w3-small w3-hover-shadow">&nbsp;{{adnId}}&nbsp;</span>
+                        <t-adntree :adn-id="adnId"></t-adntree>
+                    </div>
+                </template>
+            </div>
+            <div class="w3-half">a2</div>
+        </div>
+    </div>
+    <template id="tAdntree">
+        {{count}}
+        a123
+        {{adnId}}
+        a123
+        {{ee()}}
+        --
+        {{e()}}
+        a123
+        {{i('doc_id')}}
+    </template>
     Hi 3/1
     <div id="app">{{ message }}
         -:-
