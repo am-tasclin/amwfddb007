@@ -161,8 +161,8 @@ jsLib1.wsDbSelect.onmessage = event => {
 }
 
 const
-    readAdnsDirect = (strAdnsSql, idL, isDoFor2) => idL && strAdnsSql.split('_'
-    ).forEach(sqlName => idL.forEach(adnId => isDoFor2 && jsLib1
+    readAdnsDirect = (strAdnsSql, idL, isTODoFor2) => idL && strAdnsSql.split('_'
+    ).forEach(sqlName => idL.forEach(adnId => isTODoFor2 && jsLib1
         .wsDbSelect.send(JSON.stringify(
             { sqlName: sqlName, adnId: adnId, sql: sqlFn(adnId, sqlName) }))))
 

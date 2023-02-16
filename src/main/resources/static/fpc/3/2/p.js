@@ -1,32 +1,89 @@
 'use strict'
+const { createApp, nextTick } = Vue
+    , eMap = {} // emap: doc_id:MCrDB ADN Element
+    , parentChild = {}
+    , pd = {} //pd: Page Data
 import { sql_app, l1 } from './l1.js'
-console.log(123, l1)
+
+fd.eMap = eMap
+fd.parentChild = parentChild
+
+pd.sn = {}//sn: session
+pd.sn.hashVrVl = window.location.hash.split(',')
 
 var promiseCount = 0
 
+const runWsOpenInPromise = (sendJson, onMessageFn) => {
+    const wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
+    wsDbSelect.onopen = event => wsDbSelect.send(JSON.stringify(
+        Object.assign(sendJson
+            , { sql: l1.replaceSql(sql_app[sendJson.sqlName].sql).replace(':adnId', sendJson.adnId) })))
+    const onMessagePromise = new Promise((onMessageFn, reject) => wsDbSelect
+        .onmessage = event => onMessageFn(event))
+    onMessageFn &&
+        onMessagePromise.then(onMessageFn)
+    return onMessagePromise
+}
+
+pd.e = ts => eMap[ts.adnId]
+pd.i = (ts, n) => pd.e(ts) && pd.e(ts)[n]
+pd.sqlAdnData = event => JSON.parse(event.data).list.forEach(e => (eMap[e.doc_id] = e) && eMap[e.parent] &&
+    (parentChild[e.parent] || (parentChild[e.parent] = [])).push(e.doc_id))
+
+const app =
+    createApp({
+        mounted() {
+            // const adnId = 1 * pd.sn.hashVrVl[1], sqlName = 'adn01OneNode'
+            runWsOpenInPromise({ sqlName: 'adn01OneNode', adnId: this.adnId }
+            ).then(pd.sqlAdnData)
+            console.log('app for ->', this.adnId)
+        },
+        methods: {
+            openChildren(adnId) {
+                console.log(adnId, parentChild[adnId], `i('doc_id')`)
+                if (!parentChild[adnId]) {
+                    runWsOpenInPromise({ sqlName: 'adn01Childrens', adnId: this.adnId }
+                    ).then(pd.sqlAdnData)
+                }
+                this.count++
+            },
+            //e: get Adn Element
+            e() { return pd.e(this) },
+            //i: get Adn Attribute Value
+            i(n) { return pd.i(this, n) },
+        },
+        data() {
+            return {
+                count: ++promiseCount,
+                parentChild: parentChild,
+                message: 'Hello Vue!',
+                adnId: 1 * pd.sn.hashVrVl[1]
+            }
+        }
+    })
+app.mount('#app')
+
 const log = document.getElementById('log')
+log.insertAdjacentHTML('beforeend', '<br>' + promiseCount +
+    ') Запуск testPromise (запуск синхронного кода)')
 
 const testPromise = () => {
-    var thisPromiseCount = ++promiseCount
-
-    log.insertAdjacentHTML('beforeend', '<br>' + thisPromiseCount +
-        ') Запуск (запуск синхронного кода)')
-
-    var p1 = new Promise((resolve, reject) => {
+    const p1 = new Promise((resolve, reject) => {
         const d = Math.random() * 2000 + 1000
+        const thisPromiseCount = ++promiseCount
         log.insertAdjacentHTML('beforeend'
-            , '<br>' + thisPromiseCount + ') Запуск промиса (запуск асинхронного кода) ' + d)
+            , '<br>' + thisPromiseCount + ') Запуск промиса (запуск асинхронного кода) ' + d + '')
         console.log(d)
-        window.setTimeout(() => resolve({n:thisPromiseCount, d:d}), d)
+        window.setTimeout(() => resolve({ n: thisPromiseCount, d: d }), d)
     })
 
-    log.insertAdjacentHTML('beforeend'
-        , thisPromiseCount + ') Промис создан (синхронный код завершён) ')
-        
     p1.then((val) => log.insertAdjacentHTML('beforeend'
-        , '<br><br>' + val.n + ') Промис исполнен (асинхронный код завершён) ' + val.d))
+        , '<br><br>' + val.n + ') Промис исполнен (асинхронный код завершён) ' + val.d + ''))
     return p1
 }
+
+log.insertAdjacentHTML('beforeend'
+    , '=>' + promiseCount + ') Промис testPromise создан (синхронный код завершён) ')
 
 //execute asinchron
 

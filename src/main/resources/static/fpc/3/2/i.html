@@ -26,6 +26,21 @@
     Hi 3/1
     <div id="app">{{ message }}
         -:-
+        <button @click="count++"> {{count}} </button>
+        -:-
+        <button @click="openChildren(adnId)">{{adnId}}</button>
+        a2
+        {{parentChild[adnId]}}
+        a2
+        <div v-if="parentChild[adnId]">
+            a1
+            a1
+            a1
+        </div>
+        -:-
+        {{i('doc_id')}}
+        {{i('value_22')}}
+        -:-
     </div>
 
     <div>
