@@ -4,10 +4,10 @@ export const
     , l1 = {} //l: JS Library
 
 
-sql_app.adn01Childrens = {
+sql_app.adn01ChildrensIn = {
     name: "adn01OneNode: 'One Data Node' ::adn01",
     sql: "SELECT x.* FROM (:sql_app.adn01 ) x LEFT JOIN sort s ON doc_id=sort_id\n\
-    WHERE parent = :adnId ORDER BY s.sort",
+    WHERE parent IN (:adnId) ORDER BY s.sort",
 }
 
 sql_app.adn01NodesIn = {
@@ -15,6 +15,11 @@ sql_app.adn01NodesIn = {
     sql: "SELECT * FROM (:sql_app.adn01 ) x WHERE doc_id IN (:adnId)",
 }
 
+sql_app.adn01Childrens = {
+    name: "adn01OneNode: 'One Data Node' ::adn01",
+    sql: "SELECT x.* FROM (:sql_app.adn01 ) x LEFT JOIN sort s ON doc_id=sort_id\n\
+    WHERE parent = :adnId ORDER BY s.sort",
+}
 sql_app.adn01OneNode = {
     name: "adn01OneNode: 'One Data Node' ::adn01",
     sql: "SELECT * FROM (:sql_app.adn01 ) x WHERE doc_id = :adnId",

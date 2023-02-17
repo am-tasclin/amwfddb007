@@ -15,6 +15,7 @@ var promiseCount = 0
 
 const runWsOpenInPromise = (sendJson, onMessageFn) => {
     const wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
+    // console.log(l1.replaceSql(sql_app[sendJson.sqlName].sql).replace(':adnId', sendJson.adnId))
     wsDbSelect.onopen = event => wsDbSelect.send(JSON.stringify(
         Object.assign(sendJson
             , { sql: l1.replaceSql(sql_app[sendJson.sqlName].sql).replace(':adnId', sendJson.adnId) })))
@@ -27,8 +28,12 @@ const runWsOpenInPromise = (sendJson, onMessageFn) => {
 
 pd.e = ts => eMap[ts.adnId]
 pd.i = (ts, n) => pd.e(ts) && pd.e(ts)[n]
-pd.sqlAdnData = event => JSON.parse(event.data).list.forEach(e => (eMap[e.doc_id] = e) && eMap[e.parent] &&
-    (parentChild[e.parent] || (parentChild[e.parent] = [])).push(e.doc_id))
+pd.sqlAdnData = event => {
+    // console.log(123, event.data)
+    JSON.parse(event.data).list
+        .forEach(e => (eMap[e.doc_id] = e) && eMap[e.parent] &&
+            (parentChild[e.parent] || (parentChild[e.parent] = [])).push(e.doc_id))
+}
 
 const fpc01 =
     createApp({
@@ -43,14 +48,15 @@ const fpc01 =
 fpc01.component('t-adntree', {
     template: '#tAdntree', props: { adnId: Number },
     methods: {
-        ee() {
-            console.log(this.adnId, eMap[this.adnId], eMap, Object.keys(eMap))
-            return eMap[this.adnId] },
-        async e() { return await eMap[this.adnId] },
-        i(n) {
-            console.log(this.adnId, n, pd.i(this, n), pd.e(this), pd, 123, this)
-            return pd.i(this, n)
+        adnClick(adnId) {
+            !parentChild[adnId] && (() => runWsOpenInPromise(
+                { sqlName: 'adn01Childrens', adnId: adnId }
+            ).then(pd.sqlAdnData))()
+            this.count++
         },
+        parentChild(adnId) { return parentChild[adnId] || [] },
+        e() { return pd.e(this) },
+        i(n) { return pd.i(this, n) },
     },
     data() {
         return {
@@ -64,9 +70,12 @@ const app =
     createApp({
         mounted() {
             // const adnId = 1 * pd.sn.hashVrVl[1], sqlName = 'adn01OneNode'
-            runWsOpenInPromise({ sqlName: 'adn01OneNode', adnId: this.adnId }
+            // runWsOpenInPromise({ sqlName: 'adn01OneNode', adnId: this.adnId }
+            // console.log('app for ->', pd.sn.hashVrVl.slice(1).join(','))
+            runWsOpenInPromise(
+                { sqlName: 'adn01NodesIn', adnId: pd.sn.hashVrVl.slice(1).join(',') }
             ).then(pd.sqlAdnData)
-            console.log('app for ->', this.adnId)
+            // console.log('app for ->', this.adnId)
         },
         methods: {
             openChildren(adnId) {

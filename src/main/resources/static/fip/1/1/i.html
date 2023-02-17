@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8" />
-<title id="headTitle">vue_fpc:3/2 ::am001</title>
+<title id="headTitle">vue_fip:1/1 ::am001</title>
 <link rel="stylesheet" href="/webjars/font-awesome/6.2.1/css/all.min.css">
 <link rel="stylesheet" href="/f/css/w3.css">
 <link rel="stylesheet" href="/f/css/am.css">
@@ -20,25 +20,26 @@
             <img src="/f/img/algoritmed-logo.webp" style="width:75px;" />
         </a>&nbsp;
         &nbsp; <span class="w3-tiny am-b w3-topbar">FPC:</span>
-        ⁙ FPC 3/2 ⁙ FHIR Profiles convert: MCrDB -> [SQL, JSON]
+        ⁙ FIP ⁙ 
+        <span class="w3-small">
+            1/1 FHIR Info Page  convert/output forms : MCrDB -> [SQL, JSON]
+        </span>
     </div>
 
     <div id="fpc01" class="am-max-width-1">
         <div class="w3-border-bottom">
+            Hi FIP!
             =>
             <span v-for="aIds in sn.hashVrVl" class="w3-small">
                 {{aIds}},
             </span>
         </div>
-        <div class="w3-row">
-            <div class="w3-half">
-                <template v-for="(adnId, ix) in sn.hashVrVl">
-                    <div v-if="ix>0" class="w3-border-bottom">
-                        <t-adntree :adn-id="adnId"></t-adntree>
-                    </div>
-                </template>
-            </div>
-            <div class="w3-half">a2</div>
+        <div>
+            <template v-for="(adnId, ix) in sn.hashVrVl">
+                <div v-if="ix>0" class="w3-border-bottom">
+                    <t-adntree :adn-id="adnId"></t-adntree>
+                </div>
+            </template>
         </div>
     </div>
 
@@ -74,30 +75,6 @@
 
     </template>
 
-    Hi 3/1
-    <div id="app">{{ message }}
-        -:-
-        <button @click="count++"> {{count}} </button>
-        -:-
-        <button @click="openChildren(adnId)">{{adnId}}</button>
-        a2
-        {{parentChild[adnId]}}
-        a2
-        <div v-if="parentChild[adnId]">
-            a1
-            a1
-            a1
-        </div>
-        -:-
-        {{i('doc_id')}}
-        {{i('value_22')}}
-        -:-
-    </div>
-
-    <div>
-        <button id="btn">Создать Promise!</button>
-        <div id="log"></div>
-    </div>
     <script src="p.js" type="module"></script>
 
 </body>
