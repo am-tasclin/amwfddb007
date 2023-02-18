@@ -85,4 +85,3 @@ l1.replaceSql = sql => {
     return '' + sql
 }
 l1.readSql2R = sqlN => sql_app[sqlN] && l1.replaceSql(sql_app[sqlN].sql)
-

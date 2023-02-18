@@ -19,10 +19,9 @@
         <a href="http://algoritmed.com/" class="am-0u">
             <img src="/f/img/algoritmed-logo.webp" style="width:75px;" />
         </a>&nbsp;
-        &nbsp; <span class="w3-tiny am-b w3-topbar">FPC:</span>
-        ⁙ FIP ⁙ 
+        &nbsp; <span class="w3-tiny am-b w3-topbar">FIP:</span>
         <span class="w3-small">
-            1/1 FHIR Info Page  convert/output forms : MCrDB -> [SQL, JSON]
+            ⁙ 1/1 ⁙ FHIR Info Page convert/output forms : MCrDB -> [SQL, JSON]
         </span>
     </div>
 
@@ -60,14 +59,14 @@
                 </div>
             </span>
             <span @click="adnClick(adnId)"
-                class="w3-small w3-hover-shadow">&nbsp;{{i('doc_id')||('-'+adnId)}}&nbsp;</span>
+                class="w3-small w3-hover-shadow">&nbsp;{{i('doc_id')||('-'+adnId+'‒‒‒')}}&nbsp;</span>
             {{i('value_22')}}
             <span class="w3-small"> <span v-if="i('r_value_22')">::</span>{{i('r_value_22')}} </span>
             <span class="w3-tiny" v-if="i('rr_value_22')">::{{i('rr_value_22')}}</span>
             <span v-if="i('r2_value_22')">&nbsp;:&nbsp;<span class="am-i">{{i('r2_value_22')}}</span></span>
         </div> <span class="w3-hide"> {{count}} </span>
 
-        <div class="w3-container w3-border-left" v-if="parentChild(adnId).length>0">
+        <div class="w3-container w3-border-left" v-if="onOffChild()">
             <div v-for="adnId in parentChild(adnId)">
                 <t-adntree :adn-id="adnId"></t-adntree>
             </div>
