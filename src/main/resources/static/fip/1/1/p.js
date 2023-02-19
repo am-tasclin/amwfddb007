@@ -79,14 +79,19 @@ const fpc01 = createApp({
     }
 })
 
+pd.onOffChild = (adnId) => (parentChild[adnId] || []).length > 0 && eMap[adnId]
+    && (eMap[adnId].openChild = !eMap[adnId].openChild)
+
+
 fpc01.component('t-adntree', {
     template: '#tAdntree', props: { adnId: Number },
     methods: {
-        adnClick(adnId) {
+        adnClick(adnId, event) {
             !parentChild[adnId] && sendAndSetMessageFn(pd.jsonToSend('adn01Childrens', adnId)
             ).then(event => {
                 pd.sqlAdnData(event)
             })
+            pd.onOffChild(adnId, event)
             this.count++
         },
         adnClickTODEL(adnId) {
@@ -96,8 +101,9 @@ fpc01.component('t-adntree', {
             this.count++
         },
         parentChild(adnId) { return parentChild[adnId] || [] },
-        onOffChild() {
-            return (parentChild[this.adnId] || []).length > 0 && eMap[this.adnId] && (eMap[this.adnId].openChild = !eMap[this.adnId].openChild)
+        isOpenChild(adnId) {
+            return (parentChild[adnId] || []).length > 0 && eMap[adnId]
+                && (eMap[adnId].openChild === undefined || eMap[adnId].openChild)
         },
         e() { return pd.e(this) },
         i(n) { return pd.i(this, n) },
