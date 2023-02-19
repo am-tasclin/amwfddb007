@@ -29,18 +29,26 @@
         <div class="w3-border-bottom">
             Hi FIP!
             =>
-            <span v-for="aIds in sn.hashVrVl" class="w3-small">
-                {{aIds}},
+            <span class="w3-small" v-for="n in sn.jn.pps.filter(n=>!n.includes('pps'))">
+                <a :href="'#'+ppsHref(n)"> {{sn.fcw[n.substring(1)]}} </a> , </span>
+        </div>
+        <div v-for="pagePart in sn.jn.pps">
+            <t-page-part v-if="'pps'!=pagePart" :page-part="pagePart"></t-page-part>
+        </div>
+
+    </div>
+
+    <template id="tPagePart">
+        <div class="w3-container w3-leftbar w3-pale-yellow">
+            {{sn.fcw[pagePart.substring(1)]}}
+            <span class="w3-tiny w3-right">
+                {{pagePart}}:&nbsp;{{sn.jn[pagePart].join(', ')}}
             </span>
         </div>
-        <div>
-            <template v-for="(adnId, ix) in sn.hashVrVl">
-                <div v-if="ix>0" class="w3-border-bottom">
-                    <t-adntree :adn-id="adnId"></t-adntree>
-                </div>
-            </template>
+        <div class="w3-border-bottom" v-for="adnId in sn.jn[pagePart]">
+            <t-adntree :adn-id="adnId"></t-adntree>
         </div>
-    </div>
+    </template>
 
     <template id="tAdntree">
 
@@ -59,14 +67,13 @@
                 </div>
             </span>
             <span @click="adnClick(adnId)"
-                class="w3-small w3-hover-shadow">&nbsp;{{i('doc_id')||('-'+adnId+' ‒‒‒')}}&nbsp;</span>
+                class="w3-small w3-hover-shadow">{{i('doc_id')||('-&nbsp;'+adnId+'&nbsp;‒open‒this‒')}}&nbsp;&nbsp;</span>
             {{i('value_22')}}
             <span class="w3-small"> <span v-if="i('r_value_22')">::</span>{{i('r_value_22')}} </span>
             <span class="w3-tiny" v-if="i('rr_value_22')">::{{i('rr_value_22')}}</span>
             <span v-if="i('r2_value_22')">&nbsp;:&nbsp;<span class="am-i">{{i('r2_value_22')}}</span></span>
         </div> <span class="w3-hide"> {{count}} </span>
-
-        <div class="w3-container w3-border-left"  v-if="isOpenChild(adnId)">
+        <div class="w3-container w3-border-left" v-if="isOpenChild(adnId)">
             <div v-for="adnId in parentChild(adnId,event)">
                 <t-adntree :adn-id="adnId"></t-adntree>
             </div>
