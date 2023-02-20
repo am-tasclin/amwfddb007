@@ -21,7 +21,7 @@ pd.sn.jn = pd.cmd.fcwSessionParser()
 console.log(pd.sn)
 //pps: Page Part Sequence
 !pd.sn.jn.pps
-    && (pd.sn.jn.pps = Object.keys(pd.sn.jn).filter(n=>!n.includes('pps')))
+    && (pd.sn.jn.pps = Object.keys(pd.sn.jn).filter(n => !n.includes('pps')))
 
 //fcw: FHIR Code Word
 pd.sn.fcw = {
@@ -85,8 +85,7 @@ const fpc01 = createApp({
     data() { return { count: ++pageCount, sn: pd.sn, } },
     methods: {
         ppsHref(n) {
-            console.log(pd.cmd.fcwRawList())
-            console.log(pd.cmd.fcwRawList().filter(m => !m.includes('pps')).join(';'))
+            // console.log(pd.cmd.fcwRawList().filter(m => !m.includes('pps')).join(';'), pd.cmd.fcwRawList())
             const h = (n + ',' + pd.sn.jn.pps.join(',').replace(n, '').replace('pps', ''))
                 .replace(',,', ',')
                 , h2 = ',' == h.slice(-1) && h.slice(0, -1) || h
@@ -109,12 +108,27 @@ const fpc01 = createApp({
 
 pd.onOffChild = (adnId) => (parentChild[adnId] || []).length > 0 && eMap[adnId]
     && (eMap[adnId].openChild = !eMap[adnId].openChild)
-
+pd.cmd.ppHref = () => '#' + Object.keys(fd.sn.jn).reduce((n, m) => n
+    + ';' + m + ',' + fd.sn.jn[m].join(','), '').substring(1)
+    
 fpc01.component('t-page-part', {
     template: '#tPagePart', props: { pagePart: String },
     data() { return { count: ++pageCount, sn: pd.sn, } },
+    methods: {
+        ppHref() {
+            return Object.keys(fd.sn.jn).reduce((n, m) => n
+                + ';' + m + ',' + fd.sn.jn[m].join(','), '').substring(1)
+        },
+        ppToFirst(pagePart, n) {
+            const i = pd.sn.jn[pagePart].indexOf(n)
+            console.log(pagePart, n, pd.sn.jn[pagePart], pd.sn.jn[pagePart].indexOf(n))
+            pd.sn.jn.fEt = pd.sn.jn.fEt.splice(i, i + 1).concat(pd.sn.jn.fEt)
+            this.count++
+            window.location.href = pd.cmd.ppHref()
+        },
+    },
     mounted() {
-        console.log(this.pagePart)
+        // console.log(this.pagePart)
     },
 })
 

@@ -42,7 +42,13 @@
         <div class="w3-container w3-leftbar w3-pale-yellow">
             {{sn.fcw[pagePart.substring(1)]}}
             <span class="w3-tiny w3-right">
-                {{pagePart}}:&nbsp;{{sn.jn[pagePart].join(', ')}}
+                {{pagePart}} ⁙
+                <span v-for="n in sn.jn[pagePart]" class="w3-hover-shadow">
+                    <a @click="ppToFirst(pagePart, n)" class="am-u">
+                        {{n}}
+                    </a>
+                    ,
+                </span>
             </span>
         </div>
         <div class="w3-border-bottom" v-for="adnId in sn.jn[pagePart]">
