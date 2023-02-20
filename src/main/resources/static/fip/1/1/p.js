@@ -19,16 +19,17 @@ pd.sn = {}//sn: session
 fd.sn = pd.sn
 pd.sn.jn = pd.cmd.fcwSessionParser()
 console.log(pd.sn)
+
 //pps: Page Part Sequence
 !pd.sn.jn.pps
     && (pd.sn.jn.pps = Object.keys(pd.sn.jn).filter(n => !n.includes('pps')))
 
 //fcw: FHIR Code Word
 pd.sn.fcw = {
-    Et: 'Element',
-    Ty: 'Terminology',
-    Dd: 'Data Dictionary',
-    Pl: 'Profile',
+    fEt: 'Element',
+    fTy: 'Terminology',
+    fDd: 'Data Dictionary',
+    fPl: 'Profile',
     lr: 'Left|Right ::mc', //mc: Midnight Commander
 }
 
@@ -80,9 +81,14 @@ fd.listDeepNum = pd.listDeepNum
 fd.listDeepSql = pd.listDeepSql
 
 var pageCount = 0
+pd.ppMenuList = Object.keys(pd.sn.jn).filter(n => 'pps' != n)
+
+console.log(pd.ppMenuList)
 
 const fpc01 = createApp({
-    data() { return { count: ++pageCount, sn: pd.sn, } },
+    data() {
+        return { count: ++pageCount, sn: pd.sn, ppMenuList: pd.ppMenuList }
+    },
     methods: {
         ppsHref(n) {
             // console.log(pd.cmd.fcwRawList().filter(m => !m.includes('pps')).join(';'), pd.cmd.fcwRawList())
@@ -110,19 +116,24 @@ pd.onOffChild = (adnId) => (parentChild[adnId] || []).length > 0 && eMap[adnId]
     && (eMap[adnId].openChild = !eMap[adnId].openChild)
 pd.cmd.ppHref = () => '#' + Object.keys(fd.sn.jn).reduce((n, m) => n
     + ';' + m + ',' + fd.sn.jn[m].join(','), '').substring(1)
-    
+
+pd.sn.ppClose = []
+
 fpc01.component('t-page-part', {
     template: '#tPagePart', props: { pagePart: String },
-    data() { return { count: ++pageCount, sn: pd.sn, } },
+    data() { return { count: ++pageCount, } },
+    // data() { return { count: ++pageCount, sn: pd.sn, } },
     methods: {
-        ppHref() {
-            return Object.keys(fd.sn.jn).reduce((n, m) => n
-                + ';' + m + ',' + fd.sn.jn[m].join(','), '').substring(1)
+        sn() { return pd.sn },
+        ppClick(pagePart) {
+            !pd.sn.ppClose.includes(pagePart) && pd.sn.ppClose.splice(0, 0, pagePart)
+                || pd.sn.ppClose.splice(pd.sn.ppClose.indexOf(pagePart), 1)
+            this.count++
         },
         ppToFirst(pagePart, n) {
             const i = pd.sn.jn[pagePart].indexOf(n)
-            console.log(pagePart, n, pd.sn.jn[pagePart], pd.sn.jn[pagePart].indexOf(n))
-            pd.sn.jn.fEt = pd.sn.jn.fEt.splice(i, i + 1).concat(pd.sn.jn.fEt)
+            console.log(pagePart, i, n, pd.sn.jn[pagePart], pd.sn.jn[pagePart].indexOf(n))
+            pd.sn.jn[pagePart] = pd.sn.jn[pagePart].splice(i, 1).concat(pd.sn.jn[pagePart])
             this.count++
             window.location.href = pd.cmd.ppHref()
         },
