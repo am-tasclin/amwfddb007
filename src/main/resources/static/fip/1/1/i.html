@@ -63,12 +63,31 @@
                     </a>
                     ,
                 </span>
+                <span v-if="sn().panel.l[pagePart]">|
+                    {{sn().panel.l[pagePart]}}
+                </span>
             </span>
         </div>
-        <div :class="{'w3-hide':sn().ppClose.includes(pagePart)}" class="w3-border-bottom"
-            v-for="adnId in sn().jn[pagePart]">
-            <t-adntree :adn-id="adnId"></t-adntree>
-        </div>
+        <template v-if="sn().panel.l[pagePart]">
+            <div class="w3-row" :class="{'w3-hide':sn().ppClose.includes(pagePart)}">
+                <div class="w3-half">
+                    <div class="w3-border-bottom" v-for="adnId in sn().jn[pagePart]">
+                        <t-adntree :adn-id="adnId"></t-adntree>
+                    </div>
+                </div>
+                <div class="w3-half w3-container">
+                    <div class="w3-border-bottom" v-for="adnId in sn().panel.l[pagePart]">
+                        <t-adntree :adn-id="adnId"></t-adntree>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template v-else>
+            <div :class="{'w3-hide':sn().ppClose.includes(pagePart)}" class="w3-border-bottom"
+                v-for="adnId in sn().jn[pagePart]">
+                <t-adntree :adn-id="adnId"></t-adntree>
+            </div>
+        </template>
     </template>
 
     <template id="tAdntree">

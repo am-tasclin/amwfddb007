@@ -8,15 +8,21 @@ import { sql_app, l1 } from './l1.js'
 fd.eMap = eMap
 fd.parentChild = parentChild
 
+pd.sn = {}//sn: session
+pd.sn.panel = { l: {}, f: {} }
+fd.sn = pd.sn
+
 pd.cmd = {}//cmd: command
 fd.cmd = pd.cmd
 pd.cmd.fcwRawList = () => window.location.hash.substring(1).split(';')
-pd.cmd.fcwSessionParser = () => pd.cmd
-    .fcwRawList().reduce((n, m) => (n[m.split(',')[0]] = m.split(',').slice(1)) && n, {})
+pd.cmd.fcwRawArray = pd.cmd.fcwRawList()
+fd.cmd.fcwRawArray.reduce((n, m, i) => m.includes('|')
+    && (fd.sn.panel.l[m.split(',')[0]] = m.split('|')[1].split(','))
+    && (fd.cmd.fcwRawArray[i] = m.split('|')[0]), '')
 
-pd.sn = {}//sn: session
-//pd.sn.hashVrVl = window.location.hash.split(',')
-fd.sn = pd.sn
+pd.cmd.fcwSessionParser = () => pd.cmd
+    .fcwRawArray.reduce((n, m) => (n[m.split(',')[0]] = m.split(',').slice(1)) && n, {})
+
 pd.sn.jn = pd.cmd.fcwSessionParser()
 console.log(pd.sn)
 
