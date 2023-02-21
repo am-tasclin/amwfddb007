@@ -29,13 +29,13 @@
         <div class="w3-border-bottom">
             Hi FIP!
             =>
-            <span class="w3-small" v-for="n in sn.jn.pps.filter(n=>!n.includes('pps'))">
-                <a :href="'#'+ppsHref(n)"> {{sn.fcw[n]}} </a> , </span>
+            <span class="w3-small" v-for="n in sn().jn.pps.filter(n=>!n.includes('pps'))">
+                <a :href="'#'+ppsHref(n)"> {{sn().fcw[n]}} </a> , </span>
             <span class="w3-right w3-dropdown-hover w3-hover-shadow">
                 <span class="w3-small ">&nbsp;&nbsp;{{ppMenuList.join(',')}}&nbsp;☰&nbsp;</span>
                 <div class="w3-border w3-dropdown-content w3-container w3-hover-shadow" style="right: -1em;">
                     &nbsp;
-                    <div v-for="(ppItem, k) in sn.fcw" class="w3-hover-shadow">
+                    <div v-for="(ppItem, k) in sn().fcw" class="w3-hover-shadow">
                         {{k}} <span class="w3-small am-i"> {{ppItem}} </span>
                         <input>
                     </div>
@@ -43,7 +43,7 @@
                 </div>
             </span>
         </div>
-        <div v-for="pagePart in sn.jn.pps">
+        <div v-for="pagePart in sn().jn.pps">
             <t-page-part v-if="'pps'!=pagePart" :page-part="pagePart"></t-page-part>
         </div>
         &nbsp;
@@ -51,7 +51,8 @@
 
     <template id="tPagePart">
         <span class="w3-hide">{{count}}</span>
-        <div class="w3-container w3-topbar w3-pale-yellow">
+        <!-- w3-pale-yellow -->
+        <div class="w3-container w3-topbar w3-light-grey">
             <span class="w3-hover-shadow am-u" @click="ppClick(pagePart)">
                 {{sn().fcw[pagePart]}}
             </span>
@@ -85,7 +86,17 @@
         <template v-else>
             <div :class="{'w3-hide':sn().ppClose.includes(pagePart)}" class="w3-border-bottom"
                 v-for="adnId in sn().jn[pagePart]">
-                <t-adntree :adn-id="adnId"></t-adntree>
+                <template v-if="isPanel(adnId)">
+                    <div class="w3-row">
+                        <div class="w3-half">
+                            <t-adntree :adn-id="adnId" :page-part="pagePart"></t-adntree>
+                        </div>
+                        <div class="w3-half w3-container"> --a2-- </div>
+                    </div>
+                </template>
+                <template v-else>
+                    <t-adntree :adn-id="adnId" :page-part="pagePart"></t-adntree>
+                </template>
             </div>
         </template>
     </template>
@@ -93,6 +104,9 @@
     <template id="tAdntree">
 
         <div class="w3-hover-shadow">
+            <span class="w3-right" v-if="isPanel()">
+                {{pagePart}}:{{adnId}}
+            </span>
             <span class="w3-right w3-dropdown-hover w3-hover-shadow w3-white">
                 <span class="w3-tiny">&nbsp;
                     r: {{i('reference')}}, r2: {{i('reference2')}}&nbsp;

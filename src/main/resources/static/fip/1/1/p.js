@@ -14,12 +14,19 @@ fd.sn = pd.sn
 
 pd.cmd = {}//cmd: command
 fd.cmd = pd.cmd
-pd.cmd.fcwRawList = () => window.location.hash.substring(1).split(';')
-pd.cmd.fcwRawArray = pd.cmd.fcwRawList()
+// pd.cmd.fcwRawList = () => window.location.hash.substring(1).split(';')
+pd.cmd.fcwRawArray = window.location.hash.substring(1).split(';')
+//pd.sn.panel.l split '|', pagePart level
 fd.cmd.fcwRawArray.reduce((n, m, i) => m.includes('|')
     && (fd.sn.panel.l[m.split(',')[0]] = m.split('|')[1].split(','))
     && (fd.cmd.fcwRawArray[i] = m.split('|')[0]), '')
+//pd.sn.p[…]={123:{}}
+pd.cmd.fcwRawArray.reduce((n, m) => m
+    .indexOf('p_') == 0 && (pd.sn.p || (pd.sn.p = {}))
+    && (pd.sn.p[m.split(',')[0].split('_')[1]] || (pd.sn.p[m.split(',')[0].split('_')[1]] = {}))
+    && (m.split(',')[1] && (pd.sn.p[m.split(',')[0].split('_')[1]][m.split(',')[1]] = {})), '')
 
+//first/rest coma split, first is KEY, id-list level
 pd.cmd.fcwSessionParser = () => pd.cmd
     .fcwRawArray.reduce((n, m) => (n[m.split(',')[0]] = m.split(',').slice(1)) && n, {})
 
@@ -93,15 +100,17 @@ console.log(pd.ppMenuList)
 
 const fpc01 = createApp({
     data() {
-        return { count: ++pageCount, sn: pd.sn, ppMenuList: pd.ppMenuList }
+        return { count: ++pageCount, ppMenuList: pd.ppMenuList }
     },
     methods: {
+        sn() { return pd.sn },
         ppsHref(n) {
             // console.log(pd.cmd.fcwRawList().filter(m => !m.includes('pps')).join(';'), pd.cmd.fcwRawList())
             const h = (n + ',' + pd.sn.jn.pps.join(',').replace(n, '').replace('pps', ''))
                 .replace(',,', ',')
                 , h2 = ',' == h.slice(-1) && h.slice(0, -1) || h
-                , h3 = pd.cmd.fcwRawList().filter(m => !m.includes('pps')).join(';')
+                , h3 = pd.cmd.fcwRawArray.filter(m => !m.includes('pps')).join(';')
+            //, h3 = pd.cmd.fcwRawList().filter(m => !m.includes('pps')).join(';')
             return 'pps,' + h2 + ';' + h3
 
         }
@@ -131,6 +140,10 @@ fpc01.component('t-page-part', {
     // data() { return { count: ++pageCount, sn: pd.sn, } },
     methods: {
         sn() { return pd.sn },
+        isPanel(adnId) {
+            return pd.sn.p && pd.sn.p[this.pagePart]
+             && pd.sn.p[this.pagePart][adnId]
+        },
         ppClick(pagePart) {
             !pd.sn.ppClose.includes(pagePart) && pd.sn.ppClose.splice(0, 0, pagePart)
                 || pd.sn.ppClose.splice(pd.sn.ppClose.indexOf(pagePart), 1)
@@ -150,8 +163,13 @@ fpc01.component('t-page-part', {
 })
 
 fpc01.component('t-adntree', {
-    template: '#tAdntree', props: { adnId: Number }, data() { return { count: ++pageCount, } },
+    template: '#tAdntree', props: { adnId: Number, pagePart: String }, data() { return { count: ++pageCount, } },
     methods: {
+        isPanel() {
+            return pd.sn.p && pd.sn.p[this.pagePart]
+             && pd.sn.p[this.pagePart][this.adnId]
+        },
+        sn() { return pd.sn },
         adnClick(adnId) {
             !parentChild[adnId] && sendAndSetMessageFn(pd.jsonToSend('adn01Childrens', adnId)
             ).then(event => {
