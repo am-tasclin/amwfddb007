@@ -94,7 +94,7 @@
                             <t-adntree :adn-id="adnId" :page-part="pagePart"></t-adntree>
                         </div>
                         <div class="w3-half w3-container">
-                            <span class="w3-tiny am-b"> buildJSON: </span>
+                            <button class="w3-tiny am-b w3-btn w3-padding-small" @click="count++">buildJSON:</button>
                             <span class="w3-small">
                                 <button class="w3-btn w3-padding-small am-u"
                                     @click="buildJSON(adnId,'Structure')">Structure</button>
@@ -102,9 +102,10 @@
                                 <button class="w3-btn w3-padding-small am-u"
                                     @click="buildJSON(adnId,'add_metaContentId')">metaContentId</button>
                             </span>
-                            <div style="white-space: pre; overflow: auto;" class="w3-opacity w3-small w3-border-top">
+                            <div v-if="isOpenChild(adnId)" style="white-space: pre; overflow: auto;"
+                                class="w3-opacity w3-small w3-border-top">
                                 ⌖ Hello buildJSON! ⌖
-                                {{sn().jsonStr}}
+                                {{jsonStr(adnId)}}
                                 <div>&nbsp;</div>
                             </div>
                         </div>

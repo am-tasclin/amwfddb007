@@ -115,7 +115,6 @@ const fpc01 = createApp({
                 , h3 = pd.cmd.fcwRawArray.filter(m => !m.includes('pps')).join(';')
             //, h3 = pd.cmd.fcwRawList().filter(m => !m.includes('pps')).join(';')
             return 'pps,' + h2 + ';' + h3
-
         }
     },
     mounted() {
@@ -194,9 +193,9 @@ fpc01.component('t-page-part', {
         buildJSON(adnId, jsonType) {
             const json = {}
 
-            console.log(this.count, adnId, pd.sn.p[this.pagePart], jsonType.includes('add_'))
-
-            console.log(jsonType, pd.sn.p[this.pagePart][adnId])
+            console.log(jsonType, this.count, adnId, pd.sn.p[this.pagePart]
+                , jsonType.includes('add_')
+            )
 
             !jsonType.includes('add_') && !pd.sn.p[this.pagePart][adnId].jsonType
                 && (pd.sn.p[this.pagePart][adnId].jsonType = jsonType)
@@ -214,7 +213,6 @@ fpc01.component('t-page-part', {
                     || pd.sn.p[this.pagePart][adnId].add.splice(0, 0, jsonType.split('_')[1])
                 )
 
-
             // jsonType.includes('metaContentId') && (json.metaContentId = {}) && (() => {
             pd.sn.p[this.pagePart][adnId].add &&
                 pd.sn.p[this.pagePart][adnId].add.includes('metaContentId')
@@ -228,13 +226,14 @@ fpc01.component('t-page-part', {
 
             // buildJSON.stringify[jsonType] && (
             buildJSON.stringify[pd.sn.p[this.pagePart][adnId].jsonType]
-                && (pd.sn.jsonStr = buildJSON
+                && ((pd.sn.jsonStr || (pd.sn.jsonStr = {}))[adnId] = buildJSON
                     .stringify[pd.sn.p[this.pagePart][adnId].jsonType](json))
             this.count++
         },
+        jsonStr(adnId) { return pd.sn.jsonStr && pd.sn.jsonStr[adnId] },
         isPanel(adnId) {
-            return pd.sn.p && pd.sn.p[this.pagePart]
-                && pd.sn.p[this.pagePart][adnId]
+            return pd.isPanel(this.pagePart, adnId)
+            // return pd.sn.p && pd.sn.p[this.pagePart] && pd.sn.p[this.pagePart][adnId]
         },
         ppClick(pagePart) {
             !pd.sn.ppClose.includes(pagePart) && pd.sn.ppClose.splice(0, 0, pagePart)
@@ -248,18 +247,23 @@ fpc01.component('t-page-part', {
             this.count++
             window.location.href = pd.cmd.ppHref()
         },
+        isOpenChild(adnId) { return pd.isOpenChild(adnId) },
     },
     mounted() {
         // console.log(this.pagePart)
     },
 })
 
+pd.isOpenChild = adnId => parentChild[adnId] && parentChild[adnId].length > 0 && eMap[adnId]
+    && (eMap[adnId].openChild === undefined || eMap[adnId].openChild)
+pd.isPanel = (pagePart, adnId) => pd.sn.p && pd.sn.p[pagePart] && pd.sn.p[pagePart][adnId]
+
 fpc01.component('t-adntree', {
     template: '#tAdntree', props: { adnId: Number, pagePart: String }, data() { return { count: ++pageCount, } },
     methods: {
         isPanel() {
-            return pd.sn.p && pd.sn.p[this.pagePart]
-                && pd.sn.p[this.pagePart][this.adnId]
+            return pd.isPanel(this.pagePart, this.adnId)
+            // return pd.sn.p && pd.sn.p[this.pagePart] && pd.sn.p[this.pagePart][this.adnId]
         },
         sn() { return pd.sn },
         adnClick(adnId) {
@@ -271,10 +275,7 @@ fpc01.component('t-adntree', {
             this.count++
         },
         parentChild(adnId) { return parentChild[adnId] || [] },
-        isOpenChild(adnId) {
-            return (parentChild[adnId] || []).length > 0 && eMap[adnId]
-                && (eMap[adnId].openChild === undefined || eMap[adnId].openChild)
-        },
+        isOpenChild(adnId) { return pd.isOpenChild(adnId) },
         e() { return pd.e(this) },
         i(n) { return pd.i(this, n) },
     },
