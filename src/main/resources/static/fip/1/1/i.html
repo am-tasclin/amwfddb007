@@ -97,10 +97,16 @@
                             <button class="w3-tiny am-b w3-btn w3-padding-small" @click="count++">buildJSON:</button>
                             <span class="w3-small">
                                 <button class="w3-btn w3-padding-small am-u"
-                                    @click="buildJSON(adnId,'Structure')">Structure</button>
+                                    :class="{'w3-light-grey':'Structure'==sn().p[pagePart][adnId].jsonType}"
+                                    @click="buildJSON(adnId,'Structure');count++">Structure</button>
                                 +/-
                                 <button class="w3-btn w3-padding-small am-u"
+                                    :class="{'w3-light-grey':isJsonPart(adnId,'metaContentId')}"
                                     @click="buildJSON(adnId,'add_metaContentId')">metaContentId</button>
+                                ,
+                                <button class="w3-btn w3-padding-small am-u"
+                                    :class="{'w3-light-grey':'NativeMetaContent'==sn().p[pagePart][adnId].jsonType}"
+                                    @click="buildJSON(adnId,'NativeMetaContent');count++">NativeMetaContent</button>
                             </span>
                             <div v-if="isOpenChild(adnId)" style="white-space: pre; overflow: auto;"
                                 class="w3-opacity w3-small w3-border-top">
@@ -121,9 +127,6 @@
     <template id="tAdntree">
 
         <div class="w3-hover-shadow">
-            <span class="w3-right" v-if="isPanel()">
-                {{pagePart}}:{{adnId}}
-            </span>
             <span class="w3-right w3-dropdown-hover w3-hover-shadow w3-white">
                 <span class="w3-tiny">&nbsp;
                     r: {{i('reference')}}, r2: {{i('reference2')}}&nbsp;

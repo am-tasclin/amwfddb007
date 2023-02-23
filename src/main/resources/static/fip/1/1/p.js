@@ -146,16 +146,42 @@ buildJSON.stringify.Structure = json => JSON.stringify(json, (k, v) => (
     .replace(/}"}/g, '}}').replace(/}",/g, '},').replace(/\\"/g, '"')
     .replace(/\[\s+{/g, '[{').replace(/}\s+]/g, '}]')
 
-buildJSON.jsonType.keyAsObjName = i => eMap[i].value_22 || eMap[i].r_value_22
+buildJSON.stringify.NativeMetaContent = json => JSON.stringify(json, (k, v) => (
+    ('eMap' == k || 'parentChild' == k) && JSON.stringify(v)) || v, 2)
+    .replace(/\\"/g, '"')
+    .replace(/},"/g, '},\n"')
+    .replace(/}}"/g, '}}')
+    .replace(/eMap": "{"/g, 'eMap": {\n"')
+    .replace(/],"/g, '],\n"')
+    .replace(/parentChild": "{/g, 'parentChild": {\n')
+    .replace(/]}"/g, ']}')
+
+buildJSON.jsonType.keyIsObjName = i => eMap[i].value_22 || eMap[i].r_value_22
+pd.makeNativeMetaContent = (adnId, json) => (json.eMap[adnId] = eMap[adnId])
+    && parentChild[adnId] && (json.parentChild[adnId] = parentChild[adnId])
+    && json.parentChild[adnId].reduce((n, m) => pd.makeNativeMetaContent(m, json))
+
+buildJSON.jsonType.NativeMetaContent = (adnId, json) => {
+    json.keyIsObjName = buildJSON.jsonType.keyIsObjName(adnId)
+    json.typeJson = 'metContentNative01'
+    console.log(adnId)
+    const mcn = json[json.keyIsObjName] = { eMap: {}, parentChild: {} }
+    json[json.keyIsObjName].eMap[adnId] = eMap[adnId]
+    json[json.keyIsObjName].parentChild[adnId] = parentChild[adnId]
+    console.log(pd.makeNativeMetaContent(adnId, json[json.keyIsObjName]), 123)
+    // pd.parentChild[adnId].reduce((n, m) => {    }, 0)
+    return json
+}
+
 buildJSON.jsonType.Structure = (adnId, json) => {
-    // const json = {}
-    json.keyAsObjName = buildJSON.jsonType.keyAsObjName(adnId)
-    buildJSON.jsonType.se2Parent(json[json.keyAsObjName] = {}, adnId)
+    json.keyIsObjName = buildJSON.jsonType.keyIsObjName(adnId)
+    json.typeJson = 'FHIR.Structure'
+    buildJSON.jsonType.se2Parent(json[json.keyIsObjName] = {}, adnId)
     return json
 }
 buildJSON.jsonType.se2Parent = (jn, pId) => parentChild[pId].forEach(eId => {
     // const kName = eMap[eId].value_22 || eMap[eId].r_value_22
-    const kName = buildJSON.jsonType.keyAsObjName(eId)
+    const kName = buildJSON.jsonType.keyIsObjName(eId)
         , doctype = eMap[eId].doctype || eMap[eId].r_doctype
 
     jn[kName] = ''
@@ -193,18 +219,19 @@ fpc01.component('t-page-part', {
         buildJSON(adnId, jsonType) {
             const json = {}
 
-            console.log(jsonType, this.count, adnId, pd.sn.p[this.pagePart]
+            // !jsonType.includes('add_') && !pd.sn.p[this.pagePart][adnId].jsonType
+            !jsonType.includes('add_') // && !pd.sn.p[this.pagePart][adnId].jsonType
+                && (pd.sn.p[this.pagePart][adnId].jsonType = jsonType)
+
+            console.log(123, jsonType, this.count, adnId, pd.sn.p[this.pagePart]
                 , jsonType.includes('add_')
             )
-
-            !jsonType.includes('add_') && !pd.sn.p[this.pagePart][adnId].jsonType
-                && (pd.sn.p[this.pagePart][adnId].jsonType = jsonType)
 
             pd.sn.p[this.pagePart][adnId].jsonType
                 && buildJSON.jsonType[pd.sn.p[this.pagePart][adnId].jsonType]
                 && buildJSON.jsonType[pd.sn.p[this.pagePart][adnId].jsonType](adnId, json)
 
-            // +/- On/Off add/remove FOR pd.sn.p[this.pagePart][adnId]
+            //add [], +/- On/Off add/remove FOR pd.sn.p[this.pagePart][adnId]
             jsonType.includes('add_') &&
                 (pd.sn.p[this.pagePart][adnId].add || (pd.sn.p[this.pagePart][adnId].add = []))
                 && (pd.sn.p[this.pagePart][adnId].add.includes(jsonType.split('_')[1])
@@ -218,10 +245,7 @@ fpc01.component('t-page-part', {
                 pd.sn.p[this.pagePart][adnId].add.includes('metaContentId')
                 && (json.metaContentId = {}) && (() => {
                     console.log(1231, jsonType, json, pd.sn.p[this.pagePart][adnId])
-                    const tmc = {}
-                    // buildJSON.mcFirst(tmc, adnId)
                     buildJSON.mcFirst(json.metaContentId, adnId)
-                    console.log(tmc, json)
                 })()
 
             // buildJSON.stringify[jsonType] && (
@@ -229,6 +253,11 @@ fpc01.component('t-page-part', {
                 && ((pd.sn.jsonStr || (pd.sn.jsonStr = {}))[adnId] = buildJSON
                     .stringify[pd.sn.p[this.pagePart][adnId].jsonType](json))
             this.count++
+        },
+        isJsonPart(adnId, jsonPart) {
+            return pd.sn.p[this.pagePart] && pd.sn.p[this.pagePart][adnId]
+                && pd.sn.p[this.pagePart][adnId].add
+                && pd.sn.p[this.pagePart][adnId].add.includes(jsonPart)
         },
         jsonStr(adnId) { return pd.sn.jsonStr && pd.sn.jsonStr[adnId] },
         isPanel(adnId) {
