@@ -36,8 +36,10 @@
                 <div class="w3-border w3-dropdown-content w3-container w3-hover-shadow" style="right: -1em;">
                     &nbsp;
                     <div v-for="(ppItem, k) in sn().fcw" class="w3-hover-shadow">
-                        {{k}} <span class="w3-small am-i"> {{ppItem}} </span>
-                        <input>
+                        <div class="w3-hover-shadow">
+                            {{k}} <span class="w3-small am-i"> {{ppItem}} </span>
+                        </div>
+                        <input class="w3-hover-shadow">
                     </div>
                     &nbsp;
                 </div>
@@ -91,7 +93,21 @@
                         <div class="w3-half">
                             <t-adntree :adn-id="adnId" :page-part="pagePart"></t-adntree>
                         </div>
-                        <div class="w3-half w3-container"> --a2-- </div>
+                        <div class="w3-half w3-container">
+                            <span class="w3-tiny am-b"> buildJSON: </span>
+                            <span class="w3-small">
+                                <button class="w3-btn w3-padding-small am-u"
+                                    @click="buildJSON(adnId,'Structure')">Structure</button>
+                                +/-
+                                <button class="w3-btn w3-padding-small am-u"
+                                    @click="buildJSON(adnId,'add_metaContentId')">metaContentId</button>
+                            </span>
+                            <div style="white-space: pre; overflow: auto;" class="w3-opacity w3-small w3-border-top">
+                                ⌖ Hello buildJSON! ⌖
+                                {{sn().jsonStr}}
+                                <div>&nbsp;</div>
+                            </div>
+                        </div>
                     </div>
                 </template>
                 <template v-else>

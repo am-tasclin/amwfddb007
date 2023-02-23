@@ -82,6 +82,7 @@ buildJSON.stringify.Structure = json => JSON.stringify(json, (k, v) => (
 
 buildJSON.jsonType.Structure = () => {
     const json = {}
+    console.log(pd.sn.fElId)
     json.keyAsObjName = buildJSON.jsonType.keyAsObjName(pd.sn.fElId)
     buildJSON.jsonType.se2Parent(json[json.keyAsObjName] = {}, pd.sn.fElId)
     return json
@@ -116,6 +117,8 @@ const fpc01 = createApp({
             const hfj = { v: 'Hello buildJSON! ' + this.count + '\n' },
                 json = {}//jn: JSON Node
             hfj.v += '⌖ ' + pd.sn.fElId + '\n'
+
+            console.log(pd.jsonType, buildJSON.jsonType[pd.jsonType] )
 
             buildJSON.jsonType[pd.jsonType] && buildJSON.jnAddKeyObjNameValue(json,
                 buildJSON.jsonType[pd.jsonType]())
