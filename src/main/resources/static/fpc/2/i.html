@@ -86,8 +86,8 @@
                         <div>
                             <span class="w3-tiny am-b">Type:</span>
                             <template v-for="jt in ['Structure', 'ValueSet', 'Profile01','NativeMetaContent']">
-                                <button @click="jsonTypeClick(jt)" class="w3-padding-small w3-btn"
-                                    :class="{'w3-yellow':jsonType==jt}">{{jt}}</button>
+                                <button @click="typeOfClick(jt)" class="w3-padding-small w3-btn"
+                                    :class="{'w3-yellow':typeOf==jt}">{{jt}}</button>
                             </template>
                         </div>
                         <div>&nbsp;</div>
@@ -98,7 +98,7 @@
                     <span class="w3-tiny am-b w3-topbar">SQL</span>
                 </button>
                 ⇒ <span class="w3-hover-shadow">
-                    <span class="am-b w3-tiny">&nbsp;JSON.type:&nbsp;</span>{{jsonType}}
+                    <span class="am-b w3-tiny">&nbsp;JSON.type:&nbsp;</span>{{typeOf}}
                     <span v-if="plusMinuList.length>1"> + {{plusMinuList}} </span>
                 </span>
                 <div style="white-space: pre; overflow: auto;" class="w3-opacity w3-small">

@@ -82,8 +82,8 @@
                         <div>
                             Type
                             <template v-for="jt in ['Structure', 'ValueSet', 'Profile01','NativeMetaContent']">
-                                <button @click="jsonTypeClick(jt)" class="w3-padding-small w3-btn"
-                                    :class="{'w3-yellow':jsonType==jt}">{{jt}}</button>
+                                <button @click="typeOfClick(jt)" class="w3-padding-small w3-btn"
+                                    :class="{'w3-yellow':typeOf==jt}">{{jt}}</button>
                             </template>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                 <button class="w3-btn w3-ripple w3-padding-small">
                     <span class="w3-tiny am-b w3-topbar">SQL</span>
                 </button>
-                <span title="json type">jt</span>.{{jsonType}}
+                <span title="json type">jt</span>.{{typeOf}}
                 <div style="white-space: pre;" class="w3-opacity w3-small w3-border-bottom">
                     {{buildJSON()}}
                 </div>

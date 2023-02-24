@@ -97,7 +97,7 @@
                             <button class="w3-tiny am-b w3-btn w3-padding-small" @click="count++">buildJSON:</button>
                             <span class="w3-small">
                                 <button class="w3-btn w3-padding-small am-u"
-                                    :class="{'w3-light-grey':'Structure'==sn().p[pagePart][adnId].jsonType}"
+                                    :class="{'w3-light-grey':'Structure'==sn().p[pagePart][adnId].typeOf}"
                                     @click="buildJSON(adnId,'Structure');count++">Structure</button>
                                 +/-
                                 <button class="w3-btn w3-padding-small am-u"
@@ -105,7 +105,7 @@
                                     @click="buildJSON(adnId,'add_metaContentId')">metaContentId</button>
                                 ,
                                 <button class="w3-btn w3-padding-small am-u"
-                                    :class="{'w3-light-grey':'NativeMetaContent'==sn().p[pagePart][adnId].jsonType}"
+                                    :class="{'w3-light-grey':'NativeMetaContent'==sn().p[pagePart][adnId].typeOf}"
                                     @click="buildJSON(adnId,'NativeMetaContent');count++">NativeMetaContent</button>
                             </span>
                             <div v-if="isOpenChild(adnId)" style="white-space: pre; overflow: auto;"

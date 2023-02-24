@@ -21,27 +21,27 @@ pd.sn.fElId = (pd.isHashVr('fElId') && 1 * pd.sn.hashVrVl[1]) || pd.sn.fElId || 
 //bj: buildJSON
 const buildJSON = {}
 
-//jt: jsonType
-buildJSON.jsonType = { mc: {} }
+//jt: typeOf
+buildJSON.typeOf = { mc: {} }
 // buildJSON.jt = {}
 
 //fmc: FHIR Meta Content'
-buildJSON.jsonType.fmcSpace = '  '
+buildJSON.typeOf.fmcSpace = '  '
 
-buildJSON.jsonType.fhirMcStrignify = (json, prefixStr, so) => (
-    so.s += '{') && 'object' === typeof json && buildJSON.jsonType
+buildJSON.typeOf.fhirMcStrignify = (json, prefixStr, so) => (
+    so.s += '{') && 'object' === typeof json && buildJSON.typeOf
         .fhirMcElementStrignify(json, prefixStr, so
         ) && (so.s += '}') || true
 // ) && (so.s += prefixStr + '}') || true
 
 // so.s += prefixStr + '[') && json.forEach(json2 => buildJSON.jt
-buildJSON.jsonType.fhirMcListStrignify = (json, prefixStr, so) => (
-    so.s += '[') && json.forEach(json2 => buildJSON.jsonType
-        .fhirMcStrignify(json2, prefixStr + buildJSON.jsonType.fmcSpace, so)) && false ||
+buildJSON.typeOf.fhirMcListStrignify = (json, prefixStr, so) => (
+    so.s += '[') && json.forEach(json2 => buildJSON.typeOf
+        .fhirMcStrignify(json2, prefixStr + buildJSON.typeOf.fmcSpace, so)) && false ||
     (so.s += ']') || true
 // ) && false || (so.s += prefixStr + ']') || true
 
-buildJSON.jsonType.fhirMcElementStrignify = (json, prefixStr, so) => Object.keys(json)
+buildJSON.typeOf.fhirMcElementStrignify = (json, prefixStr, so) => Object.keys(json)
     .forEach((key, i) => (so.s += prefixStr + (i > 0 ? ',' : '') + '"' + key + '":')
         && ('number' === typeof json[key] && (so.s += '' + json[key]))
         && buildJSON.test(json, key)
@@ -51,10 +51,10 @@ buildJSON.jsonType.fhirMcElementStrignify = (json, prefixStr, so) => Object.keys
             || (Array.isArray(json[key])
                 && (1 == json[key].length && 0 == Object.keys(json[key][0]).length
                     && (so.s += JSON.stringify(json[key]))
-                    || buildJSON.jsonType.fhirMcListStrignify(json[key], prefixStr + buildJSON.jsonType.fmcSpace, so)
+                    || buildJSON.typeOf.fhirMcListStrignify(json[key], prefixStr + buildJSON.typeOf.fmcSpace, so)
                 )
             )
-            || buildJSON.jsonType.fhirMcStrignify(json[key], prefixStr + buildJSON.jsonType.fmcSpace, so)
+            || buildJSON.typeOf.fhirMcStrignify(json[key], prefixStr + buildJSON.typeOf.fmcSpace, so)
         )
     ) || true
 
@@ -62,10 +62,10 @@ buildJSON.jnAddKeyObjNameValue = (json, keyValue) => keyValue.keyAsObjName
     && (json[keyValue.keyAsObjName] = keyValue[keyValue.keyAsObjName])
     && (json.docKey = keyValue.keyAsObjName)
 
-buildJSON.jsonType.keyAsObjName = i => eMap[i].value_22 || eMap[i].r_value_22
-buildJSON.jsonType.se2Parent = (jn, pId) => parentChild[pId].forEach(eId => {
+buildJSON.typeOf.keyAsObjName = i => eMap[i].value_22 || eMap[i].r_value_22
+buildJSON.typeOf.se2Parent = (jn, pId) => parentChild[pId].forEach(eId => {
     // const kName = eMap[eId].value_22 || eMap[eId].r_value_22
-    const kName = buildJSON.jsonType.keyAsObjName(eId)
+    const kName = buildJSON.typeOf.keyAsObjName(eId)
         , doctype = eMap[eId].doctype || eMap[eId].r_doctype
 
     jn[kName] = ''
@@ -76,9 +76,9 @@ buildJSON.jsonType.se2Parent = (jn, pId) => parentChild[pId].forEach(eId => {
     doctype == 37 && (jn[kName] = [{}])
     parentChild[eId] && doctype != 37 && (jn[kName] = {})
     let e = doctype == 37 && jn[kName][0] || jn[kName]
-    parentChild[eId] && buildJSON.jsonType.se2Parent(e, eId)
+    parentChild[eId] && buildJSON.typeOf.se2Parent(e, eId)
 })
-buildJSON.jsonType.NativeMetaContent = () => {
+buildJSON.typeOf.NativeMetaContent = () => {
     const json = {}
     json.keyAsObjName = 'metContentNative01'
     const mcn = json[json.keyAsObjName] = { eMap: {} }
@@ -88,10 +88,10 @@ buildJSON.jsonType.NativeMetaContent = () => {
     console.log(11, mcn.eMap)
     return json
 }
-buildJSON.jsonType.Structure = () => {
+buildJSON.typeOf.Structure = () => {
     const json = {}
-    json.keyAsObjName = buildJSON.jsonType.keyAsObjName(pd.sn.fElId)
-    buildJSON.jsonType.se2Parent(json[json.keyAsObjName] = {}, pd.sn.fElId)
+    json.keyAsObjName = buildJSON.typeOf.keyAsObjName(pd.sn.fElId)
+    buildJSON.typeOf.se2Parent(json[json.keyAsObjName] = {}, pd.sn.fElId)
     return json
 }
 
@@ -115,7 +115,7 @@ buildJSON.test = (p1, p2) => {
     return true
 }
 
-pd.jsonType = '?'
+pd.typeOf = '?'
 
 const fpc01 = createApp({
     data() { return pd }, methods: {
@@ -125,8 +125,8 @@ const fpc01 = createApp({
                 json = {}//jn: JSON Node
             hfj.v += '⌖ ' + pd.sn.fElId + '\n'
 
-            buildJSON.jsonType[pd.jsonType] && buildJSON.jnAddKeyObjNameValue(json,
-                buildJSON.jsonType[pd.jsonType]())
+            buildJSON.typeOf[pd.typeOf] && buildJSON.jnAddKeyObjNameValue(json,
+                buildJSON.typeOf[pd.typeOf]())
 
             pd.plusMinuList.includes('metaContentId')
                 && (json.metaContentId = {})
@@ -146,15 +146,15 @@ const fpc01 = createApp({
 
             console.log(11, hfj.v)
             const so = { s: '' }
-            buildJSON.jsonType.fhirMcStrignify(json, '\n', so)
+            buildJSON.typeOf.fhirMcStrignify(json, '\n', so)
             so.s = so.s.replace(/{\s+"mc/g, '{"mc')
             console.log(11, so.s)
 
             // return             hfj.v + so.s
 
             return hfj.v
-        }, jsonTypeClick(jt) {
-            pd.jsonType = jt
+        }, typeOfClick(jt) {
+            pd.typeOf = jt
             this.count++
         }, pmClick(n) { //pmClick: plus/minus click
             !pd.plusMinuList.includes(n)
