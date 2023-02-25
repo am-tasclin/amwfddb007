@@ -113,40 +113,34 @@ fd.listDeepSql = pd.listDeepSql
 var pageCount = 0
 pd.ppMenuList = Object.keys(pd.sn.jn).filter(n => 'pps' != n)
 
-console.log(pd.ppMenuList)
-
 pd.cmd.initShortLink = () => {
     pd.sn.shortUrlHash = '#'
     pd.sn.jn.pps &&
-        (pd.sn.shortUrlHash += 'pps,' + pd.sn.jn.pps.join(',') + ';')
+        (pd.sn.shortUrlHash += 'pps,' + pd.sn.jn.pps.join(',') + ';');
 
-    console.log(Object.keys(pd.sn.jn).filter(k => 'pps' != k && 'lr' != k && !k.includes('p_')))
-        ;
-
-    (pd.sn.jn.pps ||
-        Object.keys(pd.sn.jn).filter(k => 'pps' != k && 'lr' != k && !k.includes('p_')))
-        .reduce((n, m) => {
-            pd.sn.shortUrlHash += m + ',' + pd.sn.jn[m].join(',') + ';'
-            pd.sn.jn['p_' + m] &&
-                (pd.sn.shortUrlHash += 'p_' + m + ',' + pd.sn.jn['p_' + m].join(',') + ';') &&
-                console.log(n, m, m.includes('p_'), pd.sn.jn['p_' + m]
-                    , pd.sn.jn['p_' + m].join(','))
-        }, '')
-    console.log(pd.sn.shortUrlHash, Object.keys(pd.sn.jn))
+    (pd.sn.jn.pps || Object.keys(pd.sn.jn).filter(k => 'pps' != k && 'lr' != k && !k.includes('p_'))
+    ).reduce((n, m) =>
+        (pd.sn.shortUrlHash += m + ',' + pd.sn.jn[m].join(',') + ';')
+        && pd.sn.jn['p_' + m] &&
+        (pd.sn.shortUrlHash += 'p_' + m + ',' + pd.sn.jn['p_' + m].join(',') + ';') &&
+        console.log(n, m, m.includes('p_'), pd.sn.jn['p_' + m]
+            , pd.sn.jn['p_' + m].join(','))
+        , '')
 
 }
-
-pd.cmd.initShortLink()
 
 createApp({
     methods: {
         sn() { return pd.sn },
-        initShortLink() {
-            pd.cmd.initShortLink()
-        },
+        initShortLink() { pd.cmd.initShortLink() },
         initLink() { window.location.href = '#init_' + JSON.stringify(pd.sn.jn) }
     }, data() { return { count: ++pageCount, } },
 }).mount('#headPage')
+
+pd.cmd.dropDownOnOff = eId => !document.getElementById(eId).className.includes('w3-show')
+    && (document.getElementById(eId).className += ' w3-show')
+    || (document.getElementById(eId).className =
+        document.getElementById(eId).className.replace(' w3-show', ''))
 
 const fpc01 = createApp({
     data() {
@@ -154,19 +148,19 @@ const fpc01 = createApp({
     },
     methods: {
         sn() { return pd.sn },
+        clickPagePartEd() { pd.cmd.dropDownOnOff('pagePartEd') },
         ppsHref(n) {
-            // console.log(pd.cmd.fcwRawList().filter(m => !m.includes('pps')).join(';'), pd.cmd.fcwRawList())
             const h = (n + ',' + pd.sn.jn.pps.join(',').replace(n, '').replace('pps', ''))
                 .replace(',,', ',')
                 , h2 = ',' == h.slice(-1) && h.slice(0, -1) || h
                 , h3 = pd.cmd.fcwRawArray.filter(m => !m.includes('pps')).join(';')
-            //, h3 = pd.cmd.fcwRawList().filter(m => !m.includes('pps')).join(';')
             return 'pps,' + h2 + ';' + h3
         }
     },
     mounted() {
-        const allAndIds = Object.keys(pd.sn.jn).filter(n => !n.includes('pps')).reduce(
+        let allAndIds = Object.keys(pd.sn.jn).filter(n => !n.includes('pps')).reduce(
             (n, m) => n + ',' + pd.sn.jn[m].join(','), '').substring(1)
+        ',' === allAndIds.slice(-1) && (allAndIds = allAndIds.slice(0, -1))
         runWsOpenInPromise(
             { sqlName: 'adn01NodesIn', adnId: allAndIds }
         ).then(event => {
@@ -226,6 +220,7 @@ buildJSON.typeOf.Structure = (adnId, json) => {
     buildJSON.typeOf.se2Parent(json[json.keyIsObjName] = {}, adnId)
     return json
 }
+
 buildJSON.typeOf.se2Parent = (jn, pId) => parentChild[pId].forEach(eId => {
     // const kName = eMap[eId].value_22 || eMap[eId].r_value_22
     const kName = buildJSON.typeOf.keyIsObjName(eId)
