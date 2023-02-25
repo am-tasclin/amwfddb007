@@ -13,6 +13,7 @@
 
 <body class="w3-container">
     <div id="headPage" class="w3-border-bottom am-max-width-1">
+        <span class="w3-hide">{{count}}</span>
         <span class="w3-small">
             <a href="/" class="w3-btn w3-border1 w3-padding-small">
                 <img style="display: flex;" src="/f/css/homeIcon.svg">
@@ -46,6 +47,7 @@
     </div>
 
     <div id="fpc01" class="am-max-width-1">
+        <span class="w3-hide">{{count}}</span>
         <div class="w3-border-bottom">
             Hi FIP! =>
             <span class="w3-small" v-for="n in sn().jn.pps.filter(n=>!n.includes('pps'))">
@@ -60,17 +62,18 @@
                         <div v-for="(ppItem, keyPagePart) in sn().fcw" class="w3-hover-shadow">
                             <div class="w3-hover-shadow">
                                 <input :value="sn().jn[keyPagePart].join(',')" class="w3-hover-shadow">
-                                &nbsp; <span class="w3-opacity w3-right">
+                                &nbsp; <span class="w3-opacity w3-right am-u">
                                     {{keyPagePart}}: <span class="w3-small am-i"> {{ppItem}} </span>
                                 </span>
                                 <!-- <div v-if="sn().jn['p_'+keyPagePart]"> -->
                                 <div v-if="keyPagePart!='lr'">
-                                    <span class="w3-tiny am-b">right panel:&nbsp;</span>
+                                    <span class="w3-tiny am-b">&nbsp;right panel:&nbsp;</span>
                                     <span v-for="k2 in sn().jn[keyPagePart]">
                                         <span class="w3-hover-shadow">
-                                            <input type="checkbox" :id="'p_'+keyPagePart+'_'+k2" :value="k2"
-                                                v-model="sn().jn['p_'+keyPagePart]">
-                                            <label :for="'p_'+keyPagePart+'_'+k2">{{k2}}</label>
+                                            <label>
+                                                <input type="checkbox" :id="'p_'+keyPagePart+'_'+k2" :value="k2"
+                                                    v-model="sn().jn['p_'+keyPagePart]" @input="inputPanelPart">&nbsp;
+                                                {{k2}}</label>
                                         </span>,
                                     </span>
                                     &nbsp; <span class="w3-tiny w3-opacity"> {{sn().jn['p_'+keyPagePart]}} </span>
@@ -132,9 +135,16 @@
                             <t-adntree :adn-id="adnId" :page-part="pagePart"></t-adntree>
                         </div>
                         <div class="w3-half w3-container">
-                            <button title="Оновити" class="w3-tiny am-b am-u w3-btn w3-padding-small"
-                                @click="count++">buildJSON:</button>
-                            <span class="w3-small">
+                            <span class="w3-dropdown-hover w3-hover-shadow w3-white">
+                                <button title="Оновити" class="w3-tiny am-b am-u w3-btn w3-padding-small"
+                                    @click="count++">{{sn().p[pagePart][adnId].buildType||'buildJSON'}}:</button>
+                                <div class="w3-border w3-dropdown-content w3-container w3-hover-shadow">
+                                    <button class="w3-btn" @click="buildType('buildJSON', adnId)">buildJSON</button>
+                                    <button class="w3-btn" @click="buildType('buildSQL', adnId)">buildSQL</button>
+                                </div>
+                            </span>
+                            <span class="w3-small"
+                                v-if="'buildJSON'==sn().p[pagePart][adnId].buildType || !sn().p[pagePart][adnId].buildType">
                                 <button class="w3-btn w3-padding-small am-u"
                                     :class="{'w3-light-grey':'Structure'==sn().p[pagePart][adnId].typeOf}"
                                     @click="buildJSON(adnId,'Structure');count++">Structure</button>
@@ -146,6 +156,10 @@
                                 <button class="w3-btn w3-padding-small am-u"
                                     :class="{'w3-light-grey':'NativeMetaContent'==sn().p[pagePart][adnId].typeOf}"
                                     @click="buildJSON(adnId,'NativeMetaContent');count++">NativeMetaContent</button>
+                            </span>
+                            <span class="w3-small"
+                                v-if="'buildSQL'==sn().p[pagePart][adnId].buildType || !sn().p[pagePart][adnId]">
+                                SELECT
                             </span>
                             <div v-if="isOpenChild(adnId)" style="white-space: pre; overflow: auto;"
                                 class="w3-opacity w3-small w3-border-top">

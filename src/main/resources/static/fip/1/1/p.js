@@ -38,8 +38,6 @@ window.location.hash.includes('#init_') && (pd.sn.jn =
         && pd.sn.jn[m].reduce((n1, m1) => pd.sn.p[m.split('_')[1]][m1] = {}, 0)
         , 0)
 
-console.log(pd.sn.p)
-
 //first/rest coma split, first is KEY, id-list level
 pd.cmd.fcwSessionParser = () => pd.cmd
     .fcwRawArray.reduce((n, m) => (n[m.split(',')[0]] = m.split(',').slice(1)) && n, {})
@@ -132,7 +130,10 @@ pd.cmd.initShortLink = () => {
 createApp({
     methods: {
         sn() { return pd.sn },
-        initShortLink() { pd.cmd.initShortLink() },
+        initShortLink() {
+            pd.cmd.initShortLink()
+            this.count++
+        },
         initLink() { window.location.href = '#init_' + JSON.stringify(pd.sn.jn) }
     }, data() { return { count: ++pageCount, } },
 }).mount('#headPage')
@@ -149,6 +150,19 @@ const fpc01 = createApp({
     methods: {
         sn() { return pd.sn },
         clickPagePartEd() { pd.cmd.dropDownOnOff('pagePartEd') },
+        inputPanelPart(event) {
+            const snPath = event.target.id.split('_')
+                , snJn = (pd.sn.jn[snPath[0] + '_' + snPath[1]]
+                    || (pd.sn.jn[snPath[0] + '_' + snPath[1]] = []))
+
+            snJn.includes(event.target.value) && snJn.splice(snJn.indexOf(event.target.value), 1)
+                || snJn.push(event.target.value);
+
+            (pd.sn.p[snPath[1]] || (pd.sn.p[snPath[1]] = {})) &&
+                (pd.sn.p[snPath[1]][event.target.value] && delete pd.sn.p[snPath[1]][event.target.value])
+                || (pd.sn.p[snPath[1]][event.target.value] = {})
+            this.count++
+        },
         ppsHref(n) {
             const h = (n + ',' + pd.sn.jn.pps.join(',').replace(n, '').replace('pps', ''))
                 .replace(',,', ',')
@@ -258,16 +272,17 @@ fpc01.component('t-page-part', {
     // data() { return { count: ++pageCount, sn: pd.sn, } },
     methods: {
         sn() { return pd.sn },
+        buildType(typeOf, adnId) {
+            console.log(typeOf, pd.sn.p[this.pagePart][adnId])
+            pd.sn.p[this.pagePart][adnId].buildType = typeOf
+            this.count++
+        },
         buildJSON(adnId, typeOf) {
             const json = {}
 
             // !typeOf.includes('add_') && !pd.sn.p[this.pagePart][adnId].typeOf
             !typeOf.includes('add_') // && !pd.sn.p[this.pagePart][adnId].typeOf
                 && (pd.sn.p[this.pagePart][adnId].typeOf = typeOf)
-
-            console.log(123, typeOf, this.count, adnId, pd.sn.p[this.pagePart]
-                , typeOf.includes('add_')
-            )
 
             pd.sn.p[this.pagePart][adnId].typeOf
                 && buildJSON.typeOf[pd.sn.p[this.pagePart][adnId].typeOf]
