@@ -21,11 +21,22 @@ fd.cmd.fcwRawArray.reduce((n, m, i) => m.includes('|')
     && (fd.sn.panel.l[m.split(',')[0]] = m.split('|')[1].split(','))
     && (fd.cmd.fcwRawArray[i] = m.split('|')[0]), '')
 //pd.sn.p[…]={123:{}}; pagePart = m.split(',')[0].split('_')[1];
-pd.cmd.fcwRawArray.reduce((n, m) => m.indexOf('p_') == 0 && (pd.sn.p || (pd.sn.p = {})
-) && (pd.sn.p[m.split(',')[0].split('_')[1]] || (pd.sn.p[m.split(',')[0].split('_')[1]] = {})
-    ) && m.split(',').splice(1).reduce((n1, m1) => pd.sn
-        .p[m.split(',')[0].split('_')[1]][m1] = {}, '')
-)
+
+!window.location.hash.includes('#init_') &&
+    pd.cmd.fcwRawArray.filter(k => k.includes('p_'))
+        .reduce((n, m) => (pd.sn.p || (pd.sn.p = {}))
+            && (pd.sn.p[m.split(',')[0].split('_')[1]] || (pd.sn.p[m.split(',')[0].split('_')[1]] = {}))
+            && m.split(',').splice(1).reduce((n1, m1) => pd.sn
+                .p[m.split(',')[0].split('_')[1]][m1] = {}, '')
+            , 0)
+
+window.location.hash.includes('#init_') && (pd.sn.jn =
+    JSON.parse(decodeURI(window.location.hash.split('#init_')[1]))
+) && Object.keys(pd.sn.jn).filter(k => k.includes('p_'))
+    .reduce((n, m) => (pd.sn.p || (pd.sn.p = {}))
+        && (pd.sn.p[m.split('_')[1]] || (pd.sn.p[m.split('_')[1]] = {}))
+        && pd.sn.jn[m].reduce((n1, m1) => pd.sn.p[m.split('_')[1]][m1] = {}, 0)
+        , 0)
 
 console.log(pd.sn.p)
 
@@ -33,7 +44,10 @@ console.log(pd.sn.p)
 pd.cmd.fcwSessionParser = () => pd.cmd
     .fcwRawArray.reduce((n, m) => (n[m.split(',')[0]] = m.split(',').slice(1)) && n, {})
 
-pd.sn.jn = pd.cmd.fcwSessionParser()
+!pd.sn.jn && (
+    pd.sn.jn = pd.cmd.fcwSessionParser()
+)
+
 console.log(pd.sn)
 
 //pps: Page Part Sequence
@@ -101,6 +115,12 @@ pd.ppMenuList = Object.keys(pd.sn.jn).filter(n => 'pps' != n)
 
 console.log(pd.ppMenuList)
 
+createApp({
+    methods: {
+        initLink() { window.location.href = '#init_' + JSON.stringify(pd.sn.jn) }
+    }, data() { return { count: ++pageCount, } },
+}).mount('#headPage')
+
 const fpc01 = createApp({
     data() {
         return { count: ++pageCount, ppMenuList: pd.ppMenuList }
@@ -136,7 +156,7 @@ pd.cmd.ppHref = () => '#' + Object.keys(fd.sn.jn).reduce((n, m) => n
 
 pd.sn.ppClose = []
 
-//bj: buildJSON
+//buildJSON: library for JSON build and convert from MetaContentDB
 const buildJSON = { typeOf: {}, stringify: {} }
 
 buildJSON.stringify.Structure = json => JSON.stringify(json, (k, v) => (
@@ -240,7 +260,6 @@ fpc01.component('t-page-part', {
                     || pd.sn.p[this.pagePart][adnId].add.splice(0, 0, typeOf.split('_')[1])
                 )
 
-            // typeOf.includes('metaContentId') && (json.metaContentId = {}) && (() => {
             pd.sn.p[this.pagePart][adnId].add &&
                 pd.sn.p[this.pagePart][adnId].add.includes('metaContentId')
                 && (json.metaContentId = {}) && (() => {
@@ -248,7 +267,6 @@ fpc01.component('t-page-part', {
                     buildJSON.mcFirst(json.metaContentId, adnId)
                 })()
 
-            // buildJSON.stringify[typeOf] && (
             buildJSON.stringify[pd.sn.p[this.pagePart][adnId].typeOf]
                 && ((pd.sn.jsonStr || (pd.sn.jsonStr = {}))[adnId] = buildJSON
                     .stringify[pd.sn.p[this.pagePart][adnId].typeOf](json))
@@ -311,3 +329,4 @@ fpc01.component('t-adntree', {
 })
 
 fpc01.mount('#fpc01')
+
