@@ -18,9 +18,23 @@
                 <img style="display: flex;" src="/f/css/homeIcon.svg">
             </a>
             &nbsp;
-            <a @click="initLink" class="w3-btn w3-padding-small w3-border">
-                <i class="fas fa-redo"></i>
-            </a>
+            <span class="w3-dropdown-hover">
+                <a @click="initLink" class="w3-btn w3-padding-small w3-border">
+                    <i class="fas fa-redo"></i>
+                </a>
+                <div class="w3-dropdown-content w3-leftbar w3-border w3-container">
+                    &nbsp;
+                    <div>
+                        <button class="w3-btn w3-border w3-ripple" @click="initShortLink">
+                            make Short Link
+                        </button>
+                    </div>
+                    <a :href="sn().shortUrlHash">
+                        {{sn().shortUrlHash}}
+                    </a>
+                    &nbsp;
+                </div>
+            </span>
         </span>
         <a href="http://algoritmed.com/" class="am-0u w3-right">
             <img src="/f/img/algoritmed-logo.webp" style="width:75px;" />

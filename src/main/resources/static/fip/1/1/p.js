@@ -115,8 +115,35 @@ pd.ppMenuList = Object.keys(pd.sn.jn).filter(n => 'pps' != n)
 
 console.log(pd.ppMenuList)
 
+pd.cmd.initShortLink = () => {
+    pd.sn.shortUrlHash = '#'
+    pd.sn.jn.pps &&
+        (pd.sn.shortUrlHash += 'pps,' + pd.sn.jn.pps.join(',') + ';')
+
+    console.log(Object.keys(pd.sn.jn).filter(k => 'pps' != k && 'lr' != k && !k.includes('p_')))
+        ;
+
+    (pd.sn.jn.pps ||
+        Object.keys(pd.sn.jn).filter(k => 'pps' != k && 'lr' != k && !k.includes('p_')))
+        .reduce((n, m) => {
+            pd.sn.shortUrlHash += m + ',' + pd.sn.jn[m].join(',') + ';'
+            pd.sn.jn['p_' + m] &&
+                (pd.sn.shortUrlHash += 'p_' + m + ',' + pd.sn.jn['p_' + m].join(',') + ';') &&
+                console.log(n, m, m.includes('p_'), pd.sn.jn['p_' + m]
+                    , pd.sn.jn['p_' + m].join(','))
+        }, '')
+    console.log(pd.sn.shortUrlHash, Object.keys(pd.sn.jn))
+
+}
+
+pd.cmd.initShortLink()
+
 createApp({
     methods: {
+        sn() { return pd.sn },
+        initShortLink() {
+            pd.cmd.initShortLink()
+        },
         initLink() { window.location.href = '#init_' + JSON.stringify(pd.sn.jn) }
     }, data() { return { count: ++pageCount, } },
 }).mount('#headPage')
