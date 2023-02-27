@@ -108,7 +108,7 @@ const readParentDeep = listDeepSql => sendAndSetMessageFn(pd
 fd.listDeepNum = pd.listDeepNum
 fd.listDeepSql = pd.listDeepSql
 
-var pageCount = 0
+var pdCount = 0
 pd.ppMenuList = Object.keys(pd.sn.jn).filter(n => 'pps' != n)
 
 pd.cmd.initShortLink = () => {
@@ -135,7 +135,7 @@ createApp({
             this.count++
         },
         initLink() { window.location.href = '#init_' + JSON.stringify(pd.sn.jn) }
-    }, data() { return { count: ++pageCount, } },
+    }, data() { return { count: ++pdCount, } },
 }).mount('#headPage')
 
 pd.cmd.dropDownOnOff = eId => !document.getElementById(eId).className.includes('w3-show')
@@ -145,7 +145,7 @@ pd.cmd.dropDownOnOff = eId => !document.getElementById(eId).className.includes('
 
 const fpc01 = createApp({
     data() {
-        return { count: ++pageCount, ppMenuList: pd.ppMenuList }
+        return { count: ++pdCount, ppMenuList: pd.ppMenuList }
     },
     methods: {
         sn() { return pd.sn },
@@ -266,12 +266,89 @@ buildJSON.mcParent = (jn, i) => parentChild[i] && parentChild[i]
     .forEach(j => buildJSON.mcParent(buildJSON.add1Mc(jn, j), j))
 buildJSON.mcFirst = (jn, i) => buildJSON.add1Mc(jn, i) && buildJSON.mcParent(jn, i)
 
+//pd.sql: build and work with SQL
+pd.sql = {}
+
+fd.sql_app = sql_app
+/**
+ * sql: 'SELECT c_1_r2.value col_name, sdid.value code_system, d1.* FROM doc d1 \n\
+LEFT JOIN string c_1_r2 ON c_1_r2.string_id=d1.reference2 \n\
+LEFT JOIN string sdid ON sdid.string_id=d1.doc_id \n\
+WHERE d1.parent =  370033'}
+ */
+sql_app.r1Typer2Value = {
+    name: 'Template to generate SELECT in moore styles, example: reference:<<type>>, reference2:<<value>>',
+    sql: 'SELECT :fieldsJoin d1.* FROM doc d1 \n\
+        :joinValues WHERE d1.parent = :adnId'}
+
+/** */
+sql_app.build = {}
+/**
+ * console.log(123, adnId, eMap[adnId], parentChild[adnId][0]
+        , eMap[parentChild[adnId][0]]
+        , fieldName
+        , eMap[parentChild[adnId][0]].r2_value_22
+        , eMap[parentChild[adnId][0]].reference2
+        , eMap[eMap[parentChild[adnId][0]].reference2].parent
+        , eMap[eMap[eMap[parentChild[adnId][0]].reference2].parent].value_22
+        , eMap[eMap[eMap[parentChild[adnId][0]].reference2].parent]
+    )
+ */
+
+/**
+ * 
+ * @param {*} adnId 
+ * 
+ */
+sql_app.build.SqlSelect01r1Typer2Value = (adnId, sqlAdd) => {
+
+    sqlAdd.contentJoin[parentChild[adnId][0]] = {
+        key: 'c_' + parentChild[adnId][0] + '_r2', alias: ''
+            + eMap[eMap[eMap[parentChild[adnId][0]].reference2].parent].value_22
+            + '_' + eMap[parentChild[adnId][0]].r2_value_22
+    }
+
+    Object.keys(sqlAdd.contentJoin).reduce((n, m) => {
+        sqlAdd.sqlStr.fieldsJoin += sqlAdd.contentJoin[m].key
+            + '.value ' + sqlAdd.contentJoin[m].alias + ', '
+        sqlAdd.sqlStr.joinValues += 'LEFT JOIN string '
+            + sqlAdd.contentJoin[m].key + ' ON '
+            + sqlAdd.contentJoin[m].key + '.string_id=d1.doc_id \n'
+    }, '')
+
+    sqlAdd.sql = sql_app.r1Typer2Value.sql
+        .replace(':fieldsJoin', sqlAdd.sqlStr.fieldsJoin)
+        .replace(':joinValues', sqlAdd.sqlStr.joinValues)
+        .replace(':adnId', adnId)
+
+    return sqlAdd
+}
+
+/** Parts of page - necessary for compose the end program */
 fpc01.component('t-page-part', {
     template: '#tPagePart', props: { pagePart: String },
-    data() { return { count: ++pageCount, } },
-    // data() { return { count: ++pageCount, sn: pd.sn, } },
+    data() { return { count: ++pdCount, } },
     methods: {
         sn() { return pd.sn },
+        sqlDataList(adnId) {
+            return pd.sn.sqlDataList && pd.sn.sqlDataList[adnId]
+        },
+        buildSqlSelect(adnId) {
+            const sqlAdd = { contentJoin: {}, sqlStr: { fieldsJoin: '', joinValues: '' } }
+            sql_app.build.SqlSelect01r1Typer2Value(adnId, sqlAdd);
+
+            (pd.sn.jsonStr || (pd.sn.jsonStr = {}))[adnId] = '\n' + sqlAdd.sql
+
+            sendAndSetMessageFn({ sql: sqlAdd.sql, adnId: adnId }
+            ).then(event => {
+                const data = JSON.parse(event.data);
+                (pd.sn.sqlDataList || (pd.sn.sqlDataList = {}))[adnId] = data.list
+                console.log(pd.sn.sqlDataList);
+                this.count++
+            })
+
+            this.count++
+        },
         buildType(typeOf, adnId) {
             console.log(typeOf, pd.sn.p[this.pagePart][adnId])
             pd.sn.p[this.pagePart][adnId].buildType = typeOf
@@ -343,7 +420,7 @@ pd.isOpenChild = adnId => parentChild[adnId] && parentChild[adnId].length > 0 &&
 pd.isPanel = (pagePart, adnId) => pd.sn.p && pd.sn.p[pagePart] && pd.sn.p[pagePart][adnId]
 
 fpc01.component('t-adntree', {
-    template: '#tAdntree', props: { adnId: Number, pagePart: String }, data() { return { count: ++pageCount, } },
+    template: '#tAdntree', props: { adnId: Number, pagePart: String }, data() { return { count: ++pdCount, } },
     methods: {
         isPanel() {
             return pd.isPanel(this.pagePart, this.adnId)
