@@ -3,16 +3,16 @@
 const { createApp, nextTick } = Vue
     , pd = {} //pd: Page Data
 
-pd.sn = {}//sn: session
-pd.sn.hashVrVl = window.location.hash.split(',')
-fd.sn = pd.sn
+pd.session = {}//sn: session
+pd.session.hashVrVl = window.location.hash.split(',')
+fd.session = pd.session
 
-console.log(pd.sn.hashVrVl[1], sql_app);
+console.log(pd.session.hashVrVl[1], sql_app);
 
 const sqlFn = (adnId, sqlName) => l1.replaceSql(sql_app[sqlName].sql)
     .replace(':adnId', adnId)
 
-const adnId = 1 * pd.sn.hashVrVl[1]
+const adnId = 1 * pd.session.hashVrVl[1]
     , sqlName = 'adn01OneNode'
     , sql = sqlFn(adnId, sqlName)
 
@@ -67,7 +67,7 @@ const app =
         },
         data() {
             return {
-                sn: pd.sn,
+                sn: pd.session,
                 someObject: {},
                 message: 'Hello Vue!',
                 count: 0,

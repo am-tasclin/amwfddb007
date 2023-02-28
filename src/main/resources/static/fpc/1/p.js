@@ -14,35 +14,35 @@ pd.siteTitle = 'FPC'
 pd.count = 0
 // console.log(pd.icpp())
 
-pd.sn = {}//sn: session
-pd.sn.hashVrVl = window.location.hash.split(',')
-pd.sn.or2tree = () => {
-    let x = Object.assign([], fd.sn.hashVrVl)
+pd.session = {}//sn: session
+pd.session.hashVrVl = window.location.hash.split(',')
+pd.session.or2tree = () => {
+    let x = Object.assign([], fd.session.hashVrVl)
     x.shift()
     return 'tree_' + x.join('_') + ',' + x[0]
 }
-pd.sn.hashVrVlto1 = p => {
-    let x = Object.assign([], fd.sn.hashVrVl)
+pd.session.hashVrVlto1 = p => {
+    let x = Object.assign([], fd.session.hashVrVl)
     x.splice(1, 0, x.splice(p, 1)[0])
     // console.log(p, x)
     return x.join(',')
 }
-pd.isHashVr = n => pd.sn.hashVrVl[0].indexOf(n) == 1
+pd.isHashVr = n => pd.session.hashVrVl[0].indexOf(n) == 1
 // pd.isHashVr('fElId') && (pd.fElId = 1 * pd.hashVrVl[1])
-pd.sn.fElId = (pd.isHashVr('fElId') && 1 * pd.sn.hashVrVl[1]) || pd.sn.fElId || 373071
+pd.session.fElId = (pd.isHashVr('fElId') && 1 * pd.session.hashVrVl[1]) || pd.session.fElId || 373071
 
 //for development
 fd.eMap = eMap
 fd.parentChild = parentChild
-fd.sn = pd.sn
+fd.session = pd.session
 fd.isHashVr = pd.isHashVr
 //for development
 
 jsLib1.wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
 
 jsLib1.wsDbSelect.onopen = event => readAdnsDirect
-    ('adn01OneNode_adn01Childrens', pd.sn.hashVrVl.filter((v, i) => i > 0), isNotIn_eMap)
-// ('adn01OneNode_adn01Childrens', [pd.sn.fElId], isNotIn_eMap)
+    ('adn01OneNode_adn01Childrens', pd.session.hashVrVl.filter((v, i) => i > 0), isNotIn_eMap)
+// ('adn01OneNode_adn01Childrens', [pd.session.fElId], isNotIn_eMap)
 
 jsLib1.wsDbSelect.onmessage = event => {
     const obj = JSON.parse(event.data)
@@ -148,9 +148,9 @@ buildJSON.typeOf.se2Parent = (jn, pId) => parentChild[pId].forEach(eId => {
 })
 buildJSON.typeOf.Structure = () => {
     const json = {}
-    json.keyAsObjName = buildJSON.typeOf.keyAsObjName(pd.sn.fElId)
-    // console.log(pd.sn.fElId, eMap[pd.sn.fElId].value_22, "jnRoot")
-    buildJSON.typeOf.se2Parent(json[json.keyAsObjName] = {}, pd.sn.fElId)
+    json.keyAsObjName = buildJSON.typeOf.keyAsObjName(pd.session.fElId)
+    // console.log(pd.session.fElId, eMap[pd.session.fElId].value_22, "jnRoot")
+    buildJSON.typeOf.se2Parent(json[json.keyAsObjName] = {}, pd.session.fElId)
     return json
 }
 const fpc01 = createApp({
@@ -168,25 +168,25 @@ const fpc01 = createApp({
             //j: buildJSON in DEVELOPMENT !
             const hfj = { v: 'Hello FHIR JSON! ' + this.count + '\n' },
                 json = {} //jn: JSON Node
-            hfj.v += '⌖ ' + pd.sn.fElId + '\n'
-            if (eMap[pd.sn.fElId]) {
+            hfj.v += '⌖ ' + pd.session.fElId + '\n'
+            if (eMap[pd.session.fElId]) {
 
                 //Build JSON from defined type 
                 buildJSON.typeOf[pd.typeOf] && buildJSON.jnAddKeyObjNameValue(json,
                     buildJSON.typeOf[pd.typeOf]())
 
-                !buildJSON.typeOf[pd.typeOf] && buildJSON.bjDeep(json, pd.sn.fElId)
+                !buildJSON.typeOf[pd.typeOf] && buildJSON.bjDeep(json, pd.session.fElId)
 
-                //console.log(pd.plusMinuList.includes('metaContentId') , bj.mc(eMap[pd.sn.fElId]), bj.key(eMap[pd.sn.fElId]))
+                //console.log(pd.plusMinuList.includes('metaContentId') , bj.mc(eMap[pd.session.fElId]), bj.key(eMap[pd.session.fElId]))
 
                 //if with metaContentId
                 !pd.plusMinuList.includes('metaContentId')
                     && (json.metaContentId = {})
                     && (
                         (buildJSON.typeOf.mc[pd.typeOf] && buildJSON
-                            .typeOf.mc[pd.typeOf](json.metaContentId, pd.sn.fElId)) ||
+                            .typeOf.mc[pd.typeOf](json.metaContentId, pd.session.fElId)) ||
                         (!buildJSON.typeOf.mc[pd.typeOf] && buildJSON
-                            .mcFirst(json.metaContentId, pd.sn.fElId))
+                            .mcFirst(json.metaContentId, pd.session.fElId))
                     )
             }
             const so = { s: '' };

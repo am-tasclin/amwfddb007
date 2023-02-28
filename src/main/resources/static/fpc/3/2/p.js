@@ -8,8 +8,8 @@ import { sql_app, l1 } from './l1.js'
 fd.eMap = eMap
 fd.parentChild = parentChild
 
-pd.sn = {}//sn: session
-pd.sn.hashVrVl = window.location.hash.split(',')
+pd.session = {}//sn: session
+pd.session.hashVrVl = window.location.hash.split(',')
 
 var promiseCount = 0
 
@@ -40,7 +40,7 @@ const fpc01 =
         data() {
             return {
                 count: ++promiseCount,
-                sn: pd.sn,
+                sn: pd.session,
             }
         }
     })
@@ -69,11 +69,11 @@ fpc01.mount('#fpc01')
 const app =
     createApp({
         mounted() {
-            // const adnId = 1 * pd.sn.hashVrVl[1], sqlName = 'adn01OneNode'
+            // const adnId = 1 * pd.session.hashVrVl[1], sqlName = 'adn01OneNode'
             // runWsOpenInPromise({ sqlName: 'adn01OneNode', adnId: this.adnId }
-            // console.log('app for ->', pd.sn.hashVrVl.slice(1).join(','))
+            // console.log('app for ->', pd.session.hashVrVl.slice(1).join(','))
             runWsOpenInPromise(
-                { sqlName: 'adn01NodesIn', adnId: pd.sn.hashVrVl.slice(1).join(',') }
+                { sqlName: 'adn01NodesIn', adnId: pd.session.hashVrVl.slice(1).join(',') }
             ).then(pd.sqlAdnData)
             // console.log('app for ->', this.adnId)
         },
@@ -94,7 +94,7 @@ const app =
                 count: ++promiseCount,
                 parentChild: parentChild,
                 message: 'Hello Vue!',
-                adnId: 1 * pd.sn.hashVrVl[1]
+                adnId: 1 * pd.session.hashVrVl[1]
             }
         }
     })

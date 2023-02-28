@@ -10,15 +10,15 @@ const { createApp, nextTick, ref } = Vue
     , parentChild = {} // parent:[Child ids]
     , pd = {} //pd: Page Data
 
-pd.sn = {}//sn: session
+pd.session = {}//sn: session
 pd.count = 0
 pd.plusMinuList = ','
 
 //for AM003-«e-Stock»
 
-pd.sn.hashVrVl = window.location.hash.split(',')
-pd.isHashVr = n => pd.sn.hashVrVl[0].indexOf(n) == 1
-pd.sn.fElId = (pd.isHashVr('fElId') && 1 * pd.sn.hashVrVl[1]) || pd.sn.fElId || 373071
+pd.session.hashVrVl = window.location.hash.split(',')
+pd.isHashVr = n => pd.session.hashVrVl[0].indexOf(n) == 1
+pd.session.fElId = (pd.isHashVr('fElId') && 1 * pd.session.hashVrVl[1]) || pd.session.fElId || 373071
 
 //bj: buildJSON
 const buildJSON = {}
@@ -82,9 +82,9 @@ buildJSON.stringify.Structure = json => JSON.stringify(json, (k, v) => (
 
 buildJSON.typeOf.Structure = () => {
     const json = {}
-    console.log(pd.sn.fElId)
-    json.keyAsObjName = buildJSON.typeOf.keyAsObjName(pd.sn.fElId)
-    buildJSON.typeOf.se2Parent(json[json.keyAsObjName] = {}, pd.sn.fElId)
+    console.log(pd.session.fElId)
+    json.keyAsObjName = buildJSON.typeOf.keyAsObjName(pd.session.fElId)
+    buildJSON.typeOf.se2Parent(json[json.keyAsObjName] = {}, pd.session.fElId)
     return json
 }
 
@@ -116,7 +116,7 @@ const fpc01 = createApp({
             //j: buildJSON in DEVELOPMENT !
             const hfj = { v: 'Hello buildJSON! ' + this.count + '\n' },
                 json = {}//jn: JSON Node
-            hfj.v += '⌖ ' + pd.sn.fElId + '\n'
+            hfj.v += '⌖ ' + pd.session.fElId + '\n'
 
             console.log(pd.typeOf, buildJSON.typeOf[pd.typeOf] )
 
@@ -125,7 +125,7 @@ const fpc01 = createApp({
 
             pd.plusMinuList.includes('metaContentId')
                 && (json.metaContentId = {})
-                && buildJSON.mcFirst(json.metaContentId, pd.sn.fElId)
+                && buildJSON.mcFirst(json.metaContentId, pd.session.fElId)
 
             fd.json = json
 
@@ -151,8 +151,8 @@ pd.i = (ts, n) => pd.e(ts) && pd.e(ts)[n]
 jsLib1.wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
 
 jsLib1.wsDbSelect.onopen = event => readAdnsDirect
-    ('adn01OneNode_adn01Childrens', pd.sn.hashVrVl.filter((v, i) => i > 0), isNotIn_eMap)
-// ('adn01OneNode_adn01Childrens', [pd.sn.fElId], isNotIn_eMap)
+    ('adn01OneNode_adn01Childrens', pd.session.hashVrVl.filter((v, i) => i > 0), isNotIn_eMap)
+// ('adn01OneNode_adn01Childrens', [pd.session.fElId], isNotIn_eMap)
 
 jsLib1.wsDbSelect.onmessage = event => {
     const obj = JSON.parse(event.data)
@@ -200,13 +200,13 @@ fpc01.component('t-adn-view', {
 
 fpc01.mount('#fpc01')
 
-pd.sn.or2tree = () => {
-    const x = Object.assign([], pd.sn.hashVrVl)
+pd.session.or2tree = () => {
+    const x = Object.assign([], pd.session.hashVrVl)
     x.shift()
     return 'tree_' + x.join('_') + ',' + x[0]
 }
-pd.sn.hashVrVlto1 = p => {
-    let x = Object.assign([], pd.sn.hashVrVl)
+pd.session.hashVrVlto1 = p => {
+    let x = Object.assign([], pd.session.hashVrVl)
     x.splice(1, 0, x.splice(p, 1)[0])
     return x.join(',')
 }
@@ -226,4 +226,4 @@ const menu = {
 createApp({ data() { return menu } }).mount('#menu01')
 pd.siteTitle = 'FPC'
 createApp({ data() { return { siteTitle: pd.siteTitle } } }).mount('#headTitle')
-createApp({ data() { return { sn: pd.sn, count: pd.count } } }).mount('#id01')
+createApp({ data() { return { sn: pd.session, count: pd.count } } }).mount('#id01')
