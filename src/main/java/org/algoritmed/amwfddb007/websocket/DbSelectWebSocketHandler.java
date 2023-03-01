@@ -34,7 +34,7 @@ public class DbSelectWebSocketHandler implements WebSocketHandler {
             WebSocketMessage m;
             try {
                 mapIn = objectMapper.readValue(sqlSelectJson, Map.class);
-                logger.info("-34-" + incrementAndGet + ":" );
+                logger.info("-37-" + incrementAndGet + ":, sql:" );
                 String sqlSelect = (String) mapIn.get("sql");
                 mapIn.put("list", dbSqlClient.getListOfRowObject(sqlSelect).get());
                 mapIn.remove("sql");

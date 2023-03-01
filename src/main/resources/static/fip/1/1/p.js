@@ -67,10 +67,9 @@ const runWsOpenInPromise = (sendJson, onMessageFn) => {
     wsDbSelect.onopen = event => wsDbSelect.send(JSON.stringify(Object.assign(sendJson, {
         sql: l1.replaceSql(sql_app[sendJson.sqlName].sql).replace(':adnId', sendJson.adnId)
     })))
-    const onMessagePromise = new Promise((onMessageFn, reject) => wsDbSelect
+    return new Promise((onMessageFn, reject) => wsDbSelect
         .onmessage = event => onMessageFn(event))
     // onMessageFn && onMessagePromise.then(onMessageFn)
-    return onMessagePromise
 }
 
 pd.e = ts => eMap[ts.adnId]
@@ -83,11 +82,12 @@ pd.listDeepNum = deep => Array.from(Array(deep), (_, i) => i + 1)
 pd.listDeepSql = (a, inl) => a.reduce((n, m) => n.push(m.reduce((n1, m1) => m1 > 1
     && 'SELECT doc_id FROM doc WHERE parent IN (' + n1 + ')' || n1, inl)) && n, [])
 
-const sendAndSetMessageFn = (sendJson, onMessageFn) => {
+const sendAndSetMessageFn = (sendJson, onMessageFn, rejectFn) => {
     wsDbSelect.send(JSON.stringify(sendJson))
-    const onMessagePromise = new Promise((onMessageFn, reject) => wsDbSelect
-        .onmessage = event => onMessageFn(event))
-    return onMessagePromise
+    return new Promise((onMessageFn, rejectFn) => {
+        wsDbSelect.onmessage = event => onMessageFn(event)
+        wsDbSelect.onerror = event => rejectFn(event)
+    })
 }
 
 pd.jsonToSend = (sqlName, adnId) => true
@@ -124,7 +124,6 @@ pd.cmd.initShortLink = () => {
         console.log(n, m, m.includes('p_'), pd.session.json['p_' + m]
             , pd.session.json['p_' + m].join(','))
         , '')
-
 }
 
 createApp({
@@ -186,8 +185,8 @@ const fpc01 = createApp({
 
 pd.onOffChild = (adnId) => (parentChild[adnId] || []).length > 0 && eMap[adnId]
     && (eMap[adnId].openChild = !eMap[adnId].openChild)
-pd.cmd.ppHref = () => '#' + Object.keys(fd.session.json).reduce((n, m) => n
-    + ';' + m + ',' + fd.session.json[m].join(','), '').substring(1)
+pd.cmd.ppHref = () => '#' + Object.keys(pd.session.json).reduce((n, m) => n
+    + ';' + m + ',' + pd.session.json[m].join(','), '').substring(1)
 
 pd.session.ppClose = []
 
@@ -270,80 +269,112 @@ buildJSON.mcFirst = (jn, i) => buildJSON.add1Mc(jn, i) && buildJSON.mcParent(jn,
 pd.sql = {}
 
 fd.sql_app = sql_app
-/**
- * sql: 'SELECT c_1_r2.value col_name, sdid.value code_system, d1.* FROM doc d1 \n\
-LEFT JOIN string c_1_r2 ON c_1_r2.string_id=d1.reference2 \n\
-LEFT JOIN string sdid ON sdid.string_id=d1.doc_id \n\
-WHERE d1.parent =  370033'}
- */
+
 sql_app.r1Type_r2Aggregate = {
     name: 'SQL template where reference2 is aggregate data',
-    shortName: 'vTable⁙type:value|aggregateTV',
+    shortName: 'vTable⁙r1type:value|r2:aggregateTV',
     sql: 'SELECT :fieldsJoin d1.* FROM doc d1 \n\
         :joinValues WHERE d1.parent = :adnId'
 }
-sql_app.r1Type_r2Value = {
+sql_app.r1Type_Value = {
     name: 'Template to generate SELECT in moore styles, example: reference:<<type>>, reference2:<<value>>',
-    shortName: 'vTable⁙type:value',
+    shortName: 'vTable⁙r1type:value',
     sql: 'SELECT :fieldsJoin d1.* FROM doc d1 \n\
         :joinValues WHERE d1.parent = :adnId'
 }
 
-pd.session.buildSqlList = ['r1Type_r2Value', 'r1Type_r2Aggregate']
-pd.session.buildSqlType = 'r1Type_r2Value'
+pd.session.buildSqlList = ['r1Type_Value', 'r1Type_r2Aggregate']
+pd.session.buildSqlType = 'r1Type_Value'
 
 /** */
 sql_app.build = {}
 /**
- * console.log(123, adnId, eMap[adnId], parentChild[adnId][0]
-        , eMap[parentChild[adnId][0]]
-        , fieldName
-        , eMap[parentChild[adnId][0]].r2_value_22
-        , eMap[parentChild[adnId][0]].reference2
-        , eMap[eMap[parentChild[adnId][0]].reference2].parent
-        , eMap[eMap[eMap[parentChild[adnId][0]].reference2].parent].value_22
-        , eMap[eMap[eMap[parentChild[adnId][0]].reference2].parent]
-    )
+ * 
+ * @param {*} sqlAddObj 
+ * @param {newObjKey:*, columnAdnId:<<adnId*>>, suffix:*} params - parts of new Object
+ * @returns 
  */
+sql_app.build.contentJoin = (sqlAddObj, params) => (
+    // sqlAddObj.contentJoin[parentChild[adnId][0]] = {
+    sqlAddObj[params.newObjKey] = {
+        key: 'c_' + params.columnAdnId + params.suffix,
+        alias: '' + eMap[eMap[eMap[params.columnAdnId].reference].parent].value_22
+            + '_' + (eMap[params.columnAdnId].r_value_22 || eMap[params.columnAdnId].rr_value_22),
+    })
+/**
+ * 
+ * @param {*} adnId 
+ * @param {*} sqlAdd 
+ * @param {*} params 
+ */
+sql_app.build.montageSqlAdd = (adnId, sqlAdd, params) => {
+    console.log(adnId, sqlAdd, params)
+}
+/**
+ * Montage: filedNames, LEFT_JOIN groups and end SQL SELECT v.001.
+ * @param {*} adnId 
+ * @param {*} sqlAdd 
+ * @returns sqlAdd
+ */
+sql_app.build.montage001SqlAdd = (adnId, sqlAdd) => Object.keys(sqlAdd.contentJoin).reduce(
+    (n, adnId) => {
+        sqlAdd.sqlStr.fieldsJoin
+            += sqlAdd.contentJoin[adnId].key + '.value ' + sqlAdd.contentJoin[adnId].alias + ', '
+        sqlAdd.sqlStr.joinValues
+            += 'LEFT JOIN string ' + sqlAdd.contentJoin[adnId].key + ' ON '
+            + sqlAdd.contentJoin[adnId].key + '.string_id=d1.doc_id \n'
+        sqlAdd.contentJoin[adnId].r2a && (() => {
+            sqlAdd.sqlStr.fieldsJoin += sqlAdd.contentJoin[adnId].r2a.key + '.* ,'
+            sqlAdd.sqlStr.joinValues += 'LEFT JOIN (SELECT ' + sqlAdd.contentJoin[adnId].r2a.key
+                + '.value ' + sqlAdd.contentJoin[adnId].r2a.alias
+                + ' , d1.doc_id ' + sqlAdd.contentJoin[adnId].r2a.alias
+                + '_id \n FROM doc d1 LEFT JOIN string '
+                + sqlAdd.contentJoin[adnId].r2a.key + ' \n ON ' + sqlAdd.contentJoin[adnId].r2a.key
+                + '.string_id=d1.doc_id ) '
+                + sqlAdd.contentJoin[adnId].r2a.key + ' \n ON ' + sqlAdd.contentJoin[adnId].r2a.key + '.'
+                + sqlAdd.contentJoin[adnId].r2a.alias + '_id=d1.reference2 '
+            console.log(adnId, sqlAdd, sqlAdd.contentJoin[adnId].r2a)
+        })()
+        return true
+    }, '') && (
+        sqlAdd.sql
+        = sql_app.r1Type_Value.sql
+            .replace(':fieldsJoin', sqlAdd.sqlStr.fieldsJoin)
+            .replace(':joinValues', sqlAdd.sqlStr.joinValues)
+            .replace(':adnId', adnId)
+    ) && sqlAdd
+/**
+ * 
+ * @param {*} adnId 
+ * @param {*} sqlAdd 
+ * @returns sqlAdd
+ */
+sql_app.build.r1Type_Value = (adnId, sqlAdd) => {
 
+    console.log(adnId, sqlAdd, parentChild[adnId][0])
+    sql_app.build.contentJoin(sqlAdd.contentJoin,
+        { newObjKey: parentChild[adnId][0], columnAdnId: parentChild[adnId][0], suffix: '_r1t_v', }
+    )
+    sql_app.build.montage001SqlAdd(adnId, sqlAdd)
+    return sqlAdd
+}
 /**
  * 
  * @param {*} adnId 
  * @param {*} sqlAdd 
  * @returns 
- */
+*/
 sql_app.build.r1Type_r2Aggregate = (adnId, sqlAdd) => {
-    sql_app.build.contentJoin(adnId, sqlAdd)
-    console.log(adnId, sqlAdd)
+
+    console.log(adnId, sqlAdd, parentChild[adnId][0])
+    sql_app.build.contentJoin(sqlAdd.contentJoin,
+        { newObjKey: parentChild[adnId][0], columnAdnId: parentChild[adnId][0], suffix: '_r1t_v', }
+    )
+    sql_app.build.contentJoin(sqlAdd.contentJoin[parentChild[adnId][0]],
+        { newObjKey: 'r2a', columnAdnId: eMap[parentChild[adnId][0]].reference2, suffix: '_r2a', }
+    )
+    sql_app.build.montage001SqlAdd(adnId, sqlAdd)
 }
-
-sql_app.build.contentJoin = (adnId, sqlAdd) => (sqlAdd.contentJoin[parentChild[adnId][0]] = {
-    key: 'c_' + parentChild[adnId][0] + '_r2'
-    , alias: '' + eMap[eMap[eMap[parentChild[adnId][0]].reference].parent].value_22
-        + '_' + (eMap[parentChild[adnId][0]].r_value_22 || eMap[parentChild[adnId][0]].rr_value_22)
-})
-
-sql_app.build.r1Type_r2Value = (adnId, sqlAdd) => {
-
-    sql_app.build.contentJoin(adnId, sqlAdd)
-    console.log(sqlAdd, parentChild[adnId][0])
-
-    Object.keys(sqlAdd.contentJoin).reduce((n, m) => {
-        sqlAdd.sqlStr.fieldsJoin += sqlAdd.contentJoin[m].key
-            + '.value ' + sqlAdd.contentJoin[m].alias + ', '
-        sqlAdd.sqlStr.joinValues += 'LEFT JOIN string '
-            + sqlAdd.contentJoin[m].key + ' ON '
-            + sqlAdd.contentJoin[m].key + '.string_id=d1.doc_id \n'
-    }, '')
-
-    sqlAdd.sql = sql_app.r1Type_r2Value.sql
-        .replace(':fieldsJoin', sqlAdd.sqlStr.fieldsJoin)
-        .replace(':joinValues', sqlAdd.sqlStr.joinValues)
-        .replace(':adnId', adnId)
-
-    return sqlAdd
-}
-
 /** Parts of page - necessary for compose the end program */
 fpc01.component('t-page-part', {
     template: '#tPagePart', props: { pagePart: String },
@@ -356,24 +387,28 @@ fpc01.component('t-page-part', {
             this.count++
         },
         sql_app(sqlName) { return sql_app[sqlName] },
-        sqlDataList(adnId) {
-            return pd.session.sqlDataList && pd.session.sqlDataList[adnId]
-        },
+        sqlDataList(adnId) { return pd.session.sqlDataList && pd.session.sqlDataList[adnId] },
         buildSqlSelect(adnId) {
-            console.log(adnId, pd.session.buildSqlType)
             const sqlAdd = { contentJoin: {}, sqlStr: { fieldsJoin: '', joinValues: '' } }
+
+            fd.sqlAdd = sqlAdd
+
             sql_app.build[pd.session.buildSqlType](adnId, sqlAdd);
 
             (pd.session.jsonStr || (pd.session.jsonStr = {}))[adnId] = '\n' + sqlAdd.sql
 
             sendAndSetMessageFn({ sql: sqlAdd.sql, adnId: adnId }
-            ).then(event => ((pd.session.sqlDataList || (pd.session.sqlDataList = {})
-            )[adnId] = JSON.parse(event.data).list
-            ) && this.count++)
-
+            ).then(event =>
+                ((pd.session.sqlDataList || (pd.session.sqlDataList = {})
+                )[adnId] = JSON.parse(event.data).list
+                ) && this.count++
+                , event => {
+                    console.error(event, 123)
+                }) && this.count++
+            this.count++
         },
         buildType(typeOf, adnId) {
-            console.log(typeOf, pd.session.p[this.pagePart][adnId])
+            console.log(this.pagePart, typeOf, pd.session.p[this.pagePart][adnId])
             pd.session.p[this.pagePart][adnId].buildType = typeOf
             this.count++
         },
