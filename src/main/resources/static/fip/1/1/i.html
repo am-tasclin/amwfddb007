@@ -163,15 +163,31 @@
                                 <button class="w3-small w3-btn w3-padding-small w3-leftbar"
                                     @click="buildSqlSelect(adnId)"> SELECT </button>
                                 <span class="w3-tiny"> {{session().buildSqlType}} </span>
-                                <div class="w3-border w3-leftbar w3-dropdown-content w3-container w3-hover-shadow"
-                                    style="left: -1em;">
-                                    <div v-for="sqlName in session().buildSqlList">
-                                        <button @click="setSqlBuildType(sqlName)"
-                                            class="w3-btn w3-ripple w3-small am-b">
-                                            {{sql_app(sqlName).shortName}}
-                                        </button>
-                                        <span class="w3-tiny"> {{sqlName}} </span>
+                                <div class="w3-border w3-leftbar w3-dropdown-content w13-container w3-hover-shadow"
+                                    style="left: -5em; width: 33em;">
+                                    <div class="w3-row">
+                                        <div class="w3-half">
+                                            <div v-for="sqlName in session().buildSqlList">
+                                                <button @click="setSqlBuildType(sqlName)"
+                                                    class="w3-btn w3-ripple w3-small am-b">
+                                                    {{sqlName}}
+                                                </button>
+                                                <span class="w3-tiny"> {{sql_app(sqlName).shortName}} </span>
+                                            </div>
+                                        </div>
+                                        <div class="w3-half w3-small">
+                                            <div > <span class="w3-tiny am-b"> innerColumn: </span>
+                                                {{parentChild(adnId)[0]}} </div>
+                                            <div class="w3-container w3-border-left">
+                                                <div v-for="adnId in parentChild(parentChild(adnId)[0])">
+                                                    <span class="w3-hover-shadow">
+                                                        {{adnId}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
                                 </div>
                             </span>
                             <div v-if="isOpenChild(adnId)" style="white-space: pre; overflow: auto;"
@@ -208,12 +224,20 @@
                 <span class="w3-tiny">&nbsp;
                     r: {{i('reference')}}, r2: {{i('reference2')}}&nbsp;
                 </span>
-                <div class="w3-border w3-dropdown-content w3-container w3-hover-shadow" style="right: -1em;">
+                <div class="w3-border w3-dropdown-content w3-container w3-hover-shadow"
+                    style="right: -1em;width: 14em;">
                     <span class="w3-right w3-tiny">
+                        <span title="parent"> p: </span>
                         <span class="am-b">↥</span>
                         <span class="w3-hover-shadow">{{i('parent')}}</span>
-                        <span class="am-b">↥</span>
+                        <span class="am-b">↥</span>,
                     </span>
+                    <div class="w3-small">
+                        <span title="reference"> r: </span>
+                        <span class="w3-hover-shadow">{{i('reference')}}</span>,
+                        <span title="reference2"> r2: </span>
+                        <span class="w3-hover-shadow">{{i('reference2')}}</span>,
+                    </div>
                     ⏻-MENU-
                 </div>
             </span>

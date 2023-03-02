@@ -143,9 +143,7 @@ pd.cmd.dropDownOnOff = eId => !document.getElementById(eId).className.includes('
         document.getElementById(eId).className.replace(' w3-show', ''))
 
 const fpc01 = createApp({
-    data() {
-        return { count: ++pdCount, ppMenuList: pd.ppMenuList }
-    },
+    data() { return { count: ++pdCount, ppMenuList: pd.ppMenuList } },
     methods: {
         session() { return pd.session },
         clickPagePartEd() { pd.cmd.dropDownOnOff('pagePartEd') },
@@ -168,7 +166,7 @@ const fpc01 = createApp({
                 , h2 = ',' == h.slice(-1) && h.slice(0, -1) || h
                 , h3 = pd.cmd.fcwRawArray.filter(m => !m.includes('pps')).join(';')
             return 'pps,' + h2 + ';' + h3
-        }
+        },
     },
     mounted() {
         let allAndIds = Object.keys(pd.session.json).filter(n => !n.includes('pps')).reduce(
@@ -183,10 +181,10 @@ const fpc01 = createApp({
     },
 })
 
-pd.onOffChild = (adnId) => (parentChild[adnId] || []).length > 0 && eMap[adnId]
+pd.onOffChild = adnId => (parentChild[adnId] || []).length > 0 && eMap[adnId]
     && (eMap[adnId].openChild = !eMap[adnId].openChild)
-pd.cmd.ppHref = () => '#' + Object.keys(pd.session.json).reduce((n, m) => n
-    + ';' + m + ',' + pd.session.json[m].join(','), '').substring(1)
+pd.cmd.ppHref = () => '#' + Object.keys(pd.session.json).reduce((n, adnId) => n
+    + ';' + adnId + ',' + pd.session.json[adnId].join(','), '').substring(1)
 
 pd.session.ppClose = []
 
@@ -272,13 +270,13 @@ fd.sql_app = sql_app
 
 sql_app.r1Type_r2Aggregate = {
     name: 'SQL template where reference2 is aggregate data',
-    shortName: 'vTable⁙r1type:value|r2:aggregateTV',
+    shortName: 'vTable ⁙r1type:value | r2:aggregateTV',
     sql: 'SELECT :fieldsJoin d1.* FROM doc d1 \n\
         :joinValues WHERE d1.parent = :adnId'
 }
 sql_app.r1Type_Value = {
     name: 'Template to generate SELECT in moore styles, example: reference:<<type>>, reference2:<<value>>',
-    shortName: 'vTable⁙r1type:value',
+    shortName: 'vTable ⁙r1type:value',
     sql: 'SELECT :fieldsJoin d1.* FROM doc d1 \n\
         :joinValues WHERE d1.parent = :adnId'
 }
@@ -301,15 +299,7 @@ sql_app.build.contentJoin = (sqlAddObj, params) => (
         alias: '' + eMap[eMap[eMap[params.columnAdnId].reference].parent].value_22
             + '_' + (eMap[params.columnAdnId].r_value_22 || eMap[params.columnAdnId].rr_value_22),
     })
-/**
- * 
- * @param {*} adnId 
- * @param {*} sqlAdd 
- * @param {*} params 
- */
-sql_app.build.montageSqlAdd = (adnId, sqlAdd, params) => {
-    console.log(adnId, sqlAdd, params)
-}
+
 /**
  * Montage: filedNames, LEFT_JOIN groups and end SQL SELECT v.001.
  * @param {*} adnId 
@@ -325,7 +315,8 @@ sql_app.build.montage001SqlAdd = (adnId, sqlAdd) => Object.keys(sqlAdd.contentJo
             + sqlAdd.contentJoin[adnId].key + '.string_id=d1.doc_id \n'
         sqlAdd.contentJoin[adnId].r2a && (() => {
             sqlAdd.sqlStr.fieldsJoin += sqlAdd.contentJoin[adnId].r2a.key + '.* ,'
-            sqlAdd.sqlStr.joinValues += 'LEFT JOIN (SELECT ' + sqlAdd.contentJoin[adnId].r2a.key
+            sqlAdd.sqlStr.joinValues
+                += 'LEFT JOIN (SELECT ' + sqlAdd.contentJoin[adnId].r2a.key
                 + '.value ' + sqlAdd.contentJoin[adnId].r2a.alias
                 + ' , d1.doc_id ' + sqlAdd.contentJoin[adnId].r2a.alias
                 + '_id \n FROM doc d1 LEFT JOIN string '
@@ -373,13 +364,22 @@ sql_app.build.r1Type_r2Aggregate = (adnId, sqlAdd) => {
     sql_app.build.contentJoin(sqlAdd.contentJoin[parentChild[adnId][0]],
         { newObjKey: 'r2a', columnAdnId: eMap[parentChild[adnId][0]].reference2, suffix: '_r2a', }
     )
+    parentChild[parentChild[adnId][0]].forEach(xId => {
+        console.log(xId)
+        sql_app.build.contentJoin(sqlAdd.contentJoin,
+            { newObjKey: xId, columnAdnId: xId, suffix: '_r1t_v', }
+        )
+        console.log(sqlAdd)
+    })
     sql_app.build.montage001SqlAdd(adnId, sqlAdd)
 }
 /** Parts of page - necessary for compose the end program */
 fpc01.component('t-page-part', {
+
     template: '#tPagePart', props: { pagePart: String },
     data() { return { count: ++pdCount, } },
     methods: {
+        parentChild(adnId) { return parentChild[adnId] || [] },
         session() { return pd.session },
         setSqlBuildType(sqlName) {
             pd.session.buildSqlType = sqlName
