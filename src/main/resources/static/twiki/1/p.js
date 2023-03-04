@@ -22,7 +22,7 @@ pd.e = ts => eMap[ts.adnId]
 pd.i = (ts, n) => pd.e(ts) && pd.e(ts)[n]
 
 const twiki = createApp({
-    data() { return { count: 0 } },
+    data() { return { count: 1 } },
     methods: {
         session() { return pd.session },
         e(adnId) { return eMap[adnId] },
@@ -43,3 +43,5 @@ const twiki = createApp({
 })
 
 twiki.mount('#twiki')
+
+createApp({ data() { return { docId: pd.session.page } } }).mount('#headTitle')
