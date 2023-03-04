@@ -41,14 +41,14 @@
                 src="/f/img/algoritmed-logo.webp" style="width:75px;" />&nbsp;</a>
         &nbsp; <span class="w3-tiny am-b w3-topbar">FIP:</span>
         <span class="w3-small">
-            1/1 ⁙ FHIR Info Page convert/output forms : MCrDB -> [SQL, JSON]
+            1/1 ⁙ <span class="am-u"><b>F</b>HIR <b>I</b>nfo <b>P</b>age</span> convert/output forms : MCrDB -> [SQL, JSON]
         </span>
     </div>
 
     <div id="fpc01" class="am-max-width-1">
         <span class="w3-hide">{{count}}</span>
         <div class="w3-border-bottom">
-            Hi FIP! =>
+            Page parts =>
             <span class="w3-small" v-for="n in session().json.pps.filter(n=>!n.includes('pps'))">
                 <a :href="'#'+ppsHref(n)"> {{session().fcw[n]}} </a> , </span>
             <span class="w3-right">
@@ -238,7 +238,7 @@
                         <span title="reference2"> r2: </span>
                         <span class="w3-hover-shadow">{{i('reference2')}}</span>,
                     </div>
-                    ⏻-MENU-
+                    ⏻-MENU-☰
                 </div>
             </span>
             <span @click="adnClick(adnId)"

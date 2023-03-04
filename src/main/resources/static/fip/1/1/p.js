@@ -3,7 +3,11 @@ const { createApp, nextTick } = Vue
     , eMap = {} // emap: doc_id:MCrDB ADN Element
     , parentChild = {}
     , pd = {} //pd: Page Data
-import { sql_app, l1 } from './l1.js'
+import { sql_app, wsDs } from './l1.js'
+// import { sql_app, l1, wsDs } from './l1.js'
+
+wsDs.eMap = eMap
+wsDs.parentChild = parentChild
 
 fd.eMap = eMap
 fd.parentChild = parentChild
@@ -61,52 +65,15 @@ pd.session.fcw = {
     lr: 'Left|Right ::mc', //mc: Midnight Commander
 }
 
-const wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
-
-const runWsOpenInPromise = (sendJson, onMessageFn) => {
-    wsDbSelect.onopen = event => wsDbSelect.send(JSON.stringify(Object.assign(sendJson, {
-        sql: l1.replaceSql(sql_app[sendJson.sqlName].sql).replace(':adnId', sendJson.adnId)
-    })))
-    return new Promise((onMessageFn, reject) => wsDbSelect
-        .onmessage = event => onMessageFn(event))
-    // onMessageFn && onMessagePromise.then(onMessageFn)
-}
-
 pd.e = ts => eMap[ts.adnId]
 pd.i = (ts, n) => pd.e(ts) && pd.e(ts)[n]
 //make [[1],[1,2],[1,2,3]] from 3
-pd.listDeepNum = deep => Array.from(Array(deep), (_, i) => i + 1)
-    .reduce((n, m) => n.push(Array.from(Array(m), (_, i) => i + 1)) && n, [])
-
 //make SELECT … parent IN (…) from deep
-pd.listDeepSql = (a, inl) => a.reduce((n, m) => n.push(m.reduce((n1, m1) => m1 > 1
-    && 'SELECT doc_id FROM doc WHERE parent IN (' + n1 + ')' || n1, inl)) && n, [])
 
-const sendAndSetMessageFn = (sendJson, onMessageFn, rejectFn) => {
-    wsDbSelect.send(JSON.stringify(sendJson))
-    return new Promise((onMessageFn, rejectFn) => {
-        wsDbSelect.onmessage = event => onMessageFn(event)
-        wsDbSelect.onerror = event => rejectFn(event)
-    })
-}
+fd.jsonToSend = wsDs.jsonToSend
 
-pd.jsonToSend = (sqlName, adnId) => true
-    && { sqlName: sqlName, adnId: adnId, sql: l1.replaceSql(sql_app[sqlName].sql).replace(':adnId', adnId) }
-
-fd.jsonToSend = pd.jsonToSend
-
-pd.sqlAdnData = event => JSON.parse(event.data).list
-    .forEach(e => (eMap[e.doc_id] = e) && eMap[e.parent] &&
-        (parentChild[e.parent] || (parentChild[e.parent] = [])).push(e.doc_id)) || true
-
-const readParentDeep = listDeepSql => sendAndSetMessageFn(pd
-    .jsonToSend('adn01ChildrensIn', listDeepSql[0])).then(event => {
-        pd.sqlAdnData(event)
-        listDeepSql.length > 1 && readParentDeep(listDeepSql.shift() && listDeepSql)
-    })
-
-fd.listDeepNum = pd.listDeepNum
-fd.listDeepSql = pd.listDeepSql
+fd.listDeepNum = wsDs.listDeepNum
+fd.listDeepSql = wsDs.listDeepSql
 
 var pdCount = 0
 pd.ppMenuList = Object.keys(pd.session.json).filter(n => 'pps' != n)
@@ -172,11 +139,11 @@ const fpc01 = createApp({
         let allAndIds = Object.keys(pd.session.json).filter(n => !n.includes('pps')).reduce(
             (n, m) => n + ',' + pd.session.json[m].join(','), '').substring(1)
         ',' === allAndIds.slice(-1) && (allAndIds = allAndIds.slice(0, -1))
-        runWsOpenInPromise(
+        wsDs.runWsOpenInPromise(
             { sqlName: 'adn01NodesIn', adnId: allAndIds }
         ).then(event => {
-            pd.sqlAdnData(event)
-            readParentDeep(pd.listDeepSql(pd.listDeepNum(3), allAndIds))
+            wsDs.sqlAdnData(event)
+            wsDs.readParentDeep(wsDs.listDeepSql(wsDs.listDeepNum(4), allAndIds))
         })
     },
 })
@@ -271,13 +238,15 @@ fd.sql_app = sql_app
 sql_app.r1Type_r2Aggregate = {
     name: 'SQL template where reference2 is aggregate data',
     shortName: 'vTable ⁙r1type:value | r2:aggregateTV',
-    sql: 'SELECT :fieldsJoin d1.* FROM doc d1 \n\
+    // sql: 'SELECT :fieldsJoin d1.* FROM doc d1 \n\
+    sql: 'SELECT :fieldsJoin FROM doc d1 \n\
         :joinValues WHERE d1.parent = :adnId'
 }
 sql_app.r1Type_Value = {
     name: 'Template to generate SELECT in moore styles, example: reference:<<type>>, reference2:<<value>>',
     shortName: 'vTable ⁙r1type:value',
-    sql: 'SELECT :fieldsJoin d1.* FROM doc d1 \n\
+    // sql: 'SELECT :fieldsJoin d1.* FROM doc d1 \n\
+    sql: 'SELECT :fieldsJoin FROM doc d1 \n\
         :joinValues WHERE d1.parent = :adnId'
 }
 
@@ -324,13 +293,13 @@ sql_app.build.montage001SqlAdd = (adnId, sqlAdd) => Object.keys(sqlAdd.contentJo
                 + '.string_id=d1.doc_id ) '
                 + sqlAdd.contentJoin[adnId].r2a.key + ' \n ON ' + sqlAdd.contentJoin[adnId].r2a.key + '.'
                 + sqlAdd.contentJoin[adnId].r2a.alias + '_id=d1.reference2 '
-            console.log(adnId, sqlAdd, sqlAdd.contentJoin[adnId].r2a)
+            console.log(adnId, sqlAdd)
         })()
         return true
     }, '') && (
         sqlAdd.sql
         = sql_app.r1Type_Value.sql
-            .replace(':fieldsJoin', sqlAdd.sqlStr.fieldsJoin)
+            .replace(':fieldsJoin', sqlAdd.sqlStr.fieldsJoin + ' d1.*')
             .replace(':joinValues', sqlAdd.sqlStr.joinValues)
             .replace(':adnId', adnId)
     ) && sqlAdd
@@ -397,7 +366,7 @@ fpc01.component('t-page-part', {
 
             (pd.session.jsonStr || (pd.session.jsonStr = {}))[adnId] = '\n' + sqlAdd.sql
 
-            sendAndSetMessageFn({ sql: sqlAdd.sql, adnId: adnId }
+            wsDs.sendAndSetMessageFn({ sql: sqlAdd.sql, adnId: adnId }
             ).then(event =>
                 ((pd.session.sqlDataList || (pd.session.sqlDataList = {})
                 )[adnId] = JSON.parse(event.data).list
@@ -486,9 +455,9 @@ fpc01.component('t-adntree', {
         },
         session() { return pd.session },
         adnClick(adnId) {
-            !parentChild[adnId] && sendAndSetMessageFn(pd.jsonToSend('adn01Childrens', adnId)
+            !parentChild[adnId] && wsDs.sendAndSetMessageFn(wsDs.jsonToSend('adn01Childrens', adnId)
             ).then(event => {
-                pd.sqlAdnData(event)
+                wsDs.sqlAdnData(event)
             })
             pd.onOffChild(adnId)
             this.count++
