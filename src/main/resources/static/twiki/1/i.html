@@ -36,15 +36,19 @@
                 <h2 class="w3-border-bottom" v-if="'h2'==ea(adnId, 'r_value_22')">
                     {{ea(adnId, 'value_22')}} </h2>
                 <div class="w3-right w3-tiny w3-opacity" v-if="'ORDER'==ea(adnId, 'r_value_22')">
-                    ORDER
-                </div>
+                    ORDER </div>
                 <template v-for="adnId2 in parentChild(adnId)">
                     <p v-if="'p'==ea(adnId2, 'r_value_22')">
-                        {{ea(adnId2, 'value_22')}}
-                    </p>
+                        {{ea(adnId2, 'value_22')}} </p>
                     <template v-if="376617==ea(adnId2, 'reference2')">
                         <div class="w3-container w3-topbar w3-light-grey">
-                            {{ea(adnId2, 'r_value_22')}}
+                            <span class="w3-tiny w3-right">
+                                {{ea(adnId2, 'r_value_22')}} ⁙
+                                {{ea(adnId2, 'value_22')}}
+                            </span>
+                            <span class="w3-tiny">{{ea(adnId2, 'r_value_22')}}: &nbsp;</span>
+                            {{ea(adnId2, 'r2_value_22')}} 
+                        
                         </div>
                     </template>
                 </template>

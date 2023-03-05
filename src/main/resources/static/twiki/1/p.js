@@ -12,8 +12,6 @@ wsDs.parentChild = parentChild
 
 fd.mcc = { eMap: eMap, parentChild: parentChild }
 
-console.log(123, window.location.hash)
-
 window.location.hash.split('page_')[1] &&
     (pd.session.page = 1 * window.location.hash.split('page_')[1])
 
@@ -46,3 +44,4 @@ const twiki = createApp({
 twiki.mount('#twiki')
 
 createApp({ data() { return { docId: pd.session.page } } }).mount('#headTitle')
+
