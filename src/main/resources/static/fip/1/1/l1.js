@@ -44,6 +44,17 @@ wsDs.listDeepNum = deep => Array.from(Array(deep), (_, i) => i + 1)
 wsDs.listDeepSql = (a, inl) => a.reduce((n, m) => n.push(m.reduce((n1, m1) => m1 > 1
     && 'SELECT doc_id FROM doc WHERE parent IN (' + n1 + ')' || n1, inl)) && n, [])
 
+//fcw: FHIR Code Word
+//fip: FHIR Info Page Parts
+wsDs.fip = {
+    fEt: 'Element',
+    fTy: 'Terminology',
+    fDd: 'Data Dictionary',
+    fPl: 'Profile',
+    lr: 'Left|Right ::mc', //mc: Midnight Commander
+}
+
+
 sql_app.adn01ChildrensIn = {
     name: "adn01OneNode: 'One Data Node' ::adn01",
     sql: "SELECT x.* FROM (:sql_app.adn01 ) x LEFT JOIN sort s ON doc_id=sort_id\n\

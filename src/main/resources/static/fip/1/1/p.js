@@ -56,14 +56,7 @@ console.log(pd.session)
 !pd.session.json.pps
     && (pd.session.json.pps = Object.keys(pd.session.json).filter(n => !n.includes('pps')))
 
-//fcw: FHIR Code Word
-pd.session.fcw = {
-    fEt: 'Element',
-    fTy: 'Terminology',
-    fDd: 'Data Dictionary',
-    fPl: 'Profile',
-    lr: 'Left|Right ::mc', //mc: Midnight Commander
-}
+pd.session.fcw = wsDs.fip
 
 pd.e = ts => eMap[ts.adnId]
 pd.i = (ts, n) => pd.e(ts) && pd.e(ts)[n]
@@ -470,4 +463,3 @@ fpc01.component('t-adntree', {
 })
 
 fpc01.mount('#fpc01')
-

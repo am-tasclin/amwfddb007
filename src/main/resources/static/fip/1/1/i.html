@@ -41,15 +41,13 @@
                 src="/f/img/algoritmed-logo.webp" style="width:75px;" />&nbsp;</a>
         &nbsp; <span class="w3-tiny am-b w3-topbar">FIP:</span>
         <span class="w3-small">
-            1/1 ⁙ <span class="am-u"><b>F</b>HIR <b>I</b>nfo <b>P</b>age</span> convert/output forms : MCrDB -> [SQL, JSON]
+            1/1 ⁙ <span class="am-u"><b>F</b>HIR <b>I</b>nfo <b>P</b>age</span> convert/output forms : MCrDB -> [SQL,
+            JSON]
         </span>
     </div>
 
-    
+
     <div id="fpc01" class="am-max-width-1">
-        a1
-        {{session()}}
-        a1
         <span class="w3-hide">{{count}}</span>
         <div class="w3-border-bottom">
             Page parts =>
@@ -63,7 +61,7 @@
                         style="right: -1em; width: 30em;">
                         &nbsp;
                         <div v-for="(ppItem, keyPagePart) in session().fcw" class="w3-hover-shadow">
-                            <div class="w3-hover-shadow">
+                            <div class="w3-hover-shadow" v-if="session().json[keyPagePart]">
                                 <input :value="session().json[keyPagePart].join(',')" class="w3-hover-shadow">
                                 &nbsp; <span class="w3-opacity w3-right am-u">
                                     {{keyPagePart}}: <span class="w3-small am-i"> {{ppItem}} </span>
@@ -180,7 +178,7 @@
                                             </div>
                                         </div>
                                         <div class="w3-half w3-small">
-                                            <div > <span class="w3-tiny am-b"> innerColumn: </span>
+                                            <div> <span class="w3-tiny am-b"> innerColumn: </span>
                                                 {{parentChild(adnId)[0]}} </div>
                                             <div class="w3-container w3-border-left">
                                                 <div v-for="adnId in parentChild(parentChild(adnId)[0])">
@@ -225,7 +223,7 @@
 
         <div class="w3-hover-shadow">
             <span class="w3-right w3-dropdown-hover w3-hover-shadow w3-white">
-                <span class="w3-tiny">&nbsp;
+                <span class="w3-tiny  w3-opacity">&nbsp;
                     r: {{i('reference')}}, r2: {{i('reference2')}}&nbsp;
                 </span>
                 <div class="w3-border w3-dropdown-content w3-container w3-hover-shadow"

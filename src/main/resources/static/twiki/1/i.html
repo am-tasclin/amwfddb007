@@ -18,35 +18,36 @@
                     <img style="display: flex;" src="/f/css/homeIcon.svg"> </a>
                 &nbsp; tWIKI
                 <button @click="count++" class="w3-btn w3-ripple w3-padding-small w3-leftbar">
-                    📂 <span class="am-b"> click to open </span> ✲ docId: {{session().page}} </button>
+                    📂 <span class="am-b"> click 🆗 to open </span> ✲ docId: {{session().page}} </button>
                 ➾ <span class="w3-tiny am-b">
                     {{ea(session().page, 'value_22')}} </span>
             </span>
             <a href="http://algoritmed.com/" class="am-0u w3-right w3-hover-shadow" target="_blank">
                 &nbsp;<img src="/f/img/algoritmed-logo.webp" style="width:75px;" />&nbsp;</a>
-            <span class="w3-hover-shadow w3-right">
-                <span class="w3-text-red w3-medium "> ⟑⟕ </span>
+            <span class="w3-hover-shadow w3-right" @click="count++">
+                <span class="w3-text-red w3-medium w3-opacity am-b">&nbsp; ⟑⟕ </span>
                 <sup class="w3-opacity"> {{count}} </sup>
             </span>
-            <!-- <span class="w3-text-red am-b"> △⟎ |⟇⟕ </span> -->
-            <!-- | ⟁⟠ | ▸⧫ | ⟇ -->
         </div>
 
         <div class="am-max-width-1">
-            <h1 class="w3-border-bottom">
-                {{ea(session().page, 'value_22')}}
-            </h1>
+            <h1 class="w3-border-bottom"> {{ea(session().page, 'value_22')}} </h1>
             <template v-for="adnId in parentChild(session().page)">
-                <template v-if="'ORDER'==ea(adnId, 'r_value_22')">
-                    <template v-for="adnId2 in parentChild(adnId)">
-                        <p v-if="'p'==ea(adnId2, 'r_value_22')">
-                            {{ea(adnId2, 'value_22')}}
-                        </p>
+                <h2 class="w3-border-bottom" v-if="'h2'==ea(adnId, 'r_value_22')">
+                    {{ea(adnId, 'value_22')}} </h2>
+                <div class="w3-right w3-tiny w3-opacity" v-if="'ORDER'==ea(adnId, 'r_value_22')">
+                    ORDER
+                </div>
+                <template v-for="adnId2 in parentChild(adnId)">
+                    <p v-if="'p'==ea(adnId2, 'r_value_22')">
+                        {{ea(adnId2, 'value_22')}}
+                    </p>
+                    <template v-if="376617==ea(adnId2, 'reference2')">
+                        <div class="w3-container w3-topbar w3-light-grey">
+                            {{ea(adnId2, 'r_value_22')}}
+                        </div>
                     </template>
                 </template>
-                <h2 class="w3-border-bottom" v-if="'h2'==ea(adnId, 'r_value_22')">
-                    {{ea(adnId, 'value_22')}}
-                </h2>
             </template>
         </div>
     </div>

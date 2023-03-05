@@ -3,8 +3,9 @@ const { createApp, nextTick } = Vue
     , eMap = {} // emap: doc_id:MCrDB ADN Element
     , parentChild = {}
     , pd = {} //pd: Page Data
-pd.session = {}//sn: session
 import { sql_app, wsDs } from '/fip/1/1/l1.js'
+pd.session = {}//sn: session
+pd.session.fcw = wsDs.fip
 
 wsDs.eMap = eMap
 wsDs.parentChild = parentChild
