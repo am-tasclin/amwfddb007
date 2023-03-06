@@ -3,50 +3,52 @@ export const
     sql_app = {} //sql_app: SQL Library
     , l1 = {} //l: JS Library
 
-export const wsDs = {} // WebSocket dbSelect Container
-wsDs.wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
+export const wsDbC = {} // WebSocket dbSelect Container
+wsDbC.wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
 
-wsDs.runWsOpenInPromise = (sendJson, onMessageFn) => {
-    wsDs.wsDbSelect.onopen = event => wsDs.wsDbSelect.send(JSON.stringify(Object.assign(sendJson, {
-        sql: l1.replaceSql(sql_app[sendJson.sqlName].sql).replace(':adnId', sendJson.adnId)
-    })))
-    return new Promise((onMessageFn, reject) => wsDs.wsDbSelect
+wsDbC.runWsOpenInPromise = (sendJson, onMessageFn) => {
+    wsDbC.wsDbSelect.onopen = event => wsDbC.wsDbSelect.send(JSON.stringify(
+        Object.assign(sendJson, { sql: wsDbC.replaceAdnId(sendJson) })))
+    return new Promise((onMessageFn, reject) => wsDbC.wsDbSelect
         .onmessage = event => onMessageFn(event))
-    // onMessageFn && onMessagePromise.then(onMessageFn)
 }
 
-wsDs.sendAndSetMessageFn = (sendJson, onMessageFn, rejectFn) => {
-    wsDs.wsDbSelect.send(JSON.stringify(sendJson))
+wsDbC.replaceAdnId = sendJson => l1.replaceSql(sql_app[sendJson.sqlName].sql).replace(':adnId', sendJson.adnId)
+
+wsDbC.sendAndSetMessageFn = (sendJson, onMessageFn, rejectFn) => {
+    wsDbC.wsDbSelect.send(JSON.stringify(sendJson))
     return new Promise((onMessageFn, rejectFn) => {
-        wsDs.wsDbSelect.onmessage = event => onMessageFn(event)
-        wsDs.wsDbSelect.onerror = event => rejectFn(event)
+        wsDbC.wsDbSelect.onmessage = event => onMessageFn(event)
+        wsDbC.wsDbSelect.onerror = event => rejectFn(event)
     })
 }
 
-wsDs.sqlAdnData = event => JSON.parse(event.data).list
-    .forEach(e => (wsDs.eMap[e.doc_id] = e) && wsDs.eMap[e.parent] &&
-        (wsDs.parentChild[e.parent] || (wsDs.parentChild[e.parent] = [])).push(e.doc_id)) || true
+wsDbC.sqlAdnData = event => JSON.parse(event.data).list
+    .forEach(e => (wsDbC.eMap[e.doc_id] = e) && wsDbC.eMap[e.parent] &&
+        (wsDbC.parentChild[e.parent] || (wsDbC.parentChild[e.parent] = [])).push(e.doc_id)) || true
 
-wsDs.readParentDeep = listDeepSql => wsDs.sendAndSetMessageFn(wsDs
+wsDbC.readParentDeep = listDeepSql => wsDbC.sendAndSetMessageFn(wsDbC
     .jsonToSend('adn01ChildrensIn', listDeepSql[0])).then(event => {
-        wsDs.sqlAdnData(event)
-        listDeepSql.length > 1 && listDeepSql.shift() && wsDs.readParentDeep(listDeepSql)
+        wsDbC.sqlAdnData(event)
+        listDeepSql.length > 1 && listDeepSql.shift() && wsDbC.readParentDeep(listDeepSql)
+            || (wsDbC.cmdList && (wsDbC.cmdListItem < wsDbC.cmdList.length - 1)
+                && wsDbC.cmdList[++wsDbC.cmdListItem].thenFn())
     })
 
-wsDs.jsonToSend = (sqlName, adnId) => true && {
+wsDbC.jsonToSend = (sqlName, adnId) => true && {
     sqlName: sqlName, adnId: adnId, sql: l1.replaceSql(sql_app[sqlName].sql)
         .replace(':adnId', adnId)
 }
 
-wsDs.listDeepNum = deep => Array.from(Array(deep), (_, i) => i + 1)
+wsDbC.listDeepNum = deep => Array.from(Array(deep), (_, i) => i + 1)
     .reduce((n, m) => n.push(Array.from(Array(m), (_, i) => i + 1)) && n, [])
 
-wsDs.listDeepSql = (a, inl) => a.reduce((n, m) => n.push(m.reduce((n1, m1) => m1 > 1
+wsDbC.listDeepSql = (a, inl) => a.reduce((n, m) => n.push(m.reduce((n1, m1) => m1 > 1
     && 'SELECT doc_id FROM doc WHERE parent IN (' + n1 + ')' || n1, inl)) && n, [])
 
 //fcw: FHIR Code Word
 //fip: FHIR Info Page Parts
-wsDs.fip = {
+wsDbC.fip = {
     fEt: 'Element',
     fTy: 'Terminology',
     fDd: 'Data Dictionary',

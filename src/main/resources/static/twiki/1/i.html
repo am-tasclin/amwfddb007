@@ -35,8 +35,8 @@
             <template v-for="adnId in parentChild(session().page)">
                 <h2 class="w3-border-bottom" v-if="'h2'==ea(adnId, 'r_value_22')">
                     {{ea(adnId, 'value_22')}} </h2>
-                <div class="w3-right w3-tiny w3-opacity" v-if="'ORDER'==ea(adnId, 'r_value_22')">
-                    ORDER </div>
+                <span class="w3-right w3-tiny w3-opacity"> <sup v-if="'ORDER'==ea(adnId, 'r_value_22')">
+                        ORDER </sup> </span>
                 <template v-for="adnId2 in parentChild(adnId)">
                     <p v-if="'p'==ea(adnId2, 'r_value_22')">
                         {{ea(adnId2, 'value_22')}} </p>
@@ -47,8 +47,8 @@
                                 {{ea(adnId2, 'value_22')}}
                             </span>
                             <span class="w3-tiny">{{ea(adnId2, 'r_value_22')}}: &nbsp;</span>
-                            {{ea(adnId2, 'r2_value_22')}} 
-                        
+                            {{ea(adnId2, 'r2_value_22')}}
+
                         </div>
                     </template>
                 </template>

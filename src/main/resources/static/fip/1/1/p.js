@@ -3,11 +3,11 @@ const { createApp, nextTick } = Vue
     , eMap = {} // emap: doc_id:MCrDB ADN Element
     , parentChild = {}
     , pd = {} //pd: Page Data
-import { sql_app, wsDs } from './l1.js'
+import { sql_app, wsDbC } from './l1.js'
 // import { sql_app, l1, wsDs } from './l1.js'
 
-wsDs.eMap = eMap
-wsDs.parentChild = parentChild
+wsDbC.eMap = eMap
+wsDbC.parentChild = parentChild
 
 fd.eMap = eMap
 fd.parentChild = parentChild
@@ -56,17 +56,17 @@ console.log(pd.session)
 !pd.session.json.pps
     && (pd.session.json.pps = Object.keys(pd.session.json).filter(n => !n.includes('pps')))
 
-pd.session.fcw = wsDs.fip
+pd.session.fcw = wsDbC.fip
 
 pd.e = ts => eMap[ts.adnId]
 pd.i = (ts, n) => pd.e(ts) && pd.e(ts)[n]
 //make [[1],[1,2],[1,2,3]] from 3
 //make SELECT … parent IN (…) from deep
 
-fd.jsonToSend = wsDs.jsonToSend
+fd.jsonToSend = wsDbC.jsonToSend
 
-fd.listDeepNum = wsDs.listDeepNum
-fd.listDeepSql = wsDs.listDeepSql
+fd.listDeepNum = wsDbC.listDeepNum
+fd.listDeepSql = wsDbC.listDeepSql
 
 var pdCount = 0
 pd.ppMenuList = Object.keys(pd.session.json).filter(n => 'pps' != n)
@@ -132,11 +132,11 @@ const fpc01 = createApp({
         let allAndIds = Object.keys(pd.session.json).filter(n => !n.includes('pps')).reduce(
             (n, m) => n + ',' + pd.session.json[m].join(','), '').substring(1)
         ',' === allAndIds.slice(-1) && (allAndIds = allAndIds.slice(0, -1))
-        wsDs.runWsOpenInPromise(
+        wsDbC.runWsOpenInPromise(
             { sqlName: 'adn01NodesIn', adnId: allAndIds }
         ).then(event => {
-            wsDs.sqlAdnData(event)
-            wsDs.readParentDeep(wsDs.listDeepSql(wsDs.listDeepNum(4), allAndIds))
+            wsDbC.sqlAdnData(event)
+            wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), allAndIds))
         })
     },
 })
@@ -359,7 +359,7 @@ fpc01.component('t-page-part', {
 
             (pd.session.jsonStr || (pd.session.jsonStr = {}))[adnId] = '\n' + sqlAdd.sql
 
-            wsDs.sendAndSetMessageFn({ sql: sqlAdd.sql, adnId: adnId }
+            wsDbC.sendAndSetMessageFn({ sql: sqlAdd.sql, adnId: adnId }
             ).then(event =>
                 ((pd.session.sqlDataList || (pd.session.sqlDataList = {})
                 )[adnId] = JSON.parse(event.data).list
@@ -448,9 +448,9 @@ fpc01.component('t-adntree', {
         },
         session() { return pd.session },
         adnClick(adnId) {
-            !parentChild[adnId] && wsDs.sendAndSetMessageFn(wsDs.jsonToSend('adn01Childrens', adnId)
+            !parentChild[adnId] && wsDbC.sendAndSetMessageFn(wsDbC.jsonToSend('adn01Childrens', adnId)
             ).then(event => {
-                wsDs.sqlAdnData(event)
+                wsDbC.sqlAdnData(event)
             })
             pd.onOffChild(adnId)
             this.count++
