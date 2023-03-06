@@ -23,23 +23,22 @@ console.log(pd)
 pd.e = ts => eMap[ts.adnId]
 pd.i = (ts, n) => pd.e(ts) && pd.e(ts)[n]
 
-wsDbC.cmdList = [] //[{sendJson:{},thenFn:(event =>{})}]
 wsDbC.cmdListItem = 0
-wsDbC.cmdList.push({
+wsDbC.cmdList = [{
     sendJson: { sqlName: 'adn01NodesIn' },
     thenFn: event => {
         wsDbC.sqlAdnData(event)
-        wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), wsDbC.cmdList[0].sendJson.adnId))
+        wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4)
+            , wsDbC.cmdList[0].sendJson.adnId))
     }
-})
-wsDbC.cmdList.push({
+}, {
     sendJson: { sqlName: 'adn01NodesIn' },
     thenFn: () => {
         const fipList = parentChild[pd.session.FhirInfoPageId]
-            , fipList2 = fipList.concat(fipList.reduce((n, m) => Object.assign(n, parentChild[m]), []))
+            , fipList2 = fipList.concat(fipList
+                .reduce((n, m) => Object.assign(n, parentChild[m]), []))
             , inList = Object.keys(eMap).filter(k => fipList2.includes(eMap[k].reference))
                 .reduce((n, m) => n.concat(eMap[m].value_22.split(',')), [])
-        console.log(123, fipList2, inList)
         wsDbC.cmdList[1].sendJson.adnId = inList
         wsDbC.sendAndSetMessageFn(Object.assign(wsDbC.cmdList[1].sendJson
             , { sql: wsDbC.replaceAdnId(wsDbC.cmdList[1].sendJson) })
@@ -48,9 +47,7 @@ wsDbC.cmdList.push({
             wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), inList))
         })
     }
-})
-
-console.log(wsDbC.cmdList)
+}]
 
 const twiki = createApp({
     data() { return { count: 1 } },
