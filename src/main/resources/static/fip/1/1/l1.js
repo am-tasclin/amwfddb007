@@ -56,7 +56,6 @@ wsDbC.fip = {
     lr: 'Left|Right ::mc', //mc: Midnight Commander
 }
 
-
 sql_app.adn01ChildrensIn = {
     name: "adn01OneNode: 'One Data Node' ::adn01",
     sql: "SELECT x.* FROM (:sql_app.adn01 ) x LEFT JOIN sort s ON doc_id=sort_id\n\

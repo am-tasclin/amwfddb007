@@ -34,6 +34,7 @@ wsDbC.cmdList = [{
 }, {
     sendJson: { sqlName: 'adn01NodesIn' },
     thenFn: () => {
+        console.log(pd.mTWiki.count++)//not DELETE
         const fipList = parentChild[pd.session.FhirInfoPageId]
             , fipList2 = fipList.concat(fipList
                 .reduce((n, m) => Object.assign(n, parentChild[m]), []))
@@ -64,6 +65,6 @@ const twiki = createApp({
     },
 })
 
-twiki.mount('#twiki')
+pd.mTWiki = twiki.mount('#twiki')
 
 createApp({ data() { return { docId: pd.session.page } } }).mount('#headTitle')
