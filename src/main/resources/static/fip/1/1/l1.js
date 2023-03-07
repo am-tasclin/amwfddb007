@@ -23,9 +23,18 @@ wsDbC.sendAndSetMessageFn = (sendJson, onMessageFn, rejectFn) => {
     })
 }
 
-wsDbC.sqlAdnData = event => JSON.parse(event.data).list
-    .forEach(e => (wsDbC.eMap[e.doc_id] = e) && wsDbC.eMap[e.parent] &&
-        (wsDbC.parentChild[e.parent] || (wsDbC.parentChild[e.parent] = [])).push(e.doc_id)) || true
+wsDbC.sqlAdnData = event => JSON.parse(event.data).list.reduce((n, e) => {
+    wsDbC.eMap[e.doc_id] = e
+    wsDbC.eMap[e.parent] &&
+        (wsDbC.parentChild[e.parent] || (wsDbC.parentChild[e.parent] = [])).push(e.doc_id)
+    n.push(e.doc_id)
+    return n
+}, [])
+
+// wsDbC.sqlAdnDataX = event => JSON.parse(event.data).list
+//     .forEach(e => (wsDbC.eMap[e.doc_id] = e) && wsDbC.eMap[e.parent] &&
+//         (wsDbC.parentChild[e.parent] || (wsDbC.parentChild[e.parent] = [])).push(e.doc_id)
+//     ) || true
 
 wsDbC.readParentDeep = listDeepSql => wsDbC.sendAndSetMessageFn(wsDbC
     .jsonToSend('adn01ChildrensIn', listDeepSql[0])).then(event => {
@@ -95,7 +104,6 @@ sql_app.adn01 = {
      LEFT JOIN string sr2 ON sr2.string_id =d.reference2 \n\
      LEFT JOIN sort o ON sort_id =d.doc_id ",
 }
-
 
 l1.replaceSql = sql => {
 

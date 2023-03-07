@@ -135,8 +135,11 @@ const fpc01 = createApp({
         wsDbC.runWsOpenInPromise(
             { sqlName: 'adn01NodesIn', adnId: allAndIds }
         ).then(event => {
-            wsDbC.sqlAdnData(event)
+            const xa = wsDbC.sqlAdnData(event)
             wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), allAndIds))
+            console.log(xa)
+            xa.forEach(adnId => pd.ctAdntree[adnId].count++)
+            console.log(pd.mFpc01.count, pd.ctAdntree)
         })
     },
 })
@@ -439,6 +442,7 @@ pd.isOpenChild = adnId => parentChild[adnId] && parentChild[adnId].length > 0 &&
     && (eMap[adnId].openChild === undefined || eMap[adnId].openChild)
 pd.isPanel = (pagePart, adnId) => pd.session.p && pd.session.p[pagePart] && pd.session.p[pagePart][adnId]
 
+pd.ctAdntree = {}
 fpc01.component('t-adntree', {
     template: '#tAdntree', props: { adnId: Number, pagePart: String }, data() { return { count: ++pdCount, } },
     methods: {
@@ -460,6 +464,9 @@ fpc01.component('t-adntree', {
         e() { return pd.e(this) },
         i(n) { return pd.i(this, n) },
     },
+    mounted() {
+        pd.ctAdntree[this.adnId] = this
+    },
 })
 
-fpc01.mount('#fpc01')
+pd.mFpc01 = fpc01.mount('#fpc01')

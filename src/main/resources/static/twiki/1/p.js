@@ -23,6 +23,7 @@ console.log(pd)
 pd.e = ts => eMap[ts.adnId]
 pd.i = (ts, n) => pd.e(ts) && pd.e(ts)[n]
 
+console.log(new Date().toISOString())
 wsDbC.cmdListItem = 0
 wsDbC.cmdList = [{
     sendJson: { sqlName: 'adn01NodesIn' },
@@ -34,7 +35,8 @@ wsDbC.cmdList = [{
 }, {
     sendJson: { sqlName: 'adn01NodesIn' },
     thenFn: () => {
-        console.log(pd.mTWiki.count++)//not DELETE
+        pd.mTWiki.count++ //not DELETE
+        console.log(new Date().toISOString(), pd.mTWiki.count, 'RERENDER WIKI')
         const fipList = parentChild[pd.session.FhirInfoPageId]
             , fipList2 = fipList.concat(fipList
                 .reduce((n, m) => Object.assign(n, parentChild[m]), []))
