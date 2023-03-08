@@ -41,7 +41,6 @@ public class Amwfddb007Application {
 		return new SimpleUrlHandlerMapping(map, Ordered.HIGHEST_PRECEDENCE);
 	}
 
-
 	@Bean
 	public RouterFunction<ServerResponse> route(HelloComponent helloComponent) {
 		return RouterFunctions
