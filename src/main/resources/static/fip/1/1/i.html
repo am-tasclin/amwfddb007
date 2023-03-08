@@ -53,11 +53,11 @@
             Page parts =>
             <span class="w3-small" v-for="n in session().json.pps.filter(n=>!n.includes('pps'))">
                 <a :href="'#'+ppsHref(n)"> {{session().fcw[n]}} </a> , </span>
-            <span class="w3-right">
+            <span class="w3-right"> 
                 <span class="w3-dropdown-click">
                     <button @click="clickPagePartEd"
                         class="w3-btn w3-ripple w3-padding-small w3-small">&nbsp;&nbsp;{{ppMenuList.join(',')}}&nbsp;☰&nbsp;</button>
-                    <div iStopd="pagePartEd" class="w3-dropdown-content w3-container w3-hover-shadow w3-border"
+                    <div id="pagePartEd" class="w3-dropdown-content w3-container w3-hover-shadow w3-border"
                         style="right: -1em; width: 30em;">
                         &nbsp;
                         <div v-for="(ppItem, keyPagePart) in session().fcw" class="w3-hover-shadow">
@@ -86,6 +86,7 @@
                         &nbsp;
                     </div>
                 </span>
+                ❌
             </span>
         </div>
         <div v-for="pagePart in session().json.pps">

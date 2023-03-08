@@ -31,17 +31,13 @@ wsDbC.sqlAdnData = event => JSON.parse(event.data).list.reduce((n, e) => {
     return n
 }, [])
 
-// wsDbC.sqlAdnDataX = event => JSON.parse(event.data).list
-//     .forEach(e => (wsDbC.eMap[e.doc_id] = e) && wsDbC.eMap[e.parent] &&
-//         (wsDbC.parentChild[e.parent] || (wsDbC.parentChild[e.parent] = [])).push(e.doc_id)
-//     ) || true
-
 wsDbC.readParentDeep = listDeepSql => wsDbC.sendAndSetMessageFn(wsDbC
     .jsonToSend('adn01ChildrensIn', listDeepSql[0])).then(event => {
         wsDbC.sqlAdnData(event)
         listDeepSql.length > 1 && listDeepSql.shift() && wsDbC.readParentDeep(listDeepSql)
             || (wsDbC.cmdList && (wsDbC.cmdListItem < wsDbC.cmdList.length - 1)
-                && wsDbC.cmdList[++wsDbC.cmdListItem].thenFn())
+                && wsDbC.cmdList[++wsDbC.cmdListItem].thenFn()
+            )
     })
 
 wsDbC.jsonToSend = (sqlName, adnId) => true && {

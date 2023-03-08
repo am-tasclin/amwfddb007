@@ -132,14 +132,10 @@ const fpc01 = createApp({
         let allAndIds = Object.keys(pd.session.json).filter(n => !n.includes('pps')).reduce(
             (n, m) => n + ',' + pd.session.json[m].join(','), '').substring(1)
         ',' === allAndIds.slice(-1) && (allAndIds = allAndIds.slice(0, -1))
-        wsDbC.runWsOpenInPromise(
-            { sqlName: 'adn01NodesIn', adnId: allAndIds }
+        wsDbC.runWsOpenInPromise({ sqlName: 'adn01NodesIn', adnId: allAndIds }
         ).then(event => {
-            const xa = wsDbC.sqlAdnData(event)
+            wsDbC.sqlAdnData(event).forEach(adnId => pd.ctAdntree[adnId].count++)
             wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), allAndIds))
-            console.log(xa)
-            xa.forEach(adnId => pd.ctAdntree[adnId].count++)
-            console.log(pd.mFpc01.count, pd.ctAdntree)
         })
     },
 })
@@ -448,7 +444,6 @@ fpc01.component('t-adntree', {
     methods: {
         isPanel() {
             return pd.isPanel(this.pagePart, this.adnId)
-            // return pd.session.p && pd.session.p[this.pagePart] && pd.session.p[this.pagePart][this.adnId]
         },
         session() { return pd.session },
         adnClick(adnId) {
