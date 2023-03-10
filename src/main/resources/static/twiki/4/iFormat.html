@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title id="headTitle">{{docId}}::tWIKI.am001</title>
+<link rel="stylesheet" href="/webjars/font-awesome/6.2.1/css/all.min.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<script src="/webjars/vue/3.2.47/dist/vue.global.prod.js" type="application/javascript"></script>
+<script type="application/javascript">const fd = {}</script>
+<script src="i.js" type="module"></script>
+
+<body class="w3-container">
+    <template>
+        <span class="w3-w3-hide">{{count}}</span>
+        <button @click="count++">count++</button>
+        <h2 class="w3-border-bottom" v-if="'h2'==ea(adnId, 'r_value_22')">
+            {{ea(adnId, 'value_22')}} </h2>
+        <span class="w3-right w3-tiny w3-opacity"> <sup v-if="'ORDER'==ea(adnId, 'r_value_22')">
+                ORDER </sup> </span>
+        <template v-for="adnId2 in parentChild(adnId)">
+            <p v-if="'p'==ea(adnId2, 'r_value_22')">
+                {{ea(adnId2, 'value_22')}} </p>
+        </template>
+        <template v-for="adnId in parentChild(wId)">
+            {{adnId}}
+        </template>
+    </template>
+    🗎
+</body>
+
+</html>

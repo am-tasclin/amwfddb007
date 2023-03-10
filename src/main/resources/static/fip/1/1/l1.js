@@ -1,9 +1,22 @@
 'use strict'
+const eMap = {} // emap: doc_id:MCrDB ADN Element
+    , parentChild = {}
+
 export const
     sql_app = {} //sql_app: SQL Library
     , l1 = {} //l: JS Library
+    , pd = {
+        session: {}, //sn: session
+    } //pd: Page Data
+
+pd.eMap = eMap
+pd.parentChild = parentChild
+// pd.parentChildFn = adnId => (parentChild[adnId] || [])
 
 export const wsDbC = {} // WebSocket dbSelect Container
+wsDbC.eMap = eMap
+wsDbC.parentChild = parentChild
+
 wsDbC.wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
 
 wsDbC.runWsOpenInPromise = (sendJson, onMessageFn) => {

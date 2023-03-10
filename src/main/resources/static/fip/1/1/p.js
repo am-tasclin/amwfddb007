@@ -20,6 +20,7 @@ pd.cmd = {}//cmd: command
 fd.cmd = pd.cmd
 // pd.cmd.fcwRawList = () => window.location.hash.substring(1).split(';')
 pd.cmd.fcwRawArray = window.location.hash.substring(1).split(';')
+fd.fcwRawArray = pd.cmd.fcwRawArray
 //pd.session.panel.l split '|', pagePart level
 fd.cmd.fcwRawArray.reduce((n, m, i) => m.includes('|')
     && (fd.session.panel.l[m.split(',')[0]] = m.split('|')[1].split(','))
