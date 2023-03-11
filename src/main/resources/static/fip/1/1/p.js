@@ -419,6 +419,8 @@ fpc01.component('t-page-part', {
             // return pd.session.p && pd.session.p[this.pagePart] && pd.session.p[this.pagePart][adnId]
         },
         ppClick(pagePart) {
+            console.log(pd.session)
+            console.log(pd.session.ppClose)
             !pd.session.ppClose.includes(pagePart) && pd.session.ppClose.splice(0, 0, pagePart)
                 || pd.session.ppClose.splice(pd.session.ppClose.indexOf(pagePart), 1)
             this.count++
