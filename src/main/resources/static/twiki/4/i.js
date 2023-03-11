@@ -1,5 +1,6 @@
 'use strict'
 import { wsDbC, pd } from '/fip/1/1/l1.js'
+import FhirPart from '/fip/1/2/FhirPart.js'
 import TWiki from '/twiki/4/TWiki.js'
 const { createApp } = Vue
 
@@ -11,6 +12,7 @@ const pageWiki = createApp({
 })
 
 const cTWiki = pageWiki.component('t-wiki', TWiki)
+pageWiki.component('t-fhir-part', FhirPart)
 const mPageWiki = pageWiki.mount('#pageWiki')
 
 pd.session.FhirInfoPageId = 376617 // [376617] am001fip/CodeSystem/FhirInfoPage title::
