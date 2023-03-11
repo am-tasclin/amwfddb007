@@ -17,6 +17,7 @@ pd.plusMinuList = ','
 //for AM003-«e-Stock»
 
 pd.session.hashVrVl = window.location.hash.split(',')
+console.log(pd)
 pd.isHashVr = n => pd.session.hashVrVl[0].indexOf(n) == 1
 pd.session.fElId = (pd.isHashVr('fElId') && 1 * pd.session.hashVrVl[1]) || pd.session.fElId || 373071
 
@@ -111,14 +112,15 @@ buildJSON.test = (p1, p2) => {
 pd.typeOf = '?'
 
 const fpc01 = createApp({
-    data() { return pd }, methods: {
+    data() { return {sn:pd.session, plusMinuList:pd.plusMinuList}}, methods: {
+        // data() { return pd }, methods: {
         buildJSON() {
             //j: buildJSON in DEVELOPMENT !
             const hfj = { v: 'Hello buildJSON! ' + this.count + '\n' },
                 json = {}//jn: JSON Node
             hfj.v += '⌖ ' + pd.session.fElId + '\n'
 
-            console.log(pd.typeOf, buildJSON.typeOf[pd.typeOf] )
+            console.log(pd.typeOf, buildJSON.typeOf[pd.typeOf])
 
             buildJSON.typeOf[pd.typeOf] && buildJSON.jnAddKeyObjNameValue(json,
                 buildJSON.typeOf[pd.typeOf]())
@@ -177,6 +179,9 @@ const
 fd.eMap = eMap
 fd.parentChild = parentChild
 
+console.log(pd.session)
+console.log(pd.session.hashVrVl, 123)
+
 fpc01.component('t-adn-view', {
     template: '#tAdnView', props: { adnId: Number }, methods: {
         opc() {
@@ -185,7 +190,6 @@ fpc01.component('t-adn-view', {
         async oc() {
             !parentChild[this.adnId] && (eMap[this.adnId].opened = true) &&
                 readAdnsDirect('adn01Childrens', [this.adnId], () => true)
-
         },
         //icpp: increment count++
         icpp() { this.count++ },
@@ -195,7 +199,9 @@ fpc01.component('t-adn-view', {
         i(n) { return pd.i(this, n) },
         //p: get parentChild
         p() { return parentChild[this.adnId] },
-    }, data() { return { count: pd.count } }
+    }, data() {
+        return { count: pd.count }
+    }
 })
 
 fpc01.mount('#fpc01')

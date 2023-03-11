@@ -1,6 +1,7 @@
 'use strict'
-const { createApp } = Vue
 import { wsDbC, pd } from '/fip/1/1/l1.js'
+import TWiki from '/twiki/4/TWiki.js'
+const { createApp } = Vue
 
 window.location.hash.split('page_')[1] &&
     (pd.session.page = 1 * window.location.hash.split('page_')[1])
@@ -8,7 +9,7 @@ window.location.hash.split('page_')[1] &&
 const pageWiki = createApp({
     data() { return { docId: pd.session.page, twHead: '' } }
 })
-import TWiki from './TWiki.js'
+
 const cTWiki = pageWiki.component('t-wiki', TWiki)
 const mPageWiki = pageWiki.mount('#pageWiki')
 

@@ -133,6 +133,7 @@ const fpc01 = createApp({
         let allAndIds = Object.keys(pd.session.json).filter(n => !n.includes('pps')).reduce(
             (n, m) => n + ',' + pd.session.json[m].join(','), '').substring(1)
         ',' === allAndIds.slice(-1) && (allAndIds = allAndIds.slice(0, -1))
+        console.log(allAndIds, pd.session.json)
         wsDbC.runWsOpenInPromise({ sqlName: 'adn01NodesIn', adnId: allAndIds }
         ).then(event => {
             wsDbC.sqlAdnData(event).forEach(adnId => pd.ctAdntree[adnId].count++)

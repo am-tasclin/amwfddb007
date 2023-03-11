@@ -23,6 +23,16 @@
     <div class="w3-border-bottom">
         Page parts ➾
     </div>
+    <div id="tPageParts">
+        <div v-for="pp in pps">
+            <div class="w3-container w3-topbar w3-light-grey">
+                <span class="w3-tiny"> {{pp}}: </span>
+            </div>
+            <div v-for="adnId in ppIds(pp)">
+                <t-fhir-part :adn-id="adnId"></t-fhir-part>
+            </div>
+        </div>
+    </div>
     🗎
     <script src="i.js" type="module"></script>
 </body>

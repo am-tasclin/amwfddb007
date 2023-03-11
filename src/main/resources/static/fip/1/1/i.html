@@ -251,13 +251,13 @@
             <span v-if="i('r2_value_22')">&nbsp;:&nbsp;<span class="am-i">{{i('r2_value_22')}}</span></span>
         </div> <span class="w3-hide"> {{count}} </span>
         <div class="w3-container w3-border-left" v-if="isOpenChild(adnId)">
-            <div v-for="adnId in parentChild(adnId,event)">
+            <template v-for="adnId in parentChild(adnId)">
                 <t-adntree :adn-id="adnId"></t-adntree>
-            </div>
+            </template>
         </div>
 
     </template>
-
+    
     <script src="p.js" type="module"></script>
 
 </body>
