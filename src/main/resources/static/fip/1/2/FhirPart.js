@@ -1,10 +1,7 @@
 'use strict'
 import { pd } from '/fip/1/1/l1.js'
-import FhirPart from '/fip/1/2/FhirPart.js'
 export default {
-    props: { adnId: Number },
-    data() { return { count: 1, } },
-    // components: { FhirPart },
+    props: { adnId: Number }, data() { return { count: 1, } },
     methods: {
         i(n) { return pd.i(this, n) },
         isOpenChild(adnId) { return pd.isOpenChild(adnId) },
@@ -14,15 +11,15 @@ export default {
     <div class="w3-hover-shadow">
         <span class="w3-small w3-hover-shadow" @click="count++"
             >{{i('doc_id')||('-&nbsp;'+adnId+'&nbsp;‒open‒this‒')}}&nbsp;&nbsp;</span>
-        {{adnId}}
         {{i('value_22')}}
+        <span class="w3-small"> <span v-if="i('r_value_22')">::</span>{{i('r_value_22')}} </span>
+            <span class="w3-tiny" v-if="i('rr_value_22')">::{{i('rr_value_22')}}</span>
+            <span v-if="i('r2_value_22')">&nbsp;:&nbsp;<span class="am-i">{{i('r2_value_22')}}</span></span>
     </div> <span class="w3-hide"> {{count}} </span>
     <div class="w3-container w3-border-left" v-if="isOpenChild(adnId)">
-    a1
         <template v-for="adnId2 in parentChildFn(adnId)">
-        a2 {{adnId2}}
-            <FhirPart :adnId="adnId2"/>
+            <t-fhir-part :adn-id="adnId2"></t-fhir-part>
         </template>
     </div>
-    `
+    `,
 }
