@@ -1,17 +1,31 @@
 'use strict'
 const { createApp } = Vue
-import { wsDbC, pd }    from '/fip/1/1/l1.js'
+import { wsDbC, pd } from '/fip/1/1/l1.js'
 import { fipi, fipiFn } from '/fip/1/2/fipi.js'
-import FhirPart         from '/fip/1/2/FhirPart.js'
+import FhirPart from '/fip/1/2/FhirPart.js'
+console.log(fipi, pd)
 
-console.log(1232, pd)
-console.log(fipi, 1231)
 pd.session.ppClose = []
+const ppSort = createApp({
+    data() { return { count: 1 } },
+    methods: {
+        fipi() { return fipi }, fip(fip) { return wsDbC.fip[fip] },
+        ppsHref(pp) {
+            const firstEl = fipi.pps.splice(fipi.pps.indexOf(pp), 1)
+            fipi.pps = firstEl.concat(fipi.pps)
+            this.count++; pd.tPageParts.count++
+            console.log(fipi.pps, pd.tPageParts, pd.tPageParts.count)
+        },
+    }
+}).mount('#ppSort')
+
 const tPageParts = createApp({
-    data() { return { pps: fipi.pps, ppm: fipi.json, count: 1 } },
+    data() { return { ppm: fipi.json, count: 1 } },
+    mounted() { pd.tPageParts = this },
     methods: {
         ppIds(ppName) { return fipi.json[ppName] },
         fip(fip) { return wsDbC.fip[fip] },
+        fipi() { return fipi }, 
         sn() { return pd.session },
         ppClick(pagePart) {
             !pd.session.ppClose.includes(pagePart) && pd.session.ppClose.splice(0, 0, pagePart)

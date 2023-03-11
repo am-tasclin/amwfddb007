@@ -21,11 +21,14 @@
         </span>
     </div>
     <div class="am-max-width-1">
-        <div class="w3-border-bottom">
-            Page parts ➾
+        <div class="w3-border-bottom" id="ppSort">
+            <span class="w3-tiny am-b"> Page parts </span> ➾
+            <span @click="ppsHref(pp)" v-for="pp in fipi().pps" class="w3-small w3-hover-shadow">
+                {{fip(pp)}}
+                , </span> <span class="w3-hide"> {{count}} </span>
         </div>
         <div id="tPageParts">
-            <div v-for="pp in pps">
+            <div v-for="pp in fipi().pps">
                 <div class="w3-container w3-topbar w3-light-grey">
                     <span class="w3-tiny"> {{pp}}: </span>
                     <span class="w3-hover-shadow am-u" @click="ppClick(pp)">
