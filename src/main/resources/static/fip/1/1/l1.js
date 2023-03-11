@@ -15,6 +15,8 @@ pd.e = ts => eMap[ts.adnId]
 pd.i = (ts, n) => pd.e(ts) && pd.e(ts)[n]
 pd.isOpenChild = adnId => parentChild[adnId] && parentChild[adnId].length > 0 && eMap[adnId]
     && (eMap[adnId].openChild === undefined || eMap[adnId].openChild)
+pd.onOffChild = adnId => (parentChild[adnId] || []).length > 0 && eMap[adnId]
+    && (eMap[adnId].openChild = !eMap[adnId].openChild)
 // pd.parentChildFn = adnId => (parentChild[adnId] || [])
 
 export const wsDbC = {} // WebSocket dbSelect Container

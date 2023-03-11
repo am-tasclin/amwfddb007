@@ -24,10 +24,10 @@ export default {
       <div class="w3-container w3-topbar w3-light-grey">
         {{adnId2}}
         {{ea(adnId2, 'value_22').split(',')}}
-        </div>
-        <div v-for="adnId3 in ea(adnId2, 'value_22').split(',')">
-          <FhirPart :adnId="adnId3"/>
-        </div>
+      </div>
+      <div v-for="adnId3 in ea(adnId2, 'value_22').split(',')" class="w3-border-bottom">
+        <FhirPart :adnId="adnId3"/>
+      </div>
     </template>
   </template>
 </template>

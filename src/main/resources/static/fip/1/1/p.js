@@ -136,7 +136,8 @@ const fpc01 = createApp({
         console.log(allAndIds, pd.session.json)
         wsDbC.runWsOpenInPromise({ sqlName: 'adn01NodesIn', adnId: allAndIds }
         ).then(event => {
-            wsDbC.sqlAdnData(event).forEach(adnId => pd.ctAdntree[adnId].count++)
+            wsDbC.sqlAdnData(event)
+                .forEach(adnId => pd.ctAdntree[adnId].count++)
             wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), allAndIds))
         })
     },

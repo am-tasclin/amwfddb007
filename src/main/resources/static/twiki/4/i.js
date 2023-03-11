@@ -57,6 +57,7 @@ wsDbC.cmdList = [{
             , { sql: wsDbC.replaceAdnId(wsDbC.cmdList[1].sendJson) })
         ).then(event => {
             wsDbC.sqlAdnData(event)
+                .forEach(adnId => pd.ctAdntree[adnId].count++)
             wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), inList))
         })
     },
