@@ -5,7 +5,7 @@ export default {
     methods: {
         i(n) { return pd.i(this, n) },
         isOpenChild(adnId) { return pd.isOpenChild(adnId) },
-        parentChildFn(adnId) { return pd.parentChild[adnId] || [] },
+        parentChild(adnId) { return pd.parentChild[adnId] || [] },
     },
     template: `
     <div class="w3-hover-shadow">
@@ -17,7 +17,7 @@ export default {
             <span v-if="i('r2_value_22')">&nbsp;:&nbsp;<span class="am-i">{{i('r2_value_22')}}</span></span>
     </div> <span class="w3-hide"> {{count}} </span>
     <div class="w3-container w3-border-left" v-if="isOpenChild(adnId)">
-        <template v-for="adnId2 in parentChildFn(adnId)">
+        <template v-for="adnId2 in parentChild(adnId)">
             <t-fhir-part :adn-id="adnId2"></t-fhir-part>
         </template>
     </div>

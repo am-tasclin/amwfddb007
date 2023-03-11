@@ -1,8 +1,8 @@
 'use strict'
+const { createApp } = Vue
 import { wsDbC, pd } from '/fip/1/1/l1.js'
 import FhirPart from '/fip/1/2/FhirPart.js'
 import TWiki from '/twiki/4/TWiki.js'
-const { createApp } = Vue
 
 window.location.hash.split('page_')[1] &&
     (pd.session.page = 1 * window.location.hash.split('page_')[1])
