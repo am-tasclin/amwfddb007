@@ -3,6 +3,8 @@ const { createApp } = Vue
 import { wsDbC, pd } from '/fip/1/1/l1.js'
 import { fipi, fipiFn } from '/fip/1/2/fipi.js'
 import FhirPart from '/fip/1/2/FhirPart.js'
+import PagePartCmdEdMenu from '/fip/1/2/PagePartCmdEdMenu.js'
+
 console.log(fipi, pd)
 
 pd.session.ppClose = []
@@ -14,18 +16,18 @@ const ppSort = createApp({
             const firstEl = fipi.pps.splice(fipi.pps.indexOf(pp), 1)
             fipi.pps = firstEl.concat(fipi.pps)
             this.count++; pd.tPageParts.count++
-            console.log(fipi.pps, pd.tPageParts, pd.tPageParts.count)
         },
     }
-}).mount('#ppSort')
+})
+ppSort.component('t-pp-cmd-ed-menu', PagePartCmdEdMenu)
+ppSort.mount('#ppSort')
 
 const tPageParts = createApp({
     data() { return { ppm: fipi.json, count: 1 } },
     mounted() { pd.tPageParts = this },
     methods: {
         ppIds(ppName) { return fipi.json[ppName] },
-        fip(fip) { return wsDbC.fip[fip] },
-        fipi() { return fipi }, 
+        fipi() { return fipi }, fip(fip) { return wsDbC.fip[fip] },
         sn() { return pd.session },
         ppClick(pagePart) {
             !pd.session.ppClose.includes(pagePart) && pd.session.ppClose.splice(0, 0, pagePart)

@@ -20,12 +20,14 @@
             </span>
         </span>
     </div>
+
     <div class="am-max-width-1">
         <div class="w3-border-bottom" id="ppSort">
             <span class="w3-tiny am-b"> Page parts </span> ➾
-            <span @click="ppsHref(pp)" v-for="pp in fipi().pps" class="w3-small w3-hover-shadow">
+            <span @click="ppsHref(pp)" title="make first" v-for="pp in fipi().pps" class="w3-small w3-hover-shadow">
                 {{fip(pp)}}
                 , </span> <span class="w3-hide"> {{count}} </span>
+            <span class="w3-right"> <t-pp-cmd-ed-menu /> </span>
         </div>
         <div id="tPageParts">
             <div v-for="pp in fipi().pps">

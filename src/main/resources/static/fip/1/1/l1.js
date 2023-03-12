@@ -18,6 +18,11 @@ pd.isOpenChild = adnId => parentChild[adnId] && parentChild[adnId].length > 0 &&
 pd.onOffChild = adnId => (parentChild[adnId] || []).length > 0 && eMap[adnId]
     && (eMap[adnId].openChild = !eMap[adnId].openChild)
 // pd.parentChildFn = adnId => (parentChild[adnId] || [])
+pd.cmd = {}//cmd: command
+pd.cmd.W3ShowOnOff = eId => !document.getElementById(eId).className.includes('w3-show')
+    && (document.getElementById(eId).className += ' w3-show')
+    || (document.getElementById(eId).className =
+        document.getElementById(eId).className.replace(' w3-show', ''))
 
 export const wsDbC = {} // WebSocket dbSelect Container
 wsDbC.eMap = eMap
