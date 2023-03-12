@@ -15,7 +15,7 @@ const ppSort = createApp({
         ppsHref(pp) {
             const firstEl = fipi.pps.splice(fipi.pps.indexOf(pp), 1)
             fipi.pps = firstEl.concat(fipi.pps)
-            this.count++; pd.tPageParts.count++
+            this.count++; pd.tPageParts.count++; pd.ppCmdEd.count++
         },
     }
 })
