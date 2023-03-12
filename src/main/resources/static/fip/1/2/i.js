@@ -46,8 +46,9 @@ tPageParts.mount('#tPageParts')
 const allAdnIds = fipiFn.getAllAdnIds()
 wsDbC.runWsOpenInPromise({ sqlName: 'adn01NodesIn', adnId: allAdnIds.join(',') }
 ).then(event => {
-    const idS = wsDbC.sqlAdnData(event)
-    idS.forEach(adnId => pd.eMap[adnId].openChild = false)
-    idS.forEach(adnId => pd.ctAdntree[adnId].count++)
+    wsDbC.sqlAdnData(event).forEach(adnId => {
+        pd.ctAdntree[adnId].count++; pd.adnIdMenu[adnId].count++;
+        pd.eMap[adnId].openChild = false
+    })
     wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), allAdnIds.join(',')))
 })

@@ -1,7 +1,9 @@
 'use strict'
 import { pd } from '/fip/1/1/l1.js'
+import AdnIdMenu from '/fip/1/2/AdnIdMenu.js'
 export default {
     props: { adnId: Number }, data() { return { count: 1, } },
+    components: { AdnIdMenu },
     methods: {
         i(n) { return pd.i(this, n) },
         isOpenChild(adnId) { return pd.isOpenChild(adnId) },
@@ -10,7 +12,7 @@ export default {
     },
     mounted() { (pd.ctAdntree || (pd.ctAdntree = {}))[this.adnId] = this },
     template: `
-<div class="w3-hover-shadow">
+<div class="w3-hover-shadow"> <span class="w3-right"><AdnIdMenu :adnId="adnId"/></span>
     <span class="w3-small w3-hover-shadow"
         @click="adnClick">{{i('doc_id')||('-&nbsp;'+adnId+'&nbsp;‒open‒this‒')}}&nbsp;&nbsp;</span>
     {{i('value_22')}}
