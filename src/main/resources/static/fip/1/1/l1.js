@@ -19,6 +19,8 @@ pd.onOffChild = adnId => (parentChild[adnId] || []).length > 0 && eMap[adnId]
     && (eMap[adnId].openChild = !eMap[adnId].openChild)
 // pd.parentChildFn = adnId => (parentChild[adnId] || [])
 pd.cmd = {}//cmd: command
+pd.cmd.listEltoFirst = (o, a, v) => o[a].splice(o[a].indexOf(v), 1).concat(o[a])
+
 pd.cmd.W3ShowOnOff = eId => !document.getElementById(eId).className.includes('w3-show')
     && (document.getElementById(eId).className += ' w3-show')
     || (document.getElementById(eId).className =

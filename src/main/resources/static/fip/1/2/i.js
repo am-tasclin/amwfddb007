@@ -13,8 +13,7 @@ const ppSort = createApp({
     methods: {
         fipi() { return fipi }, fip(fip) { return wsDbC.fip[fip] },
         ppsHref(pp) {
-            const firstEl = fipi.pps.splice(fipi.pps.indexOf(pp), 1)
-            fipi.pps = firstEl.concat(fipi.pps)
+            fipi.pps = pd.cmd.listEltoFirst(fipi, 'pps', pp)
             this.count++; pd.tPageParts.count++; pd.ppCmdEd.count++
         },
     }
@@ -29,6 +28,9 @@ const tPageParts = createApp({
         ppIds(ppName) { return fipi.json[ppName] },
         fipi() { return fipi }, fip(fip) { return wsDbC.fip[fip] },
         sn() { return pd.session },
+        ppIdsClick(pagePart, ppId) {
+            console.log(pagePart, ppId)
+        },
         ppClick(pagePart) {
             !pd.session.ppClose.includes(pagePart) && pd.session.ppClose.splice(0, 0, pagePart)
                 || pd.session.ppClose.splice(pd.session.ppClose.indexOf(pagePart), 1)

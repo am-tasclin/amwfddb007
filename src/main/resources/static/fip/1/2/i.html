@@ -36,6 +36,11 @@
                     <span class="w3-hover-shadow am-u" @click="ppClick(pp)">
                         &nbsp; {{fip(pp)}} &nbsp;
                     </span>
+                    <span class="w3-tiny w3-right">
+                        <span class="am-i"> {{pp}} </span>
+                        ⁙ <span @click="ppIdsClick(pp, ppId)" class="w3-hover-shadow" v-for="ppId in fipi().json[pp]">
+                            {{ppId}}, </span>
+                    </span>
                 </div>
                 <div :class="{'w3-hide':sn().ppClose.includes(pp)}">
                     <div v-for="adnId in ppIds(pp)" class="w3-border-bottom">
