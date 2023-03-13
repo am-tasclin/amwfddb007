@@ -8,7 +8,12 @@ export default {
         i(n) { return pd.i(this, n) },
         isOpenChild(adnId) { return pd.isOpenChild(adnId) },
         parentChild(adnId) { return pd.parentChild[adnId] || [] },
-        adnClick() { pd.onOffChild(this.adnId); this.count++ },
+        adnClick() {
+            pd.onOffChild(this.adnId); this.count++
+            Object.keys(pd.outForm[this.adnId]).reduce((n, m) => {
+                pd.outForm[this.adnId][m].count++
+            }, 0)
+        },
     },
     mounted() { (pd.ctAdntree || (pd.ctAdntree = {}))[this.adnId] = this },
     template: `

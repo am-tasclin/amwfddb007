@@ -378,14 +378,19 @@ fpc01.component('t-page-part', {
         },
         buildJSON(adnId, typeOf) {
             const json = {}
+            console.log(JSON.stringify(json))
 
             // !typeOf.includes('add_') && !pd.session.p[this.pagePart][adnId].typeOf
             !typeOf.includes('add_') // && !pd.session.p[this.pagePart][adnId].typeOf
                 && (pd.session.p[this.pagePart][adnId].typeOf = typeOf)
 
-            pd.session.p[this.pagePart][adnId].typeOf
-                && buildJSON.typeOf[pd.session.p[this.pagePart][adnId].typeOf]
-                && buildJSON.typeOf[pd.session.p[this.pagePart][adnId].typeOf](adnId, json)
+            const typeOfJson = pd.session.p[this.pagePart][adnId].typeOf
+            console.log(typeOf, typeOfJson, this.pagePart, pd.session.p)
+
+            typeOfJson && buildJSON.typeOf[typeOfJson]
+                && buildJSON.typeOf[typeOfJson](adnId, json)
+
+            console.log(JSON.stringify(json))
 
             //add [], +/- On/Off add/remove FOR pd.session.p[this.pagePart][adnId]
             typeOf.includes('add_') &&
@@ -403,9 +408,9 @@ fpc01.component('t-page-part', {
                     buildJSON.mcFirst(json.metaContentId, adnId)
                 })()
 
-            buildJSON.stringify[pd.session.p[this.pagePart][adnId].typeOf]
+            buildJSON.stringify[typeOfJson]
                 && ((pd.session.jsonStr || (pd.session.jsonStr = {}))[adnId] = buildJSON
-                    .stringify[pd.session.p[this.pagePart][adnId].typeOf](json))
+                    .stringify[typeOfJson](json))
             this.count++
         },
         isJsonPart(adnId, jsonPart) {

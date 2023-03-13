@@ -6,7 +6,7 @@ import PagePartCmdEdMenu from '/fip/1/2/PagePartCmdEdMenu.js'
 import FhirPart from '/fip/1/2/FhirPart.js'
 import BuildJson from '/fip/1/2/BuildJson.js'
 
-console.log('fipi = ',fipi,'\n pd = ', pd)
+console.log('fipi = ', fipi, '\n pd = ', pd)
 
 pd.session.ppClose = []
 const ppSort = createApp({
@@ -26,6 +26,7 @@ const tPageParts = createApp({
     data() { return { ppm: fipi.json, count: 1 } },
     mounted() { pd.tPageParts = this },
     methods: {
+        
         ppIds(ppName) { return fipi.json[ppName] },
         sn() { return pd.session }, fipi() { return fipi }, fip(fip) { return wsDbC.fip[fip] },
         ppIdsClick(pagePart, ppId) {
