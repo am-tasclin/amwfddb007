@@ -47,10 +47,11 @@
                 </div>
                 <div :class="{'w3-hide':sn().ppClose.includes(pp)}">
                     <div v-for="adnId in ppIds(pp)" class="w3-border-bottom">
-                        <div v-if="fipi().p2[pp] && fipi().p2[pp].includes(adnId)" class="w3-row">
+                        <div v-if="fipi().pl2[pp] && fipi().pl2[pp][adnId]" class="w3-row">
                             <div class="w3-half"> <t-fhir-part :adn-id="adnId"></t-fhir-part> </div>
-                            <div class="w3-half">a2
-                                panel - 2
+                            <div class="w3-half">
+                                <t-build-json :adn-id="adnId" :pp="pp"></t-build-json>
+                                | panel - 2
                             </div>
                         </div>
                         <t-fhir-part :adn-id="adnId" v-else></t-fhir-part>

@@ -130,6 +130,7 @@
                 </div>
             </div>
         </template>
+
         <template v-else>
             <div :class="{'w3-hide':session().ppClose.includes(pagePart)}" class="w3-border-bottom"
                 v-for="adnId in session().json[pagePart]">
@@ -147,8 +148,10 @@
                                     <button class="w3-btn" @click="buildType('buildSQL', adnId)">buildSQL</button>
                                 </div>
                             </span>
+
                             <span class="w3-small"
                                 v-if="'buildJSON'==session().p[pagePart][adnId].buildType || !session().p[pagePart][adnId].buildType">
+
                                 <button class="w3-btn w3-padding-small am-u"
                                     :class="{'w3-light-grey':'Structure'==session().p[pagePart][adnId].typeOf}"
                                     @click="buildJSON(adnId,'Structure');count++">Structure</button>

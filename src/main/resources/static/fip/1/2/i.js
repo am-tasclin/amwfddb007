@@ -4,6 +4,7 @@ import { wsDbC, pd } from '/fip/1/1/l1.js'
 import { fipi, fipiFn } from '/fip/1/2/fipi.js'
 import PagePartCmdEdMenu from '/fip/1/2/PagePartCmdEdMenu.js'
 import FhirPart from '/fip/1/2/FhirPart.js'
+import BuildJson from '/fip/1/2/BuildJson.js'
 
 console.log('fipi = ',fipi,'\n pd = ', pd)
 
@@ -41,6 +42,7 @@ const tPageParts = createApp({
     },
 })
 tPageParts.component('t-fhir-part', FhirPart)
+tPageParts.component('t-build-json', BuildJson)
 tPageParts.mount('#tPageParts')
 
 const allAdnIds = fipiFn.getAllAdnIds()
