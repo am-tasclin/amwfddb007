@@ -5,7 +5,7 @@ import { fipi, fipiFn } from '/fip/1/2/fipi.js'
 import PagePartCmdEdMenu from '/fip/1/2/PagePartCmdEdMenu.js'
 import FhirPart from '/fip/1/2/FhirPart.js'
 
-console.log(fipi, pd)
+console.log('fipi = ',fipi,'\n pd = ', pd)
 
 pd.session.ppClose = []
 const ppSort = createApp({
