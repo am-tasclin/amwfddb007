@@ -1,7 +1,5 @@
 'use strict'
 import { pd } from '/fip/1/1/l1.js'
-!pd.session.buildJson &&
-    (pd.session.buildJson = {})
 export default {
     props: { adnId: Number, pp: String }, data() { return { count: 1, } },
     mounted() {
@@ -19,34 +17,25 @@ export default {
 </span>
 <div v-if="isOpenChild(adnId)" style="white-space: pre; overflow: auto;"
     class="w3-opacity w3-small w3-border-top">
-    {{jsonStr(adnId, pp)}}
+    {{jsonStr()}}
 </div>
     `,
     methods: {
-        buildType(im) {
-            pd.panel2[this.adnId][this.pp].buildType
-                && delete pd.panel2[this.adnId][this.pp].buildType
-            pd.panel2[this.adnId][this.pp].buildType = im
-            console.log(im, this.adnId, this.pp, pd.panel2[this.adnId][this.pp])
-        },
+        buildType(im) { pd.buildPanel2ConfType(im, this.adnId, this.pp) },
         isOpenChild(adnId) { return pd.isOpenChild(adnId) },
-        jsonStr(adnId, pp) {
-            return pd.session.buildJson && pd.session.buildJson[adnId] &&
-                pd.session.buildJson[adnId].jsonStr
+        jsonStr() {
+            return pd.panel2Conf(this.adnId, this.pp).buildJson
+                && pd.panel2Conf(this.adnId, this.pp).buildJson.jsonStr
         },
+        panel2Conf() { return pd.panel2Conf(this.adnId, this.pp) },
         buildStructure() {
-            !pd.session.buildJson[this.adnId] &&
-                (pd.session.buildJson[this.adnId] = {})
-            pd.session.buildJson[this.adnId].json &&
-                delete pd.session.buildJson[this.adnId].json
-            pd.session.buildJson[this.adnId].jsonStr &&
-                delete pd.session.buildJson[this.adnId].jsonStr
-
-            pd.session.buildJson[this.adnId].json
-                = buildJSON.typeOf.Structure(this.adnId, {})
-            pd.session.buildJson[this.adnId].jsonStr
+            pd.panel2Conf(this.adnId, this.pp).buildJson &&
+                delete pd.panel2Conf(this.adnId, this.pp).buildJson
+            pd.panel2Conf(this.adnId, this.pp).buildJson
+                = { json: buildJSON.typeOf.Structure(this.adnId, {}) }
+            pd.panel2Conf(this.adnId, this.pp).buildJson.jsonStr
                 = buildJSON.stringify.Structure(
-                    pd.session.buildJson[this.adnId].json)
+                    pd.panel2Conf(this.adnId, this.pp).buildJson.json)
             this.count++
         },
     },

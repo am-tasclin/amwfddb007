@@ -5,6 +5,7 @@ import { fipi, fipiFn } from '/fip/1/2/fipi.js'
 import PagePartCmdEdMenu from '/fip/1/2/PagePartCmdEdMenu.js'
 import FhirPart from '/fip/1/2/FhirPart.js'
 import BuildJson from '/fip/1/2/BuildJson.js'
+import BuildSql from '/fip/1/2/BuildSql.js'
 
 console.log('fipi = ', fipi, '\n pd = ', pd)
 
@@ -26,6 +27,7 @@ const tPageParts = createApp({
     data() { return { ppm: fipi.json, count: 1 } },
     mounted() { pd.tPageParts = this },
     methods: {
+        panel2Conf(adnId, pp) { return pd.panel2Conf(adnId, pp) },
         ppIds(ppName) { return fipi.json[ppName] },
         sn() { return pd.session }, fipi() { return fipi }, fip(fip) { return wsDbC.fip[fip] },
         ppIdsClick(pagePart, ppId) {
@@ -43,6 +45,7 @@ const tPageParts = createApp({
 })
 tPageParts.component('t-fhir-part', FhirPart)
 tPageParts.component('t-build-json', BuildJson)
+tPageParts.component('t-build-sql', BuildSql)
 tPageParts.mount('#tPageParts')
 
 const allAdnIds = fipiFn.getAllAdnIds()

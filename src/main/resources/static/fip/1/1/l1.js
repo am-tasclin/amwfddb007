@@ -19,6 +19,13 @@ pd.isOpenChild = adnId => parentChild[adnId] && parentChild[adnId].length > 0 &&
 pd.onOffChild = adnId => (parentChild[adnId] || []).length > 0 && eMap[adnId]
     && (eMap[adnId].openChild = !eMap[adnId].openChild)
 
+pd.buildPanel2ConfType = (im, adnId, pp) => {
+    pd.panel2Conf(adnId, pp).buildType
+        && delete pd.panel2Conf(adnId, pp).buildType
+    pd.panel2Conf(adnId, pp).buildType = im
+    pd.tPageParts.count++
+    pd.panel2Conf(adnId, pp).buildJsonComponent.count++
+}
 pd.panel2Conf = (adnId, pp) => {
     !pd.panel2 && (pd.panel2 = {})
     !pd.panel2[adnId] && (pd.panel2[adnId] = {})

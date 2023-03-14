@@ -131,10 +131,6 @@
             </div>
         </template>
 
-        <div v-for="im in ['buildJSON','buildSQL']" class="w3-border w3-dropdown-content w3-container w3-hover-shadow">
-            <button class="w3-btn" @click="buildType(im, adnId)">{{im}}</button>
-        </div>
-
         <template v-else>
             <div :class="{'w3-hide':session().ppClose.includes(pagePart)}" class="w3-border-bottom"
                 v-for="adnId in session().json[pagePart]">
