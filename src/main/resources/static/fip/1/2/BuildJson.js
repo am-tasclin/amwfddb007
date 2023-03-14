@@ -5,11 +5,30 @@ import { pd } from '/fip/1/1/l1.js'
 export default {
     props: { adnId: Number, pp: String }, data() { return { count: 1, } },
     mounted() {
-        !pd.outForm && (pd.outForm = {})
-        !pd.outForm[this.adnId] && (pd.outForm[this.adnId] = {})
-        pd.outForm[this.adnId][this.pp] = this
-    },
+        pd.panel2Conf(this.adnId, this.pp).buildJsonComponent = this
+    }, template: `
+<span class="w3-dropdown-hover w3-white w3-leftbar">
+    <span class="w3-tiny am-b am-u w3-btn w3-padding-small">buildJSON</span>
+    <div class="w3-border w3-dropdown-content w3-container w3-hover-shadow">
+        <button v-for="im in ['buildJSON','buildSQL']"
+            class="w3-btn" @click="buildType(im)">{{im}}</button>
+    </div> <span class="w3-hide"> {{count}} </span>
+</span>
+<span class="w3-small">
+    <button @click="buildStructure" class="w3-btn w3-padding-small am-u">Structure</button>
+</span>
+<div v-if="isOpenChild(adnId)" style="white-space: pre; overflow: auto;"
+    class="w3-opacity w3-small w3-border-top">
+    {{jsonStr(adnId, pp)}}
+</div>
+    `,
     methods: {
+        buildType(im) {
+            pd.panel2[this.adnId][this.pp].buildType
+                && delete pd.panel2[this.adnId][this.pp].buildType
+            pd.panel2[this.adnId][this.pp].buildType = im
+            console.log(im, this.adnId, this.pp, pd.panel2[this.adnId][this.pp])
+        },
         isOpenChild(adnId) { return pd.isOpenChild(adnId) },
         jsonStr(adnId, pp) {
             return pd.session.buildJson && pd.session.buildJson[adnId] &&
@@ -30,21 +49,7 @@ export default {
                     pd.session.buildJson[this.adnId].json)
             this.count++
         },
-    }, template: `
-<span class="w3-dropdown-hover w3-white w3-leftbar">
-    <span class="w3-tiny am-b am-u w3-btn w3-padding-small">buildJSON</span>
-    <div class="w3-border w3-dropdown-content w3-container w3-hover-shadow">
-        buildJson - {{pp}} - {{adnId}}
-    </div> <span class="w3-hide"> {{count}} </span>
-</span>
-<span class="w3-small">
-    <button @click="buildStructure" class="w3-btn w3-padding-small am-u">Structure</button>
-</span>
-<div v-if="isOpenChild(adnId)" style="white-space: pre; overflow: auto;"
-    class="w3-opacity w3-small w3-border-top">
-    {{jsonStr(adnId, pp)}}
-</div>
-`,
+    },
 }
 
 const buildJSON = { typeOf: {}, stringify: {} }
@@ -67,11 +72,12 @@ buildJSON.typeOf.se2Parent = (jn, pId) => pd.parentChild[pId].forEach(eId => {
     const kName = buildJSON.typeOf.keyIsObjName(eId)
         , doctype = pd.eMap[eId].doctype || pd.eMap[eId].r_doctype
 
-    jn[kName] = ''
     pd.eMap[eId].doctype && (jn[kName] = pd.eMap[eId].doctype + ' ::_dataType_')
 
     doctype == 37 && (jn[kName] = [{}])
     pd.parentChild[eId] && doctype != 37 && (jn[kName] = {})
     let e = doctype == 37 && jn[kName][0] || jn[kName]
-    pd.parentChild[eId] && buildJSON.typeOf.se2Parent(e, eId)
+    jn[kName] &&
+        pd.parentChild[eId] && buildJSON.typeOf.se2Parent(e, eId)
+    !jn[kName] && (jn[kName] = '')
 })

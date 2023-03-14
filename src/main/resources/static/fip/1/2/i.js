@@ -26,7 +26,6 @@ const tPageParts = createApp({
     data() { return { ppm: fipi.json, count: 1 } },
     mounted() { pd.tPageParts = this },
     methods: {
-        
         ppIds(ppName) { return fipi.json[ppName] },
         sn() { return pd.session }, fipi() { return fipi }, fip(fip) { return wsDbC.fip[fip] },
         ppIdsClick(pagePart, ppId) {
