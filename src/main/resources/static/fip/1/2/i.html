@@ -50,7 +50,8 @@
                         <div v-if="fipi().pl2[pp] && fipi().pl2[pp][adnId]" class="w3-row">
                             <div class="w3-half"> <t-fhir-part :adn-id="adnId"></t-fhir-part> </div>
                             <div class="w3-half">
-                                <t-build-sql :adn-id="adnId" :pp="pp" v-if="'buildSQL'==panel2Conf(adnId, pp).buildType"></t-build-sql>
+                                <t-build-sql :adn-id="adnId" :pp="pp"
+                                    v-if="'buildSQL'==panel2Conf(adnId, pp).buildType"></t-build-sql>
                                 <t-build-json v-else :adn-id="adnId" :pp="pp"></t-build-json>
                             </div>
                         </div>
