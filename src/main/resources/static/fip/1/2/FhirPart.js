@@ -10,7 +10,7 @@ export default {
         parentChild(adnId) { return pd.parentChild[adnId] || [] },
         adnClick() {
             pd.onOffChild(this.adnId); this.count++
-            pd.panel2[this.adnId] &&
+            pd.panel2 && pd.panel2[this.adnId] &&
                 Object.keys(pd.panel2[this.adnId]).reduce((n, m) => {
                     console.log(n, m)
                     pd.panel2[this.adnId][m].buildJsonComponent.count++

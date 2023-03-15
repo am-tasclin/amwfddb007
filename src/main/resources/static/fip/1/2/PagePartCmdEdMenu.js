@@ -11,7 +11,7 @@ export default {
             console.log(event.target.value)
         },
     }, mounted() {
-        pd.cmd.W3ShowOnOff('ppCmdEd')
+        // pd.cmd.W3ShowOnOff('ppCmdEd')
         pd.ppCmdEd = this
     }, data() {
         return {
@@ -31,7 +31,7 @@ export default {
                 <div class="w3-tiny am-b w3-border-bottom">URI, JSON</div>
                 <div class="w3-opacity w3-tiny" >
                 &nbsp;
-                <div v-for="pp in fipi().pps">
+                <div v-for="pp in fipi().pps" class="w3-hover-shadow">
                     <span class="am-b">{{pp}}</span>,&nbsp;{{fipi().json[pp].join(', ')}};
                     <div v-if="pl2Ids[pp]">
                         <span class="am-b">p_{{pp}}</span>,&nbsp;{{pl2Ids[pp].join(', ')}}</div>

@@ -31,7 +31,7 @@ public class HelloComponent {
   public Mono<ServerResponse> select2list01(ServerRequest request) {
     int incrementAndGet = ai.incrementAndGet();
     logger.info("-93-" + incrementAndGet + ": /r/url_sql_read_db1");
-    Map m = new HashMap<>();
+    Map<String, Object> m = new HashMap<String, Object>();
     String sql = request.queryParam("sql").get();
     try {
       m.put("list", dbSqlClient.getListOfRowObject(sql).get());
@@ -39,7 +39,7 @@ public class HelloComponent {
       m.put("ERROR", Map.of("sql", sql));
       e.printStackTrace();
     }
-    logger.info("-93-:" + incrementAndGet );
+    logger.info("-93-:" + incrementAndGet);
     return builderResponse.body(BodyInserters.fromValue(m));
   }
 
@@ -49,13 +49,14 @@ public class HelloComponent {
   }
 
   private Mono<ServerResponse> select2list(String sql) {
-    RowsFetchSpec<Map<String, Object>> mapRowsFetchSpec = dbSqlClient.getSqlClient().sql(sql).map((row, rowMetadata) -> {
-      Map<String, Object> rowMap = new HashMap<String, Object>();
-      for (ColumnMetadata columnMetadata : rowMetadata.getColumnMetadatas())
-        rowMap.put(columnMetadata.getName(), row.get(columnMetadata.getName()));
-      return rowMap;
-    });
-    Map responseMap = new HashMap<>();
+    RowsFetchSpec<Map<String, Object>> mapRowsFetchSpec = dbSqlClient.getSqlClient().sql(sql)
+        .map((row, rowMetadata) -> {
+          Map<String, Object> rowMap = new HashMap<String, Object>();
+          for (ColumnMetadata columnMetadata : rowMetadata.getColumnMetadatas())
+            rowMap.put(columnMetadata.getName(), row.get(columnMetadata.getName()));
+          return rowMap;
+        });
+    Map<String, Object> responseMap = new HashMap<String, Object>();
     try {
       responseMap.put("list", mapRowsFetchSpec.all().collectList().toFuture().get());
     } catch (InterruptedException | ExecutionException e) {
@@ -66,7 +67,7 @@ public class HelloComponent {
   }
 
   // Right Hello - history of 'recherche'
-  
+
   public Mono<ServerResponse> hello(ServerRequest request) {
     return select2list(dbSqlClient.sqlAll);
   }
