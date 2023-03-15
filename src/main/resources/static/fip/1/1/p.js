@@ -357,6 +357,8 @@ fpc01.component('t-page-part', {
 
             fd.sqlAdd = sqlAdd
 
+            console.log(pd.session.buildSqlType, adnId, sqlAdd)
+
             sql_app.build[pd.session.buildSqlType](adnId, sqlAdd);
 
             (pd.session.jsonStr || (pd.session.jsonStr = {}))[adnId] = '\n' + sqlAdd.sql

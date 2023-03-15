@@ -22,7 +22,6 @@ export default {
         <div class="w3-row w3-tiny am-b">
             <div class="w3-half"> pageParts </div> <div class="w3-half"> pane2, right </div>
         </div>
-        &nbsp;
         <div class="w3-row w3-border-bottom" v-for="pp in fipi().pps" class="w3-hover-shadow">
             <div class="w3-half"> 
                 <span class="w3-opacity a1m-u">
