@@ -23,7 +23,13 @@ export default {
         <div class="w3-row">
             <div class="w3-quarter">
                 <div class="w3-tiny am-b w3-border-bottom">URI, JSON</div>
-                a1
+                <div class="w3-opacity w3-tiny" >
+                &nbsp;
+                <div v-for="pp in fipi().pps">
+                    {{pp}},&nbsp;{{fipi().json[pp].join(', ')}};
+                    <div>&nbsp;</div>
+                </div>
+                </div>
             </div>
             <div class="w3-threequarter">
                 <div class="w3-row w3-tiny am-b w3-border-bottom">
