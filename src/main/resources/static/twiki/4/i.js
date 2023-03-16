@@ -41,10 +41,11 @@ wsDbC.cmdList = [{
         pd.tWiki[pd.session.page].count++
         // console.log(pd.parentChild, pd.session.FhirInfoPageId)
         const ppsTWiki = {}
-        ppsTWiki.fipList = pd.parentChild[pd.session.FhirInfoPageId]
-        ppsTWiki.fipList2 = ppsTWiki.fipList.concat(ppsTWiki.fipList
+        const fipList = pd.parentChild[pd.session.FhirInfoPageId]
+        pd.fipList = fipList.concat(fipList
             .reduce((n, m) => Object.assign(n, pd.parentChild[m]), []))
-        ppsTWiki.pps = Object.keys(pd.eMap).filter(k => ppsTWiki.fipList2.includes(pd.eMap[k].reference))
+        console.log(pd.fipList)
+        ppsTWiki.pps = Object.keys(pd.eMap).filter(k => pd.fipList.includes(pd.eMap[k].reference))
             .reduce((n, m) => {
                 'FIP' == pd.eMap[m].r_value_22
                     && (n[m] = fipiFn.initPageParts(pd.eMap[m].value_22, {}))

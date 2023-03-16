@@ -7,6 +7,7 @@ export default {
   mounted() { pd.tWiki[this.wId] = this },
   components: { FhirPart },
   methods: {
+    fipList() { return pd.fipList },
     parentChild(adnId) { return pd.parentChild[adnId] || [] },
     ea(adnId, n) { return pd.eMap[adnId] && pd.eMap[adnId][n] },
   }, template: `
@@ -19,7 +20,15 @@ export default {
   <template v-for="adnId2 in parentChild(adnId)">
     <p v-if="'p'==ea(adnId2, 'r_value_22')">
         {{ea(adnId2, 'value_22')}} </p>
-    <template v-if="376617==ea(adnId2, 'reference2')">
+      {{fipList().includes(ea(adnId2, 'reference'))}}
+    <template v-if="fipList().includes(ea(adnId2, 'reference'))">
+      <template v-if="'FIP'==ea(ea(adnId2, 'reference'),'value_22')">
+        pps
+      </template>
+      <template v-else>
+        {{ea(ea(adnId2, 'reference'),'value_22')}}
+        single pp
+      </template>
       <div class="w3-container w3-topbar w3-light-grey">
         {{adnId2}}
         {{ea(adnId2, 'value_22').split(',')}}
