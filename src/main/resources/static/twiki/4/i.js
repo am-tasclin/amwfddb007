@@ -40,30 +40,26 @@ wsDbC.cmdList = [{
         //new view of <t-wiki>
         pd.tWiki[pd.session.page].count++
         // console.log(pd.parentChild, pd.session.FhirInfoPageId)
-        const fipList = pd.parentChild[pd.session.FhirInfoPageId]
-            , fipList2 = fipList.concat(fipList
-                .reduce((n, m) => Object.assign(n, pd.parentChild[m]), []))
-        const ppsTWiki =
-            Object.keys(pd.eMap).filter(k => fipList2.includes(pd.eMap[k].reference))
-                .reduce((n, m) => {
-                    'FIP' == pd.eMap[m].r_value_22 &&
-                        (n[m] = fipiFn.initPageParts(pd.eMap[m].value_22, {}))
-                    'FIP' != pd.eMap[m].r_value_22 &&
-                        (n[m] = fipiFn.initPageParts(pd.eMap[m].r_value_22 + ',' + pd.eMap[m].value_22, {}))
-                    return n
-                }, {})
+        const ppsTWiki = {}
+        ppsTWiki.fipList = pd.parentChild[pd.session.FhirInfoPageId]
+        ppsTWiki.fipList2 = ppsTWiki.fipList.concat(ppsTWiki.fipList
+            .reduce((n, m) => Object.assign(n, pd.parentChild[m]), []))
+        ppsTWiki.pps = Object.keys(pd.eMap).filter(k => ppsTWiki.fipList2.includes(pd.eMap[k].reference))
+            .reduce((n, m) => {
+                'FIP' == pd.eMap[m].r_value_22
+                    && (n[m] = fipiFn.initPageParts(pd.eMap[m].value_22, {}))
+                    || (n[m] = fipiFn.initPageParts(pd.eMap[m].r_value_22 + ',' + pd.eMap[m].value_22, {}))
+                n[m].inList = Object.keys(n[m].json)
+                    .reduce((n2, m2) => n2.concat(n[m].json[m2]), [])
+                return n
+            }, {})
+        ppsTWiki.inList = Object.keys(ppsTWiki.pps)
+            .reduce((n, m) => n.concat(ppsTWiki.pps[m].inList), [])
         console.log(ppsTWiki)
-        const inList = Object.keys(pd.eMap).filter(k => fipList2.includes(pd.eMap[k].reference))
-            .reduce((n, m) => n.concat(pd.eMap[m].value_22.split(',')), [])
+        console.log(pd.eMap)
+        console.log(pd.parentChild)
 
-        // , inList2 = Object.keys(pd.eMap).filter(k => fipList2.includes(pd.eMap[k].reference))
-        // .reduce((n, m) => (n[pd.eMap[m].r_value_22] = pd.eMap[m].value_22.split(',')
-        //     .reduce((n, m, i) => (n[i] = 1 * m) && n, [])) && n, {})
-
-        console.log(fipList2)
-        console.log(inList)
-
-        wsDbC.cmdList[1].sendJson.adnId = inList
+        wsDbC.cmdList[1].sendJson.adnId = ppsTWiki.inList
         // console.log(inList, new Date().toISOString())
         wsDbC.sendAndSetMessageFn(Object.assign(wsDbC.cmdList[1].sendJson
             , { sql: wsDbC.replaceAdnId(wsDbC.cmdList[1].sendJson) })
@@ -71,8 +67,8 @@ wsDbC.cmdList = [{
             pd.ctAdntree && wsDbC.sqlAdnData(event)
                 .forEach(adnId => pd.ctAdntree[adnId].count++)
 
-            inList.length > 0 &&
-                wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), inList))
+            ppsTWiki.inList.length > 0 &&
+                wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), ppsTWiki.inList))
         })
     },
 }]
