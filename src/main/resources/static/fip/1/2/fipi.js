@@ -2,7 +2,7 @@
 // fipi: FHIR Info Page Interface
 export const fipi = {}, fipiFn = {}
 
-fipiFn.init1 = rawFipiStr => {
+fipiFn.initPageParts = (rawFipiStr, fipi) => {
     fipi.fcwRawArray = rawFipiStr.split(';')
     fipi.json = fipi.fcwRawArray.filter(k => '' != k && !k.includes('pps'))
         .reduce((n, m) => (n[m.split(',')[0]] = m.split(',').slice(1)) && n, {})
@@ -14,9 +14,12 @@ fipiFn.init1 = rawFipiStr => {
     //pps: Page Part Sequence
     !fipi.pps
         && (fipi.pps = Object.keys(fipi.json).filter(n => !n.includes('pps')))
+    return fipi
 }
 
-fipiFn.init1(window.location.hash.substring(1))
+console.log(window.location.hash.substring(1))
+
+fipiFn.initPageParts(window.location.hash.substring(1), fipi)
 
 // for SQL IN
 fipiFn.getAllAdnIds = () => Object.keys(fipi.json).filter(n => !n.includes('pps'))

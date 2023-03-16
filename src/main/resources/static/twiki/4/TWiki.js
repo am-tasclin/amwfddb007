@@ -9,8 +9,7 @@ export default {
   methods: {
     parentChild(adnId) { return pd.parentChild[adnId] || [] },
     ea(adnId, n) { return pd.eMap[adnId] && pd.eMap[adnId][n] },
-  },
-  template: `
+  }, template: `
 <span class="w3-hide">{{count}}</span>
 <template v-for="adnId in parentChild(wId)">
   <h2 class="w3-border-bottom" v-if="'h2'==ea(adnId, 'r_value_22')">
@@ -31,5 +30,5 @@ export default {
     </template>
   </template>
 </template>
-  `
+  ` ,
 }

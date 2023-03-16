@@ -33,7 +33,7 @@ export default {
                 &nbsp;
                 <div v-for="pp in fipi().pps" class="w3-hover-shadow">
                     <span class="am-b">{{pp}}</span>,&nbsp;{{fipi().json[pp].join(', ')}};
-                    <div v-if="pl2Ids[pp]">
+                    <div v-if="pl2Ids[pp].length>0">
                         <span class="am-b">p_{{pp}}</span>,&nbsp;{{pl2Ids[pp].join(', ')}}</div>
                     <div>&nbsp;</div>
                 </div>
