@@ -1,11 +1,13 @@
 'use strict'
 import { pd } from '/fip/1/1/l1.js'
 import FhirPart from '/fip/1/2/FhirPart.js'
+import TPageParts from '/twiki/4/TPageParts.js'
+
 !pd.tWik && (pd.tWiki = {})
 export default {
   props: { wId: Number }, data() { return { count: 1 } },
   mounted() { pd.tWiki[this.wId] = this },
-  components: { FhirPart },
+  components: { FhirPart, TPageParts },
   methods: {
     fipList() { return pd.fipList },
     parentChild(adnId) { return pd.parentChild[adnId] || [] },
@@ -23,7 +25,7 @@ export default {
       {{fipList().includes(ea(adnId2, 'reference'))}}
     <template v-if="fipList().includes(ea(adnId2, 'reference'))">
       <template v-if="'FIP'==ea(ea(adnId2, 'reference'),'value_22')">
-        pps
+        <TPageParts :adnId="adnId2"/>
       </template>
       <template v-else>
         {{ea(ea(adnId2, 'reference'),'value_22')}}

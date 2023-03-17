@@ -1,7 +1,7 @@
 'use strict'
 const { createApp } = Vue
 import { wsDbC, pd } from '/fip/1/1/l1.js'
-import { fipiFn } from '/fip/1/2/fipi.js'
+import { fipiFn, fipi } from '/fip/1/2/fipi.js'
 import FhirPart from '/fip/1/2/FhirPart.js'
 import TWiki from '/twiki/4/TWiki.js'
 
@@ -56,9 +56,10 @@ wsDbC.cmdList = [{
             }, {})
         ppsTWiki.inList = Object.keys(ppsTWiki.pps)
             .reduce((n, m) => n.concat(ppsTWiki.pps[m].inList), [])
-        console.log(ppsTWiki)
-        console.log(pd.eMap)
-        console.log(pd.parentChild)
+        console.log(ppsTWiki.pps)
+        console.log(fipi)
+        // console.log(pd.eMap)
+        // console.log(pd.parentChild)
 
         wsDbC.cmdList[1].sendJson.adnId = ppsTWiki.inList
         // console.log(inList, new Date().toISOString())
