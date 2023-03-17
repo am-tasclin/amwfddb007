@@ -1,15 +1,16 @@
 'use strict'
 import { pd } from '/fip/1/1/l1.js'
+import { fipi } from '/fip/1/2/fipi.js'
 import FhirPart from '/fip/1/2/FhirPart.js'
 import TPageParts from '/twiki/4/TPageParts.js'
 
-!pd.tWik && (pd.tWiki = {})
+!pd.tWiki && (pd.tWiki = {})
 export default {
   props: { wId: Number }, data() { return { count: 1 } },
   mounted() { pd.tWiki[this.wId] = this },
   components: { FhirPart, TPageParts },
   methods: {
-    fipList() { return pd.fipList },
+    fipList() { return fipi.fipList },
     parentChild(adnId) { return pd.parentChild[adnId] || [] },
     ea(adnId, n) { return pd.eMap[adnId] && pd.eMap[adnId][n] },
   }, template: `

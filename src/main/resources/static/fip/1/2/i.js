@@ -49,6 +49,7 @@ tPageParts.component('t-build-sql', BuildSql)
 tPageParts.mount('#tPageParts')
 
 const allAdnIds = fipiFn.getAllAdnIds()
+console.log(allAdnIds)
 wsDbC.runWsOpenInPromise({ sqlName: 'adn01NodesIn', adnId: allAdnIds.join(',') }
 ).then(event => {
     wsDbC.sqlAdnData(event).forEach(adnId => {

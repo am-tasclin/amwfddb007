@@ -1,4 +1,5 @@
 'use strict'
+import { pd } from '/fip/1/1/l1.js'
 // fipi: FHIR Info Page Interface
 export const fipi = {}, fipiFn = {}
 
@@ -24,3 +25,28 @@ fipiFn.initPageParts(window.location.hash.substring(1), fipi)
 // for SQL IN
 fipiFn.getAllAdnIds = () => Object.keys(fipi.json).filter(n => !n.includes('pps'))
     .reduce((n, m) => n.concat(fipi.json[m]), [])
+
+fipi.FhirInfoPageId = 376617 // [376617] am001fip/CodeSystem/FhirInfoPage title::
+
+fipiFn.fipList = () => {
+    const fipList = pd.parentChild[fipi.FhirInfoPageId]
+    fipi.fipList = fipList.concat(fipList
+        .reduce((n, m) => Object.assign(n, pd.parentChild[m]), []))
+}
+
+fipiFn.ppsFipi = () => {
+    console.log(fipi.fipList)
+    fipi.ppsFipi = Object.keys(pd.eMap).filter(k => fipi.fipList.includes(pd.eMap[k].reference))
+        .reduce((n, m) => {
+            'FIP' == pd.eMap[m].r_value_22
+                && (n[m] = fipiFn.initPageParts(pd.eMap[m].value_22, {}))
+                || (n[m] = fipiFn.initPageParts(pd.eMap[m].r_value_22 + ',' + pd.eMap[m].value_22, {}))
+            n[m].inList = Object.keys(n[m].json)
+                .reduce((n2, m2) => n2.concat(n[m].json[m2]), [])
+            return n
+        }, {})
+    fipi.inList = Object.keys(fipi.ppsFipi)
+        .reduce((n, m) => n.concat(fipi.ppsFipi[m].inList), [])
+
+    console.log(fipi)
+}

@@ -40,28 +40,11 @@ wsDbC.cmdList = [{
         //new view of <t-wiki>
         pd.tWiki[pd.session.page].count++
         // console.log(pd.parentChild, pd.session.FhirInfoPageId)
-        const ppsTWiki = {}
-        const fipList = pd.parentChild[pd.session.FhirInfoPageId]
-        pd.fipList = fipList.concat(fipList
-            .reduce((n, m) => Object.assign(n, pd.parentChild[m]), []))
-        console.log(pd.fipList)
-        ppsTWiki.pps = Object.keys(pd.eMap).filter(k => pd.fipList.includes(pd.eMap[k].reference))
-            .reduce((n, m) => {
-                'FIP' == pd.eMap[m].r_value_22
-                    && (n[m] = fipiFn.initPageParts(pd.eMap[m].value_22, {}))
-                    || (n[m] = fipiFn.initPageParts(pd.eMap[m].r_value_22 + ',' + pd.eMap[m].value_22, {}))
-                n[m].inList = Object.keys(n[m].json)
-                    .reduce((n2, m2) => n2.concat(n[m].json[m2]), [])
-                return n
-            }, {})
-        ppsTWiki.inList = Object.keys(ppsTWiki.pps)
-            .reduce((n, m) => n.concat(ppsTWiki.pps[m].inList), [])
-        console.log(ppsTWiki.pps)
-        console.log(fipi)
-        // console.log(pd.eMap)
-        // console.log(pd.parentChild)
 
-        wsDbC.cmdList[1].sendJson.adnId = ppsTWiki.inList
+        !fipi.fipList && fipiFn.fipList()
+        fipiFn.ppsFipi()
+
+        wsDbC.cmdList[1].sendJson.adnId = fipi.inList
         // console.log(inList, new Date().toISOString())
         wsDbC.sendAndSetMessageFn(Object.assign(wsDbC.cmdList[1].sendJson
             , { sql: wsDbC.replaceAdnId(wsDbC.cmdList[1].sendJson) })
@@ -69,12 +52,12 @@ wsDbC.cmdList = [{
             pd.ctAdntree && wsDbC.sqlAdnData(event)
                 .forEach(adnId => pd.ctAdntree[adnId].count++)
 
-            ppsTWiki.inList.length > 0 &&
-                wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), ppsTWiki.inList))
+            fipi.inList.length > 0 &&
+                wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), fipi.inList))
         })
     },
 }]
-wsDbC.cmdList[0].sendJson.adnId = [pd.session.page, pd.session.FhirInfoPageId]
+wsDbC.cmdList[0].sendJson.adnId = [pd.session.page, fipi.FhirInfoPageId]
 wsDbC.runWsOpenInPromise(wsDbC.cmdList[0].sendJson).then(wsDbC.cmdList[0].thenFn)
 
 pd.docId = () => ({ docId: pd.session.page })
