@@ -11,12 +11,14 @@ window.location.hash.split('page,')[1] &&
 const pageWiki = createApp({
     data() { return { docId: pd.session.page, twHead: '' } }
 })
+// const cTWiki = 
+pageWiki.component('t-wiki', TWiki)
 
-const cTWiki = pageWiki.component('t-wiki', TWiki)
 pageWiki.component('t-fhir-part', FhirPart)
 const mPageWiki = pageWiki.mount('#pageWiki')
 
-pd.session.FhirInfoPageId = 376617 // [376617] am001fip/CodeSystem/FhirInfoPage title::
+pd.session.FhirInfoPageId = fipi.FhirInfoPageId
+//376617 // [376617] am001fip/CodeSystem/FhirInfoPage title::
 
 fd.mcc = { eMap: pd.eMap, parentChild: pd.parentChild }
 fd.session = pd.session

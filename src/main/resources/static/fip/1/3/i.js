@@ -2,6 +2,8 @@
 const { createApp } = Vue
 import { fipi, fipiFn } from '/fip/1/2/fipi.js'
 import { pd, wsDbC } from '/fip/1/1/l1.js'
+import TPageParts from '/twiki/4/TPageParts.js'
+import FhirPart from '/fip/1/2/FhirPart.js'
 
 const allAdnIds = fipiFn.getAllAdnIds()
 allAdnIds.push(fipi.FhirInfoPageId)
@@ -9,6 +11,8 @@ allAdnIds.push(fipi.FhirInfoPageId)
 const tPageParts = createApp({
     data() { return { count: 1 } },
 })
+tPageParts.component('t-page-parts', TPageParts)
+tPageParts.component('t-fhir-part', FhirPart)
 tPageParts.mount('#tPageParts')
 
 wsDbC.cmdListItem = 0
@@ -27,9 +31,7 @@ wsDbC.cmdList = [{
     thenFn: () => {
         !fipi.fipList && fipiFn.fipList()
         fipi.ppsFipi = { 1: fipi }
-        console.log(123, fipi, fipi.fipList)
-        console.log(Object.keys(pd.eMap))
-
+        pd.tPageParts && pd.tPageParts[1].count++
     },
 }]
 
