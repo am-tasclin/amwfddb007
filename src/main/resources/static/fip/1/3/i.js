@@ -19,6 +19,7 @@ wsDbC.cmdListItem = 0
 wsDbC.cmdList = [{
     sendJson: { sqlName: 'adn01NodesIn', adnId: allAdnIds.join(',') },
     thenFn: event => {
+        pd.tPageParts && pd.tPageParts[1].count++
         wsDbC.sqlAdnData(event).forEach(adnId => {
             pd.ctAdntree && pd.ctAdntree[adnId].count++
             pd.adnIdMenu && pd.adnIdMenu[adnId].count++
