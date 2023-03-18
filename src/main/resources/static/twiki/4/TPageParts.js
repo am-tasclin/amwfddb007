@@ -15,6 +15,9 @@ export default {
         ppsFipi() { return fipi.ppsFipi },
         fip(fip) { return wsDbC.fip[fip] },
         sn() { return pd.session },
+        ppsHref(pp) {
+            console.log(pp)
+        },
         ppClick(pagePart) {
             console.log(pagePart, pd.session)
             !pd.session.ppClose.includes(pagePart) && pd.session.ppClose.splice(0, 0, pagePart)
@@ -26,7 +29,8 @@ export default {
 <span class="w3-hide">{{count}}</span>
 <div class="w3-border-bottom">
     <span class="w3-tiny am-b"> FHIR parts </span> ➾
-    {{adnId}}
+    <span v-for="pp in pps()"><span @click="ppsHref(pp)" title="make first"
+        class="w3-hover-shadow w3-small">{{fip(pp)}}</span>&nbsp;,</span>
     <template v-for="pp in pps()">
         <div class="w3-container w3-topbar w3-light-grey">
             <span class="w3-tiny"> {{pp}}: </span>
