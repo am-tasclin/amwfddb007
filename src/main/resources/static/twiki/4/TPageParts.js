@@ -16,7 +16,9 @@ export default {
         fip(fip) { return wsDbC.fip[fip] },
         sn() { return pd.session },
         ppsHref(pp) {
-            console.log(pp)
+            fipi.ppsFipi[this.adnId].pps =
+                pd.cmd.listEltoFirst2(fipi.ppsFipi[this.adnId].pps, pp)
+            this.count++;
         },
         ppClick(pagePart) {
             console.log(pagePart, pd.session)
@@ -30,7 +32,7 @@ export default {
 <div class="w3-border-bottom">
     <span class="w3-tiny am-b"> FHIR parts </span> ➾
     <span v-for="pp in pps()"><span @click="ppsHref(pp)" title="make first"
-        class="w3-hover-shadow w3-small">{{fip(pp)}}</span>&nbsp;,</span>
+        class="w3-hover-shadow w3-small">{{fip(pp)}}</span>,&nbsp;</span>
     <template v-for="pp in pps()">
         <div class="w3-container w3-topbar w3-light-grey">
             <span class="w3-tiny"> {{pp}}: </span>

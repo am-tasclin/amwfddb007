@@ -36,6 +36,7 @@ pd.panel2Conf = (adnId, pp) => {
 // pd.parentChildFn = adnId => (parentChild[adnId] || [])
 pd.cmd = {}//cmd: command
 pd.cmd.listEltoFirst = (o, a, v) => o[a].splice(o[a].indexOf(v), 1).concat(o[a])
+pd.cmd.listEltoFirst2 = (oa, v) => oa.splice(oa.indexOf(v), 1).concat(oa)
 
 pd.cmd.W3ShowOnOff = eId => !document.getElementById(eId).className.includes('w3-show')
     && (document.getElementById(eId).className += ' w3-show')

@@ -11,10 +11,8 @@ export default {
         adnClick() {
             pd.onOffChild(this.adnId); this.count++
             pd.panel2 && pd.panel2[this.adnId] &&
-                Object.keys(pd.panel2[this.adnId]).reduce((n, m) => {
-                    console.log(n, m)
-                    pd.panel2[this.adnId][m].buildJsonComponent.count++
-                }, 0)
+                Object.keys(pd.panel2[this.adnId]).reduce((n, m) =>
+                    pd.panel2[this.adnId][m].buildJsonComponent.count++, 0)
         },
     },
     mounted() { (pd.ctAdntree || (pd.ctAdntree = {}))[this.adnId] = this },

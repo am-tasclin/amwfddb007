@@ -15,6 +15,7 @@ const ppSort = createApp({
     methods: {
         fipi() { return fipi }, fip(fip) { return wsDbC.fip[fip] },
         ppsHref(pp) {
+            console.log(fipi)
             fipi.pps = pd.cmd.listEltoFirst(fipi, 'pps', pp)
             this.count++; pd.tPageParts.count++; pd.ppCmdEd.count++
         },

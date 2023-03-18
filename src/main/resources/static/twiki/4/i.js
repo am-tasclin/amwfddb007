@@ -52,7 +52,8 @@ wsDbC.cmdList = [{
             , { sql: wsDbC.replaceAdnId(wsDbC.cmdList[1].sendJson) })
         ).then(event => {
             pd.ctAdntree && wsDbC.sqlAdnData(event)
-                .forEach(adnId => pd.ctAdntree[adnId].count++)
+                .forEach(adnId => pd.ctAdntree[adnId].count++
+                    && (pd.eMap[adnId].openChild = false))
 
             fipi.inList.length > 0 &&
                 wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), fipi.inList))
