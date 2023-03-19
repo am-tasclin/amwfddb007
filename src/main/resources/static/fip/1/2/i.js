@@ -35,7 +35,6 @@ const tPageParts = createApp({
             console.log(pagePart, ppId, fipi.json[pagePart])
             fipi.json[pagePart] = pd.cmd.listEltoFirst(fipi.json, pagePart, ppId)
             this.count++; pd.ppCmdEd.count++;
-
         },
         ppClick(pagePart) {
             !pd.session.ppClose.includes(pagePart) && pd.session.ppClose.splice(0, 0, pagePart)

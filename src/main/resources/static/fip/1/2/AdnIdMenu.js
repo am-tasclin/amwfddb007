@@ -17,17 +17,17 @@ export default {
         style="right: -1em;width: 14em;">
         <button class="w3-right w3-btn" @click="adnClick"
             > {{this.adnId}} </button>
-        <span class="w3-right w3-tiny">
+        <span class="w3-right w3-tiny w3-hover-shadow">
             <span title="parent"> p: </span>
             <span class="am-b">↥</span>
             <span class="w3-hover-shadow">{{i('parent')}}</span>
             <span class="am-b">↥</span>,
         </span>
         <div class="w3-small">
-            <span title="reference"> r: </span>
-            <span class="w3-hover-shadow">{{i('reference')}}</span>,
-            <span title="reference2"> r2: </span>
-            <span class="w3-hover-shadow">{{i('reference2')}}</span>,
+        <span class="w3-hover-shadow"> <span title="reference"> 
+            r: </span> {{i('reference')}}</span>,
+        <span class="w3-hover-shadow"> <span title="reference2"> 
+            r2: </span> {{i('reference2')}}</span>,
         </div>
         ⏻-MENU-☰
     </div> <span class="w3-hide"> {{count}} </span>
