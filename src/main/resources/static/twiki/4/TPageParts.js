@@ -1,5 +1,5 @@
 'use strict'
-import { fipi } from "/fip/1/2/fipi.js"
+import { fipi, fipiFn } from "/fip/1/2/fipi.js"
 import { pd, wsDbC } from '/fip/1/1/l1.js'
 import FhirPart from '/fip/1/2/FhirPart.js'
 import PagePartCmdEdMenu from '/twiki/4/PagePartCmdEdMenu.js'
@@ -37,7 +37,7 @@ export default {
     <span class="w3-tiny am-b"> FHIR parts </span> ➾
     <span v-for="pp in pps()"><span @click="ppsHref(pp)" title="make first"
         class="w3-hover-shadow w3-small">{{fip(pp)}}</span>,&nbsp;</span>
-    <span class="w3-right"> <PagePartCmdEdMenu :ppId="adnId"/>  </span>
+    <span class="w3-right"> <PagePartCmdEdMenu :ppId="adnId"/> </span>
     <template v-for="pp in pps()">
         <div class="w3-container w3-topbar w3-light-grey">
             <span class="w3-tiny"> {{pp}}: </span>
