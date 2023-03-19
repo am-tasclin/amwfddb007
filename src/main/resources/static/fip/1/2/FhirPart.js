@@ -8,12 +8,7 @@ export default {
         i(n) { return pd.i(this, n) },
         isOpenChild(adnId) { return pd.isOpenChild(adnId) },
         parentChild(adnId) { return pd.parentChild[adnId] || [] },
-        adnClick() {
-            pd.onOffChild(this.adnId); this.count++
-            pd.panel2 && pd.panel2[this.adnId] &&
-                Object.keys(pd.panel2[this.adnId]).reduce((n, m) =>
-                    pd.panel2[this.adnId][m].buildJsonComponent.count++, 0)
-        },
+        adnClick() { pd.onOffChild(this.adnId) },
     },
     mounted() { (pd.ctAdntree || (pd.ctAdntree = {}))[this.adnId] = this },
     template: `

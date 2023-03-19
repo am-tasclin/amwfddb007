@@ -22,7 +22,7 @@ wsDbC.cmdList = [{
         pd.tPageParts && pd.tPageParts[1].count++
         wsDbC.sqlAdnData(event).forEach(adnId => {
             pd.ctAdntree && pd.ctAdntree[adnId].count++
-            pd.adnIdMenu && pd.adnIdMenu[adnId].count++
+            // pd.adnIdMenu && pd.adnIdMenu[adnId].count++
             pd.eMap[adnId].openChild = false
         })
         wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), allAdnIds.join(',')))
