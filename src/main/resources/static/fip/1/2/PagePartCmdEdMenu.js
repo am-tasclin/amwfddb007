@@ -51,15 +51,15 @@ export default {
                         <input :value="fipi().json[pp].join(',')" class="w3-hover-shadow w3-small" style="width: 100%;">
                     </div>
                     <div class="w3-half w3-container w3-small">
-                    <span v-for="k2 in fipi().json[pp]">
-                        <template v-if="'lr'!=pp">
-                            <span class="w3-hover-shadow">
-                                <label> <input type="checkbox" v-model="pl2Ids[pp]"
-                                :value="k2" @input="inputPanelPart">&nbsp;
-                                {{k2}}</label>
-                            </span>,
-                        </template>
-                    </span>
+                        <span v-for="k2 in fipi().json[pp]">
+                            <template v-if="'lr'!=pp">
+                                <span class="w3-hover-shadow">
+                                    <label> <input type="checkbox" v-model="pl2Ids[pp]"
+                                    :value="k2" @input="inputPanelPart">&nbsp;
+                                    {{k2}}</label>
+                                </span>,
+                            </template>
+                        </span>
                     </div>
                 </div>
             </div>

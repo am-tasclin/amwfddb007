@@ -45,15 +45,20 @@ export default {
                 &nbsp; {{fip(pp)}} &nbsp;
             </span>
             <span class="w3-tiny w3-right">
-                <span class="am-i"> {{pp}} </span>
-                ⁙ <span @click="ppIdsClick(pp, ppId)" 
-                v-for="ppId in ppsFipi().json[pp]" class="w3-hover-shadow" >
+                <span class="am-i"> {{pp}} </span> ⁙ <span class="w3-hover-shadow" 
+                v-for="ppId in ppsFipi().json[pp]" @click="ppIdsClick(pp, ppId)" >
                     {{ppId}}, </span>
             </span>
         </div>
         <div :class="{'w3-hide':sn().ppClose.includes(pp)}">
             <template v-for="adnId2 in ppsFipi().json[pp]">
-                <FhirPart :adnId="adnId2"/>
+                <div v-if="ppsFipi().pl2[pp] && ppsFipi().pl2[pp][1*adnId2]" class="w3-row">
+                    <div class="w3-half"><FhirPart :adnId="adnId2"/></div>
+                    <div class="w3-half w3-leftbar am-b">
+                        panel2 {{adnId2}}
+                    </div>
+                </div>
+                <FhirPart :adnId="adnId2" v-else/>
             </template>
         </div>
     </template>

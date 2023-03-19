@@ -13,8 +13,9 @@ fipiFn.initPageParts = (rawFipiStr, fipi) => {
         (n[m.split(',')[0].split('p_')[1]] = m.split(',').slice(1).reduce((n2, m2) =>
             (n2[m2] = {}) && n2, {})) && n, {})
     //pps: Page Part Sequence
-    !fipi.pps
-        && (fipi.pps = Object.keys(fipi.json).filter(n => !n.includes('pps')))
+    fipi.pps = Object.keys(fipi.json)
+        .filter(n => !n.includes('pps'))
+        .filter(k => !k.includes('p_'))
     return fipi
 }
 
