@@ -25,7 +25,6 @@ export default {
       this.count++
   },
   }, template: `
-<span class="w3-hide">{{count}}</span>
 <template v-for="adnId in parentChild(wId)">
   <h2 class="w3-border-bottom" v-if="'h2'==ea(adnId, 'r_value_22')">
       {{ea(adnId, 'value_22')}} </h2>
@@ -39,7 +38,7 @@ export default {
         <TPageParts :adnId="adnId2"/>
       </template>
       <template v-else>
-        <template v-for="pp in [ea(ea(adnId2, 'reference'),'value_22')]">
+        <div v-for="pp in [ea(ea(adnId2, 'reference'),'value_22')]" class="w3-container" >
         <div class="w3-container w3-topbar w3-light-grey" >
             <span class="w3-tiny"> {{pp}}: </span>
             <span class="w3-hover-shadow am-u" @click="ppClick(pp)">
@@ -51,9 +50,9 @@ export default {
                 <FhirPart :adnId="adnId3"/>
             </template>
         </div>
-        </template></template>
+        </div></template>
     </template>
   </template>
-</template>
+</template> <span class="w3-hide">{{count}}</span>
   ` ,
 }

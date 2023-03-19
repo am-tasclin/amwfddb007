@@ -33,7 +33,7 @@ export default {
         },
     },
     template: `
-<div class="w3-border-bottom">
+<div class="w13-border-bottom w3-container">
     <span class="w3-tiny am-b"> FHIR parts </span> ➾
     <span v-for="pp in pps()"><span @click="ppsHref(pp)" title="make first"
         class="w3-hover-shadow w3-small">{{fip(pp)}}</span>,&nbsp;</span>
