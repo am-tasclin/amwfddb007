@@ -3,6 +3,7 @@ import { fipi, fipiFn } from "/fip/1/2/fipi.js"
 import { pd, wsDbC } from '/fip/1/1/l1.js'
 import FhirPart from '/fip/1/2/FhirPart.js'
 import PagePartCmdEdMenu from '/twiki/4/PagePartCmdEdMenu.js'
+import BuildJson from '/twiki/4/BuildJson.js'
 
 !pd.tPageParts && (pd.tPageParts = {})
 !pd.session.ppClose && (pd.session.ppClose = [])
@@ -10,7 +11,7 @@ import PagePartCmdEdMenu from '/twiki/4/PagePartCmdEdMenu.js'
 export default {
     props: { adnId: Number }, data() { return { count: 1 } },
     mounted() { pd.tPageParts[this.adnId] = this },
-    components: { FhirPart, PagePartCmdEdMenu },
+    components: { FhirPart, PagePartCmdEdMenu, BuildJson },
     methods: {
         pps() { return fipi.ppsFipi && fipi.ppsFipi[this.adnId] && fipi.ppsFipi[this.adnId].pps },
         ppsFipi() { return fipi.ppsFipi[this.adnId] },
@@ -54,11 +55,13 @@ export default {
             <template v-for="adnId2 in ppsFipi().json[pp]">
                 <div v-if="ppsFipi().pl2[pp] && ppsFipi().pl2[pp][adnId2]" class="w3-row">
                     <div class="w3-half"><FhirPart :adnId="adnId2"/></div>
-                    <div class="w3-half w3-leftbar am-b">
-                        panel2 {{adnId2}}
+                    <div class="w3-half">
+                        <button class="w3-right w3-btn w3-padding-small">
+                                🗖</button>
+                        <BuildJson :ppId="adnId" :pp="pp" :adnId="adnId2"/>
                     </div>
                 </div>
-                <FhirPart :adnId="adnId2" v-else/>
+                <FhirPart :adnId="adnId2" v-else />
             </template>
         </div>
     </template>

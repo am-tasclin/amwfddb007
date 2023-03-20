@@ -20,7 +20,6 @@ fipiFn.initPageParts = (rawFipiStr, fipi) => {
 }
 
 console.log(window.location.hash.substring(1))
-
 fipiFn.initPageParts(window.location.hash.substring(1), fipi)
 
 // for SQL IN

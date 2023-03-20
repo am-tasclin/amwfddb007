@@ -16,7 +16,7 @@ export default {
     <div class="w3-border w3-dropdown-content w3-container w3-hover-shadow"
         style="right: -1em;width: 14em;">
         <button class="w3-right w3-btn" @click="adnClick"
-            > {{this.adnId}} </button>
+            > {{this.adnId}} 🗖 </button>
         <span class="w3-right w3-tiny w3-hover-shadow">
             <span title="parent"> p: </span>
             <span class="am-b">↥</span>
