@@ -19,7 +19,7 @@ export default {
         ppsHref(pp) {
             fipi.ppsFipi[this.adnId].pps =
                 pd.cmd.listEltoFirst2(fipi.ppsFipi[this.adnId].pps, pp)
-            this.count++;
+            this.count++; pd.ppCmdEd[this.adnId].count++
         },
         ppClick(pagePart) {
             !pd.session.ppClose.includes(pagePart) && pd.session.ppClose.splice(0, 0, pagePart)
@@ -52,7 +52,7 @@ export default {
         </div>
         <div :class="{'w3-hide':sn().ppClose.includes(pp)}">
             <template v-for="adnId2 in ppsFipi().json[pp]">
-                <div v-if="ppsFipi().pl2[pp] && ppsFipi().pl2[pp][1*adnId2]" class="w3-row">
+                <div v-if="ppsFipi().pl2[pp] && ppsFipi().pl2[pp][adnId2]" class="w3-row">
                     <div class="w3-half"><FhirPart :adnId="adnId2"/></div>
                     <div class="w3-half w3-leftbar am-b">
                         panel2 {{adnId2}}

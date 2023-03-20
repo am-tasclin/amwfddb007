@@ -1,12 +1,14 @@
 'use strict'
 import { pd, wsDbC } from '/fip/1/1/l1.js'
 import { fipi } from '/fip/1/2/fipi.js'
+!pd.ppCmdEd && (pd.ppCmdEd = {})
 export default {
     props: { ppId: Number }, data() {
         console.log(123, Object.keys(wsDbC.fip))
         return { count: 1 }
-    },
-    methods: {
+    }, mounted() {
+        pd.ppCmdEd[this.ppId] = this
+    }, methods: {
         fip(fip) { return wsDbC.fip[fip] },
         ppsFipi() { return fipi.ppsFipi[this.ppId] },
         pps() { return fipi.ppsFipi && fipi.ppsFipi[this.ppId] && fipi.ppsFipi[this.ppId].pps },
