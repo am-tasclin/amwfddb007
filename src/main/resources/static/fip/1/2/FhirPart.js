@@ -1,6 +1,7 @@
 'use strict'
 import { pd } from '/fip/1/1/l1.js'
 import AdnIdMenu from '/fip/1/2/AdnIdMenu.js'
+!pd.ctAdntree && (pd.ctAdntree = {})
 export default {
     props: { adnId: Number }, data() { return { count: 1, } },
     components: { AdnIdMenu },
@@ -10,7 +11,7 @@ export default {
         parentChild(adnId) { return pd.parentChild[adnId] || [] },
         adnClick() { pd.onOffChild(this.adnId) },
     },
-    mounted() { (pd.ctAdntree || (pd.ctAdntree = {}))[this.adnId] = this },
+    mounted() { pd.ctAdntree[this.adnId] = this },
     template: `
 <div class="w3-hover-shadow"> <span class="w3-right"><AdnIdMenu :adnId="adnId"/></span>
     <span class="w3-small w3-hover-shadow"

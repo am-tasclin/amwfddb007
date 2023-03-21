@@ -35,7 +35,7 @@ export default {
         {{ea(adnId2, 'value_22')}} </p>
     <template v-if="fipList().includes(ea(adnId2, 'reference'))">
       <template v-if="'FIP'==ea(ea(adnId2, 'reference'),'value_22')">
-        <TPageParts :adnId="adnId2"/>
+        <TPageParts :ppId="adnId2"/>
       </template>
       <template v-else>
         <div v-for="pp in [ea(ea(adnId2, 'reference'),'value_22')]" class="w3-container" >

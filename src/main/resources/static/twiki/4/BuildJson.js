@@ -10,13 +10,19 @@ fipiFn.ppAdnId = (ppId, pp, adnId) => {
 export default {
     props: { ppId: Number, pp: String, adnId: Number }
     , data() { return { count: 1, } },
+    mounted() {
+        fipiFn.ppAdnId(this.ppId, this.pp, this.adnId).buildJson = this
+    },
     methods: {
+        i(n) { return pd.i(this, n) },
         ppAdnId() { return fipiFn.ppAdnId(this.ppId, this.pp, this.adnId) },
         buildStructure() {
             const ppAdnId = fipiFn.ppAdnId(this.ppId, this.pp, this.adnId)
             const json = buildJSON.typeOf.Structure(this.adnId, {})
             const jsonStr = buildJSON.stringify.Structure(json)
             ppAdnId.jsonStr = jsonStr
+            pd.onOffChild(this.adnId, true)
+            fipiFn.ppAdnId(this.ppId, this.pp, this.adnId).ppAdnOpen = true
             this.count++
         },
         buildType(im) {
@@ -33,7 +39,8 @@ export default {
 <span class="w3-small">
     <button @click="buildStructure" class="w3-btn w3-padding-small am-u">Structure</button>
 </span>
-<div style="white-space: pre; overflow: auto;" class="w3-opacity w3-small w3-border-top">
+<!-- || i('openChild') -->
+<div v-if="ppAdnId().ppAdnOpen " style="white-space: pre; overflow: auto;" class="w3-opacity w3-small w3-border-top">
     {{ppAdnId().jsonStr}}
 </div>
     `,

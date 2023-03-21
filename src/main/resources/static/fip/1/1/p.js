@@ -143,8 +143,9 @@ const fpc01 = createApp({
     },
 })
 
-pd.onOffChild = adnId => (parentChild[adnId] || []).length > 0 && eMap[adnId]
-    && (eMap[adnId].openChild = !eMap[adnId].openChild)
+pd.onOffChild = (adnId, openChild) => (parentChild[adnId] || []).length > 0 && eMap[adnId]
+    && (eMap[adnId].openChild = (openChild || !eMap[adnId].openChild))
+
 pd.cmd.ppHref = () => '#' + Object.keys(pd.session.json).reduce((n, adnId) => n
     + ';' + adnId + ',' + pd.session.json[adnId].join(','), '').substring(1)
 
