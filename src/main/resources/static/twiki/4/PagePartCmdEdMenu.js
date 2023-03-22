@@ -7,7 +7,10 @@ import { fipi } from '/fip/1/2/fipi.js'
 
 export default {
     props: { ppId: Number }, data() { return { count: 1 } }
-    , mounted() { pd.ppCmdEd[this.ppId] = this }
+    , mounted() {
+        pd.ppCmdEd[this.ppId] = this
+        this.setPpcvName('JSON')
+    }
     , methods: {
         keys(o) { return Object.keys(o) },
         fip(fip) { return wsDbC.fip[fip] },
@@ -32,22 +35,26 @@ export default {
             style="right: -1em; width: 52em;">
         <div class="w3-row">
             <div class="w3-quarter w13-border-right">
-                <div class="w3-tiny  w3-border-bottom">
+                <div class="w3-tiny w3-border-bottom">
                     <span @click="setPpcvName(ppcv)" 
                         :class="{'w3-grey':ppcv==ppsFipi().ppcv}"
                     v-for="ppcv in ['URI','JSON']" class="w3-hover-shadow am-b">
                         &nbsp; {{ppcv}}, </span>&nbsp;{{ppId}}
+                    <div v-if="'JSON'!=ppsFipi().ppcv" class="w3-right-align w3-opacity">
+                        <span class="am-i am-u">Use  for start init only.<span></div>
                 </div>
                 <div class="w3-opacity w3-tiny">
                     <div v-if="'JSON'==ppsFipi().ppcv"  style="white-space: pre; overflow: auto;">
                         {{ppcvJsonStr()}}
                     </div>
-                    <div v-else v-for="pp in pps()" class="w3-hover-shadow">
-                        <span class="am-b">{{pp}}</span
-                        >,&nbsp; {{ppsFipi().json[pp].join(', ')}}
-                        <div v-for="pl2 in ppsFipi().pl2[pp]">
-                            <span class="am-b">p_{{pp}}</span
-                            >,&nbsp; {{keys(ppsFipi().pl2[pp]).join(', ')}}
+                    <div v-else>
+                        <div  v-for="pp in pps()" class="w3-hover-shadow">
+                            <span class="am-b">{{pp}}</span
+                            >,&nbsp; {{ppsFipi().json[pp].join(', ')}}
+                            <div v-for="pl2 in ppsFipi().pl2[pp]">
+                                <span class="am-b">pl2_{{pp}}</span
+                                >,&nbsp; {{keys(ppsFipi().pl2[pp]).join(', ')}}
+                            </div>
                         </div>
                     </div>
                 </div>
