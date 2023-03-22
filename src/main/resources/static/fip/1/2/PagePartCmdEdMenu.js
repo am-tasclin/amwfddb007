@@ -20,9 +20,8 @@ export default {
         }
     }, template: `
 <span class="w3-dropdown-click">
-    <button @click="ppCmdEdOnOff"
-        class="w3-btn w3-ripple w3-padding-small w3-small">&nbsp;&nbsp;
-            {{fipi().pps.join(',')}}&nbsp;☰&nbsp;
+    <button @click="ppCmdEdOnOff" class="w3-btn w3-ripple w3-padding-small w3-small"
+        >&nbsp;&nbsp;{{fipi().pps.join(',')}}&nbsp;☰&nbsp;
         </button> <span class="w3-hide"> {{count}} </span>
     <div id="ppCmdEd" class="w3-dropdown-content w3-container w3-hover-shadow w3-border"
         style="right: -1em; width: 52em;">

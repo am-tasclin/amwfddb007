@@ -17,6 +17,9 @@ export default {
         i(n) { return pd.i(this, n) },
         ppAdnId() { return fipiFn.ppAdnId(this.ppId, this.pp, this.adnId) },
         buildStructure() {
+            fipiFn.ppAdnId(this.ppId, this.pp, this.adnId).buildJsonType={
+                key:'Structure'
+            }
             const ppAdnId = fipiFn.ppAdnId(this.ppId, this.pp, this.adnId)
             const json = buildJSON.typeOf.Structure(this.adnId, {})
             const jsonStr = buildJSON.stringify.Structure(json)

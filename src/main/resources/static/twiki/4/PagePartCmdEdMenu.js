@@ -1,29 +1,55 @@
 'use strict'
 import { pd, wsDbC } from '/fip/1/1/l1.js'
 import { fipi } from '/fip/1/2/fipi.js'
+
+!fipi.ppFips && (fipi.ppFips = {})
 !pd.ppCmdEd && (pd.ppCmdEd = {})
+
 export default {
     props: { ppId: Number }, data() { return { count: 1 } }
-    , mounted() {
-        pd.ppCmdEd[this.ppId] = this
-    }, methods: {
+    , mounted() { pd.ppCmdEd[this.ppId] = this }
+    , methods: {
+        keys(o) { return Object.keys(o) },
         fip(fip) { return wsDbC.fip[fip] },
         ppsFipi() { return fipi.ppsFipi[this.ppId] },
         pps() { return fipi.ppsFipi && fipi.ppsFipi[this.ppId] && fipi.ppsFipi[this.ppId].pps },
         ppCmdEdOnOff() { pd.cmd.W3ShowOnOff('ppCmdEd_' + this.ppId) },
+        //ppcv page part cmd view
+        ppcvJsonStr() {
+            console.log(fipi.ppFips[this.ppId])
+            return ppCmdBuild.ppcvJsonStr(fipi.ppFips[this.ppId])
+        },
+        setPpcvName(im) {
+            'JSON' == im && ppCmdBuild.ppsFipi(this.ppId, fipi.ppFips[this.ppId] || (fipi.ppFips[this.ppId] = {}));
+            (fipi.ppsFipi[this.ppId].ppcv = im) && this.count++
+        },
     }, template: `
 <span class="w3-dropdown-click">
     <button @click="ppCmdEdOnOff" class="w3-btn w3-ripple w3-padding-small w3-small">
     {{pps().join(',')}} &nbsp;&nbsp;<i class="fa-solid fa-bars"></i>&nbsp;
     </button>
     <div :id="'ppCmdEd_'+ppId" class="w3-dropdown-content w3-container w3-hover-shadow w3-border"
-    style="right: -1em; width: 52em;">
+            style="right: -1em; width: 52em;">
         <div class="w3-row">
             <div class="w3-quarter w13-border-right">
-                <div class="w3-tiny am-b w3-border-bottom">URI, JSON</div>
+                <div class="w3-tiny  w3-border-bottom">
+                    <span @click="setPpcvName(ppcv)" 
+                        :class="{'w3-grey':ppcv==ppsFipi().ppcv}"
+                    v-for="ppcv in ['URI','JSON']" class="w3-hover-shadow am-b">
+                        &nbsp; {{ppcv}}, </span>&nbsp;{{ppId}}
+                </div>
                 <div class="w3-opacity w3-tiny">
-                    &nbsp;
-                    {{ppId}}
+                    <div v-if="'JSON'==ppsFipi().ppcv"  style="white-space: pre; overflow: auto;">
+                        {{ppcvJsonStr()}}
+                    </div>
+                    <div v-else v-for="pp in pps()" class="w3-hover-shadow">
+                        <span class="am-b">{{pp}}</span
+                        >,&nbsp; {{ppsFipi().json[pp].join(', ')}}
+                        <div v-for="pl2 in ppsFipi().pl2[pp]">
+                            <span class="am-b">p_{{pp}}</span
+                            >,&nbsp; {{keys(ppsFipi().pl2[pp]).join(', ')}}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="w3-threequarter w13-container w13-border-left">
@@ -51,4 +77,23 @@ export default {
     </div>
 </span> <span class="w3-hide">{{count}}</span>
     `,
+}
+
+const ppCmdBuild = {}
+
+ppCmdBuild.ppcvJsonStr = ppFips => JSON.stringify(ppFips, '', 2)
+    .replace(/",\s+"/g, '", "')
+    .replace(/\[\s+"/g, '["')
+    .replace(/"\s+\]/g, '"]')
+    .replace(/\s+}/g, '}')
+
+ppCmdBuild.ppsFipi = (ppId, ppFips) => {
+    ppFips.json = fipi.ppsFipi[ppId].json
+    fipi.ppsFipi[ppId].pl2 && (
+        ppFips.pl2 = Object.keys(fipi.ppsFipi[ppId].pl2).reduce((o, k) => (
+            o[k] = Object.keys(fipi.ppsFipi[ppId].pl2[k])
+                .reduce((o2, k2) => (o2[k2] = ['buildJsonType']
+                    .reduce((o3, k3) => fipi.ppsFipi[ppId].pl2[k][k2][k3] &&
+                        (o3[k3] = fipi.ppsFipi[ppId].pl2[k][k2][k3]) && o3
+                        , {})) && o2, {})) && o, {}))
 }
