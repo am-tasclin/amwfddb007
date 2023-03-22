@@ -6,7 +6,6 @@ import TPageParts from '/twiki/4/TPageParts.js'
 import FhirPart from '/fip/1/2/FhirPart.js'
 
 fipi.ppsFipi = { 1: fipi }
-console.log(fipi)
 
 const allAdnIds = fipiFn.getAllAdnIds()
 allAdnIds.push(fipi.FhirInfoPageId)

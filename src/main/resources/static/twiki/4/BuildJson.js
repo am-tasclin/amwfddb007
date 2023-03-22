@@ -16,16 +16,17 @@ export default {
     methods: {
         i(n) { return pd.i(this, n) },
         ppAdnId() { return fipiFn.ppAdnId(this.ppId, this.pp, this.adnId) },
-        buildStructure() {
-            fipiFn.ppAdnId(this.ppId, this.pp, this.adnId).buildJsonType={
-                key:'Structure'
-            }
-            const ppAdnId = fipiFn.ppAdnId(this.ppId, this.pp, this.adnId)
+        buildJsonStr() {
             const json = buildJSON.typeOf.Structure(this.adnId, {})
             const jsonStr = buildJSON.stringify.Structure(json)
-            ppAdnId.jsonStr = jsonStr
+            // ppAdnId.jsonStr = 
+            return jsonStr
+        },
+        buildStructure() {
+            const ppAdnId = fipiFn.ppAdnId(this.ppId, this.pp, this.adnId)
+            ppAdnId.buildJsonType = { key: 'Structure' }
+            ppAdnId.ppAdnOpen = true
             pd.onOffChild(this.adnId, true)
-            fipiFn.ppAdnId(this.ppId, this.pp, this.adnId).ppAdnOpen = true
             this.count++
         },
         buildType(im) {
@@ -42,9 +43,9 @@ export default {
 <span class="w3-small">
     <button @click="buildStructure" class="w3-btn w3-padding-small am-u">Structure</button>
 </span>
-<!-- || i('openChild') -->
+
 <div v-if="ppAdnId().ppAdnOpen " style="white-space: pre; overflow: auto;" class="w3-opacity w3-small w3-border-top">
-    {{ppAdnId().jsonStr}}
+    {{buildJsonStr()}}
 </div>
     `,
 }

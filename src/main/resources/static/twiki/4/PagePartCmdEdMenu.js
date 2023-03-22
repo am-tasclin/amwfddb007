@@ -10,18 +10,15 @@ export default {
     , mounted() {
         pd.ppCmdEd[this.ppId] = this
         this.setPpcvName('JSON')
-    }
-    , methods: {
+    }, methods: {
         keys(o) { return Object.keys(o) },
         fip(fip) { return wsDbC.fip[fip] },
         ppsFipi() { return fipi.ppsFipi[this.ppId] },
         pps() { return fipi.ppsFipi && fipi.ppsFipi[this.ppId] && fipi.ppsFipi[this.ppId].pps },
         ppCmdEdOnOff() { pd.cmd.W3ShowOnOff('ppCmdEd_' + this.ppId) },
         //ppcv page part cmd view
-        ppcvJsonStr() {
-            console.log(fipi.ppFips[this.ppId])
-            return ppCmdBuild.ppcvJsonStr(fipi.ppFips[this.ppId])
-        },
+        ppcvJsonUrlStr() { return JSON.stringify(fipi.ppFips[this.ppId]) },
+        ppcvJsonStr() { return ppCmdBuild.ppcvJsonStr(fipi.ppFips[this.ppId]) },
         setPpcvName(im) {
             'JSON' == im && ppCmdBuild.ppsFipi(this.ppId, fipi.ppFips[this.ppId] || (fipi.ppFips[this.ppId] = {}));
             (fipi.ppsFipi[this.ppId].ppcv = im) && this.count++
@@ -33,15 +30,24 @@ export default {
     </button>
     <div :id="'ppCmdEd_'+ppId" class="w3-dropdown-content w3-container w3-hover-shadow w3-border"
             style="right: -1em; width: 52em;">
+            <a :href="'#itjn='+ppcvJsonUrlStr()">
+                {{ppcvJsonUrlStr()}}
+            </a>
         <div class="w3-row">
-            <div class="w3-quarter w13-border-right">
+            <div class="w3-quarter w3-border-right">
                 <div class="w3-tiny w3-border-bottom">
                     <span @click="setPpcvName(ppcv)" 
                         :class="{'w3-grey':ppcv==ppsFipi().ppcv}"
                     v-for="ppcv in ['URI','JSON']" class="w3-hover-shadow am-b">
                         &nbsp; {{ppcv}}, </span>&nbsp;{{ppId}}
-                    <div v-if="'JSON'!=ppsFipi().ppcv" class="w3-right-align w3-opacity">
-                        <span class="am-i am-u">Use  for start init only.<span></div>
+                    <div class="w3-right-align w3-opacity w3-container"> 
+                        <span class="am-i"> <template 
+                            v-if="'JSON'!=ppsFipi().ppcv" >
+                                Use for start init only.
+                            </template> <template v-else> 
+                                Full pagePart Config</template>
+                        <span>
+                    </div>
                 </div>
                 <div class="w3-opacity w3-tiny">
                     <div v-if="'JSON'==ppsFipi().ppcv"  style="white-space: pre; overflow: auto;">
@@ -96,11 +102,9 @@ ppCmdBuild.ppcvJsonStr = ppFips => JSON.stringify(ppFips, '', 2)
 
 ppCmdBuild.ppsFipi = (ppId, ppFips) => {
     ppFips.json = fipi.ppsFipi[ppId].json
-    fipi.ppsFipi[ppId].pl2 && (
-        ppFips.pl2 = Object.keys(fipi.ppsFipi[ppId].pl2).reduce((o, k) => (
-            o[k] = Object.keys(fipi.ppsFipi[ppId].pl2[k])
-                .reduce((o2, k2) => (o2[k2] = ['buildJsonType']
-                    .reduce((o3, k3) => fipi.ppsFipi[ppId].pl2[k][k2][k3] &&
-                        (o3[k3] = fipi.ppsFipi[ppId].pl2[k][k2][k3]) && o3
-                        , {})) && o2, {})) && o, {}))
+    ppFips.pl2 = Object.keys(fipi.ppsFipi[ppId].pl2).reduce((o, k) => (
+        o[k] = Object.keys(fipi.ppsFipi[ppId].pl2[k]).reduce((o2, k2) => (
+            o2[k2] = ['buildJsonType'].reduce((o3, k3) => (
+                o3[k3] = fipi.ppsFipi[ppId].pl2[k][k2][k3])
+                && o3, {}) || {}) && o2, {})) && o, {})
 }
