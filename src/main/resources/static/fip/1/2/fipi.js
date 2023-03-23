@@ -4,6 +4,30 @@ import { pd } from '/fip/1/1/l1.js'
 export const fipi = {}, fipiFn = {}
 
 fipiFn.initPageParts = (rawFipiStr, fipi) => {
+
+    console.log(rawFipiStr.includes('itjn='))
+
+    rawFipiStr.includes('itjn=') &&
+        fipiFn.initFromJson(rawFipiStr.replace('itjn=', ''))
+    !rawFipiStr.includes('itjn=') &&
+        fipiFn.initFromURI(rawFipiStr)
+
+    console.log(fipi)
+    return fipi
+}
+
+fipiFn.initFromJson = jsonStr => {
+    const json = JSON.parse(decodeURI(jsonStr))
+    console.log(json)
+    console.log(json.json)
+    fipi.json = json.json
+    fipi.pl2 = json.pl2
+    fipi.pps = Object.keys(fipi.json)
+        .filter(n => !n.includes('pps'))
+        .filter(k => !k.includes('pl2_'))
+}
+
+fipiFn.initFromURI = rawFipiStr => {
     fipi.fcwRawArray = rawFipiStr.split(';')
     fipi.json = fipi.fcwRawArray.filter(k => '' != k && !k.includes('pps') && !k.includes('pl2_'))
         .reduce((n, m) => (n[m.split(',')[0]] = m.split(',').slice(1)) && n, {})
@@ -16,10 +40,9 @@ fipiFn.initPageParts = (rawFipiStr, fipi) => {
     fipi.pps = Object.keys(fipi.json)
         .filter(n => !n.includes('pps'))
         .filter(k => !k.includes('pl2_'))
-    return fipi
 }
 
-console.log(window.location.hash.substring(1))
+// console.log(window.location.hash.substring(1))
 fipiFn.initPageParts(window.location.hash.substring(1), fipi)
 
 // for SQL IN
