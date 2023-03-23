@@ -34,7 +34,7 @@ export default {
                 {{ppcvJsonUrlStr()}}
             </a>
         <div class="w3-row">
-            <div class="w3-quarter w3-border-right">
+            <div class="w3-quarter w13-border-right">
                 <div class="w3-tiny w3-border-bottom">
                     <span @click="setPpcvName(ppcv)" 
                         :class="{'w3-grey':ppcv==ppsFipi().ppcv}"
@@ -102,9 +102,30 @@ ppCmdBuild.ppcvJsonStr = ppFips => JSON.stringify(ppFips, '', 2)
 
 ppCmdBuild.ppsFipi = (ppId, ppFips) => {
     ppFips.json = fipi.ppsFipi[ppId].json
-    ppFips.pl2 = Object.keys(fipi.ppsFipi[ppId].pl2).reduce((o, k) => (
-        o[k] = Object.keys(fipi.ppsFipi[ppId].pl2[k]).reduce((o2, k2) => (
-            o2[k2] = ['buildJsonType'].reduce((o3, k3) => (
-                o3[k3] = fipi.ppsFipi[ppId].pl2[k][k2][k3])
-                && o3, {}) || {}) && o2, {})) && o, {})
+
+
+    console.log(fipi)
+
+    Object.keys(fipi.ppsFipi[ppId].pl2).reduce((o, pp) =>
+        Object.keys(fipi.ppsFipi[ppId].pl2[pp]).reduce((o2, ppId2) =>
+            // opened list for pp, ppId from ppAdnOpen
+            fipi.ppsFipi[ppId].pl2[pp][ppId2].ppAdnOpen && (() => {
+                !fipi.ppsFipi[ppId].opened && (fipi.ppsFipi[ppId].opened = {})
+                !fipi.ppsFipi[ppId].opened[pp] && (fipi.ppsFipi[ppId].opened[pp] = {})
+                !fipi.ppsFipi[ppId].opened[pp][ppId2] && (fipi.ppsFipi[ppId].opened[pp][ppId2] = [])
+                !fipi.ppsFipi[ppId].opened[pp][ppId2].includes(ppId2) &&
+                    fipi.ppsFipi[ppId].opened[pp][ppId2].push(ppId2)
+                console.log(pp, ppId2, fipi.ppsFipi[ppId].pl2[pp][ppId2])
+            })(), 0), 0)
+
+    fipi.ppsFipi[ppId].opened &&
+        (ppFips.opened = fipi.ppsFipi[ppId].opened)
+
+    ppFips.pl2 = Object.keys(fipi.ppsFipi[ppId].pl2).reduce((o, pp) => (
+        o[pp] = Object.keys(fipi.ppsFipi[ppId].pl2[pp]).reduce((o2, ppId2) => (
+            o2[ppId2] = ['buildJsonType'].reduce((o3, k3) => (
+                o3[k3] = fipi.ppsFipi[ppId].pl2[pp][ppId2][k3])
+                && o3, {}) || {}
+        ) && o2, {})
+    ) && o, {})
 }
