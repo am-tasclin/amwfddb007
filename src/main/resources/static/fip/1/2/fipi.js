@@ -3,24 +3,28 @@ import { pd } from '/fip/1/1/l1.js'
 // fipi: FHIR Info Page Interface
 export const fipi = {}, fipiFn = {}
 
-fipiFn.initPageParts = (rawFipiStr, fipi) => {
+fipiFn.isOpenChild = (adnId, ppId, fip, fipId) => {
+    const openedList = fipi.ppsFipi[ppId].opened &&
+        fipi.ppsFipi[ppId].opened[fip] &&
+        fipi.ppsFipi[ppId].opened[fip][fipId]
+    return openedList && fipi.ppsFipi[ppId].opened[fip][fipId].includes(adnId)
+}
 
-    console.log(rawFipiStr.includes('itjn='))
+
+fipiFn.initPageParts = (rawFipiStr, fipi) => {
 
     rawFipiStr.includes('itjn=') &&
         fipiFn.initFromJson(rawFipiStr.replace('itjn=', ''), fipi)
     !rawFipiStr.includes('itjn=') &&
         fipiFn.initFromURI(rawFipiStr, fipi)
 
-    console.log(fipi)
     return fipi
 }
 
 fipiFn.initFromJson = (jsonStr, fipi) => {
     const json = JSON.parse(decodeURI(jsonStr))
-    console.log(json)
-    console.log(json.json)
     fipi.json = json.json
+    fipi.opened = json.opened
     fipi.pl2 = json.pl2
     fipi.pps = Object.keys(fipi.json)
         .filter(n => !n.includes('pps'))

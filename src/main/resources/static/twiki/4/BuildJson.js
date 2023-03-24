@@ -8,14 +8,14 @@ fipiFn.ppAdnId = (ppId, pp, adnId) => {
 }
 
 export default {
-    props: { ppId: Number, pp: String, adnId: Number }
+    props: { ppId: Number, fip: String, adnId: Number }
     , data() { return { count: 1, } },
     mounted() {
-        fipiFn.ppAdnId(this.ppId, this.pp, this.adnId).buildJson = this
+        fipiFn.ppAdnId(this.ppId, this.fip, this.adnId).buildJson = this
     },
     methods: {
         i(n) { return pd.i(this, n) },
-        ppAdnId() { return fipiFn.ppAdnId(this.ppId, this.pp, this.adnId) },
+        ppAdnId() { return fipiFn.ppAdnId(this.ppId, this.fip, this.adnId) },
         buildJsonStr() {
             const json = buildJSON.typeOf.Structure(this.adnId, {})
             const jsonStr = buildJSON.stringify.Structure(json)
@@ -23,7 +23,7 @@ export default {
             return jsonStr
         },
         buildStructure() {
-            const ppAdnId = fipiFn.ppAdnId(this.ppId, this.pp, this.adnId)
+            const ppAdnId = fipiFn.ppAdnId(this.ppId, this.fip, this.adnId)
             ppAdnId.buildJsonType = { key: 'Structure' }
             ppAdnId.ppAdnOpen = true
             pd.onOffChild(this.adnId, true)

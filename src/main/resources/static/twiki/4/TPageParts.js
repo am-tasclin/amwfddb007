@@ -62,14 +62,14 @@ export default {
         <div :class="{'w3-hide':sn().ppClose.includes(pp)}">
             <template v-for="adnId2 in ppsFipi().json[pp]">
                 <div v-if="ppsFipi().pl2[pp] && ppsFipi().pl2[pp][adnId2]" class="w3-row">
-                    <div class="w3-half"><FhirPart :adnId="adnId2" :pp="pp" :ppId="ppId"/></div>
+                    <div class="w3-half"><FhirPart :adnId="adnId2" :ppId="ppId" :fip="pp" :fipId="adnId2"/></div>
                     <div class="w3-half">
                         <button @click="onOffChildWithPl2(pp, adnId2)" class="w3-right w3-btn w3-padding-small" >
                             {{!ppAdnId(pp,adnId2).ppAdnOpen?'🗕':'🗖'}}</button>
-                        <BuildJson :ppId="ppId" :pp="pp" :adnId="adnId2"/>
+                        <BuildJson :ppId="ppId" :adnId="adnId2" :fip="pp"/>
                     </div>
                 </div>
-                <FhirPart :adnId="adnId2" :pp="pp" :ppId="ppId" v-else />
+                <FhirPart v-else :adnId="adnId2" :ppId="ppId" :fip="pp" :fipId="adnId2" />
             </template>
         </div>
     </template>

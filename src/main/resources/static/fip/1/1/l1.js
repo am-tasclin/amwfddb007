@@ -13,7 +13,7 @@ pd.eMap = eMap
 pd.parentChild = parentChild
 pd.e = ts => eMap[ts.adnId]
 pd.i = (ts, n) => pd.e(ts) && pd.e(ts)[n]
-pd.isOpenChild = adnId => parentChild[adnId] && parentChild[adnId].length > 0 && eMap[adnId]
+pd.isOpenChild_TODELETE = adnId => parentChild[adnId] && parentChild[adnId].length > 0 && eMap[adnId]
     && (eMap[adnId].openChild === undefined || eMap[adnId].openChild)
 
 pd.onOffChild = (adnId, openChild) => {

@@ -34,6 +34,11 @@ wsDbC.cmdList = [{
     thenFn: () => {
         !fipi.fipList && fipiFn.fipList()
         pd.tPageParts && pd.tPageParts[1].count++
+        Object.keys(fipi.ppFips).reduce((o, k) =>
+            Object.keys(fipi.ppFips[k].opened).reduce((o2, k2) =>
+                Object.keys(fipi.ppFips[k].opened[k2]).reduce((o3, k3) =>
+                    fipi.ppFips[k].opened[k2][k3].filter(k4 => pd.parentChild[k4])
+                        .reduce((o4, k4) => pd.ctAdntree[k4].count++, 0), 0), 0), 0)
     },
 }]
 
