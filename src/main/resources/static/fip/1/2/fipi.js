@@ -8,15 +8,15 @@ fipiFn.initPageParts = (rawFipiStr, fipi) => {
     console.log(rawFipiStr.includes('itjn='))
 
     rawFipiStr.includes('itjn=') &&
-        fipiFn.initFromJson(rawFipiStr.replace('itjn=', ''))
+        fipiFn.initFromJson(rawFipiStr.replace('itjn=', ''), fipi)
     !rawFipiStr.includes('itjn=') &&
-        fipiFn.initFromURI(rawFipiStr)
+        fipiFn.initFromURI(rawFipiStr, fipi)
 
     console.log(fipi)
     return fipi
 }
 
-fipiFn.initFromJson = jsonStr => {
+fipiFn.initFromJson = (jsonStr, fipi) => {
     const json = JSON.parse(decodeURI(jsonStr))
     console.log(json)
     console.log(json.json)
@@ -27,7 +27,7 @@ fipiFn.initFromJson = jsonStr => {
         .filter(k => !k.includes('pl2_'))
 }
 
-fipiFn.initFromURI = rawFipiStr => {
+fipiFn.initFromURI = (rawFipiStr, fipi) => {
     fipi.fcwRawArray = rawFipiStr.split(';')
     fipi.json = fipi.fcwRawArray.filter(k => '' != k && !k.includes('pps') && !k.includes('pl2_'))
         .reduce((n, m) => (n[m.split(',')[0]] = m.split(',').slice(1)) && n, {})

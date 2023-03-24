@@ -3,19 +3,20 @@ import { pd } from '/fip/1/1/l1.js'
 import AdnIdMenu from '/fip/1/2/AdnIdMenu.js'
 !pd.ctAdntree && (pd.ctAdntree = {})
 export default {
-    props: { adnId: Number }, data() { return { count: 1, } },
+    props: { adnId: Number, pp: String, ppId: Number }, data() { return { count: 1, } },
     components: { AdnIdMenu },
     methods: {
         i(n) { return pd.i(this, n) },
-        isOpenChild(adnId) { return pd.isOpenChild(adnId) },
         parentChild(adnId) { return pd.parentChild[adnId] || [] },
         adnClick() { pd.onOffChild(this.adnId) },
+        isOpenChild(adnId) { return pd.isOpenChild(adnId) },
     },
     mounted() { pd.ctAdntree[this.adnId] = this },
     template: `
 <div class="w3-hover-shadow"> <span class="w3-right"><AdnIdMenu :adnId="adnId"/></span>
     <span class="w3-small w3-hover-shadow"
         @click="adnClick">{{i('doc_id')||('-&nbsp;'+adnId+'&nbsp;‒open‒this‒')}}&nbsp;&nbsp;</span>
+        a1 {{pp}}-{{ppId}}
     {{i('value_22')}}
     <span class="w3-small"> <span v-if="i('r_value_22')">::</span>{{i('r_value_22')}} </span>
     <span class="w3-tiny" v-if="i('rr_value_22')">::{{i('rr_value_22')}}</span>
