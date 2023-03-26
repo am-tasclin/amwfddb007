@@ -9,11 +9,14 @@ export default {
     methods: {
         i(n) { return pd.i(this, n) },
         parentChild(adnId) { return pd.parentChild[adnId] || [] },
-        adnClick() { pd.onOffChild(this.adnId) },
+        adnClick() {
+            fipiFn.onOffChild(this.adnId, this.ppId, this.fip, this.fipId)
+            this.count++
+        },
         isOpenChild() { return fipiFn.isOpenChild(this.adnId, this.ppId, this.fip, this.fipId) },
+        // adnClick() { pd.onOffChild(this.adnId) },
         // isOpenChild(adnId) { return pd.isOpenChild(adnId) },
-    },
-    mounted() {
+    }, mounted() {
         pd.ctAdntree[this.adnId] = this
         fipiFn.isOpenChild(this.adnId, this.ppId, this.fip, this.fipId) &&
             this.count++

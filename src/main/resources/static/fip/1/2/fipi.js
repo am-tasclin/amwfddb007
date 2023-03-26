@@ -3,13 +3,21 @@ import { pd } from '/fip/1/1/l1.js'
 // fipi: FHIR Info Page Interface
 export const fipi = {}, fipiFn = {}
 
+fipiFn.onOffChild = (adnId, ppId, fip, fipId) => {
+    const openedList = fipi.ppsFipi[ppId].opened[fip][fipId]
+    openedList.includes(adnId)
+        && openedList.splice(openedList.indexOf(adnId), 1)
+        || openedList.push(adnId)
+    console.log(openedList, openedList.includes(adnId)
+        , fipiFn.isOpenChild(adnId, ppId, fip, fipId))
+}
+
 fipiFn.isOpenChild = (adnId, ppId, fip, fipId) => {
     const openedList = fipi.ppsFipi[ppId].opened &&
         fipi.ppsFipi[ppId].opened[fip] &&
         fipi.ppsFipi[ppId].opened[fip][fipId]
     return openedList && fipi.ppsFipi[ppId].opened[fip][fipId].includes(adnId)
 }
-
 
 fipiFn.initPageParts = (rawFipiStr, fipi) => {
 
@@ -19,6 +27,26 @@ fipiFn.initPageParts = (rawFipiStr, fipi) => {
         fipiFn.initFromURI(rawFipiStr, fipi)
 
     return fipi
+}
+
+fipiFn.initFromJson2 = (fipi) => {
+    console.log(fipi)
+
+    Object.keys(fipi.ppsFipi).reduce((o, ppId) =>
+        (o.l_ppId.push(ppId)) &&
+        (o.ppId[ppId] = Object.keys(fipi.ppsFipi[ppId].json).reduce((o2, pp) =>
+            (o2.l_pp.push(pp)) &&
+            (o2.pp[pp] = fipi.ppsFipi[ppId].json[pp].reduce((o3, fipId) =>
+                (o3.l_fipId.push(fipId)) &&
+                (o3.fipId[fipId] = {}) &&
+                (fipi.ppsFipi[ppId].pl2[pp] && fipi.ppsFipi[ppId].pl2[pp][fipId] &&
+                    (o3.fipId[fipId].buildJsonType = fipi.ppsFipi[ppId].pl2[pp][fipId]
+                        .buildJsonType) || true) &&
+                (fipi.ppsFipi[ppId].opened[pp] && fipi.ppsFipi[ppId].opened[pp][fipId] &&
+                    (o3.fipId[fipId].opened = fipi.ppsFipi[ppId].opened[pp][fipId]) || true) &&
+                o3, { fipId: {}, l_fipId: [] })) &&
+            o2, { pp: {}, l_pp: [] })) &&
+        o, (fipi.ppId = {}) && (fipi.l_ppId = []) && fipi)
 }
 
 fipiFn.initFromJson = (jsonStr, fipi) => {

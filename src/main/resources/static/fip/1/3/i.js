@@ -7,6 +7,9 @@ import FhirPart from '/fip/1/2/FhirPart.js'
 
 fipi.ppsFipi = { 1: fipi }
 
+fipiFn.initFromJson2(fipi)
+
+
 const allAdnIds = fipiFn.getAllAdnIds()
 allAdnIds.push(fipi.FhirInfoPageId)
 
