@@ -2,31 +2,41 @@
 import { pd } from '/fip/1/1/l1.js'
 import { fipiFn, fipi } from '/fip/1/2/fipi.js'
 
-fipiFn.ppAdnId = (ppId, pp, adnId) => {
-    const ppAdnId = fipi.ppsFipi[ppId].pl2[pp][adnId]
-    return ppAdnId
-}
+// fipiFn.ppAdnId = (ppId, pp, adnId) => {
+//     const ppAdnId = fipi.ppsFipi[ppId].pl2[pp][adnId]
+//     return ppAdnId
+// }
 
 export default {
-    props: { ppId: Number, fip: String, adnId: Number }
+    props: { ppId: Number, fip: String, fipId: Number}
+    //props: { ppId: Number, fip: String, adnId: Number , fipId: Number}
     , data() { return { count: 1, } },
     mounted() {
-        fipiFn.ppAdnId(this.ppId, this.fip, this.adnId).buildJson = this
+        // fipiFn.ppAdnId(this.ppId, this.fip, this.adnId).buildJson = this
+        fipi.ppId[this.ppId].pp[this.fip].fipId[this.fipId].buildJson = this
     },
     methods: {
         i(n) { return pd.i(this, n) },
-        ppAdnId() { return fipiFn.ppAdnId(this.ppId, this.fip, this.adnId) },
+        isOpenChild() {
+            return fipiFn.isOpenChild(this.fipId, this.ppId, this.fip, this.fipId)
+        },
+        ppAdnId() { return fipi.ppId[this.ppId].pp[this.fip].fipId[this.fipId]  },
+        //ppAdnId() { return fipiFn.ppAdnId(this.ppId, this.fip, this.adnId) },
         buildJsonStr() {
-            const json = buildJSON.typeOf.Structure(this.adnId, {})
+            //const json = buildJSON.typeOf.Structure(this.adnId, {})
+            const json = buildJSON.typeOf.Structure(this.fipId, {})
             const jsonStr = buildJSON.stringify.Structure(json)
             // ppAdnId.jsonStr = 
             return jsonStr
         },
         buildStructure() {
-            const ppAdnId = fipiFn.ppAdnId(this.ppId, this.fip, this.adnId)
+            //const ppAdnId = fipiFn.ppAdnId(this.ppId, this.fip, this.adnId)
+            const ppAdnId = fipi.ppId[this.ppId].pp[this.fip].fipId[this.fipId]
             ppAdnId.buildJsonType = { key: 'Structure' }
             ppAdnId.ppAdnOpen = true
-            pd.onOffChild(this.adnId, true)
+            console.log(this.ppId, this.fip, this.fipId, this.adnId)
+            // fipiFn.onOffChild = (adnId, ppId, fip, fipId) 
+            // pd.onOffChild(this.adnId, true)
             this.count++
         },
         buildType(im) {
@@ -43,12 +53,15 @@ export default {
 <span class="w3-small">
     <button @click="buildStructure" class="w3-btn w3-padding-small am-u">Structure</button>
 </span>
+{{count}}
 
-<div v-if="ppAdnId().ppAdnOpen " style="white-space: pre; overflow: auto;" class="w3-opacity w3-small w3-border-top">
+<div v-if="isOpenChild() " style="white-space: pre; overflow: auto;" class="w3-opacity w3-small w3-border-top">
     {{buildJsonStr()}}
 </div>
     `,
 }
+
+// <div v-if="ppAdnId().ppAdnOpen " style="white-space: pre; overflow: auto;" class="w3-opacity w3-small w3-border-top">
 
 const buildJSON = { typeOf: {}, stringify: {} }
 
@@ -66,8 +79,8 @@ buildJSON.typeOf.Structure = (adnId, json) => {
     return json
 }
 
-buildJSON.typeOf.keyIsObjName = i => pd.eMap[i].value_22 || pd.eMap[i].r_value_22
-buildJSON.typeOf.se2Parent = (jn, pId) => pd.parentChild[pId].forEach(eId => {
+buildJSON.typeOf.keyIsObjName = i => pd.eMap[i] && (pd.eMap[i].value_22 || pd.eMap[i].r_value_22)
+buildJSON.typeOf.se2Parent = (jn, pId) => pd.parentChild[pId] && pd.parentChild[pId].forEach(eId => {
     const kName = buildJSON.typeOf.keyIsObjName(eId)
         , doctype = pd.eMap[eId].doctype || pd.eMap[eId].r_doctype
 

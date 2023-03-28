@@ -17,13 +17,19 @@ export default {
         ppsFipi() { return fipi.ppsFipi[this.ppId] },
         fip(fip) { return wsDbC.fip[fip] },
         sn() { return pd.session },
-        ppAdnId(pp, adnId) { return fipiFn.ppAdnId(this.ppId, pp, adnId) },
-        onOffChildWithPl2(pp, adnId) {
-            pd.onOffChild(adnId)
-            this.count++
-            fipiFn.ppAdnId(this.ppId, pp, adnId).buildJson.count++
-            fipiFn.ppAdnId(this.ppId, pp, adnId).ppAdnOpen =
-                !fipiFn.ppAdnId(this.ppId, pp, adnId).ppAdnOpen
+        // ppAdnId(pp, fipId) { return fipi.ppId[this.ppId].pp[pp].fipId[fipId] },
+        // ppAdnId(pp, adnId) { return fipiFn.ppAdnId(this.ppId, pp, adnId) },
+        isOpenChild(pp, fipId) { return fipiFn.isOpenChild(fipId, this.ppId, pp, fipId) },
+        onOffChildWithPl2(pp, fipId) {
+            // pd.onOffChild(fipId)
+            fipiFn.onOffChild(fipId, this.ppId, pp, fipId)
+            // fipi.ppId[this.ppId].pp[pp].fipId[fipId].buildJson.count++
+            // fipi.ppId[this.ppId].pp[pp].fipId[fipId].ppAdnOpen =
+            //     !fipi.ppId[this.ppId].pp[pp].fipId[fipId].ppAdnOpen
+            // this.count++
+            // fipiFn.ppAdnId(this.ppId, pp, fipId).buildJson.count++
+            // fipiFn.ppAdnId(this.ppId, pp, fipId).ppAdnOpen =
+            //     !fipiFn.ppAdnId(this.ppId, pp, fipId).ppAdnOpen
         },
         ppsHref(pp) {
             fipi.ppsFipi[this.ppId].pps =
@@ -60,19 +66,21 @@ export default {
             </span>
         </div>
         <div :class="{'w3-hide':sn().ppClose.includes(pp)}">
-            <template v-for="adnId2 in ppsFipi().json[pp]">
-                <div v-if="ppsFipi().pl2[pp] && ppsFipi().pl2[pp][adnId2]" class="w3-row">
-                    <div class="w3-half"><FhirPart :adnId="adnId2" :ppId="ppId" :fip="pp" :fipId="adnId2"/></div>
+            <template v-for="fipId in ppsFipi().json[pp]">
+                <div v-if="ppsFipi().pl2[pp] && ppsFipi().pl2[pp][fipId]" class="w3-row">
+                    <div class="w3-half"><FhirPart :adnId="fipId" :ppId="ppId" :fip="pp" :fipId="fipId"/></div>
                     <div class="w3-half">
-                        <button @click="onOffChildWithPl2(pp, adnId2)" class="w3-right w3-btn w3-padding-small" >
-                            {{!ppAdnId(pp,adnId2).ppAdnOpen?'🗕':'🗖'}}</button>
-                        <BuildJson :ppId="ppId" :adnId="adnId2" :fip="pp"/>
+                        <button @click="onOffChildWithPl2(pp, fipId)" class="w3-right w3-btn w3-padding-small" >
+                            {{!isOpenChild(pp, fipId)?'🗕':'🗖'}}</button>
+                        <BuildJson :ppId="ppId" :fip="pp" :fipId="fipId"/>
                     </div>
                 </div>
-                <FhirPart v-else :adnId="adnId2" :ppId="ppId" :fip="pp" :fipId="adnId2" />
+                <FhirPart v-else :adnId="fipId" :ppId="ppId" :fip="pp" :fipId="fipId" />
             </template>
         </div>
     </template>
 </div> <span class="w3-hide">{{count}}</span>
     `,
 }
+// {{!ppAdnId(pp,fipId).ppAdnOpen?'🗕':'🗖'}}</button>
+                        // <BuildJson :ppId="ppId" :adnId="fipId" :fip="pp" :fipId="fipId"/>

@@ -4,6 +4,19 @@ import { pd } from '/fip/1/1/l1.js'
 export const fipi = {}, fipiFn = {}
 
 fipiFn.onOffChild = (adnId, ppId, fip, fipId) => {
+    const openedObj = fipi.ppId[ppId].pp[fip].fipId[fipId]
+    console.log(openedObj)
+    const openedList = openedObj.opened
+    openedList.includes(adnId)
+        && openedList.splice(openedList.indexOf(adnId), 1)
+        || openedList.push(adnId)
+    openedObj.ctAdntree && openedObj.ctAdntree[adnId] &&
+        openedObj.ctAdntree[adnId].count++
+    openedObj.buildJson &&
+        openedObj.buildJson.count++
+}
+
+fipiFn.onOffChild_TODELETE = (adnId, ppId, fip, fipId) => {
     const openedList = fipi.ppsFipi[ppId].opened[fip][fipId]
     openedList.includes(adnId)
         && openedList.splice(openedList.indexOf(adnId), 1)
@@ -13,6 +26,11 @@ fipiFn.onOffChild = (adnId, ppId, fip, fipId) => {
 }
 
 fipiFn.isOpenChild = (adnId, ppId, fip, fipId) => {
+    const openedList = fipi.ppId[ppId].pp[fip].fipId[fipId]
+    return openedList.opened && openedList.opened.includes(adnId)
+}
+
+fipiFn.isOpenChild_TODELETE = (adnId, ppId, fip, fipId) => {
     const openedList = fipi.ppsFipi[ppId].opened &&
         fipi.ppsFipi[ppId].opened[fip] &&
         fipi.ppsFipi[ppId].opened[fip][fipId]

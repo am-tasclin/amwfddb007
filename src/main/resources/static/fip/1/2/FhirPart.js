@@ -1,8 +1,8 @@
 'use strict'
 import { pd } from '/fip/1/1/l1.js'
-import { fipiFn } from '/fip/1/2/fipi.js'
+import { fipiFn, fipi } from '/fip/1/2/fipi.js'
 import AdnIdMenu from '/fip/1/2/AdnIdMenu.js'
-!pd.ctAdntree && (pd.ctAdntree = {})
+// !pd.ctAdntree && (pd.ctAdntree = {})
 export default {
     props: { adnId: Number, ppId: Number, fip: String, fipId: Number }, data() { return { count: 1, } },
     components: { AdnIdMenu },
@@ -11,15 +11,18 @@ export default {
         parentChild(adnId) { return pd.parentChild[adnId] || [] },
         adnClick() {
             fipiFn.onOffChild(this.adnId, this.ppId, this.fip, this.fipId)
-            this.count++
+            // this.count++
         },
         isOpenChild() { return fipiFn.isOpenChild(this.adnId, this.ppId, this.fip, this.fipId) },
         // adnClick() { pd.onOffChild(this.adnId) },
         // isOpenChild(adnId) { return pd.isOpenChild(adnId) },
     }, mounted() {
-        pd.ctAdntree[this.adnId] = this
-        fipiFn.isOpenChild(this.adnId, this.ppId, this.fip, this.fipId) &&
-            this.count++
+        !fipi.ppId[this.ppId].pp[this.fip].fipId[this.fipId].ctAdntree &&
+            (fipi.ppId[this.ppId].pp[this.fip].fipId[this.fipId].ctAdntree = { })
+        fipi.ppId[this.ppId].pp[this.fip].fipId[this.fipId].ctAdntree[this.adnId] = this
+        // pd.ctAdntree[this.adnId] = this
+        fipiFn.isOpenChild(this.adnId, this.ppId, this.fip, this.fipId) //&&
+        this.count++
     }, template: `
 <div class="w3-hover-shadow"> <span class="w3-right"><AdnIdMenu :adnId="adnId"/></span>
     <span class="w3-small w3-hover-shadow"
