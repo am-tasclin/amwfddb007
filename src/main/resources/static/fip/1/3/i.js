@@ -5,13 +5,21 @@ import { pd, wsDbC } from '/fip/1/1/l1.js'
 import TPageParts from '/twiki/4/TPageParts.js'
 import FhirPart from '/fip/1/2/FhirPart.js'
 
+console.log(fipi)
 fipi.ppsFipi = { 1: fipi }
+
+fipiFn.initFromURI_TODELETE(window.location.hash.substring(1), fipi)
+
+fipi.pps[0].includes('itjn=') &&
+        fipiFn.initFromJson(window.location.hash.substring(1).replace('itjn=', ''), fipi)
 
 fipiFn.initFromJson2(fipi)
 
-
 const allAdnIds = fipiFn.getAllAdnIds()
-allAdnIds.push(fipi.FhirInfoPageId)
+allAdnIds &&
+    allAdnIds.splice(0, 0, fipi.FhirInfoPageId)
+
+console.log(allAdnIds)
 
 const tPageParts = createApp({
     data() { return { count: 1 } },

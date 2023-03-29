@@ -18,20 +18,8 @@ export default {
         ppCmdEdOnOff() { pd.cmd.W3ShowOnOff('ppCmdEd_' + this.ppId) },
         //ppcv page part cmd view
         ppcvJsonUrlStr() { return JSON.stringify(fipi.ppFips[this.ppId]) },
-        ppIdStr() {
-            console.log(this.ppId, fipi.ppId[this.ppId], JSON.stringify(fipi.ppId[this.ppId], (k, v) =>
-             (()=>{
-                console.log(k)
-                return true
-             })() &&   !['ctAdntree', 'buildJson'].includes(k) && v || undefined
-            ))
-            return JSON.stringify(fipi.ppId[this.ppId], (k, v) =>
-                !['ctAdntree', 'buildJson'].includes(k) && v || undefined
-            )
-        },
         ppcvJsonStr() { return ppCmdBuild.ppcvJsonStr(fipi.ppFips[this.ppId]) },
         setPpcvName(im) {
-            console.log(im)
             'JSON' == im && ppCmdBuild.ppsFipi(this.ppId, fipi.ppFips[this.ppId] || (fipi.ppFips[this.ppId] = {}));
             (fipi.ppsFipi[this.ppId].ppcv = im) && this.count++
         },
@@ -45,7 +33,6 @@ export default {
             <a :href="'#itjn='+ppcvJsonUrlStr()">
                 {{ppcvJsonUrlStr()}}
             </a>
-            <div><a :href="'#itjn='+ppIdStr()">{{ppIdStr()}}</a></div>
         <div class="w3-row">
             <div class="w3-quarter w13-border-right">
                 <div class="w3-tiny w3-border-bottom">
@@ -114,8 +101,10 @@ ppCmdBuild.ppcvJsonStr = ppFips => JSON.stringify(ppFips, '', 2)
     .replace(/\s+}/g, '}')
 
 ppCmdBuild.ppsFipi = (ppId, ppFips) => {
-    // ppFips.json = fipi.ppsFipi[ppId].json
-    // console.log(fipi)
+    ppFips.json = fipi.ppsFipi[ppId].json
+
+
+    console.log(fipi)
 
     Object.keys(fipi.ppsFipi[ppId].pl2).reduce((o, pp) =>
         Object.keys(fipi.ppsFipi[ppId].pl2[pp]).reduce((o2, ppId2) =>
