@@ -11,11 +11,12 @@ fipi.ppsFipi = { 1: fipi }
 fipiFn.initFromURI_TODELETE(window.location.hash.substring(1), fipi)
 
 fipi.pps[0].includes('itjn=') &&
-        fipiFn.initFromJson(window.location.hash.substring(1).replace('itjn=', ''), fipi)
+    fipiFn.initFromJson(window.location.hash.substring(1).replace('itjn=', ''), fipi)
 
 fipiFn.initFromJson2(fipi)
 
 const allAdnIds = fipiFn.getAllAdnIds()
+console.log(allAdnIds, fipi.l_ppId, fipi.ppId)
 allAdnIds &&
     allAdnIds.splice(0, 0, fipi.FhirInfoPageId)
 
@@ -46,12 +47,16 @@ wsDbC.cmdList = [{
         !fipi.fipList && fipiFn.fipList()
         pd.tPageParts && pd.tPageParts[1].count++
 
-        fipi.l_ppId.filter(ppId => fipi.ppId[ppId].l_pp.filter(pp => fipi.ppId[ppId].pp[pp]
-            .l_fipId.filter(fipId => {
+        fipi.l_ppId.filter(ppId => fipi.ppId[ppId].l_pp
+            .filter(pp => fipi.ppId[ppId].pp[pp].l_fipId.filter(fipId => {
                 fipi.ppId[ppId].pp[pp].fipId[fipId].buildJsonType &&
+                    fipi.ppId[ppId].pp[pp].fipId[fipId].buildJsonType.key &&
                     fipi.ppId[ppId].pp[pp].fipId[fipId].buildJson['build'
                         + fipi.ppId[ppId].pp[pp].fipId[fipId].buildJsonType.key]()
-                fipi.ppId[ppId].pp[pp].fipId[fipId].ctAdntree[fipId].count++
+
+                console.log(ppId, pp, fipId, fipi.ppId[ppId].pp[pp].fipId[fipId])
+                fipi.ppId[ppId].pp[pp].fipId[fipId].ctAdntree &&
+                    fipi.ppId[ppId].pp[pp].fipId[fipId].ctAdntree[fipId].count++
                 return true
             })))
 

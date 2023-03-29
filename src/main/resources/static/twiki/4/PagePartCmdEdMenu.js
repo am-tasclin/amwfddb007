@@ -13,27 +13,28 @@ export default {
     }, methods: {
         keys(o) { return Object.keys(o) },
         fip(fip) { return wsDbC.fip[fip] },
+        ppIdFn() { return fipi.ppId[this.ppId] },
         ppsFipi() { return fipi.ppsFipi[this.ppId] },
-        pps() { return fipi.ppsFipi && fipi.ppsFipi[this.ppId] && fipi.ppsFipi[this.ppId].pps },
+        pps() { return fipi.ppId[this.ppId].l_pp },
+        // pps() { return fipi.ppsFipi && fipi.ppsFipi[this.ppId] && fipi.ppsFipi[this.ppId].pps },
         ppCmdEdOnOff() { pd.cmd.W3ShowOnOff('ppCmdEd_' + this.ppId) },
         //ppcv page part cmd view
         ppcvJsonUrlStr() { return JSON.stringify(fipi.ppFips[this.ppId]) },
         ppIdStr() {
-            console.log(this.ppId, fipi.ppId[this.ppId], JSON.stringify(fipi.ppId[this.ppId], (k, v) =>
-             (()=>{
-                console.log(k)
-                return true
-             })() &&   !['ctAdntree', 'buildJson'].includes(k) && v || undefined
-            ))
-            return JSON.stringify(fipi.ppId[this.ppId], (k, v) =>
-                !['ctAdntree', 'buildJson'].includes(k) && v || undefined
-            )
+            return (fipi.ppId[this.ppId].ppId = this.ppId) &&
+                JSON.stringify(fipi.ppId[this.ppId], (k, v) =>
+                    !['ctAdntree', 'buildJson'].includes(k) && v || undefined
+                )
         },
         ppcvJsonStr() { return ppCmdBuild.ppcvJsonStr(fipi.ppFips[this.ppId]) },
         setPpcvName(im) {
-            console.log(im)
+
+            console.log(this.ppId, im)
+            console.log(fipi.ppsFipi[this.ppId])
+
             'JSON' == im && ppCmdBuild.ppsFipi(this.ppId, fipi.ppFips[this.ppId] || (fipi.ppFips[this.ppId] = {}));
-            (fipi.ppsFipi[this.ppId].ppcv = im) && this.count++
+            (fipi.ppsFipi[this.ppId].ppcv = im)
+            this.count++
         },
     }, template: `
 <span class="w3-dropdown-click">
@@ -42,9 +43,7 @@ export default {
     </button>
     <div :id="'ppCmdEd_'+ppId" class="w3-dropdown-content w3-container w3-hover-shadow w3-border"
             style="right: -1em; width: 52em;">
-            <a :href="'#itjn='+ppcvJsonUrlStr()">
-                {{ppcvJsonUrlStr()}}
-            </a>
+            <a :href="'#itjn='+ppcvJsonUrlStr()">{{ppcvJsonUrlStr()}}</a>
             <div><a :href="'#itjn='+ppIdStr()">{{ppIdStr()}}</a></div>
         <div class="w3-row">
             <div class="w3-quarter w13-border-right">
@@ -62,14 +61,17 @@ export default {
                         <span>
                     </div>
                 </div>
+                a3
                 <div class="w3-opacity w3-tiny">
-                    <div v-if="'JSON'==ppsFipi().ppcv"  style="white-space: pre; overflow: auto;">
+                <div v-if="'JSON'==ppsFipi().ppcv"  style="white-space: pre; overflow: auto;">
                         {{ppcvJsonStr()}}
                     </div>
                     <div v-else>
+                    a1
+                    <!-- >,&nbsp; {{ppsFipi().json[pp].join(', ')}} -->
                         <div  v-for="pp in pps()" class="w3-hover-shadow">
                             <span class="am-b">{{pp}}</span
-                            >,&nbsp; {{ppsFipi().json[pp].join(', ')}}
+                            >,&nbsp; {{ppIdFn().pp[pp].l_fipId.join(', ')}}
                             <div v-for="pl2 in ppsFipi().pl2[pp]">
                                 <span class="am-b">pl2_{{pp}}</span
                                 >,&nbsp; {{keys(ppsFipi().pl2[pp]).join(', ')}}

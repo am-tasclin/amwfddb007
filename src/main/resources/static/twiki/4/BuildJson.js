@@ -53,7 +53,6 @@ export default {
 <span class="w3-small">
     <button @click="buildStructure" class="w3-btn w3-padding-small am-u">Structure</button>
 </span>
-{{count}}
 
 <div v-if="isOpenChild() " style="white-space: pre; overflow: auto;" class="w3-opacity w3-small w3-border-top">
     {{buildJsonStr()}}

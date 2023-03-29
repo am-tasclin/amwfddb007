@@ -26,8 +26,17 @@ fipiFn.onOffChild_TODELETE = (adnId, ppId, fip, fipId) => {
 }
 
 fipiFn.isOpenChild = (adnId, ppId, fip, fipId) => {
-    const openedList = fipi.ppId[ppId].pp[fip].fipId[fipId]
-    return openedList.opened && openedList.opened.includes(adnId)
+    // console.log(ppId, fip, fipId
+    //     , fipi.ppId[ppId]
+    //     , fipi.ppId[ppId].pp[fip]
+    //     , fipi.ppId[ppId].pp[fip].fipId
+    // )
+
+    return fipi.ppId[ppId].pp[fip].fipId
+        && fipi.ppId[ppId].pp[fip].fipId[fipId].opened
+        && fipi.ppId[ppId].pp[fip].fipId[fipId].opened.includes(adnId)
+    // const openedList = fipi.ppId[ppId].pp[fip].fipId[fipId]
+    // return openedList.opened && openedList.opened.includes(adnId)
 }
 
 fipiFn.isOpenChild_TODELETE = (adnId, ppId, fip, fipId) => {
@@ -49,10 +58,10 @@ fipiFn.initPageParts = (rawFipiStr, fipi) => {
 }
 
 fipiFn.initFromJson2 = fipi => {
-    console.log(fipi.ppId)
-    fipi.ppsFipi &&
+    console.log(fipi.ppId, 123)
+    fipi.ppsFipi && !fipi.ppId &&
         Object.keys(fipi.ppsFipi).reduce((o, ppId) =>
-            (o.l_ppId.push(ppId))  &&
+            (o.l_ppId.push(ppId)) &&
             (o.ppId[ppId] = Object.keys(fipi.ppsFipi[ppId].json).reduce((o2, pp) =>
                 (o2.l_pp.push(pp)) &&
                 (o2.pp[pp] = fipi.ppsFipi[ppId].json[pp].reduce((o3, fipId) =>
@@ -70,10 +79,14 @@ fipiFn.initFromJson2 = fipi => {
 
 fipiFn.initFromJson = (jsonStr, fipi) => {
     const json = JSON.parse(decodeURI(jsonStr))
-    console.log(json)
+    !fipi.l_ppId && (fipi.l_ppId = [])
+    !fipi.l_ppId[json.ppId] && fipi.l_ppId.splice(0, 0, json.ppId)
+
+    !fipi.ppId && json.ppId && (fipi.ppId = {}) && (fipi.ppId[json.ppId] = json)
+        && delete json.ppId
+    console.log(fipi)
     fipi.opened = json.opened
     fipi.pl2 = json.pl2
-    fipi.ppId = json.ppId
     fipi.json = json.json
     fipi.json && (fipi.pps = Object.keys(fipi.json)
         .filter(n => !n.includes('pps'))
@@ -90,11 +103,19 @@ fipiFn.initFromURI = (rawFipiStr, ppId) => {
 
     !fipi.l_ppId && (fipi.l_ppId = []) && fipi.l_ppId.push(ppId)
     !fipi.ppId && (fipi.ppId = {})
+    const pl2 = rawFipiStr.split(';').filter(im => 0 == im.indexOf('pl2_'))
+        .reduce((o, pl2) =>
+            (o[pl2.split(',')[0].split('pl2_')[1]] = pl2.split(',').slice(1)) && o, {})
     fipi.ppId[ppId] = rawFipiStr.split(';').filter(im => im)
         .filter(im => 0 != im.split(';')[0].indexOf('pl2_')).reduce((o, im) => {
-            o.l_pp.push(im.split(',')[0])
-            o.pp[im.split(',')[0]] = { l_fipId: im.split(',').slice(1) }
-            return o
+            const pp = im.split(',')[0], fipIdList = im.split(',').slice(1)
+            return o.l_pp.push(pp) && (o.pp[pp] = {
+                fipId: fipIdList.reduce((o, fipId) => {
+                    const pl2Obj = pl2[pp] && pl2[pp].includes(fipId) &&
+                        { buildJsonType: {} } || {}
+                    return (o[fipId] = pl2Obj) && o
+                }, {}), l_fipId: fipIdList,
+            }) && o
         }, { pp: {}, l_pp: [] })
 
     // const idList = fipi.l_ppId.reduce((idList, ppId) => fipi.ppId[ppId]
