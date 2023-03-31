@@ -89,11 +89,17 @@ export default {
                         <span class="w3-opacity a1m-u">
                             {{pp}}: <span class="w3-small am-i"> {{fip(pp)}} </span>
                         </span>
+                        <input :value="ppIdFn().pp[pp].l_fipId.join(', ')" class="w3-hover-shadow w3-small" style="width: 100%;">
+                        <!--
                         <input :value="ppsFipi().json[pp].join(',')" class="w3-hover-shadow w3-small" style="width: 100%;">
+                        -->
                     </div>
                     <div class="w3-half w3-container w3-small">
                         a1
+                        <!--
                         <span v-for="k2 in ppsFipi().json[pp]">
+                        -->
+                        <span v-for="k2 in ppIdFn().pp[pp].l_fipId">
                             <template v-if="'lr'!=pp">
                                 {{k2}},
                             </template>

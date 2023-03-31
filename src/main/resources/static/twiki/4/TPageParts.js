@@ -14,6 +14,7 @@ export default {
     components: { FhirPart, PagePartCmdEdMenu, BuildJson },
     methods: {
         pps() { return fipi.ppsFipi && fipi.ppsFipi[this.ppId] && fipi.ppsFipi[this.ppId].pps },
+        ppIdFn() { return fipi.ppId[this.ppId] },
         ppsFipi() { return fipi.ppsFipi[this.ppId] },
         fip(fip) { return wsDbC.fip[fip] },
         sn() { return pd.session },
@@ -60,13 +61,20 @@ export default {
                 &nbsp; {{fip(pp)}} &nbsp;
             </span>
             <span class="w3-tiny w3-right">
+            <!--
+            v-for="ppAdnId in ppsFipi().json[pp]" @click="ppIdsClick(pp, ppAdnId)" >
+            -->
                 <span class="am-i"> {{pp}} </span> ⁙ <span class="w3-hover-shadow" 
-                v-for="ppAdnId in ppsFipi().json[pp]" @click="ppIdsClick(pp, ppAdnId)" >
+                v-for="ppAdnId in ppIdFn().pp[pp].l_fipId" @click="ppIdsClick(pp, ppAdnId)" >
+                
                     {{ppAdnId}}, </span>
             </span>
         </div>
         <div :class="{'w3-hide':sn().ppClose.includes(pp)}">
+        <!-- 
             <template v-for="fipId in ppsFipi().json[pp]">
+            -->
+            <template v-for="fipId in ppIdFn().pp[pp].l_fipId">
                 <div v-if="ppsFipi().pl2[pp] && ppsFipi().pl2[pp][fipId]" class="w3-row">
                     <div class="w3-half"><FhirPart :adnId="fipId" :ppId="ppId" :fip="pp" :fipId="fipId"/></div>
                     <div class="w3-half">
