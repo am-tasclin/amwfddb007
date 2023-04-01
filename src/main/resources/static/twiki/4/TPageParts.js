@@ -66,7 +66,6 @@ export default {
             -->
                 <span class="am-i"> {{pp}} </span> ⁙ <span class="w3-hover-shadow" 
                 v-for="ppAdnId in ppIdFn().pp[pp].l_fipId" @click="ppIdsClick(pp, ppAdnId)" >
-                
                     {{ppAdnId}}, </span>
             </span>
         </div>

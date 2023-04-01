@@ -14,6 +14,8 @@ const eMap = {} // emap: doc_id:MCrDB ADN Element
 
 wsDbC.eMap = pd.eMap = eMap
 wsDbC.parentChild = pd.parentChild = parentChild
+pd.e = adnId => eMap[adnId]
+pd.i = (adnId, n) => pd.e(adnId) && pd.e(adnId)[n]
 
 wsDbC.runWsOpenInPromise = (sendJson) => {
     const send = JSON.stringify(
