@@ -12,8 +12,8 @@ const eMap = {} // emap: doc_id:MCrDB ADN Element
     , parentChild = {}
     , sql_app2 = {}
 
-pd.eMap = eMap
-pd.parentChild = parentChild
+wsDbC.eMap = pd.eMap = eMap
+wsDbC.parentChild = pd.parentChild = parentChild
 
 wsDbC.runWsOpenInPromise = (sendJson) => {
     const send = JSON.stringify(
@@ -22,6 +22,15 @@ wsDbC.runWsOpenInPromise = (sendJson) => {
     return new Promise((thenFn, reject) => wsDbC.wsDbSelect
         .onmessage = event => thenFn(event))
 }
+
+wsDbC.sqlAdnData = event => JSON.parse(event.data).list.reduce((n, e) => {
+    wsDbC.eMap[e.doc_id] = e
+    wsDbC.eMap[e.parent] &&
+        (wsDbC.parentChild[e.parent] || (wsDbC.parentChild[e.parent] = [])).push(e.doc_id)
+    n.push(e.doc_id)
+    return n
+}, [])
+
 
 wsDbC.replaceAdnId = sendJson => sql_app2.replaceSql(sql_app[sendJson.sqlName].sql)
     .replace(':adnId', sendJson.adnId)
