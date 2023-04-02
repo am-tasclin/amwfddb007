@@ -3,7 +3,7 @@ import { pd } from '/f/2/lib/pd_wsDbC.js'
 import { fipi } from '/f/2/lib/fipi.js'
 export default {
     props: { adnId: Number, ppId: Number, fip: String, fipId: Number },
-    data() { return { count: 1 } },
+    data() { return { count: 0 } },
     mounted() {
         !fipi.ppId[this.ppId].pp[this.fip].fipId[this.fipId].fhirPart &&
             (fipi.ppId[this.ppId].pp[this.fip].fipId[this.fipId].fhirPart = {})

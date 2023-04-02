@@ -11,3 +11,4 @@ src/main/resources/application.properties
 src/main/resources/static/fpc/1/x.json
 src/main/resources/static/fpc/1/xx.json
 src/main/resources/static/twiki/1/x.html
+src/main/resources/static/tmp/*
