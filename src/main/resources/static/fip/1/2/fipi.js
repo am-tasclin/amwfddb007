@@ -6,7 +6,8 @@ export const fipi = {}, fipiFn = {}
 fipiFn.onOffChild = (adnId, ppId, fip, fipId) => {
     const openedObj = fipi.ppId[ppId].pp[fip].fipId[fipId]
     console.log(openedObj)
-    const openedList = openedObj.opened
+    const openedList = (openedObj.opened || (openedObj.opened = []))
+    console.log(openedList)
     openedList.includes(adnId)
         && openedList.splice(openedList.indexOf(adnId), 1)
         || openedList.push(adnId)

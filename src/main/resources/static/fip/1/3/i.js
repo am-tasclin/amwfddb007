@@ -39,7 +39,8 @@ wsDbC.cmdList = [{
             pd.adnIdMenu && pd.adnIdMenu[adnId] && pd.adnIdMenu[adnId].count++
             pd.eMap[adnId].openChild = false
         })
-        wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), allAdnIds.join(',')))
+        wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4)
+            , allAdnIds.join(',')))
     },
 }, {
     sendJson: { sqlName: 'adn01NodesIn' },

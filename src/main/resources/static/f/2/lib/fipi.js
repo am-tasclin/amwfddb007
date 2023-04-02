@@ -51,3 +51,15 @@ fipiFn.getAllAdnIds = () => fipi.l_ppId && fipi.l_ppId.reduce((idList, ppId) => 
         fipId => !idList.includes(fipId) &&
             idList.splice(0, 0, fipId))) && idList, [])
 
+fipiFn.onOffChild = (adnId, ppId, fip, fipId) => {
+    console.log(adnId, ppId, fip, fipId)
+    const openedObj = fipi.ppId[ppId].pp[fip].fipId[fipId]
+    const openedList = (openedObj.opened || (openedObj.opened = []))
+    openedList.includes(adnId)
+        && openedList.splice(openedList.indexOf(adnId), 1)
+        || openedList.push(adnId)
+}
+
+fipiFn.isOpenChild = (adnId, ppId, fip, fipId) => fipi.ppId[ppId].pp[fip].fipId
+    && fipi.ppId[ppId].pp[fip].fipId[fipId].opened
+    && fipi.ppId[ppId].pp[fip].fipId[fipId].opened.includes(adnId)

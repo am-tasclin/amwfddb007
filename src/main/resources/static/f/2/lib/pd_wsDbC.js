@@ -33,6 +33,28 @@ wsDbC.sqlAdnData = event => JSON.parse(event.data).list.reduce((n, e) => {
     return n
 }, [])
 
+wsDbC.sendAndSetMessageFn = (sendJson) => {
+    wsDbC.wsDbSelect.send(JSON.stringify(sendJson))
+    return new Promise((onMessageFn, rejectFn) => {
+        wsDbC.wsDbSelect.onmessage = event => onMessageFn(event)
+        wsDbC.wsDbSelect.onerror = event => rejectFn(event)
+    })
+}
+
+wsDbC.readParentDeep = listDeepSql => wsDbC.sendAndSetMessageFn(wsDbC.jsonToSend(
+    'adn01ChildrensIn', listDeepSql[0])).then(event => {
+        const l_adnIds = wsDbC.sqlAdnData(event)
+        console.log(l_adnIds.length, listDeepSql.length, wsDbC.cmdListItem)
+        l_adnIds.length > 0 && listDeepSql.length > 1 && listDeepSql.shift() &&
+            wsDbC.readParentDeep(listDeepSql)
+            || (wsDbC.cmdList && (wsDbC.cmdListItem < wsDbC.cmdList.length - 1)
+                && wsDbC.cmdList[++wsDbC.cmdListItem].thenFn())
+    }) // && true
+
+wsDbC.jsonToSend = (sqlName, adnId) => true && {
+    sqlName: sqlName, adnId: adnId, sql: sql_app2.replaceSql(sql_app[sqlName].sql)
+        .replace(':adnId', adnId)
+}
 
 wsDbC.replaceAdnId = sendJson => sql_app2.replaceSql(sql_app[sendJson.sqlName].sql)
     .replace(':adnId', sendJson.adnId)
@@ -84,6 +106,12 @@ sql_app2.replaceSql = sql => {
     return '' + sql
 }
 sql_app2.readSql2R = sqlN => sql_app[sqlN] && sql_app2.replaceSql(sql_app[sqlN].sql)
+
+sql_app.adn01ChildrensIn = {
+    name: "adn01OneNode: 'One Data Node' ::adn01",
+    sql: "SELECT x.* FROM (:sql_app.adn01 ) x LEFT JOIN sort s ON doc_id=sort_id\n\
+    WHERE parent IN (:adnId) ORDER BY s.sort",
+}
 
 sql_app.adn01NodesIn = {
     name: "adn01OneNode: 'One Data Node' ::adn01",
