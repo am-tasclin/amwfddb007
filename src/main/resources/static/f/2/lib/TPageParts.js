@@ -1,5 +1,5 @@
 'use strict'
-import { fipi } from '/f/2/lib/fipi.js'
+import { fipi, fipiFn } from '/f/2/lib/fipi.js'
 import FhirPart from '/f/2/lib/FhirPart.js'
 import BuildJson from '/f/2/lib/BuildJson.js'
 export default {
@@ -7,7 +7,11 @@ export default {
     components: { FhirPart, BuildJson },
     methods: {
         pps() { return fipi.ppId[this.ppId].l_pp },
-        ppFn(pp) { return fipi.ppId[this.ppId].pp[pp] }
+        ppFn(pp) { return fipi.ppId[this.ppId].pp[pp] },
+        onOffChildWithPl2(pp, fipId) {
+            console.log(this.ppId, pp, fipId,)
+            fipiFn.onOffChild(fipId, this.ppId, pp, fipId)
+        },
     }, template: `
     <div class="w13-border-bottom w3-container">
         <span class="w3-tiny am-b"> FHIR parts </span> ➾
@@ -25,7 +29,8 @@ export default {
                     <FhirPart v-else :adnId="fipId" :ppId="ppId" :fip="pp" :fipId="fipId" />
                 </div>
                 <div class="w3-half">
-                    <button  class="w3-right w3-btn w3-padding-small" >🗕:🗖</button>
+                    <button @click="onOffChildWithPl2(pp, fipId)" 
+                     class="w3-right w3-btn w3-padding-small" >🗕:🗖</button>
                     <BuildJson :ppId="ppId" :fip="pp" :fipId="fipId"/>
                 </div>
             </div>

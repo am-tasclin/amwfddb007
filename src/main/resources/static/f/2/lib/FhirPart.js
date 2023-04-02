@@ -13,7 +13,6 @@ export default {
         parentChild(adnId) { return pd.parentChild[adnId] || [] },
         adnClick() {
             fipiFn.onOffChild(this.adnId, this.ppId, this.fip, this.fipId)
-            this.count++
         },
         isOpenChild() { return fipiFn.isOpenChild(this.adnId, this.ppId, this.fip, this.fipId) },
     }, template: `

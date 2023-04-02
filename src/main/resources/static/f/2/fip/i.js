@@ -19,22 +19,29 @@ tPageParts.component('t-page-parts', TPageParts)
 tPageParts.component('t-fhir-part', FhirPart)
 tPageParts.mount('#tPageParts')
 
+fipi2.initPP_AfterRead = () => fipi2.fipId.find(adnId => fipi.l_ppId.find(ppId =>
+    fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].l_fipId
+        .find(fipId => Object.keys(fipi.ppId[ppId].pp[pp].fipId[fipId]
+            .fhirPart).filter(fpId => fpId == adnId).find(fpId => {
+                fipi.ppId[ppId].pp[pp].fipId[fipId].fhirPart[fpId].count++
+                fipi.ppId[ppId].pp[pp].fipId[fipId].buildJson &&
+                    fipi.ppId[ppId].pp[pp].fipId[fipId].buildJson.count++
+            })))))
+
 wsDbC.cmdListItem = 0
 wsDbC.cmdList = [{
     sendJson: { sqlName: 'adn01NodesIn', adnId: allAdnIds.join(',') },
     thenFn: event => {
-        wsDbC.sqlAdnData(event).find(adnId => fipi.l_ppId.find(ppId =>
-            fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].l_fipId
-                .find(fipId => Object.keys(fipi.ppId[ppId].pp[pp].fipId[fipId]
-                    .fhirPart).filter(fpId => fpId == adnId).find(fpId => {
-                        fipi.ppId[ppId].pp[pp].fipId[fipId].fhirPart[fpId].count++
-                    })))))
+        fipi2.fipId = wsDbC.sqlAdnData(event)
+        fipi2.initPP_AfterRead()
+
         wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4)
             , allAdnIds.join(',')))
     },
 }, {
     thenFn: event => {
-        console.log(123, event)
+        console.log(123, 'wsDbC.cmdList[1] 2')
+        fipi2.initPP_AfterRead()
     }
 }]
 

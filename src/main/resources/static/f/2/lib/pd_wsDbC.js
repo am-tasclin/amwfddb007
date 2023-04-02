@@ -44,7 +44,6 @@ wsDbC.sendAndSetMessageFn = (sendJson) => {
 wsDbC.readParentDeep = listDeepSql => wsDbC.sendAndSetMessageFn(wsDbC.jsonToSend(
     'adn01ChildrensIn', listDeepSql[0])).then(event => {
         const l_adnIds = wsDbC.sqlAdnData(event)
-        console.log(l_adnIds.length, listDeepSql.length, wsDbC.cmdListItem)
         l_adnIds.length > 0 && listDeepSql.length > 1 && listDeepSql.shift() &&
             wsDbC.readParentDeep(listDeepSql)
             || (wsDbC.cmdList && (wsDbC.cmdListItem < wsDbC.cmdList.length - 1)
@@ -64,7 +63,6 @@ wsDbC.listDeepNum = deep => Array.from(Array(deep), (_, i) => i + 1)
 
 wsDbC.listDeepSql = (a, inl) => a.reduce((n, m) => n.push(m.reduce((n1, m1) => m1 > 1
     && 'SELECT doc_id FROM doc WHERE parent IN (' + n1 + ')' || n1, inl)) && n, [])
-
 
 sql_app2.replaceSql = sql => {
 
