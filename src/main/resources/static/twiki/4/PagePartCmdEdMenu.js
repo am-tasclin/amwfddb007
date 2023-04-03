@@ -85,7 +85,7 @@ export default {
                     <div class="w3-half"> pageParts </div> <div class="w3-half"> pane2, right </div>
                 </div>
                 <div class="w3-row w3-border-bottom" v-for="pp in pps()" class="w3-hover-shadow">
-                    <div class="w3-half"> 
+                    <div class="w3-half">
                         <span class="w3-opacity a1m-u">
                             {{pp}}: <span class="w3-small am-i"> {{fip(pp)}} </span>
                         </span>

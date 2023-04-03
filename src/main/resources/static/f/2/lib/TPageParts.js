@@ -2,13 +2,15 @@
 import { fipi, fipiFn } from '/f/2/lib/fipi.js'
 import FhirPart from '/f/2/lib/FhirPart.js'
 import BuildJson from '/f/2/lib/BuildJson.js'
+import PagePartCmdEdMenu from '/f/2/lib/PagePartCmdEdMenu.js'
+
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
-    components: { FhirPart, BuildJson },
+    components: { FhirPart, BuildJson, PagePartCmdEdMenu },
     methods: {
         pps() { return fipi.ppId[this.ppId].l_pp },
-        ppFn(pp) { return fipi.ppId[this.ppId].pp[pp] },
         fip(fip) { return fipiFn.fip[fip] },
+        ppFn(pp) { return fipi.ppId[this.ppId].pp[pp] },
         ppsHref(pp) {
             const oa = fipi.ppId[this.ppId].l_pp
             fipi.ppId[this.ppId].l_pp
@@ -33,6 +35,7 @@ export default {
         <span class="w3-tiny am-b"> FHIR parts </span> ➾
         <span v-for="pp in pps()"><span @click="ppsHref(pp)" title="make first"
         class="w3-hover-shadow w3-small">{{fip(pp)}}</span>,&nbsp;</span>
+        <span class="w3-right"> <PagePartCmdEdMenu :ppId="ppId"/> </span>
     </div> <span class="w3-hide"> {{count}} </span>
     <template v-for="pp in pps()">
         <div class="w3-container w3-topbar w3-light-grey">

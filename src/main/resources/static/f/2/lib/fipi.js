@@ -14,6 +14,11 @@ fipiFn.fip = {
     lr: 'Left|Right ::mc', //mc: Midnight Commander
 }
 
+fipiFn.W3ShowOnOff = eId => !document.getElementById(eId).className.includes('w3-show')
+    && (document.getElementById(eId).className += ' w3-show')
+    || (document.getElementById(eId).className =
+        document.getElementById(eId).className.replace(' w3-show', ''))
+
 fipiFn.initPageParts = (rawFipiStr, ppId) => {
 
     // console.log(rawFipiStr, ppId, fipi)
