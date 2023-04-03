@@ -8,32 +8,44 @@ export default {
     methods: {
         pps() { return fipi.ppId[this.ppId].l_pp },
         ppFn(pp) { return fipi.ppId[this.ppId].pp[pp] },
-        fipIdClick(pp, fipId) {
-            console.log(fipi.ppId[this.ppId].pp[pp])
+        fip(fip) { return fipiFn.fip[fip] },
+        ppsHref(pp) {
+            const oa = fipi.ppId[this.ppId].l_pp
+            fipi.ppId[this.ppId].l_pp
+                = oa.splice(oa.indexOf(pp), 1).concat(oa)
+            this.count++
+        }, isPpClosed(pp) {
+            return fipi.ppId[this.ppId].closed &&
+                fipi.ppId[this.ppId].closed.includes(pp)
+        }, ppClick(pp) {
+            !fipi.ppId[this.ppId].closed && (fipi.ppId[this.ppId].closed = [])
+            !fipi.ppId[this.ppId].closed.includes(pp) && fipi.ppId[this.ppId].closed.push(pp)
+                || fipi.ppId[this.ppId].closed.splice(fipi.ppId[this.ppId].closed.indexOf(pp), 1)
+            this.count++
+        }, fipIdClick(pp, fipId) {
             const oa = fipi.ppId[this.ppId].pp[pp].l_fipId
             fipi.ppId[this.ppId].pp[pp].l_fipId
                 = oa.splice(oa.indexOf(fipId), 1).concat(oa)
             this.count++
-        },
-        onOffChildWithPl2(pp, fipId) {
-            console.log(this.ppId, pp, fipId,)
-            fipiFn.onOffChild(fipId, this.ppId, pp, fipId)
-        },
+        }, onOffChildWithPl2(pp, fipId) { fipiFn.onOffChild(fipId, this.ppId, pp, fipId) },
     }, template: `
     <div class="w13-border-bottom w3-container">
         <span class="w3-tiny am-b"> FHIR parts </span> ➾
-        <span v-for="pp in pps()">
-        {{pp}} |
-        </span>
+        <span v-for="pp in pps()"><span @click="ppsHref(pp)" title="make first"
+        class="w3-hover-shadow w3-small">{{fip(pp)}}</span>,&nbsp;</span>
     </div> <span class="w3-hide"> {{count}} </span>
     <template v-for="pp in pps()">
         <div class="w3-container w3-topbar w3-light-grey">
             <span class="w3-tiny"> {{pp}}: </span>
+            <span class="w3-hover-shadow am-u" @click="ppClick(pp)">
+                &nbsp; {{fip(pp)}} &nbsp;
+            </span>
             <span class="w3-tiny w3-right"> {{pp}} ⁙
                 <span class="w3-hover-shadow" v-for="fipId in ppFn(pp).l_fipId"
                 @click="fipIdClick(pp, fipId)" >
                 {{fipId}}, </span> </span>
         </div>
+        <template v-if="!isPpClosed(pp)">
         <template v-for="fipId in ppFn(pp).l_fipId">
             <div class="w3-row" v-if="ppFn(pp).fipId[fipId].buildJsonType">
                 <div class="w3-half">
@@ -46,6 +58,7 @@ export default {
                 </div>
             </div>
             <FhirPart v-else :adnId="fipId" :ppId="ppId" :fip="pp" :fipId="fipId" />
+        </template>
         </template>
     </template>
      `,

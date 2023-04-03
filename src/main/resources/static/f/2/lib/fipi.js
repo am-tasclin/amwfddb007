@@ -4,6 +4,16 @@ export const
     fipi2 = {},
     fipiFn = {}
 
+//fcw: FHIR Code Word
+//fip: FHIR Info Page Parts
+fipiFn.fip = {
+    fEt: 'Element',
+    fTy: 'Terminology',
+    fDd: 'Data Dictionary',
+    fPl: 'Profile',
+    lr: 'Left|Right ::mc', //mc: Midnight Commander
+}
+
 fipiFn.initPageParts = (rawFipiStr, ppId) => {
 
     // console.log(rawFipiStr, ppId, fipi)

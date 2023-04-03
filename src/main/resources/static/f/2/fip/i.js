@@ -37,6 +37,7 @@ wsDbC.cmdList = [{
 
         wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4)
             , allAdnIds.join(',')))
+
     },
 }, {
     thenFn: event => {
