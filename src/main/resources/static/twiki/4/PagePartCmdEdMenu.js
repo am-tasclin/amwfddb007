@@ -57,7 +57,7 @@ export default {
                             v-if="'JSON'!=ppsFipi().ppcv" >
                                 Use for start init only.
                             </template> <template v-else> 
-                                Full pagePart Config</template>
+                                Full pagePart Config. </template>
                         <span>
                     </div>
                 </div>

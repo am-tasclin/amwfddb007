@@ -8,6 +8,11 @@ export default {
         pps() { return fipi.ppId[this.ppId].l_pp },
         fip(fip) { return fipiFn.fip[fip] },
         ppIdFn() { return fipi.ppId[this.ppId] },
+        ppConfType(ppConfTypeName) {
+            fipi.ppId[this.ppId].confType = ppConfTypeName
+            console.log(this.ppId, ppConfTypeName, fipi.ppId[this.ppId])
+            this.count++
+        },
         ppCmdEdOnOff() { fipiFn.W3ShowOnOff('ppCmdEd_' + this.ppId) },
     }, template: `
 <span class="w3-dropdown-click">
@@ -20,8 +25,18 @@ export default {
         <div class="w3-row">
             <div class="w3-quarter w13-border-right">
                 <div class="w3-tiny w3-border-bottom">
-                    <span v-for="ppcv in ['URI','JSON']" class="w3-hover-shadow am-b">
-                        &nbsp; {{ppcv}}, </span>&nbsp;{{ppId}}
+                    <span @click="ppConfType(ppConfTypeName)"
+                    :class="{'w3-grey':ppConfTypeName==ppIdFn().confType}"
+                    v-for="ppConfTypeName in ['URI','JSON']" class="w3-hover-shadow am-b">
+                        &nbsp; {{ppConfTypeName}}, </span>&nbsp;{{ppId}}
+                    <div class="w3-right-align w3-opacity w3-container"> 
+                        <span class="am-i"> <template 
+                            v-if="'JSON'!=ppIdFn().confType" >
+                                Use for start init only.
+                            </template> <template v-else> 
+                                Full pagePart Config. </template>
+                        <span>
+                    </div>
                 </div>
             </div>
             <div class="w3-threequarter w13-container w13-border-left">
@@ -45,6 +60,7 @@ export default {
                 </div>
             </div>
         </div>
+        &nbsp;
     </div>
 </span> <span class="w3-hide">{{count}}</span>
     `,
