@@ -1,38 +1,49 @@
 'use strict'
-import { cace } from '/f/2/lib/cc/cci.js'
+import { cci, caceFn } from '/f/2/lib/cc/cci.js'
 import DataForCalc from '/f/2/lib/cc/DataForCalc.js'
 import CalcCellConfMenu from '/f/2/lib/cc/CalcCellConfMenu.js'
+import EditCell from '/f/2/lib/cc/EditCell.js'
 
 export default {
-    props: { ccId: Number },
+    props: { ccId: Number }, data() { return { count: 0 } },
     mounted() {
-        console.log(cace.dMap)
-    }, components: { DataForCalc, CalcCellConfMenu },
+        console.log(caceFn, cci.ccId[this.ccId])
+    }, components: { DataForCalc, CalcCellConfMenu, EditCell },
     methods: {
-        l_c() { return Array(cace.tc.square_size[1]) },
-        l_r() { return Array(cace.tc.square_size[0]) }
-    },
-    template: `
-⌖ <button class="w3-btn w3-padding-small w3-ripple"> 𝑓± </button>
-<span class="w3-right"> <CalcCellConfMenu :ccId="ccId"/> </span>
-<div class="w3-row w3-border-top">
+        vRC(ir, ic) { return caceFn.vRC(this.ccId, ir, ic) },
+        cci() { return cci.ccId[this.ccId] },
+        l_c() { return Array(caceFn.tc.square_size[1]) },
+        l_r() { return Array(caceFn.tc.square_size[0]) }
+    }, template: `
+<div class="w3-border-bottom">&nbsp;
+    <span class="w3-right"> 
+        ⌖ <button class="w3-btn w3-padding-small w3-ripple"> 𝑓± </button>
+        <CalcCellConfMenu :ccId="ccId"/> </span>
+</div>
+<div class="w3-row">
     <div class="w3-col w3-small" style="width:150px">
         <DataForCalc :ccId="ccId"/>
     </div>
     <div class="w3-rest ">
-        <table><tr><th></th>
-                <th v-for="(c,ic) in l_c()" class="w3-tiny w3-light-grey">
-                    C{{ic}}
-                </th>
+        <table><tr><th class="w3-tiny w3-light-grey">
+                        <sub>R0</sub><sup>C0</sup></th>
+            <template v-for="(c,ic) in l_c()">
+                <th v-if="ic>0" class="w3-tiny w3-light-grey">C{{ic}}</th></template>
             </tr>
-            <tr v-for="(r,ir) in l_r()">
+            <template v-for="(r,ir) in l_r()">
+            <tr v-if="ir>0">
                 <th class="w3-tiny w3-light-grey">R{{ir}}</th>
-                <td class="w3-border-right w3-border-bottom"
-                    v-for="(c,ic) in l_c()">
+                <template v-for="(c,ic) in l_c()">
+                <td v-if="ic>0" class="w3-border-right w3-border-bottom w3-hover-shadow" >
+                <EditCell v-if="vRC(ir,ic)" :ccId="ccId" :ir="ir" :ic="ic"/>
+                    <span v-if="vRC(ir,ic)" class="w3-small" >
+                        ⌖{{vRC(ir,ic)}}
+                    </span>
                 </td>
+                <template>
             </tr>
+            </template>
         </table>
     </div>
-</div>
-    `,
+</div>  <span class="w3-hide"> {{count}} </span>`,
 }

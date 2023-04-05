@@ -3,18 +3,21 @@ import { cl } from '/f/2/lib/common_lib.js'
 import { cci } from '/f/2/lib/cc/cci.js'
 export default {
     props: { ccId: Number }, data() { return { count: 0 } },
-    methods: {
+    mounted() {
+        cci.ccId[this.ccId].calcCellConfMenu = this
+        console.log(cci.ccId[this.ccId])
+    }, methods: {
         cciStr01() {
-            const s = JSON.stringify(cci, '', 2)
-            const s2 = s
+            const j = JSON.parse(JSON.stringify(cci.ccId[this.ccId]
+                , (k, v) => !['calcCellConfMenu'].includes(k)
+                    && v || undefined))
+            const s2 = JSON.stringify(j, '', 2)
                 .replace(/\s+}/g, '}')
-                .replace(/{\s+"v/g, '{"v')
                 .replace(/\[\s+/g, '[')
                 .replace(/\s+\]/g, ' ]')
                 .replace(/",\s+"/g, '","')
-            console.log(s2)
+                .replace(/{\s+"v/g, '{"v')
             return s2
-            // return cci
         },
         ccCmdEdOnOff() {
             cl.W3ShowOnOff('ccConfMenu_' + this.ccId)
@@ -28,11 +31,11 @@ export default {
         <i class="fa-solid fa-bars"></i>
     </button>
     <div :id="'ccConfMenu_'+ccId" class="w3-dropdown-content w3-container w3-hover-shadow w3-border"
-        style="right: -1em; width: 52em;">
+        style="right: -1em; width: 32em;">
         <div class="w3-opacity w3-tiny" style="white-space: pre; overflow: auto;">
             {{cciStr01()}}
         </div>
     </div>
-</span> <span class="w3-hide">{{count}}</span>
+</span> <span @click="count++" class="w13-hide w3-hover-shadow">{{count}}</span>
     `,
 }

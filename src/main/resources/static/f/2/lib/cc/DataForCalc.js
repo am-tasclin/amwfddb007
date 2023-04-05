@@ -8,6 +8,8 @@ export default {
             const oa = cci.ccId[this.ccId].l_dMap
             cci.ccId[this.ccId].l_dMap =
                 oa.splice(oa.indexOf(dId), 1).concat(oa)
+
+            cci.ccId[this.ccId].calcCellConfMenu.count++
             this.count++
         },
     }, mounted() {
