@@ -1,4 +1,5 @@
 'use strict'
+import { cl } from '/f/2/lib/common_lib.js'
 import { fipi, fipiFn } from '/f/2/lib/fipi.js'
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
@@ -13,7 +14,7 @@ export default {
             console.log(this.ppId, ppConfTypeName, fipi.ppId[this.ppId])
             this.count++
         },
-        ppCmdEdOnOff() { fipiFn.W3ShowOnOff('ppCmdEd_' + this.ppId) },
+        ppCmdEdOnOff() { cl.W3ShowOnOff('ppCmdEd_' + this.ppId) },
     }, template: `
 <span class="w3-dropdown-click">
     <button @click="ppCmdEdOnOff" class="w3-btn w3-ripple w3-padding-small w3-small">
