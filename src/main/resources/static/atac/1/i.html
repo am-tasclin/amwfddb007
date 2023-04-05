@@ -22,15 +22,16 @@
         <span class="w3-tiny am-b"> aTaC: </span> {{edCellAdress}}:
         <span class="w3-right w3-tiny w3-hover-shadow" @click="tc.withFormula=!tc.withFormula">
             ⌖ 𝑓 {{siteTitle}} {{count}} </span>
+
         <div class="w3-row">
             <div class="w3-col w3-small" style="width:100px">
                 dMap:
                 <div v-for="(v,k) in dMap" class="w3-hover-shadow">
                     ⌖{{k}}:{{v}}
                 </div>
-
             </div>
             <div class="w3-rest ">
+                
                 <table class="w13-table w3-border-top">
                     <tr>
                         <th>&nbsp;</th>
