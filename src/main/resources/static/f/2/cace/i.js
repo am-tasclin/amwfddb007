@@ -8,7 +8,7 @@ caceFn.tc.square_size = [5, 4]//row:column
 
 cci.l_ccId.push(1)
 cci.ccId[1] = {}
-cci.ccId[1].dMap = { 1: { v: 4 }, 2: { v: 5 }, 3: { sum: [1, 2] } }
+cci.ccId[1].dMap = { 1: { v: 4 }, 2: { v: 5 }, 3: { fn: { sum: [1, 2] } } }
 cci.ccId[1].l_dMap = Object.keys(cci.ccId[1].dMap)
 cci.ccId[1].vRC = { 1: { 1: 1 }, 2: { 1: 2 }, 3: { 1: 3 }, }
 

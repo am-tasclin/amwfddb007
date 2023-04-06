@@ -92,7 +92,7 @@
             </div>
         </div>
         <div v-if="!isIFn()||(tc.openEditFn&&isIFn())">
-            ⌖ <input :value="vl" @input="it">
+            ⌖ <input :value="vl" @input="it" >
         </div>
         <button class="w3-btn w3-border" @click="okSave(); tc.openEdit=false">Запис</button>
         <button class="w3-btn w3-border" @click="tc.openEdit=false">Закрити</button>

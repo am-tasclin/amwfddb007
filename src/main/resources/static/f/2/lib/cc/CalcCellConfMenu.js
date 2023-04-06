@@ -17,6 +17,7 @@ export default {
                 .replace(/\s+\]/g, ' ]')
                 .replace(/",\s+"/g, '","')
                 .replace(/{\s+"v/g, '{"v')
+                .replace(/{\s+"fn/g, '{"fn')
             return s2
         },
         ccCmdEdOnOff() {
@@ -35,7 +36,8 @@ export default {
         <div class="w3-opacity w3-tiny" style="white-space: pre; overflow: auto;">
             {{cciStr01()}}
         </div>
+        &nbsp;
     </div>
-</span> <span @click="count++" class="w13-hide w3-hover-shadow">{{count}}</span>
+</span> <span @click="count++" class="w13-hide w3-hover-shadow">{{count}} </span>
     `,
 }
