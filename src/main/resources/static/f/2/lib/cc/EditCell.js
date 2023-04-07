@@ -5,8 +5,15 @@ export default {
     props: { ccId: Number, ir: Number, ic: Number },
     data() { return { count: 0 } },
     methods: {
+        vRC() { return caceFn.vRCObj(this.ccId, this.ir, this.ic) },
         n_vRC() { return caceFn.vRC(this.ccId, this.ir, this.ic) },
+        fName() {
+            return this.vRC().fn &&
+                Object.keys(this.vRC().fn)[0]
+        },
         openCell() {
+            caceFn.vRCObj(this.ccId, this.ir, this.ic).fn &&
+                (this.openEditFn = true)
             const thisCellId = 'cell_' + this.ccId + '_C' + this.ic + 'R' + this.ir
             const list = document.getElementsByClassName("w3-show")
             const listKey_to_close = Object.keys(list).filter(k => list[k].id.includes('cell_')
@@ -15,11 +22,6 @@ export default {
 
             cl.W3ShowOnOff(thisCellId)
             this.count++
-        },
-        vRC() {
-            return cci.ccId[this.ccId].dMap[caceFn.vRC
-                (this.ccId, this.ir, this.ic)] && cci.ccId[this.ccId]
-                    .dMap[caceFn.vRC(this.ccId, this.ir, this.ic)].v
         },
         inputVal(event) {
             const newValue = 1 * event.target.value
@@ -30,38 +32,51 @@ export default {
 
             this.count++
         },
-        okRemove(){
+        okRemove() {
             console.log('okRemove')
             this.openCell()
         },
-        okSave(){
-            console.log('okSave')
+        okCalc() {
+            console.log('okCalc')
+            caceFn.calcCell(cci.ccId[this.ccId])
+            this.count++
         },
-        isFn(){
-            return true
-        }
+        fnOnOff() {
+            this.openEditFn = !this.openEditFn
+            this.count++
+        },
+        fnList() { return caceFn.fnList.split('_') }
     }, template: `
 <a :href="'#cell_'+ccId+'_C'+ic+'R'+ir" class="am-0u">
     <div class="w3-dropdown-click">
         <div @click="openCell" >
-            {{vRC()}}&nbsp;&nbsp;
+            {{vRC() && vRC().v}}&nbsp;&nbsp;
             <span v-if="n_vRC()" class="w3-small" >
-                ⌖{{n_vRC()}}
-            </span>
-        </div>
+                ⌖{{n_vRC()}} </span> </div>
         <div :id="'cell_'+ccId+'_C'+ic+'R'+ir" style="width:18em;"
-        class="w3-dropdown-content w3-leftbar w3-container w3-hover-shadow w3-border"
-        >
-            <div class="w3-border-bottom">
-                a1
+        class="w3-dropdown-content w3-leftbar w3-container w3-hover-shadow w3-border">
+            <div v-if="openEditFn || (vRC()&&vRC().fn)" class="w3-border-bottom"
+                    style="margin-bottom: 1em;">
+                <span class="w3-dropdown-hover"> 𝑓:{{fName()}}:
+                    <div class="w3-dropdown-content w3-border w3-container" style="left: -2em; width: 15em;" >
+                        <span class="w3-bar w3-small">𝑓: 
+                            <template v-for="fnn in fnList()">
+                                <button :class="{'w3-grey':fnn==fName()}"
+                                class="w3-btn w3-padding-small"
+                                    v-if="fnn.length>0" >
+                                    {{fnn}} </button> <template> </span>
+                    </div>
+                </span> </div>
+            <div v-if="!(vRC()&&vRC().fn) || !openEditFn">
+                ⌖ <input :value="vRC()&&vRC().v" @input="inputVal" style="width: 5em;">
             </div>
-            <div>
-                ⌖ <input :value="vRC()" @input="inputVal" style="width: 5em;">
-            </div>
-            <button class="w3-btn w3-padding-small w3-border" @click="okSave">Запис</button>
+            <button class="w3-btn w3-padding-small w3-border" @click="okCalc">Calc</button>
             <button class="w3-btn w3-padding-small w3-border" @click="openCell">Закрити</button>
             <button class="w3-btn w3-padding-small" @click="okRemove"><i class="fa-solid fa-eraser"></i></button>
-            <span class="w3-tiny w3-right">
+            <button class="w3-btn w3-padding-small w3-right" @click="fnOnOff">𝑓
+                <sub>()</sub></button>
+            <span class="w3-tiny w3-right w3-opacity">
+                use Tab ⇄ key,
                 {{'cell_'+ccId+'_C'+ic+'R'+ir}}</span>
         </div>
     </div>
