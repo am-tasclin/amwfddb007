@@ -1,9 +1,15 @@
 'use strict'
 import { cl } from '/f/2/lib/common_lib.js'
 import { cci, caceFn } from '/f/2/lib/cc/cci.js'
+
 export default {
     props: { ccId: Number, ir: Number, ic: Number },
     data() { return { count: 0 } },
+    mounted() {
+        !cci.ccId[this.ccId].editCell &&
+            (cci.ccId[this.ccId].editCell = {})
+        cci.ccId[this.ccId].editCell[this.ir + '_' + this.ic] = this
+    },
     methods: {
         vRC() { return caceFn.vRCObj(this.ccId, this.ir, this.ic) },
         n_vRC() { return caceFn.vRC(this.ccId, this.ir, this.ic) },
@@ -32,14 +38,14 @@ export default {
             this.openCell()
         }, okCalc() {
             const dn = caceFn.vRC(this.ccId, this.ir, this.ic)
-            console.log('okCalc', this.ir, this.ic, dn)
-            // caceFn.calcCells(cci.ccId[this.ccId])
-            cci.ccId[this.ccId].dMap[dn].fn &&
-                caceFn.calcFn(cci.ccId[this.ccId], dn)
-            caceFn.calcFnThisDate(cci.ccId[this.ccId], dn)
+                , cc = cci.ccId[this.ccId]
+            cc.dMap[dn].fn && caceFn.calcFn(cc, dn)
+            caceFn.calcFnThisDate(cc, dn, k => {
+                caceFn.calcFn(cc, k)
+                caceFn.findByDn(cc, k, []).filter(rc => cc.editCell[rc].count++)
+            })
             this.openCell()
             cci.ccId[this.ccId].dataForCalc.count++
-            console.log(cci.ccId[this.ccId])
             this.count++
         }, fnOnOff() {
             this.openEditFn = !this.openEditFn

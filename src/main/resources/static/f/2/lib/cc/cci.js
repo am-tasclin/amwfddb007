@@ -15,23 +15,15 @@ caceFn.fName = o => Object.keys(o.fn)[0]
 caceFn.cFn.sum = (cc, k) => cc.dMap[k].fn.sum
     .reduce((sum, k2) => sum + cc.dMap[k2].v, 0)
 
-caceFn.calcFnThisDate = (cc, dn) => {
-    console.log(cc, dn)
-    cc.l_dMap.filter(k => cc.dMap[k].fn)
-        .filter(k => cc.dMap[k].fn[caceFn.fName(cc.dMap[k])].includes(dn))
-        .forEach(k => {
-            caceFn.calcFn(cc, k)
-            console.log(k, cc.dMap[k], caceFn.fName(cc.dMap[k])
-                , cc.dMap[k].fn[caceFn.fName(cc.dMap[k])]
-                , cc.dMap[k].fn[caceFn.fName(cc.dMap[k])].includes(dn)
-            )
-        })
-}
+caceFn.calcFnThisDate = (cc, dn, fn) => cc.l_dMap.filter(k => cc.dMap[k].fn)
+    .filter(k => cc.dMap[k].fn[caceFn.fName(cc.dMap[k])].includes(dn))
+    .forEach(fn)
 
-caceFn.calcFn = (cc, k) =>
-    cc.dMap[k].v = caceFn.cFn[caceFn.fName(cc.dMap[k])](cc, k)
+caceFn.calcFn = (cc, k) => cc.dMap[k].v = caceFn.cFn[caceFn.fName(cc.dMap[k])](cc, k)
 
 caceFn.calcCells = cc => cc.l_dMap.filter(k => cc.dMap[k].fn)
     .forEach(k => caceFn.calcFn(cc, k))
 
-
+caceFn.findByDn = (cc, dn, l) => Object.keys(cc.vRC)
+    .filter(ir => Object.keys(cc.vRC[ir]).filter(ic => cc.vRC[ir][ic] == dn)
+        .map(ic => l.push(ir + '_' + ic))) && l
