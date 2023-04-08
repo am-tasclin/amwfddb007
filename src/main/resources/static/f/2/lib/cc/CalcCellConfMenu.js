@@ -9,7 +9,7 @@ export default {
     }, methods: {
         cciStr01() {
             const j = JSON.parse(JSON.stringify(cci.ccId[this.ccId]
-                , (k, v) => !['calcCellConfMenu'].includes(k)
+                , (k, v) => !['dataForCalc','calcCellConfMenu'].includes(k)
                     && v || undefined))
             const s2 = JSON.stringify(j, '', 2)
                 .replace(/\s+}/g, '}')

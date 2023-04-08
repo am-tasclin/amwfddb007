@@ -14,6 +14,7 @@ export default {
         },
     }, mounted() {
         console.log(this.ccId, cci)
+        cci.ccId[this.ccId].dataForCalc = this
     }, template: `
         dMap:
         <span @click="sortD(dId)" class="w3-hover-shadow"

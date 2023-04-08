@@ -7,10 +7,7 @@ export default {
     methods: {
         vRC() { return caceFn.vRCObj(this.ccId, this.ir, this.ic) },
         n_vRC() { return caceFn.vRC(this.ccId, this.ir, this.ic) },
-        fName() {
-            return this.vRC().fn &&
-                Object.keys(this.vRC().fn)[0]
-        },
+        fName() { return this.vRC().fn && caceFn.fName(this.vRC()) },
         openCell() {
             caceFn.vRCObj(this.ccId, this.ir, this.ic).fn &&
                 (this.openEditFn = true)
@@ -22,8 +19,7 @@ export default {
 
             cl.W3ShowOnOff(thisCellId)
             this.count++
-        },
-        inputVal(event) {
+        }, inputVal(event) {
             const newValue = 1 * event.target.value
                 , edObj = cci.ccId[this.ccId].dMap[caceFn.vRC
                     (this.ccId, this.ir, this.ic)]
@@ -31,21 +27,24 @@ export default {
             console.log(newValue, edObj)
 
             this.count++
-        },
-        okRemove() {
+        }, okRemove() {
             console.log('okRemove')
             this.openCell()
-        },
-        okCalc() {
-            console.log('okCalc')
-            caceFn.calcCell(cci.ccId[this.ccId])
+        }, okCalc() {
+            const dn = caceFn.vRC(this.ccId, this.ir, this.ic)
+            console.log('okCalc', this.ir, this.ic, dn)
+            // caceFn.calcCells(cci.ccId[this.ccId])
+            cci.ccId[this.ccId].dMap[dn].fn &&
+                caceFn.calcFn(cci.ccId[this.ccId], dn)
+            caceFn.calcFnThisDate(cci.ccId[this.ccId], dn)
+            this.openCell()
+            cci.ccId[this.ccId].dataForCalc.count++
+            console.log(cci.ccId[this.ccId])
             this.count++
-        },
-        fnOnOff() {
+        }, fnOnOff() {
             this.openEditFn = !this.openEditFn
             this.count++
-        },
-        fnList() { return caceFn.fnList.split('_') }
+        }, fnList() { return caceFn.fnList.split('_') }
     }, template: `
 <a :href="'#cell_'+ccId+'_C'+ic+'R'+ir" class="am-0u">
     <div class="w3-dropdown-click">
@@ -76,7 +75,7 @@ export default {
             <button class="w3-btn w3-padding-small w3-right" @click="fnOnOff">𝑓
                 <sub>()</sub></button>
             <span class="w3-tiny w3-right w3-opacity">
-                use Tab ⇄ key,
+                use <i class="fa-regular fa-keyboard"></i> Tab ⇄ key,
                 {{'cell_'+ccId+'_C'+ic+'R'+ir}}</span>
         </div>
     </div>
