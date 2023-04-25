@@ -15,6 +15,7 @@ export default {
             const oa = fipi.ppId[this.ppId].l_pp
             fipi.ppId[this.ppId].l_pp
                 = oa.splice(oa.indexOf(pp), 1).concat(oa)
+            fipi.ppId[this.ppId].pagePartCmdEdMenu.count++
             this.count++
         }, isPpClosed(pp) {
             return fipi.ppId[this.ppId].closed &&

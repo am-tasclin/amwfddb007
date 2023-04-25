@@ -5,6 +5,7 @@ export default {
     props: { ppId: Number }, data() { return { count: 0 } },
     mounted() {
         this.ppCmdEdOnOff()
+        fipi.ppId[this.ppId].pagePartCmdEdMenu = this
     }, methods: {
         pps() { return fipi.ppId[this.ppId].l_pp },
         fip(fip) { return fipiFn.fip[fip] },
@@ -22,7 +23,6 @@ export default {
     </button>
     <div :id="'ppCmdEd_'+ppId" class="w3-dropdown-content w3-container w3-hover-shadow w3-border"
         style="right: -1em; width: 52em;">
-        a1
         <div class="w3-row">
             <div class="w3-quarter w13-border-right">
                 <div class="w3-tiny w3-border-bottom">
