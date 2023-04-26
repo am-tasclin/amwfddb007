@@ -1,6 +1,6 @@
 'use strict'
 export const
-    fipi = {},
+    fipi = {},// FHIR Info Page Interface
     fipi2 = {},
     fipiFn = {}
 
