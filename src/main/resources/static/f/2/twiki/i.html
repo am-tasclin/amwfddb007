@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="/webjars/font-awesome/6.2.1/css/all.min.css">
 <link rel="stylesheet" href="/f/css/w3am.css">
 <script src="/webjars/vue/3.2.47/dist/vue.global.prod.js" type="application/javascript"></script>
+<script type="application/javascript">const dg = {}</script>
 
 <body class="w3-container">
     <div id="headPage" class="w3-border-bottom am-max-width-1">
@@ -18,11 +19,14 @@
         <span class="w3-small">2 ⁙ Wiki </span>
     </div>
     <div id="tWiki" class="am-max-width-1"> <span class="w3-hide">{{count}}</span>
-        <h1> {{i(pageId,'value_22')}}</h1>
+        <h1> {{ea(pageId,'value_22')}}</h1>
+        <t-wiki :w-id="pageId"></t-wiki>
+    </div>
+    <div class="w3-border-top">
+        🗎 <i class="fa-solid fa-shapes"></i>
+        <span class="w3-text-red w3-medium w3-opacity am-b w3-hover-shadow">⟑⟕ </span>
     </div>
     <script src="i.js" type="module"></script>
-    🗎 <i class="fa-solid fa-shapes"></i>
-    <span class="w3-text-red w3-medium w3-opacity am-b w3-hover-shadow">⟑⟕ </span>
 </body>
 
 </html>

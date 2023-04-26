@@ -161,6 +161,9 @@ fipiFn.fipList = () => {
     const fipList = pd.parentChild[fipi.FhirInfoPageId]
     fipi.fipList = fipList.concat(fipList
         .reduce((n, m) => Object.assign(n, pd.parentChild[m]), []))
+
+    console.log(fipi.fipList)
+
 }
 
 fipiFn.ppsFipi = (fipi) => {

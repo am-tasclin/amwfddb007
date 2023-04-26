@@ -35,10 +35,9 @@ export default {
         {{ea(adnId2, 'value_22')}} </p>
     <template v-if="fipList().includes(ea(adnId2, 'reference'))">
       <template v-if="'FIP'==ea(ea(adnId2, 'reference'),'value_22')">
-        <TPageParts :ppId="adnId2"/>
-      </template>
-      <template v-else>
-        <div v-for="pp in [ea(ea(adnId2, 'reference'),'value_22')]" class="w3-container" >
+      <TPageParts :ppId="adnId2"/>
+      </template> <template v-else>
+      <div v-for="pp in [ea(ea(adnId2, 'reference'),'value_22')]" class="w3-container" >
         <div class="w3-container w3-topbar w3-light-grey" >
             <span class="w3-tiny"> {{pp}}: </span>
             <span class="w3-hover-shadow am-u" @click="ppClick(pp)">
@@ -50,7 +49,7 @@ export default {
                 <FhirPart :adnId="adnId3"/>
             </template>
         </div>
-        </div></template>
+      </div></template>
     </template>
   </template>
 </template> <span class="w3-hide">{{count}}</span>

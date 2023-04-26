@@ -45,7 +45,7 @@ wsDbC.cmdList = [{
 
         !fipi.fipList && fipiFn.fipList()
         const fipiOld = fipiFn.ppsFipi({})
-        console.log(fipiOld)
+        console.log(fipiOld, fipi.fipList)
 
         wsDbC.cmdList[1].sendJson.adnId = fipi.inList
         // console.log(inList, new Date().toISOString())

@@ -1,4 +1,5 @@
 'use strict'
+import { pd } from '/f/2/lib/pd_wsDbC.js'
 export const
     fipi = {},// FHIR Info Page Interface
     fipi2 = {},
@@ -13,6 +14,11 @@ fipiFn.fip = {
     fPl: 'Profile',
     lr: 'Left|Right ::mc', //mc: Midnight Commander
 }
+
+fipi2.FhirInfoPageId = 376617 // [376617] am001fip/CodeSystem/FhirInfoPage title::
+
+fipiFn.childIdConcat = (pId, cIdL) => cIdL.push(pId) && pd.parentChild[pId] &&
+    pd.parentChild[pId].forEach(p2Id => fipiFn.childIdConcat(p2Id, cIdL)) || cIdL
 
 fipiFn.initPageParts = (rawFipiStr, ppId) => {
 
@@ -53,7 +59,6 @@ fipiFn.initFromURI = (rawFipiStr, ppId) => {
         }, { pp: {}, l_pp: [] })
 }
 
-fipi2.FhirInfoPageId = 376617 // [376617] am001fip/CodeSystem/FhirInfoPage title::
 
 // for SQL IN
 fipiFn.getAllAdnIds = () => fipi.l_ppId && fipi.l_ppId.reduce((idList, ppId) => fipi.ppId[ppId]
