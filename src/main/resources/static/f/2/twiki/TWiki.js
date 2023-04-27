@@ -2,8 +2,11 @@
 'use strict'
 import { fipi } from '/f/2/lib/fipi.js'
 import { pd } from '/f/2/lib/pd_wsDbC.js'
+import TPageParts from '/f/2/lib/TPageParts.js'
+
 export default {
     props: { wId: Number }, data() { return { count: 1 } },
+    components: { TPageParts },
     mounted() {
         fipi.tWikiPart = this
     },
@@ -20,8 +23,9 @@ export default {
     <template v-for="adnId2 in parentChild(adnId)">
         <div v-if="fipList().includes(ea(adnId2, 'reference'))">
             <span class="w3-tiny am-b"> FHIR parts </span> ➾
-            {{adnId2}} {{ea(adnId2, 'reference')}}
-            {{fipList().includes(ea(adnId2, 'reference'))}}
+            {{adnId2}} {{ea(adnId2, 'reference')}} --
+            {{ea(adnId2, 'value_22')}}
+			<TPageParts :ppId="adnId2"></TPageParts>
         </div>
         <p v-if="'p'==ea(adnId2, 'r_value_22')">
             {{ea(adnId2, 'value_22')}} </p>

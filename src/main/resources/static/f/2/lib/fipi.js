@@ -41,7 +41,9 @@ fipiFn.initFromJson = (jsonStr, ppId) => {
 
 fipiFn.initFromURI = (rawFipiStr, ppId) => {
 
-    !fipi.l_ppId && (fipi.l_ppId = []) && fipi.l_ppId.push(ppId)
+    !fipi.l_ppId && (fipi.l_ppId = [])
+    fipi.l_ppId.push(ppId)
+
     !fipi.ppId && (fipi.ppId = {})
     const pl2 = rawFipiStr.split(';').filter(im => 0 == im.indexOf('pl2_'))
         .reduce((o, pl2) =>

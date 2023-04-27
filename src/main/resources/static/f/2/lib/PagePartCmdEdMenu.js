@@ -4,7 +4,7 @@ import { fipi, fipiFn } from '/f/2/lib/fipi.js'
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
     mounted() {
-        this.ppCmdEdOnOff()
+        // this.ppCmdEdOnOff()
         fipi.ppId[this.ppId].pagePartCmdEdMenu = this
     }, methods: {
         pps() { return fipi.ppId[this.ppId].l_pp },
