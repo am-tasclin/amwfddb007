@@ -63,6 +63,7 @@ fipiFn.initFromURI = (rawFipiStr, ppId) => {
 
 
 // for SQL IN
+// from fipi config fipi.ppId.pp.
 fipiFn.getAllAdnIds = () => fipi.l_ppId && fipi.l_ppId.reduce((idList, ppId) => fipi.ppId[ppId]
     .l_pp.filter(pp => fipi.ppId[ppId].pp[pp].l_fipId.filter(
         fipId => !idList.includes(fipId) &&

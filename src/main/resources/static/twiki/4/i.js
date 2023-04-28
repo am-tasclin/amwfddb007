@@ -27,17 +27,21 @@ const mShowDocName = createApp({ data() { return { docName: '' } } }).mount('#sh
 
 wsDbC.cmdListItem = 0
 wsDbC.cmdList = [{
-    sendJson: { sqlName: 'adn01NodesIn' },
     thenFn: event => {
         wsDbC.sqlAdnData(event)
         wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4)
             , wsDbC.cmdList[0].sendJson.adnId))
-    },
+    }, sendJson: { sqlName: 'adn01NodesIn' },
 }, {
-    sendJson: { sqlName: 'adn01NodesIn' },
     thenFn: () => {
         // console.log(new Date().toISOString(), pd.tWiki, pd.session.page, 'read WIKI complete')
         //new view of #pageWiki
+        console.log(Object.assign(wsDbC.cmdList[1].sendJson
+            , { sql: wsDbC.replaceAdnId(wsDbC.cmdList[1].sendJson) })
+            , fipi.inList
+            )
+        console.log(123, pd.session.page
+            , pd.eMap[pd.session.page], mPageWiki, mShowDocName)
         mPageWiki.twHead = mShowDocName.docName = pd.eMap[pd.session.page].value_22
         //new view of <t-wiki>
         pd.tWiki[pd.session.page].count++
@@ -49,9 +53,11 @@ wsDbC.cmdList = [{
 
         wsDbC.cmdList[1].sendJson.adnId = fipi.inList
         // console.log(inList, new Date().toISOString())
+
         wsDbC.sendAndSetMessageFn(Object.assign(wsDbC.cmdList[1].sendJson
             , { sql: wsDbC.replaceAdnId(wsDbC.cmdList[1].sendJson) })
         ).then(event => {
+
             pd.ctAdntree && wsDbC.sqlAdnData(event).forEach(adnId =>
                 pd.ctAdntree[adnId].count++
                 && (pd.adnIdMenu[adnId] && pd.adnIdMenu[adnId].count++)
@@ -60,7 +66,11 @@ wsDbC.cmdList = [{
             fipi.inList.length > 0 &&
                 wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), fipi.inList))
         })
-    },
+    }, sendJson: { sqlName: 'adn01NodesIn' },
+}, {
+    thenFn: () => {
+        console.log(123)
+    }
 }]
 wsDbC.cmdList[0].sendJson.adnId = [pd.session.page, fipi.FhirInfoPageId]
 wsDbC.runWsOpenInPromise(wsDbC.cmdList[0].sendJson).then(wsDbC.cmdList[0].thenFn)

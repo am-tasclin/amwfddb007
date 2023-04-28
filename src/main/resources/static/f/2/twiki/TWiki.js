@@ -22,9 +22,6 @@ export default {
     ORDER </sup> </span>
     <template v-for="adnId2 in parentChild(adnId)">
         <div v-if="fipList().includes(ea(adnId2, 'reference'))">
-            <span class="w3-tiny am-b"> FHIR parts </span> ➾
-            {{adnId2}} {{ea(adnId2, 'reference')}} --
-            {{ea(adnId2, 'value_22')}}
 			<TPageParts :ppId="adnId2"></TPageParts>
         </div>
         <p v-if="'p'==ea(adnId2, 'r_value_22')">
