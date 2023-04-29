@@ -77,8 +77,9 @@ fipiFn.onOffChild = (adnId, ppId, fip, fipId) => {
         || openedList.push(adnId)
 
     openedObj.fhirPart[adnId].count++
-    openedObj.buildJson.count++
 
+    openedObj.buildJson &&
+        openedObj.buildJson.count++
 }
 
 fipiFn.isOpenChild = (adnId, ppId, fip, fipId) => fipi.ppId[ppId].pp[fip].fipId

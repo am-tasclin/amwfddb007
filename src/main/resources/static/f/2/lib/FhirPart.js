@@ -13,8 +13,13 @@ export default {
         parentChild(adnId) { return pd.parentChild[adnId] || [] },
         adnClick() {
             fipiFn.onOffChild(this.adnId, this.ppId, this.fip, this.fipId)
+            console.log(fipi.ppId[this.ppId].pp[this.fip].fipId[this.fipId]
+                , pd.parentChild[this.fipId], pd.eMap[370037]
+                , fipiFn.isOpenChild(this.adnId, this.ppId, this.fip, this.fipId)
+            )
+        }, isOpenChild() {
+            return fipiFn.isOpenChild(this.adnId, this.ppId, this.fip, this.fipId)
         },
-        isOpenChild() { return fipiFn.isOpenChild(this.adnId, this.ppId, this.fip, this.fipId) },
     }, template: `
     <div class="w3-hover-shadow">
         <span class="w3-small w3-hover-shadow"

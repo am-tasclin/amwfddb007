@@ -3,6 +3,7 @@ const { createApp } = Vue
 import { fipi, fipi2, fipiFn } from '/f/2/lib/fipi.js'
 import { wsDbC, pd } from '/f/2/lib/pd_wsDbC.js'
 import TWiki from '/f/2/twiki/TWiki.js'
+import FhirPart from '/f/2/lib/FhirPart.js'
 
 const pageId = window.location.hash.substring(1).split(',')[1]
 
@@ -16,6 +17,7 @@ const tWiki = createApp({
     },
 })
 tWiki.component('t-wiki', TWiki)
+tWiki.component('t-fhir-part', FhirPart)
 tWiki.mount('#tWiki')
 
 wsDbC.cmdList = [{

@@ -32,38 +32,38 @@ export default {
             this.count++
         }, onOffChildWithPl2(pp, fipId) { fipiFn.onOffChild(fipId, this.ppId, pp, fipId) },
     }, template: `
-    <div class="w13-border-bottom w3-container">
-        <span class="w3-tiny am-b"> FHIR parts </span> ➾
-        <span v-for="pp in pps()"><span @click="ppsHref(pp)" title="make first"
-        class="w3-hover-shadow w3-small">{{fip(pp)}}</span>,&nbsp;</span>
-        <span class="w3-right"> <PagePartCmdEdMenu :ppId="ppId"/> </span>
-    </div> <span class="w3-hide"> {{count}} </span>
-    <template v-for="pp in pps()">
-        <div class="w3-container w3-topbar w3-light-grey">
-            <span class="w3-tiny"> {{pp}}: </span>
-            <span class="w3-hover-shadow am-u" @click="ppClick(pp)">
-                &nbsp; {{fip(pp)}} &nbsp;
-            </span>
-            <span class="w3-tiny w3-right"> {{pp}} ⁙
-                <span class="w3-hover-shadow" v-for="fipId in ppFn(pp).l_fipId"
-                @click="fipIdClick(pp, fipId)" >
-                {{fipId}}, </span> </span>
-        </div>
-        <template v-if="!isPpClosed(pp)">
-        <template v-for="fipId in ppFn(pp).l_fipId">
-            <div class="w3-row" v-if="ppFn(pp).fipId[fipId].buildJsonType">
-                <div class="w3-half">
-                    <FhirPart v-else :adnId="fipId" :ppId="ppId" :fip="pp" :fipId="fipId" />
-                </div>
-                <div class="w3-half">
-                    <button @click="onOffChildWithPl2(pp, fipId)" 
-                     class="w3-right w3-btn w3-padding-small" >🗕:🗖</button>
-                    <BuildJson :ppId="ppId" :fip="pp" :fipId="fipId"/>
-                </div>
+<div class="w13-border-bottom w3-container">
+    <span class="w3-tiny am-b"> FHIR parts </span> ➾
+    <span v-for="pp in pps()"><span @click="ppsHref(pp)" title="make first"
+    class="w3-hover-shadow w3-small">{{fip(pp)}}</span>,&nbsp;</span>
+    <span class="w3-right"> <PagePartCmdEdMenu :ppId="ppId"/> </span>
+</div> <span class="w3-hide"> {{count}} </span>
+<template v-for="pp in pps()">
+    <div class="w3-container w3-topbar w3-light-grey">
+        <span class="w3-tiny"> {{pp}}: </span>
+        <span class="w3-hover-shadow am-u" @click="ppClick(pp)">
+            &nbsp; {{fip(pp)}} &nbsp;
+        </span>
+        <span class="w3-tiny w3-right"> {{pp}} ⁙
+            <span class="w3-hover-shadow" v-for="fipId in ppFn(pp).l_fipId"
+            @click="fipIdClick(pp, fipId)" >
+            {{fipId}}, </span> </span>
+    </div>
+    <template v-if="!isPpClosed(pp)">
+    <template v-for="fipId in ppFn(pp).l_fipId">
+        <div class="w3-row" v-if="ppFn(pp).fipId[fipId].buildJsonType">
+            <div class="w3-half">
+                <FhirPart v-else :adnId="fipId" :ppId="ppId" :fip="pp" :fipId="fipId" />
             </div>
-            <FhirPart v-else :adnId="fipId" :ppId="ppId" :fip="pp" :fipId="fipId" />
-        </template>
-        </template>
+            <div class="w3-half">
+                <button @click="onOffChildWithPl2(pp, fipId)" 
+                    class="w3-right w3-btn w3-padding-small" >🗕:🗖</button>
+                <BuildJson :ppId="ppId" :fip="pp" :fipId="fipId"/>
+            </div>
+        </div>
+        <FhirPart v-else :adnId="fipId" :ppId="ppId" :fip="pp" :fipId="fipId" />
     </template>
+    </template>
+</template>
      `,
 }
