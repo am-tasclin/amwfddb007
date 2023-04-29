@@ -30,6 +30,14 @@ fipiFn.initPageParts = (rawFipiStr, ppId) => {
         fipiFn.initFromJson(rawFipiStr.replace('itjn=', ''), ppId)
 }
 
+fipiFn.addPpIdFromJson = (ppId, jsonStr) => {
+    const json = JSON.parse(pd.eMap[ppId].value_22)
+    !fipi.l_ppId && (fipi.l_ppId = [])
+    fipi.l_ppId.push(ppId)
+    !fipi.ppId && json.ppId && (fipi.ppId = {}) && (fipi.ppId[ppId] = json)
+        && delete json.ppId
+}
+
 fipiFn.initFromJson = (jsonStr, ppId) => {
     const json = JSON.parse(decodeURI(jsonStr))
     !fipi.l_ppId && (fipi.l_ppId = [])

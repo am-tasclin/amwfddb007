@@ -8,7 +8,7 @@ export default {
     props: { ppId: Number }, data() { return { count: 0 } },
     components: { FhirPart, BuildJson, PagePartCmdEdMenu },
     methods: {
-        pps() { return fipi.ppId[this.ppId].l_pp },
+        pps() { return !fipi.ppId && [] || fipi.ppId[this.ppId].l_pp },
         fip(fip) { return fipiFn.fip[fip] },
         ppFn(pp) { return fipi.ppId[this.ppId].pp[pp] },
         ppsHref(pp) {

@@ -7,7 +7,7 @@ import FhirPart from '/f/2/lib/FhirPart.js'
 
 fipiFn.initPageParts(window.location.hash.substring(1), 1)
 
-console.log(fipi, window.location.hash.substring(1))
+console.log(fipi, )
 
 const allAdnIds = fipiFn.getAllAdnIds()
 allAdnIds && allAdnIds.splice(0, 0, fipi2.FhirInfoPageId)

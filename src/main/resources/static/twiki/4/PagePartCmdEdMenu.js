@@ -10,6 +10,8 @@ export default {
     , mounted() {
         pd.ppCmdEd[this.ppId] = this
         this.setPpcvName('JSON')
+        console.log(fipi.ppId[this.ppId])
+        
     }, methods: {
         keys(o) { return Object.keys(o) },
         fip(fip) { return wsDbC.fip[fip] },

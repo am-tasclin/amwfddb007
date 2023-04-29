@@ -34,26 +34,42 @@ wsDbC.cmdList = [{
         fipi.fipList = fipiFn.childIdConcat(fipi2.FhirInfoPageId, [])
 
         Object.keys(pd.eMap).filter(adnId => fipi.fipList.includes(
-            pd.eMap[adnId].reference) && 'json' != pd.eMap[adnId].value_22
-        ).reduce((x, adnId) =>
-            fipiFn.initPageParts(pd.eMap[adnId].value_22, adnId), 0)
+            pd.eMap[adnId].reference) && 'json' != pd.eMap[pd.eMap[adnId].reference].value_22
+            && 'json' != pd.eMap[adnId].value_22
+        ).reduce((x, adnId) => {
+            console.log(adnId
+                , pd.eMap[pd.eMap[adnId].reference].value_22
+                , fipi
+            )
+
+            pd.eMap[adnId].value_22 &&
+                fipiFn.initPageParts(pd.eMap[adnId].value_22, adnId)
+        }, 0)
+        Object.keys(pd.eMap).filter(adnId => fipi.fipList.includes(
+            pd.eMap[adnId].reference) && 'json' == pd.eMap[pd.eMap[adnId].reference].value_22
+        ).reduce((x, adnId) => {
+            fipiFn.addPpIdFromJson(adnId, pd.eMap[adnId].value_22)
+        }, 0)
+
 
         const allAdnIds = fipiFn.getAllAdnIds()
 
-        console.log(fipi, window.location.hash.substring(1), allAdnIds)
+        console.log(fipi,)
 
         wsDbC.cmdList[1].sendJson.adnId = allAdnIds
-        wsDbC.sendAndSetMessageFn(Object.assign(wsDbC.cmdList[1].sendJson
-            , { sql: wsDbC.replaceAdnId(wsDbC.cmdList[1].sendJson) })
-        ).then(event => {
-            const l_adnId = wsDbC.sqlAdnData(event)
-            fipi.l_ppId.forEach(ppId => fipi.ppId[ppId].l_pp
-                .forEach(pp => fipi.ppId[ppId].pp[pp].l_fipId
-                    .filter(fipId => l_adnId.includes(1 * fipId)).forEach(fipId =>
-                        fipi.ppId[ppId].pp[pp].fipId[fipId].fhirPart[fipId].count++
-                    )))
-            wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), allAdnIds.join(',')))
-        })
+        console.log(allAdnIds)
+        allAdnIds &&
+            wsDbC.sendAndSetMessageFn(Object.assign(wsDbC.cmdList[1].sendJson
+                , { sql: wsDbC.replaceAdnId(wsDbC.cmdList[1].sendJson) })
+            ).then(event => {
+                const l_adnId = wsDbC.sqlAdnData(event)
+                fipi.l_ppId.forEach(ppId => fipi.ppId[ppId].l_pp
+                    .forEach(pp => fipi.ppId[ppId].pp[pp].l_fipId
+                        .filter(fipId => l_adnId.includes(1 * fipId)).forEach(fipId =>
+                            fipi.ppId[ppId].pp[pp].fipId[fipId].fhirPart[fipId].count++
+                        )))
+                wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), allAdnIds.join(',')))
+            })
     }, sendJson: { sqlName: 'adn01NodesIn' },
 }, {
     thenFn: event => {
