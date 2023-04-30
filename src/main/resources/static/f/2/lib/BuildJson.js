@@ -16,7 +16,9 @@ export default {
             const jsonStr = buildJSON.stringify.Structure(json)
             return jsonStr
         }, buildStructure() {
-            console.log(123)
+            console.log(123, fipi.ppId[this.ppId].pp[this.fip].fipId[this.fipId])
+            fipi.ppId[this.ppId].pp[this.fip].fipId[this.fipId]
+                .buildJsonType.fnName = 'buildStructure'
             this.count++
         },
     }, template: `

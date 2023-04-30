@@ -50,10 +50,26 @@ export default {
             {{fipId}}, </span> </span>
     </div>
     <template v-if="!isPpClosed(pp)">
+    <div class="w3-row" v-if="'lr'==pp && ppFn(pp).pl2">
+        <div class="w3-half">
+            <template v-for="fipId in ppFn(pp).l_fipId">
+                <FhirPart :adnId="fipId" :ppId="ppId" :fip="pp" :fipId="fipId" />
+            </template>
+        </div>
+        <div class="w3-half w3-container w3-border-left">
+            {{'lr'==pp && ppFn(pp).pl2}}
+            <!-- -->
+            a1
+            <template v-for="fipId in ppFn(pp).pl2.l_fipId">
+                <FhirPart :adnId="fipId" :ppId="ppId" :fip="pp" :fipId="fipId" :lrPl2=true />
+            </template>
+        </div>
+    </div>
+    <template v-else>
     <template v-for="fipId in ppFn(pp).l_fipId">
         <div class="w3-row" v-if="ppFn(pp).fipId[fipId].buildJsonType">
             <div class="w3-half">
-                <FhirPart v-else :adnId="fipId" :ppId="ppId" :fip="pp" :fipId="fipId" />
+                <FhirPart :adnId="fipId" :ppId="ppId" :fip="pp" :fipId="fipId" />
             </div>
             <div class="w3-half">
                 <button @click="onOffChildWithPl2(pp, fipId)" 
@@ -62,6 +78,7 @@ export default {
             </div>
         </div>
         <FhirPart v-else :adnId="fipId" :ppId="ppId" :fip="pp" :fipId="fipId" />
+    </template>
     </template>
     </template>
 </template>

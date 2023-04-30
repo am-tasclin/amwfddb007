@@ -10,8 +10,6 @@ const allAdnIds = fipiFn.getAllAdnIds()
 
 console.log(fipi, allAdnIds)
 
-allAdnIds && allAdnIds.splice(0, 0, fipi2.FhirInfoPageId)
-
 const tPageParts = createApp({ data() { return { count: 0 } }, })
 tPageParts.component('t-page-parts', TPageParts)
 tPageParts.component('t-fhir-part', FhirPart)
@@ -37,3 +35,6 @@ wsDbC.cmdList = [{
 wsDbC.runWsOpenInPromise(wsDbC.cmdList[0].sendJson)
     .then(wsDbC.cmdList[0].thenFn)
 
+
+createApp({ data() { return { hash: window.location.hash.substring(1) } }, })
+    .mount('#headTitle')

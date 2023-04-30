@@ -2,7 +2,7 @@
 import { cl } from '/f/2/lib/common_lib.js'
 import { fipi, fipiFn } from '/f/2/lib/fipi.js'
 export default {
-    props: { ppId: Number }, data() { return { count: 0 } },
+    props: { ppId: Number }, data() { return { count: 0 , ppIdStrHash:''} },
     mounted() {
         // this.ppCmdEdOnOff()
         fipi.ppId &&
@@ -16,6 +16,14 @@ export default {
             console.log(this.ppId, ppConfTypeName, fipi.ppId[this.ppId])
             this.count++
         },
+        ppIdStr() {
+            this.ppIdStrHash = JSON.stringify(fipi.ppId[this.ppId], (k, v) =>
+                !['pagePartCmdEdMenu', 'fhirPart', 'buildJson'].includes(k) && v || undefined
+            )
+            console.log(fipi.ppId[this.ppId])
+            console.log(fipi.ppId[this.ppId].pp.fEt)
+            console.log(fipi.ppId[this.ppId].pp.lr)
+        },
         ppCmdEdOnOff() { cl.W3ShowOnOff('ppCmdEd_' + this.ppId) },
     }, template: `
 <span class="w3-dropdown-click">
@@ -24,6 +32,8 @@ export default {
     </button>
     <div :id="'ppCmdEd_'+ppId" class="w3-dropdown-content w3-container w3-hover-shadow w3-border"
         style="right: -1em; width: 52em;">
+        <button class="w3-btn w3-border w3-padding-small w3-tiny" @click="ppIdStr">confUri</button>
+        <div class="w3-tiny w3-border-bottom"> {{ppIdStrHash}} </div>
         <div class="w3-row">
             <div class="w3-quarter w13-border-right">
                 <div class="w3-tiny w3-border-bottom">
