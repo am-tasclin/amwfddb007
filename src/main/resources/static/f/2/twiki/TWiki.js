@@ -21,7 +21,7 @@ export default {
     <span class="w3-right w3-tiny w3-opacity"> <sup v-if="'ORDER'==ea(adnId, 'r_value_22')">
     ORDER </sup> </span>
     <template v-for="adnId2 in parentChild(adnId)">
-        <div v-if="fipList().includes(ea(adnId2, 'reference'))">
+        <div v-if="fipList().includes(ea(adnId2, 'reference'))" class="w3-container" >
 			<TPageParts :ppId="adnId2"></TPageParts>
         </div>
         <p v-if="'p'==ea(adnId2, 'r_value_22')">
