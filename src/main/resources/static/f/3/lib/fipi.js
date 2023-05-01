@@ -1,4 +1,5 @@
 'use strict'
+import { pd } from '/f/3/lib/pd_wsDbC.js'
 export const
     fipi = {},// FHIR Info Page Interface
     fipi2 = {},
@@ -31,8 +32,15 @@ fipiFn.initFromURI = (rawFipiStr, ppId) => {
         .reduce((o, pl2) =>
             (o[pl2.split(',')[0].split('pl2_')[1]] = pl2.split(',').slice(1)) && o, {})
 
+    const ppl2 = rawFipiStr.split(';').filter(im => 0 == im.indexOf('ppl2_'))
+        .reduce((o, ppl2) =>
+            (o[ppl2.split(',')[0].split('ppl2_')[1]] = ppl2.split(',').slice(1)) && o, {})
+
+    console.log(pl2)
+
+
     fipi.ppId[ppId] = rawFipiStr.split(';').filter(im => im)
-        .filter(im => 0 != im.split(';')[0].indexOf('pl2_')).reduce((o, im) => {
+        .filter(im => 0 != im.split(';')[0].indexOf('ppl2_')).reduce((o, im) => {
             const pp = im.split(',')[0], fipIdList = im.split(',').slice(1)
 
             o.l_pp.push(pp) && (o.pp[pp] = {
@@ -44,11 +52,11 @@ fipiFn.initFromURI = (rawFipiStr, ppId) => {
                 }, {}),
             })
 
-            pl2[pp] && 'lr' == pp &&
-                (o.pp[pp].pl2 = { l_fipId: pl2[pp], fipId: {} })
-                && pl2[pp].reduce((o2, adnId) => {
-                    return (o2[adnId] = {}) && o2
-                }, o.pp[pp].pl2.fipId)
+            ppl2[pp]
+                && (o.pp[pp].ppl2 = { l_fipId: ppl2[pp], fipId: {} })
+                && ppl2[pp].reduce((o2, adnId) => (o2[adnId] = {}) && o2
+                    , o.pp[pp].ppl2.fipId
+                )
 
             return o
         }, { pp: {}, l_pp: [] })
@@ -70,8 +78,35 @@ fipi2.initPP_AfterRead = () => fipi2.fipId.find(adnId => fipi.l_ppId.find(ppId =
     fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].l_fipId
         .find(fipId => fipi.ppId[ppId].pp[pp].fipId[fipId]
             .fhirPart && Object.keys(fipi.ppId[ppId].pp[pp].fipId[fipId]
-            .fhirPart).filter(fpId => fpId == adnId).find(fpId => {
-                fipi.ppId[ppId].pp[pp].fipId[fipId].fhirPart[fpId].count++
-                fipi.ppId[ppId].pp[pp].fipId[fipId].buildJson &&
-                    fipi.ppId[ppId].pp[pp].fipId[fipId].buildJson.count++
-            })))))
+                .fhirPart).filter(fpId => fpId == adnId).find(fpId => {
+                    fipi.ppId[ppId].pp[pp].fipId[fipId].fhirPart[fpId].count++
+                    fipi.ppId[ppId].pp[pp].fipId[fipId].buildJson &&
+                        fipi.ppId[ppId].pp[pp].fipId[fipId].buildJson.count++
+                })))))
+
+fipi2.viewAdnAfterRead = () => {
+    console.log(fipi)
+    fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp
+        .filter(pp => fipi.ppId[ppId].pp[pp].pl2)
+        .forEach(pp => fipi.ppId[ppId].pp[pp].pl2.l_fipId.find(fipId => {
+            //  fipi.ppId[ppId].pp[pp].pl2.fipId[fipId]
+            console.log(ppId, pp, fipId
+                , fipi.ppId[ppId].pp[pp].pl2.fipId
+            )
+        })))
+    fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => fipi
+        .ppId[ppId].pp[pp].l_fipId.find(adnId => {
+            fipi.ppId[ppId].pp[pp].fipId[adnId].fhirPart[adnId].count++
+            // fipi.ppId[ppId].pp[pp].fipId[adnId].pl2
+            //     && fipi.ppId[ppId].pp[pp].fipId[adnId].pl2.fhirPart[adnId].count++
+
+            console.log(ppId, pp, adnId
+                , fipi.ppId[ppId].pp[pp].pl2
+                , fipi.ppId[ppId].pp[pp].fipId[adnId].fhirPart[adnId]
+                , fipi.ppId[ppId].pp[pp].fipId[adnId].fhirPart[adnId].count
+                , pd.i(adnId, 'value_22')
+            )
+
+        })))
+    // fipi2.fipId
+}

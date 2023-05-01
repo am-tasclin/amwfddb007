@@ -95,7 +95,6 @@ fipiFn.initFromURI = (rawFipiStr, ppId) => {
     console.log(fipi.ppId[ppId])
 }
 
-
 // for SQL IN
 // from fipi config fipi.ppId.pp.
 fipiFn.getAllAdnIds = () => fipi.l_ppId && fipi.l_ppId.reduce((idList, ppId) => fipi.ppId[ppId]
