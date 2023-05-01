@@ -4,6 +4,13 @@ export const
     fipi2 = {},
     fipiFn = {}
 
+// for SQL IN
+// from fipi config fipi.ppId.pp.
+fipiFn.getAllAdnIds = () => fipi.l_ppId && fipi.l_ppId.reduce((idList, ppId) => fipi.ppId[ppId]
+    .l_pp.filter(pp => fipi.ppId[ppId].pp[pp].l_fipId.filter(
+        fipId => !idList.includes(fipId) &&
+            idList.splice(0, 0, fipId))) && idList, [])
+
 fipiFn.initPageParts = (rawFipiStr, ppId) => {
 
     // console.log(rawFipiStr, ppId, fipi)
@@ -56,3 +63,15 @@ fipiFn.fip = {
     fPl: 'Profile',
     lr: 'Left|Right ::mc', //mc: Midnight Commander
 }
+
+fipi2.FhirInfoPageId = 376617 // [376617] am001fip/CodeSystem/FhirInfoPage title::
+
+fipi2.initPP_AfterRead = () => fipi2.fipId.find(adnId => fipi.l_ppId.find(ppId =>
+    fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].l_fipId
+        .find(fipId => fipi.ppId[ppId].pp[pp].fipId[fipId]
+            .fhirPart && Object.keys(fipi.ppId[ppId].pp[pp].fipId[fipId]
+            .fhirPart).filter(fpId => fpId == adnId).find(fpId => {
+                fipi.ppId[ppId].pp[pp].fipId[fipId].fhirPart[fpId].count++
+                fipi.ppId[ppId].pp[pp].fipId[fipId].buildJson &&
+                    fipi.ppId[ppId].pp[pp].fipId[fipId].buildJson.count++
+            })))))

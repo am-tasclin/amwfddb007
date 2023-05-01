@@ -35,6 +35,5 @@ wsDbC.cmdList = [{
 wsDbC.runWsOpenInPromise(wsDbC.cmdList[0].sendJson)
     .then(wsDbC.cmdList[0].thenFn)
 
-
 createApp({ data() { return { hash: window.location.hash.substring(1) } }, })
     .mount('#headTitle')
