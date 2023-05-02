@@ -13,7 +13,6 @@ wsDbC.cmdList = [{
     sendJson: { sqlName: 'adn01NodesIn', adnId: allAdnIds.join(',') },
     thenFn: event => {
         fipi2.fipId = wsDbC.sqlAdnData(event)
-        // fipi2.initPP_AfterRead()
 
         wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4)
             , allAdnIds.join(',')))

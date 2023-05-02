@@ -96,39 +96,13 @@ fipiFn.fip = {
 
 fipi2.FhirInfoPageId = 376617 // [376617] am001fip/CodeSystem/FhirInfoPage title::
 
-fipi2.initPP_AfterRead = () => fipi2.fipId.find(adnId => fipi.l_ppId.find(ppId =>
-    fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].l_fipId
-        .find(fipId => fipi.ppId[ppId].pp[pp].fipId[fipId]
-            .fhirPart && Object.keys(fipi.ppId[ppId].pp[pp].fipId[fipId]
-                .fhirPart).filter(fpId => fpId == adnId).find(fpId => {
-                    fipi.ppId[ppId].pp[pp].fipId[fipId].fhirPart[fpId].count++
-                    fipi.ppId[ppId].pp[pp].fipId[fipId].buildJson &&
-                        fipi.ppId[ppId].pp[pp].fipId[fipId].buildJson.count++
-                })))))
-
 fipi2.viewAdnAfterRead = () => {
     console.log(fipi)
-    fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp
-        .filter(pp => fipi.ppId[ppId].pp[pp].pl2)
-        .forEach(pp => fipi.ppId[ppId].pp[pp].pl2.l_fipId.find(fipId => {
-            //  fipi.ppId[ppId].pp[pp].pl2.fipId[fipId]
-            console.log(ppId, pp, fipId
-                , fipi.ppId[ppId].pp[pp].pl2.fipId
-            )
-        })))
-    fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => fipi
-        .ppId[ppId].pp[pp].l_fipId.find(adnId => {
-            fipi.ppId[ppId].pp[pp].fipId[adnId].fhirPart[adnId].count++
-            // fipi.ppId[ppId].pp[pp].fipId[adnId].pl2
-            //     && fipi.ppId[ppId].pp[pp].fipId[adnId].pl2.fhirPart[adnId].count++
-
-            console.log(ppId, pp, adnId
-                , fipi.ppId[ppId].pp[pp].pl2
-                , fipi.ppId[ppId].pp[pp].fipId[adnId].fhirPart[adnId]
-                , fipi.ppId[ppId].pp[pp].fipId[adnId].fhirPart[adnId].count
-                , pd.i(adnId, 'value_22')
-            )
-
-        })))
-    // fipi2.fipId
+    fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => {
+        fipi.ppId[ppId].pp[pp].l_fipId.find(adnId =>
+            fipi.ppId[ppId].pp[pp].fipId[adnId].fhirPart[adnId].count++)
+        fipi.ppId[ppId].pp[pp].ppl2 &&
+            fipi.ppId[ppId].pp[pp].ppl2.l_fipId.find(adnId =>
+                fipi.ppId[ppId].pp[pp].ppl2.fipId[adnId].fhirPart[adnId].count++)
+    }))
 }

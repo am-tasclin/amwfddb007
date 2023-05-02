@@ -7,7 +7,7 @@ export default {
     data() { return { count: 0 } },
     mounted() {
         const fhirPartPath = this.lrPl2
-            && fipi.ppId[this.ppId].pp[this.pp].fipId[this.fipId].pl2
+            && fipi.ppId[this.ppId].pp[this.pp].ppl2.fipId[this.fipId]
             || fipi.ppId[this.ppId].pp[this.pp].fipId[this.fipId]
 
         !fhirPartPath.fhirPart && (fhirPartPath.fhirPart = {})
