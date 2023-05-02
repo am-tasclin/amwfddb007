@@ -30,9 +30,9 @@ fipiFn.initFromURI = (rawFipiStr, ppId) => {
     const rawFipi = rawFipiStr.split(';')
         , pl2 = rawFipi.filter(im => im.includes('_')).reduce((o, im) => {
             const a2 = im.split(',')[0].split('_'), fipIdList = im.split(',').slice(1)
-            o[a2[1]] = {}
-            o[a2[1]][a2[0]] = { l_fipId: fipIdList }
-            o[a2[1]][a2[0]].fipId = fipIdList.reduce((o, im) => (o[im] = {}) && o, {})
+            o[a2[0]] = {}
+            o[a2[0]][a2[1]] = { l_fipId: fipIdList }
+            o[a2[0]][a2[1]].fipId = fipIdList.reduce((o, im) => (o[im] = {}) && o, {})
             return o
         }, {})
 
