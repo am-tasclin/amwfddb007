@@ -17,19 +17,19 @@ wsDbC.cmdList = [{
     },
 }, {
     thenFn: event => {
-        console.log(pageId, 'wsDbC.cmdList[1] 2', pd.eMap, pd.parentChild)
-        // fipi2.viewAdnAfterRead()
         fipi.tWikiPart.count++
         fipi.fipList = fipiFn.childIdConcat(fipi2.FhirInfoPageId, [])
-
+        console.log(pageId, 'wsDbC.cmdList[1] 2', fipi.fipList)
+        fipiFn.initPPBlock()
+    }
+}, {
+    thenFn: event => {
         console.log(fipi.fipList, pd.eMap[376639], 123)
-
     }
 }]; wsDbC.cmdListItem = 0
 
 wsDbC.runWsOpenInPromise(wsDbC.cmdList[0].sendJson)
     .then(wsDbC.cmdList[0].thenFn)
-
 
 const tWiki = createApp({
     data() { return { count: 0, pageId: pageId } },
@@ -43,7 +43,6 @@ const tWiki = createApp({
 tWiki.component('t-wiki', TWiki)
 // tWiki.component('t-fhir-part', FhirPart)
 tWiki.mount('#tWiki')
-
 
 createApp({ data() { return { pageId: pageId } }, })
     .mount('#headTitle')

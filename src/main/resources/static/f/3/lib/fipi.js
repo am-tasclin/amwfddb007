@@ -12,6 +12,16 @@ fipiFn.getAllAdnIds = () => fipi.l_ppId && fipi.l_ppId.reduce((idList, ppId) => 
         fipId => !idList.includes(fipId) &&
             idList.splice(0, 0, fipId))) && idList, [])
 
+fipiFn.initPPBlock = () => {
+    const fipiList = Object.keys(pd.eMap)
+        .filter(adnId => pd.eMap[pd.eMap[adnId].reference])
+        .filter(adnId => adnId != fipi2.FhirInfoPageJsonId)
+
+    fipiList.filter(adnId => pd.eMap[adnId].reference != fipi2.FhirInfoPageJsonId)
+        .forEach(adnId => fipiFn.initFromURI(pd.eMap[adnId].value_22, adnId))
+
+}
+
 fipiFn.initPageParts = (rawFipiStr, ppId) => {
 
     // console.log(rawFipiStr, ppId, fipi)
@@ -95,6 +105,7 @@ fipiFn.fip = {
 }
 
 fipi2.FhirInfoPageId = 376617 // [376617] am001fip/CodeSystem/FhirInfoPage title::
+fipi2.FhirInfoPageJsonId = 376631 // [376631] json FIP: (r:376618) 
 
 fipi2.viewAdnAfterRead = () => {
     console.log(fipi)

@@ -9,19 +9,17 @@ export default {
     components: { TPageParts },
     mounted() {
         fipi.tWikiPart = this
-    },
-    methods: {
-        e(adnId) { return pd.eMap[adnId] },
+    }, methods: {
         ea(adnId, att) { return pd.eMap[adnId] && pd.eMap[adnId][att] },
         parentChild(adnId) { return pd.parentChild[adnId] || [] },
         fipList() { return fipi.fipList },
-    },
-    template: `
+    }, template: `
 <template v-for="adnId in parentChild(wId)">
     <span class="w3-right w3-tiny w3-opacity"> <sup v-if="'ORDER'==ea(adnId, 'r_value_22')">
     ORDER </sup> </span>
     <template v-for="adnId2 in parentChild(adnId)">
         <div v-if="fipList().includes(ea(adnId2, 'reference'))" class="w3-container" >
+            {{ea(adnId2, 'value_22')}}
 			<TPageParts :ppId="adnId2"></TPageParts>
         </div>
         <p v-if="'p'==ea(adnId2, 'r_value_22')">

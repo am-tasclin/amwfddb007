@@ -17,16 +17,13 @@ export default {
             !fipi.ppId[this.ppId].closed.includes(pp) && fipi.ppId[this.ppId].closed.push(pp)
                 || fipi.ppId[this.ppId].closed.splice(fipi.ppId[this.ppId].closed.indexOf(pp), 1)
             this.count++
-            console.log(this.count)
-        },
-        fipIdClick(pp, fipId) {
+        }, fipIdClick(pp, fipId) {
             const oa = fipi.ppId[this.ppId].pp[pp].l_fipId
             fipi.ppId[this.ppId].pp[pp].l_fipId
                 = oa.splice(oa.indexOf(fipId), 1).concat(oa)
             this.count++
         },
-    },
-    template: `
+    }, template: `
 <div class="w13-border-bottom w3-container">
     <span class="w3-tiny am-b"> FHIR parts </span> ➾
     <span v-for="pp in pps()"><span @click="ppsHref(pp)" title="make first"
