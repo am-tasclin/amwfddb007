@@ -27,7 +27,6 @@ fipiFn.initPageParts = (rawFipiStr, ppId) => {
     // console.log(rawFipiStr, ppId, fipi)
     !rawFipiStr.includes('itjn=')
         && fipiFn.initFromURI(rawFipiStr, ppId)
-    // && fipiFn.initFromURI_2(rawFipiStr, ppId)
 
     rawFipiStr.includes('itjn=') &&
         fipiFn.initFromJson(rawFipiStr.replace('itjn=', ''), ppId)
@@ -56,44 +55,6 @@ fipiFn.initFromURI = (rawFipiStr, ppId) => {
     }, { pp: {}, l_pp: [] })
 
     console.log(fipi, rawFipiStr, pl2, fipi.ppId[ppId])
-}
-
-fipiFn.initFromURI_2 = (rawFipiStr, ppId) => {
-    !fipi.l_ppId && (fipi.l_ppId = []) && fipi.l_ppId.push(ppId)
-    !fipi.ppId && (fipi.ppId = {})
-
-    const epl2 = rawFipiStr.split(';').filter(im => 0 == im.indexOf('epl2_'))
-        .reduce((o, pl2) =>
-            (o[pl2.split(',')[0].split('epl2_')[1]] = pl2.split(',').slice(1)) && o, {})
-
-    const ppl2 = rawFipiStr.split(';').filter(im => 0 == im.indexOf('ppl2_'))
-        .reduce((o, ppl2) =>
-            (o[ppl2.split(',')[0].split('ppl2_')[1]] = ppl2.split(',').slice(1)) && o, {})
-
-    fipi.ppId[ppId] = rawFipiStr.split(';').filter(im => im)
-        .filter(im => !im.split(';')[0].includes('_'))
-        .reduce((o, im) => {
-            const pp = im.split(',')[0], fipIdList = im.split(',').slice(1)
-
-            o.l_pp.push(pp) && (o.pp[pp] = {
-                l_fipId: fipIdList,
-                fipId: fipIdList.reduce((o, fipId) => {
-                    const pl2Obj = epl2[pp] && epl2[pp].includes(fipId) &&
-                        { pl2: {} } || {}
-                    return (o[fipId] = pl2Obj) && o
-                }, {}),
-            })
-
-            ppl2[pp]
-                && (o.pp[pp].ppl2 = { l_fipId: ppl2[pp], fipId: {} })
-                && ppl2[pp].reduce((o2, adnId) => (o2[adnId] = {}) && o2
-                    , o.pp[pp].ppl2.fipId
-                )
-
-            return o
-        }, { pp: {}, l_pp: [] })
-
-    console.log(ppId, fipi.ppId[ppId])
 }
 
 fipiFn.fip = {
