@@ -15,8 +15,9 @@ fipiFn.getAllAdnIds = () => fipi.l_ppId && fipi.l_ppId.reduce((idList, ppId) => 
 fipiFn.initPageParts = (rawFipiStr, ppId) => {
 
     // console.log(rawFipiStr, ppId, fipi)
-    !rawFipiStr.includes('itjn=') &&
-        fipiFn.initFromURI(rawFipiStr, ppId)
+    !rawFipiStr.includes('itjn=')
+        && fipiFn.initFromURI(rawFipiStr, ppId)
+    // && fipiFn.initFromURI_2(rawFipiStr, ppId)
 
     rawFipiStr.includes('itjn=') &&
         fipiFn.initFromJson(rawFipiStr.replace('itjn=', ''), ppId)
@@ -24,33 +25,33 @@ fipiFn.initPageParts = (rawFipiStr, ppId) => {
 
 fipiFn.initFromURI = (rawFipiStr, ppId) => {
     !fipi.l_ppId && (fipi.l_ppId = []) && fipi.l_ppId.push(ppId)
-    !fipi.ppId && (fipi.ppId = { pp: {}, l_pp: [] })
+    !fipi.ppId && (fipi.ppId = {})
 
-    const pl2 = rawFipiStr.split(';').filter(im => im.includes('_'))
-        .reduce((o, im) => {
+    const rawFipi = rawFipiStr.split(';')
+        , pl2 = rawFipi.filter(im => im.includes('_')).reduce((o, im) => {
             const a2 = im.split(',')[0].split('_'), fipIdList = im.split(',').slice(1)
-            o[a2[1]] = {}; o[a2[1]][a2[0]] = {}
-            o[a2[1]][a2[0]].l_fipId = fipIdList
+            o[a2[1]] = {}
+            o[a2[1]][a2[0]] = { l_fipId: fipIdList }
             o[a2[1]][a2[0]].fipId = fipIdList.reduce((o, im) => (o[im] = {}) && o, {})
             return o
         }, {})
 
-    const pp = rawFipiStr.split(';').filter(im => !im.includes('_'))
-        .reduce((o, im) => {
-            console.log(im, o)
-            return o
-        }, fipi.ppId)
+    fipi.ppId[ppId] = rawFipi.filter(im => im && !im.includes('_')).reduce((o, im) => {
+        const pp = im.split(',')[0], fipIdList = im.split(',').slice(1)
+        o.l_pp.push(pp)
+        o.pp[pp] = { l_fipId: fipIdList }
+        o.pp[pp].fipId = fipIdList.reduce((o2, im2) => (o2[im2] = {}) && o2, {})
+        Object.assign(o.pp[pp], pl2[pp])
+        return o
+    }, { pp: {}, l_pp: [] })
 
-    console.log(fipi, rawFipiStr, pl2, pp)
-
+    console.log(fipi, rawFipiStr, pl2, fipi.ppId[ppId])
 }
 
 fipiFn.initFromURI_2 = (rawFipiStr, ppId) => {
-
-    !fipi.l_ppId && (fipi.l_ppId = [])
-    fipi.l_ppId.push(ppId)
-
+    !fipi.l_ppId && (fipi.l_ppId = []) && fipi.l_ppId.push(ppId)
     !fipi.ppId && (fipi.ppId = {})
+
     const epl2 = rawFipiStr.split(';').filter(im => 0 == im.indexOf('epl2_'))
         .reduce((o, pl2) =>
             (o[pl2.split(',')[0].split('epl2_')[1]] = pl2.split(',').slice(1)) && o, {})
@@ -58,8 +59,6 @@ fipiFn.initFromURI_2 = (rawFipiStr, ppId) => {
     const ppl2 = rawFipiStr.split(';').filter(im => 0 == im.indexOf('ppl2_'))
         .reduce((o, ppl2) =>
             (o[ppl2.split(',')[0].split('ppl2_')[1]] = ppl2.split(',').slice(1)) && o, {})
-
-    console.log(epl2)
 
     fipi.ppId[ppId] = rawFipiStr.split(';').filter(im => im)
         .filter(im => !im.split(';')[0].includes('_'))
