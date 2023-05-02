@@ -7,7 +7,7 @@ export default {
     mounted() {
         // this.ppCmdEdOnOff()
     }, methods: {
-        pps() { return fipi.ppId[this.ppId].l_pp },
+        pps() { return fipiFn.pps(this.ppId) },
         ppCmdEdOnOff() { cl.W3ShowOnOff('ppCmdEd_' + this.ppId) },
     }, template: `
 <span class="w3-dropdown-click">

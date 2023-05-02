@@ -8,10 +8,10 @@ export default {
     props: { ppId: Number }, data() { return { count: 0 } },
     components: { FhirPart, BuildJson, PagePartCmdEdMenu },
     methods: {
-        pps() { return fipi.ppId[this.ppId].l_pp },
+        pps() { return fipiFn.pps(this.ppId) },
         fip(fip) { return fipiFn.fip[fip] },
         ppFn(pp) { return fipi.ppId[this.ppId].pp[pp] },
-        epl2(pp, fipId) { return this.ppFn(pp).epl2 && this.ppFn(pp).epl2.fipId[fipId]},
+        epl2(pp, fipId) { return this.ppFn(pp).epl2 && this.ppFn(pp).epl2.fipId[fipId] },
         ppClick(pp) {
             !fipi.ppId[this.ppId].closed && (fipi.ppId[this.ppId].closed = [])
             !fipi.ppId[this.ppId].closed.includes(pp) && fipi.ppId[this.ppId].closed.push(pp)

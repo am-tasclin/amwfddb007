@@ -37,9 +37,8 @@ wsDbC.cmdList = [{
             pd.eMap[adnId].reference) && 'json' != pd.eMap[pd.eMap[adnId].reference].value_22
             && 'json' != pd.eMap[adnId].value_22
         ).reduce((x, adnId) => {
-            console.log(adnId
+            console.log(adnId, fipi
                 , pd.eMap[pd.eMap[adnId].reference].value_22
-                , fipi
             )
 
             pd.eMap[adnId].value_22 &&
@@ -50,7 +49,6 @@ wsDbC.cmdList = [{
         ).reduce((x, adnId) => {
             fipiFn.addPpIdFromJson(adnId, pd.eMap[adnId].value_22)
         }, 0)
-
 
         const allAdnIds = fipiFn.getAllAdnIds()
 
