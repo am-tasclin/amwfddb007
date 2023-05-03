@@ -51,11 +51,9 @@ wsDbC.cmdList = [{
         }, 0)
 
         const allAdnIds = fipiFn.getAllAdnIds()
-
-        console.log(fipi,)
+        console.log(fipi, allAdnIds)
 
         wsDbC.cmdList[1].sendJson.adnId = allAdnIds
-        console.log(allAdnIds)
         allAdnIds &&
             wsDbC.sendAndSetMessageFn(Object.assign(wsDbC.cmdList[1].sendJson
                 , { sql: wsDbC.replaceAdnId(wsDbC.cmdList[1].sendJson) })

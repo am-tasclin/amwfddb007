@@ -21,10 +21,29 @@ wsDbC.cmdList = [{
         fipi.fipList = fipiFn.childIdConcat(fipi2.FhirInfoPageId, [])
         console.log(pageId, 'wsDbC.cmdList[1] 2', fipi.fipList)
         fipiFn.initPPBlock()
-    }
+
+        const allAdnIds = fipiFn.getAllAdnIds()
+        console.log(fipi, allAdnIds)
+
+        wsDbC.cmdList[1].sendJson.adnId = allAdnIds
+        allAdnIds &&
+            wsDbC.sendAndSetMessageFn(Object.assign(wsDbC.cmdList[1].sendJson
+                , { sql: wsDbC.replaceAdnId(wsDbC.cmdList[1].sendJson) })
+            ).then(event => {
+                const l_adnId = wsDbC.sqlAdnData(event)
+                fipi.l_ppId.forEach(ppId => fipi.ppId[ppId].l_pp
+                    .forEach(pp => fipi.ppId[ppId].pp[pp].l_fipId
+                        .filter(fipId => l_adnId.includes(1 * fipId)).forEach(fipId =>
+                            fipi.ppId[ppId].pp[pp].fipId[fipId].fhirPart[fipId].count++
+                        )))
+                wsDbC.readParentDeep(wsDbC.listDeepSql(wsDbC.listDeepNum(4), allAdnIds.join(',')))
+            })
+    }, sendJson: { sqlName: 'adn01NodesIn' },
+
 }, {
     thenFn: event => {
         console.log(fipi.fipList, pd.eMap[376639], 123)
+        fipi2.viewAdnAfterRead()
     }
 }]; wsDbC.cmdListItem = 0
 
