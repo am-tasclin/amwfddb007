@@ -26,6 +26,9 @@ export default {
     <span class="w3-small w3-hover-shadow"
     @click="adnClick">{{adnId}}</span>
     {{i('value_22')}}
+    <span class="w3-small"> <span v-if="i('r_value_22')">::</span>{{i('r_value_22')}} </span>
+    <span class="w3-tiny" v-if="i('rr_value_22')">::{{i('rr_value_22')}}</span>
+    <span v-if="i('r2_value_22')">&nbsp;:&nbsp;<span class="am-i">{{i('r2_value_22')}}</span></span>
 </div> <span class="w3-hide"> {{count}} </span>
     `,
 }
