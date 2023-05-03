@@ -20,8 +20,7 @@ export default {
         adnClick() {
             this.count++
         }
-    },
-    template: `
+    }, template: `
 <div class="w3-hover-shadow">
     <span class="w3-small w3-hover-shadow"
     @click="adnClick">{{adnId}}</span>

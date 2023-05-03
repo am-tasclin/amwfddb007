@@ -12,7 +12,14 @@ export default {
         fip(fip) { return fipiFn.fip[fip] },
         ppFn(pp) { return fipi.ppId[this.ppId].pp[pp] },
         epl2(pp, fipId) { return this.ppFn(pp).epl2 && this.ppFn(pp).epl2.fipId[fipId] },
-        ppClick(pp) {
+        ppsHref(pp) {
+            const oa = fipi.ppId[this.ppId].l_pp
+            fipi.ppId[this.ppId].l_pp
+                = oa.splice(oa.indexOf(pp), 1).concat(oa)
+            fipi.ppId[this.ppId].pagePartCmdEdMenu
+                && fipi.ppId[this.ppId].pagePartCmdEdMenu.count++
+            this.count++
+        }, ppClick(pp) {
             !fipi.ppId[this.ppId].closed && (fipi.ppId[this.ppId].closed = [])
             !fipi.ppId[this.ppId].closed.includes(pp) && fipi.ppId[this.ppId].closed.push(pp)
                 || fipi.ppId[this.ppId].closed.splice(fipi.ppId[this.ppId].closed.indexOf(pp), 1)
