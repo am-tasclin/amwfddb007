@@ -17,14 +17,16 @@ fipiFn.initPPBlock = () => {
         .filter(adnId => pd.eMap[pd.eMap[adnId].reference])
         .filter(adnId => adnId != fipi2.FhirInfoPageJsonId)
 
+    console.log(fipiList)
+
     fipiList.filter(adnId => pd.eMap[adnId].reference != fipi2.FhirInfoPageJsonId)
         .forEach(adnId => fipiFn.initFromURI(pd.eMap[adnId].value_22, adnId))
 
 }
 
 fipiFn.initPageParts = (rawFipiStr, ppId) => {
+    // console.log(rawFipiStr, ppId)
 
-    // console.log(rawFipiStr, ppId, fipi)
     !rawFipiStr.includes('itjn=')
         && fipiFn.initFromURI(rawFipiStr, ppId)
 
@@ -33,7 +35,7 @@ fipiFn.initPageParts = (rawFipiStr, ppId) => {
 }
 
 fipiFn.initFromURI = (rawFipiStr, ppId) => {
-    !fipi.l_ppId && (fipi.l_ppId = []) && fipi.l_ppId.push(ppId)
+    !fipi.l_ppId && (fipi.l_ppId = []); fipi.l_ppId.push(ppId)
     !fipi.ppId && (fipi.ppId = {})
 
     const rawFipi = rawFipiStr.split(';')
@@ -54,7 +56,7 @@ fipiFn.initFromURI = (rawFipiStr, ppId) => {
         return o
     }, { pp: {}, l_pp: [] })
 
-    console.log(fipi, rawFipiStr, pl2, fipi.ppId[ppId])
+    // console.log(ppId, fipi.ppId[ppId])
 }
 
 fipiFn.fip = {

@@ -23,7 +23,7 @@ wsDbC.cmdList = [{
         fipiFn.initPPBlock()
 
         const allAdnIds = fipiFn.getAllAdnIds()
-        console.log(fipi, allAdnIds)
+        console.log(allAdnIds)
 
         wsDbC.cmdList[1].sendJson.adnId = allAdnIds
         allAdnIds &&
@@ -42,7 +42,7 @@ wsDbC.cmdList = [{
 
 }, {
     thenFn: event => {
-        console.log(fipi.fipList, pd.eMap[376639], 123)
+        console.log(3,' read DB')
         fipi2.viewAdnAfterRead()
     }
 }]; wsDbC.cmdListItem = 0
