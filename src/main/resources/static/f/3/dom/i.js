@@ -3,6 +3,7 @@ const { createApp } = Vue
 import { fipi, fipi2, fipiFn } from '/f/3/lib/fipi.js'
 import { wsDbC, pd } from '/f/3/lib/pd_wsDbC.js'
 import TPageParts from '/f/3/lib/TPageParts.js'
+import FhirPart from '/f/3/lib/FhirPart.js'
 
 fipiFn.initPageParts(window.location.hash.substring(1), 1)
 const allAdnIds = fipiFn.getAllAdnIds()
@@ -28,6 +29,7 @@ wsDbC.runWsOpenInPromise(wsDbC.cmdList[0].sendJson)
 
 const tPageParts = createApp({ data() { return { count: 0 } }, })
 tPageParts.component('t-page-parts', TPageParts)
+tPageParts.component('t-fhir-part', FhirPart)
 tPageParts.mount('#tPageParts')
 
 createApp({ data() { return { hash: window.location.hash.substring(1) } }, })

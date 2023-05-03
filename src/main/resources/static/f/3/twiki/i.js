@@ -3,6 +3,8 @@ const { createApp } = Vue
 import { fipi, fipi2, fipiFn } from '/f/3/lib/fipi.js'
 import { wsDbC, pd } from '/f/3/lib/pd_wsDbC.js'
 import TWiki from '/f/3/twiki/TWiki.js'
+import FhirPart from '/f/3/lib/FhirPart.js'
+
 const pageId = window.location.hash.substring(1).split(',')[1]
 
 console.log(pageId)
@@ -60,7 +62,7 @@ const tWiki = createApp({
     },
 })
 tWiki.component('t-wiki', TWiki)
-// tWiki.component('t-fhir-part', FhirPart)
+tWiki.component('t-fhir-part', FhirPart)
 tWiki.mount('#tWiki')
 
 createApp({ data() { return { pageId: pageId } }, })

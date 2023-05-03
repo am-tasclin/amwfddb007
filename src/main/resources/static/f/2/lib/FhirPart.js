@@ -31,6 +31,7 @@ export default {
             console.log(this.adnId, this.ppId, this.fip, this.fipId)
             fipiFn.onOffChild(this.adnId, this.ppId, this.fip, this.fipId)
         }, isOpenChild() {
+            console.log(this.adnId, this.ppId, this.fip, this.fipId)
             return fipiFn.isOpenChild(this.adnId, this.ppId, this.fip, this.fipId)
         },
     }, template: `
