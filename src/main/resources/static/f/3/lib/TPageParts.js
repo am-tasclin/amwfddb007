@@ -24,6 +24,9 @@ export default {
             !fipi.ppId[this.ppId].closed.includes(pp) && fipi.ppId[this.ppId].closed.push(pp)
                 || fipi.ppId[this.ppId].closed.splice(fipi.ppId[this.ppId].closed.indexOf(pp), 1)
             this.count++
+        }, isPpClosed(pp) {
+            return fipi.ppId[this.ppId].closed &&
+                fipi.ppId[this.ppId].closed.includes(pp)
         }, fipIdClick(pp, fipId) {
             const oa = fipi.ppId[this.ppId].pp[pp].l_fipId
             fipi.ppId[this.ppId].pp[pp].l_fipId
@@ -50,8 +53,9 @@ export default {
             <span v-if="ppFn(pp).ppl2">|
                 {{ppFn(pp).ppl2.l_fipId.join(', ')}}
             </span>
-            </span>
+        </span>
     </div>
+    <template v-if="!isPpClosed(pp)">
     <div class="w3-row" v-if="ppFn(pp).ppl2">
         <div class="w3-half">
             <template v-for="fipId in ppFn(pp).l_fipId">
@@ -77,6 +81,7 @@ export default {
             </div>
         </div>
         <FhirPart v-else :adnId="fipId" :ppId="ppId" :pp="pp" :fipId="fipId" />
+    </template>
     </template>
     </template>
 </template>
