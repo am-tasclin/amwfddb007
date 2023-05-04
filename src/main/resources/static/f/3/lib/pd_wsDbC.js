@@ -28,7 +28,9 @@ wsDbC.runWsOpenInPromise = (sendJson) => {
 wsDbC.sqlAdnData = event => JSON.parse(event.data).list.reduce((n, e) => {
     wsDbC.eMap[e.doc_id] = e
     wsDbC.eMap[e.parent] &&
-        (wsDbC.parentChild[e.parent] || (wsDbC.parentChild[e.parent] = [])).push(e.doc_id)
+        wsDbC.parentChild[e.parent] || (wsDbC.parentChild[e.parent] = [])
+    !wsDbC.parentChild[e.parent].includes(e.doc_id) &&
+        wsDbC.parentChild[e.parent].push(e.doc_id)
     n.push(e.doc_id)
     return n
 }, [])
