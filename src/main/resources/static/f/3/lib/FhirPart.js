@@ -1,10 +1,13 @@
 'use strict'
 import { pd } from '/f/3/lib/pd_wsDbC.js'
 import { fipi, fipiFn } from '/f/3/lib/fipi.js'
+import AdnMenu from '/f/3/lib/AdnMenu.js'
+
 
 export default {
     props: { adnId: Number, ppId: Number, pp: String, fipId: Number, lrPl2: Boolean },
     data() { return { count: 0 } },
+    components: { AdnMenu },
     mounted() {
         const fhirPartPath = this.lrPl2
             && fipi.ppId[this.ppId].pp[this.pp].ppl2.fipId[this.fipId]
@@ -25,8 +28,10 @@ export default {
         },
     }, template: `
 <div class="w3-hover-shadow">
-    <span class="w3-small w3-hover-shadow"
-    @click="adnClick">{{adnId}}</span>
+    <span class="w3-small  w3-dropdown-hover w3-white">
+        <span class="w3-hover-shadow" @click="adnClick"> {{adnId}} </span>
+        <AdnMenu :adnId="adnId" />
+    </span>
     {{i('value_22')}}
     <span class="w3-small"> <span v-if="i('r_value_22')">::</span>{{i('r_value_22')}} </span>
     <span class="w3-tiny" v-if="i('rr_value_22')">::{{i('rr_value_22')}}</span>

@@ -17,8 +17,6 @@ fipiFn.initPPBlock = () => {
         .filter(adnId => pd.eMap[pd.eMap[adnId].reference])
         .filter(adnId => adnId != fipi2.FhirInfoPageJsonId)
 
-    console.log(fipiList)
-
     fipiList.filter(adnId => pd.eMap[adnId].reference != fipi2.FhirInfoPageJsonId)
         .forEach(adnId => fipiFn.initFromURI(pd.eMap[adnId].value_22, adnId))
 

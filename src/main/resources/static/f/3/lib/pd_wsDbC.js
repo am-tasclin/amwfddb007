@@ -15,8 +15,6 @@ wsDbC.parentChild = pd.parentChild = parentChild
 pd.e = adnId => eMap[adnId]
 pd.i = (adnId, n) => pd.e(adnId) && pd.e(adnId)[n]
 
-
-
 wsDbC.runWsOpenInPromise = (sendJson) => {
     const send = JSON.stringify(
         Object.assign(sendJson, { sql: wsDbC.replaceAdnId(sendJson) }))
