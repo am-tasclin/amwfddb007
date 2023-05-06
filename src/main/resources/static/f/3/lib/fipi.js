@@ -83,4 +83,4 @@ fipiFn.childIdConcat = (pId, cIdL) => cIdL.push(pId) && pd.parentChild[pId] &&
     pd.parentChild[pId].forEach(p2Id => fipiFn.childIdConcat(p2Id, cIdL)) || cIdL
 
 fipiFn.pps = ppId => fipi.ppId && fipi.ppId[ppId]
-    && fipi.ppId[ppId].l_pp || [] 
+    && fipi.ppId[ppId].l_pp || []

@@ -26,10 +26,7 @@ export default {
         },
     }, template: `
 <div class="w3-hover-shadow">
-    <span class="w3-dropdown-hover w3-white">
-        <span class="w3-small w3-hover-shadow" @click="adnClick"> {{adnId}} </span>
-        <AdnMenu :adnId="adnId" :ppId="ppId" :pp="pp" :fipId="fipId" :lrPl2="lrPl2" />
-    </span>
+    <AdnMenu :adnId="adnId" :ppId="ppId" :pp="pp" :fipId="fipId" :lrPl2="lrPl2" />
     {{i('value_22')}}
     <span class="w3-small"> <span v-if="i('r_value_22')">::</span>{{i('r_value_22')}} </span>
     <span class="w3-tiny" v-if="i('rr_value_22')">::{{i('rr_value_22')}}</span>
