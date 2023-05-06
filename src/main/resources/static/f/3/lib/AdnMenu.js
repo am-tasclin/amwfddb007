@@ -8,6 +8,10 @@ fipiFn.reviewAdnMenu = (ppId, pp) => {
     const fipPP = fipi.ppId[ppId].pp[pp]
     Object.keys(fipPP.fipId).find(fipId => Object.keys(fipPP.fipId[fipId].adnMenu)
         .find(adnId => { fipPP.fipId[fipId].adnMenu[adnId].count++ }))
+    fipPP.ppl2 &&
+        Object.keys(fipPP.ppl2.fipId).find(fipId => Object.keys(fipPP.ppl2.fipId[fipId].adnMenu)
+            .find(adnId => { fipPP.ppl2.fipId[fipId].adnMenu[adnId].count++ }))
+
 }
 
 export default {
@@ -15,7 +19,7 @@ export default {
     data() { return { count: 0 } },
     mounted() {
         const fhirPartPath = fipiFn.fhirPP(this.ppId, this.pp, this.fipId, this.lrPl2)
-        !fhirPartPath.fhirPart && (fhirPartPath.adnMenu = {})
+        !fhirPartPath.adnMenu && (fhirPartPath.adnMenu = {})
         fhirPartPath.adnMenu[this.adnId] = this
     }, methods: {
         sortUp() {
@@ -61,13 +65,16 @@ export default {
             pd.adnDialogWindow.type == 'paste' && type == 'paste'
                 && delete pd.adnDialogWindow.type
                 || (pd.adnDialogWindow.type = type)
-
-            pd.adnDialogWindow.adnId = this.adnId
             pd.adnDialogWindow.editType == editType
+                && pd.adnDialogWindow.adnId == this.adnId
                 && delete pd.adnDialogWindow.editType
                 || (pd.adnDialogWindow.editType = editType)
+            pd.adnDialogWindow.adnId = this.adnId
             fipiFn.reviewAdnMenu(this.ppId, this.pp)
-        },
+        },adnClick() {
+            console.log(this.adnId, this.ppId, this.pp, this.fipId, this.lrPl2)
+            fipiFn.onOffChild(this.adnId, this.ppId, this.pp, this.fipId, this.lrPl2)
+        }
     }, template: `
 <span class="w3-dropdown-hover w3-white">
     <span class="w3-small w3-hover-shadow" @click="adnClick"> {{adnId}} </span>
@@ -104,13 +111,13 @@ export default {
         {{adnId}}
     </div> 
 </span>&nbsp;
-<span class="w3-small w3-text-blue" v-if="thisAdnDialogWindow()">✎</span>
-<span class="w3-small w3-text-blue" v-if="isCopy()">⧉</span>
 <div class="w3-card-4 w3-leftbar" v-if="isFixedAdnDialogWindow()" style="width: 34em;" >
     a22
     <p>
     a33
     </p>
 </div> <span class="w3-hide"> {{count}} </span>
+<span class="w3-small w3-text-blue" v-if="thisAdnDialogWindow()">✎</span>
+<span class="w3-small w3-text-blue" v-if="isCopy()">⧉</span>
 `
 }

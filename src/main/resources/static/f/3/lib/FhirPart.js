@@ -17,11 +17,7 @@ export default {
     }, methods: {
         i(n) { return pd.i(this.adnId, n) },
         parentChild(adnId) { return pd.parentChild[adnId] || [] },
-        adnClick() {
-            console.log(this.adnId, this.ppId, this.pp, this.fipId, this.lrPl2)
-            fipiFn.onOffChild(this.adnId, this.ppId, this.pp, this.fipId, this.lrPl2)
-            // this.count++
-        }, isOpenChild() {
+        isOpenChild() {
             return fipiFn.isOpenChild(this.adnId, this.ppId, this.pp, this.fipId, this.lrPl2)
         },
     }, template: `
