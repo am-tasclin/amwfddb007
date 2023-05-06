@@ -1,6 +1,7 @@
 'use strict'
 import { pd } from '/f/3/lib/pd_wsDbC.js'
 import { fipi, fipiFn } from '/f/3/lib/fipi.js'
+import AdnEnterData from '/f/3/lib/AdnEnterData.js'
 
 pd.getAdnDialogWindow = () => pd.adnDialogWindow || (pd.adnDialogWindow = {})
 
@@ -11,12 +12,12 @@ fipiFn.reviewAdnMenu = (ppId, pp) => {
     fipPP.ppl2 &&
         Object.keys(fipPP.ppl2.fipId).find(fipId => Object.keys(fipPP.ppl2.fipId[fipId].adnMenu)
             .find(adnId => { fipPP.ppl2.fipId[fipId].adnMenu[adnId].count++ }))
-
 }
 
 export default {
     props: { adnId: Number, ppId: Number, pp: String, fipId: Number, lrPl2: Boolean },
     data() { return { count: 0 } },
+    components: { AdnEnterData },
     mounted() {
         const fhirPartPath = fipiFn.fhirPP(this.ppId, this.pp, this.fipId, this.lrPl2)
         !fhirPartPath.adnMenu && (fhirPartPath.adnMenu = {})
@@ -71,7 +72,10 @@ export default {
                 || (pd.adnDialogWindow.editType = editType)
             pd.adnDialogWindow.adnId = this.adnId
             fipiFn.reviewAdnMenu(this.ppId, this.pp)
-        },adnClick() {
+
+            console.log(pd.adnDialogWindow)
+
+        }, adnClick() {
             console.log(this.adnId, this.ppId, this.pp, this.fipId, this.lrPl2)
             fipiFn.onOffChild(this.adnId, this.ppId, this.pp, this.fipId, this.lrPl2)
         }
@@ -90,10 +94,7 @@ export default {
             ｜
             <button class="w3-btn am-b w3-text-blue" @click="cleanEdit()">－✎⧉</button>
             <div class="w3-dropdown-content w3-card-4 w3-leftbar" v-if="isFlyAdnDialogWindow()" >
-                a22
-                <p>
-                a33
-                </p>
+                <AdnEnterData :adnId="adnId"/>
             </div>
         </div>
         <div class="w3-border-top">
@@ -101,21 +102,25 @@ export default {
             <button class="w3-btn am-b" @click="setAdnDialogWindow('cut')" title="cut - вирізати">✀</button>
             <button class="w3-btn am-b" @click="setAdnDialogWindow('paste')" title="paste - вставити">⧠</button>
             <div class="w3-dropdown-content w3-card-4 w3-leftbar" v-if="isPaste()" >
-                a22
-                <p>
-                a33
-                </p>
+                <button class="w3-btn am-b" @click="setAdnDialogWindow('paste')" title="paste - вставити">⧠</button>
+                <div>
+                    <button @click="setAdnDialogWindow('paste')" class="w3-btn w3-small" 
+                        title="reference">type-1 r&nbsp; ⮫</button>
+                        __
+                </div> <div>
+                    <button @click="setAdnDialogWindow('paste')" class="w3-btn w3-small" 
+                        title="reference2">type-2 r2 ⮫</button>
+                        __
+                </div>
+                <button class="w3-btn am-b" @click="setAdnDialogWindow('paste')" title="paste inner - вставити внутрішній">+₊⧠</button>
             </div>
         </div>
-        Hi Menu  |
-        {{adnId}}
+        Hi Menu | {{adnId}}
     </div> 
 </span>&nbsp;
-<div class="w3-card-4 w3-leftbar" v-if="isFixedAdnDialogWindow()" style="width: 34em;" >
-    a22
-    <p>
-    a33
-    </p>
+<span class="w3-small w3-text-blue" v-if="isFixedAdnDialogWindow()">✎</span>
+<div class="w3-card-4 w3-leftbar am-width-100pr" v-if="isFixedAdnDialogWindow()" >
+    <AdnEnterData :adnId="adnId"/>
 </div> <span class="w3-hide"> {{count}} </span>
 <span class="w3-small w3-text-blue" v-if="thisAdnDialogWindow()">✎</span>
 <span class="w3-small w3-text-blue" v-if="isCopy()">⧉</span>
