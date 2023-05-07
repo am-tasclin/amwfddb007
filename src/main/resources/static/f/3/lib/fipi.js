@@ -19,7 +19,6 @@ fipiFn.initPPBlock = () => {
 
     fipiList.filter(adnId => pd.eMap[adnId].reference != fipi2.FhirInfoPageJsonId)
         .forEach(adnId => fipiFn.initFromURI(pd.eMap[adnId].value_22, adnId))
-
 }
 
 fipiFn.initPageParts = (rawFipiStr, ppId) => {
