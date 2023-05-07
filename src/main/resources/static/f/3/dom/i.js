@@ -32,6 +32,4 @@ tPageParts.component('t-page-parts', TPageParts)
 tPageParts.component('t-fhir-part', FhirPart)
 tPageParts.mount('#tPageParts')
 
-createApp({ data() { return { hash: window.location.hash.substring(1) } }, })
-    .mount('#headTitle')
-
+fipiFn.headTitleApp(createApp)

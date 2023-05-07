@@ -96,3 +96,12 @@ fipiFn.childIdConcat = (pId, cIdL) => cIdL.push(pId) && pd.parentChild[pId] &&
 
 fipiFn.pps = ppId => fipi.ppId && fipi.ppId[ppId]
     && fipi.ppId[ppId].l_pp || []
+
+
+fipiFn.headTitle = () => window.location.hash.includes('#cj=')
+    && (window.location.hash.substring(1).length + 'configJson')
+    || window.location.hash.substring(1)
+
+fipiFn.headTitleApp = createApp =>
+    createApp({ data() { return { hash: fipiFn.headTitle() } }, })
+        .mount('#headTitle')

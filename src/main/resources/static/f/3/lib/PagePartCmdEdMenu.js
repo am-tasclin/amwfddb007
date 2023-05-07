@@ -55,7 +55,8 @@ export default {
             </div>
             <div class="w3-threequarter w3-container w13-border-left">
                 <div class="w3-row w3-tiny am-b w3-border-bottom">
-                    <div class="w3-half"> pageParts </div> <div class="w3-half"> pane2, right </div>
+                    <div class="w3-half"> pageParts </div> 
+                    <div class="w3-half w3-container"> pane2, right </div>
                 </div>
                 <div class="w3-row w3-border-bottom" v-for="pp in pps()" class="w3-hover-shadow">
                     <div class="w3-half">
@@ -65,13 +66,9 @@ export default {
                         <input :value="ppIdFn().pp[pp].l_fipId.join(', ')" class="w3-hover-shadow w3-small am-width-100pr">
                     </div>
                     <div class="w3-half w3-container">
-                        <div v-if="'lr'==pp">
-                            <span class="w3-opacity a1m-u">
-                                p2
-                            </span>
+                        <div v-if="'lr'==pp"> <span class="w3-opacity a1m-u"> &nbsp; </span>
                             <input class="w3-hover-shadow w3-small am-width-100pr"/>
                         </div>
-                        {{epl2Data[pp]}}
                         <span v-for="k2 in ppIdFn().pp[pp].l_fipId" class="w3-small">
                             <template v-if="'lr'!=pp">
                                 <label><input v-model="epl2Data[pp]"
