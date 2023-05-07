@@ -11,7 +11,6 @@ export default {
         pd.ppCmdEd[this.ppId] = this
         this.setPpcvName('JSON')
         console.log(fipi.ppId[this.ppId])
-        
     }, methods: {
         keys(o) { return Object.keys(o) },
         fip(fip) { return wsDbC.fip[fip] },
@@ -63,15 +62,15 @@ export default {
                         <span>
                     </div>
                 </div>
-                a3
+                 a3
                 <div class="w3-opacity w3-tiny">
-                <div v-if="'JSON'==ppsFipi().ppcv"  style="white-space: pre; overflow: auto;">
+                	<div v-if="'JSON'==ppsFipi().ppcv"  style="white-space: pre; overflow: auto;">
                         {{ppcvJsonStr()}}
                     </div>
                     <div v-else>
                     a1
                     <!-- >,&nbsp; {{ppsFipi().json[pp].join(', ')}} -->
-                        <div  v-for="pp in pps()" class="w3-hover-shadow">
+                        <div v-for="pp in pps()" class="w3-hover-shadow">
                             <span class="am-b">{{pp}}</span
                             >,&nbsp; {{ppIdFn().pp[pp].l_fipId.join(', ')}}
                             <div v-for="pl2 in ppsFipi().pl2[pp]">
@@ -150,3 +149,4 @@ ppCmdBuild.ppsFipi = (ppId, ppFips) => {
         ) && o2, {})
     ) && o, {})
 }
+

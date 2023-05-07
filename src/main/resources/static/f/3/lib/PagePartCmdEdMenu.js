@@ -2,6 +2,16 @@
 import { cl } from '/f/3/lib/common_lib.js'
 import { fipi, fipiFn } from '/f/3/lib/fipi.js'
 
+fipiFn.confJson = ppId => JSON.stringify(fipi.ppId[ppId], (k, v) =>
+    !['pagePartCmdEdMenu', 'fhirPart', 'adnMenu', 'buildJson'].includes(k)
+    && v || undefined)
+
+fipiFn.ppcvJsonStr = ppFips => JSON.stringify(ppFips, '', 2)
+    .replace(/",\s+"/g, '", "')
+    .replace(/\[\s+"/g, '["')
+    .replace(/"\s+\]/g, '"]')
+    .replace(/\s+}/g, '}')
+
 export default {
     props: { ppId: Number }, data() { return { count: 0, ppIdStrHash: '', epl2Data: {}, } },
     mounted() {
@@ -10,20 +20,20 @@ export default {
             .reduce((o, pp) => (o[pp] = !fipi.ppId[this.ppId].pp[pp].epl2 && [] ||
                 Object.assign([], fipi.ppId[this.ppId].pp[pp].epl2.l_fipId)) && o, this.epl2Data)
     }, methods: {
-        pps() { return fipiFn.pps(this.ppId) },
+        pps() { return fipi.ppId[this.ppId].l_pp },
+        ppO(pp) { return fipi.ppId[this.ppId].pp[pp] },
+        ppIdFn() { return !fipi.ppId && {} || fipi.ppId[this.ppId] },
         fip(fip) { return fipiFn.fip[fip] || '?' },
         ppCmdEdOnOff() { cl.W3ShowOnOff('ppCmdEd_' + this.ppId) },
-        ppIdFn() { return !fipi.ppId && {} || fipi.ppId[this.ppId] },
         ppConfType(ppConfTypeName) {
             fipi.ppId[this.ppId].confType = ppConfTypeName
             console.log(this.ppId, ppConfTypeName, fipi.ppId[this.ppId])
             this.count++
         },
-        confUri() {
+        confJsonStr(){ return fipiFn.ppcvJsonStr(JSON.parse(fipiFn.confJson(this.ppId)))},
+        confJson() {
             fipi.ppId[this.ppId].forPpId = this.ppId
-            this.ppIdStrHash = JSON.stringify(fipi.ppId[this.ppId], (k, v) =>
-                !['pagePartCmdEdMenu', 'fhirPart', 'adnMenu', 'buildJson'].includes(k)
-                && v || undefined)
+            this.ppIdStrHash = fipiFn.confJson(this.ppId)
         },
     }, template: `
 <span class="w3-dropdown-click">
@@ -32,7 +42,7 @@ export default {
     </button>
     <div :id="'ppCmdEd_'+ppId" class="w3-dropdown-content w3-container w3-hover-shadow w3-border"
         style="right: -1em; width: 52em;">
-        <button class="w3-btn w3-border w3-padding-small w3-tiny" @click="confUri">confUri</button>
+        <button class="w3-btn w3-border w3-padding-small w3-tiny" @click="confJson">confJson</button>
         <div class="w3-tiny w3-border-bottom"> 
         <a :href="'#cj='+ppIdStrHash" target="_blank">{{ppIdStrHash}}</a>
         </div>
@@ -52,6 +62,19 @@ export default {
                     v-for="ppConfTypeName in ['URI','JSON']" class="w3-hover-shadow am-b">
                         &nbsp; {{ppConfTypeName}}, </span>&nbsp;{{ppId}}
                 </div>
+                <div v-if="'JSON'==ppIdFn().confType" class="w3-opacity w3-tiny"
+                        style="white-space: pre; overflow: auto;" >
+                    {{confJsonStr()}}
+                </div>
+                <template v-else>
+                <div v-for="pp in pps()" class="w3-hover-shadow w3-opacity w3-small">
+                    <b> {{pp}}</b>, {{ppO(pp).l_fipId.join(', ')}};
+                    <span v-if="ppO(pp).ppl2"><span class="am-b">{{pp}}_ppl2</span>,
+                        {{ppO(pp).ppl2.l_fipId.join(', ')}};</span>
+                    <span v-if="ppO(pp).epl2"><span class="am-b">{{pp}}_epl2</span>,
+                        {{ppO(pp).epl2.l_fipId.join(', ')}};</span>
+                </div>
+                </template>
             </div>
             <div class="w3-threequarter w3-container w13-border-left">
                 <div class="w3-row w3-tiny am-b w3-border-bottom">
@@ -79,7 +102,6 @@ export default {
                 </div>
             </div>
         </div>
-        Hi a2
     </div>
 </span> <span class="w3-hide">{{count}}</span>
     `,

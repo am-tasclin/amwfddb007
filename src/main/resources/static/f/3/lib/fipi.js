@@ -34,7 +34,7 @@ fipiFn.initPageParts = (rawFipiStr, ppId) => {
 
 fipiFn.initFromJson = (jsonStr, ppId) => {
     const json = JSON.parse(decodeURI(jsonStr))
-    console.log(json.forPpId)
+    console.log(json.forPpId,'to test')
     !fipi.l_ppId && (fipi.l_ppId = [])
     !fipi.l_ppId[json.forPpId] && fipi.l_ppId.splice(0, 0, json.forPpId)
 
@@ -42,7 +42,6 @@ fipiFn.initFromJson = (jsonStr, ppId) => {
         && (fipi.ppId[json.forPpId] = json)
         && delete json.forPpId
 }
-
 
 fipiFn.initFromURI = (rawFipiStr, ppId) => {
     !fipi.l_ppId && (fipi.l_ppId = []); fipi.l_ppId.push(ppId)

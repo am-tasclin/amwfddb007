@@ -19,7 +19,8 @@ wsDbC.cmdList = [{
     },
 }, {
     thenFn: event => {
-        console.log(123, 'wsDbC.cmdList[1] 2', pd.eMap)
+        console.log(123, 'wsDbC.cmdList[1] 2',)
+        // console.log(123, 'wsDbC.cmdList[1] 2', pd.eMap)
         fipi2.viewAdnAfterRead()
     }
 }]; wsDbC.cmdListItem = 0
