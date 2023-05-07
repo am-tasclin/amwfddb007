@@ -81,7 +81,7 @@ fipi2.FhirInfoPageId = 376617 // [376617] am001fip/CodeSystem/FhirInfoPage title
 fipi2.FhirInfoPageJsonId = 376631 // [376631] json FIP: (r:376618) 
 
 fipi2.viewAdnAfterRead = () => {
-    console.log(fipi)
+    // console.log(fipi)
     fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => {
         fipi.ppId[ppId].pp[pp].l_fipId.find(adnId =>
             fipi.ppId[ppId].pp[pp].fipId[adnId].fhirPart[adnId].count++)

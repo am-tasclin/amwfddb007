@@ -3,10 +3,12 @@ import { cl } from '/f/3/lib/common_lib.js'
 import { fipi, fipiFn } from '/f/3/lib/fipi.js'
 
 export default {
-    props: { ppId: Number }, data() { return { count: 0, ppIdStrHash: '' } },
+    props: { ppId: Number }, data() { return { count: 0, ppIdStrHash: '', epl2Data: {}, } },
     mounted() {
         this.ppCmdEdOnOff()
-        console.log(fipi)
+        fipi.ppId[this.ppId].l_pp.filter(pp => 'lr' != pp)
+            .reduce((o, pp) => (o[pp] = !fipi.ppId[this.ppId].pp[pp].epl2 && [] ||
+                Object.assign([], fipi.ppId[this.ppId].pp[pp].epl2.l_fipId)) && o, this.epl2Data)
     }, methods: {
         pps() { return fipiFn.pps(this.ppId) },
         fip(fip) { return fipiFn.fip[fip] || '?' },
@@ -69,9 +71,11 @@ export default {
                             </span>
                             <input class="w3-hover-shadow w3-small am-width-100pr"/>
                         </div>
+                        {{epl2Data[pp]}}
                         <span v-for="k2 in ppIdFn().pp[pp].l_fipId" class="w3-small">
                             <template v-if="'lr'!=pp">
-                                <label><input type="checkbox" :value="k2"/>{{k2}}</label>,
+                                <label><input v-model="epl2Data[pp]"
+                                type="checkbox" :value="k2"/>&nbsp;{{k2}}</label>,
                             </template>
                         </span>
                     </div>
