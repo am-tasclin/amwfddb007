@@ -26,11 +26,24 @@ fipiFn.initPageParts = (rawFipiStr, ppId) => {
     // console.log(rawFipiStr, ppId)
 
     !rawFipiStr.includes('itjn=')
+    !rawFipiStr.includes('cj=')
         && fipiFn.initFromURI(rawFipiStr, ppId)
 
-    rawFipiStr.includes('itjn=') &&
-        fipiFn.initFromJson(rawFipiStr.replace('itjn=', ''), ppId)
+    rawFipiStr.includes('cj=') &&
+        fipiFn.initFromJson(rawFipiStr.replace('cj=', ''), ppId)
 }
+
+fipiFn.initFromJson = (jsonStr, ppId) => {
+    const json = JSON.parse(decodeURI(jsonStr))
+    console.log(json.forPpId)
+    !fipi.l_ppId && (fipi.l_ppId = [])
+    !fipi.l_ppId[json.forPpId] && fipi.l_ppId.splice(0, 0, json.forPpId)
+
+    !fipi.ppId && json.forPpId && (fipi.ppId = {})
+        && (fipi.ppId[json.forPpId] = json)
+        && delete json.forPpId
+}
+
 
 fipiFn.initFromURI = (rawFipiStr, ppId) => {
     !fipi.l_ppId && (fipi.l_ppId = []); fipi.l_ppId.push(ppId)
