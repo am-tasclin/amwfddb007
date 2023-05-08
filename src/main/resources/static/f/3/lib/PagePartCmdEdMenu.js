@@ -15,7 +15,7 @@ fipiFn.ppcvJsonStr = ppFips => JSON.stringify(ppFips, '', 2)
 export default {
     props: { ppId: Number }, data() { return { count: 0, ppIdStrHash: '', epl2Data: {}, } },
     mounted() {
-        this.ppCmdEdOnOff()
+        // this.ppCmdEdOnOff()
         fipi.ppId[this.ppId].l_pp.filter(pp => 'lr' != pp)
             .reduce((o, pp) => (o[pp] = !fipi.ppId[this.ppId].pp[pp].epl2 && [] ||
                 Object.assign([], fipi.ppId[this.ppId].pp[pp].epl2.l_fipId)) && o, this.epl2Data)

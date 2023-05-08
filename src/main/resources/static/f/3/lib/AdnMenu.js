@@ -23,6 +23,7 @@ export default {
         !fhirPartPath.adnMenu && (fhirPartPath.adnMenu = {})
         fhirPartPath.adnMenu[this.adnId] = this
     }, methods: {
+        i(n) { return pd.i(this.adnId, n) },
         sortUp() {
             console.log(123)
         }, sortDown() {
@@ -78,11 +79,19 @@ export default {
         }, adnClick() {
             console.log(this.adnId, this.ppId, this.pp, this.fipId, this.lrPl2)
             fipiFn.onOffChild(this.adnId, this.ppId, this.pp, this.fipId, this.lrPl2)
-        }
+        }, viewIdrr2p() {
+            this.count++
+        },
     }, template: `
 <span class="w3-dropdown-hover w3-white">
     <span class="w3-small w3-hover-shadow" @click="adnClick"> {{adnId}} </span>
-    <div class="w3-dropdown-content w3-border w3-hover-shadow" style="width:16em;">
+    <div class="w3-dropdown-content w3-border w3-hover-shadow" style="width:18em;">
+        <div class="w3-bar w3-tiny">
+            <button @click="viewIdrr2p" class="w3-bar-item w3-btn w3-padding-small">{{adnId}}</button>
+            <button class="w3-bar-item w3-btn w3-padding-small">r: {{i('reference')}}</button>
+            <button class="w3-bar-item w3-btn w3-padding-small">r2: {{i('reference2')}}</button>
+            <button class="w3-bar-item w3-btn w3-padding-small">p: {{i('parent')}}</button>
+        </div> 
         <button class="w3-btn" @click="sortUp()">⬆</button>
         <button class="w3-btn" @click="sortDown()">⬇</button>
         ｜
@@ -103,19 +112,18 @@ export default {
             <button class="w3-btn am-b" @click="setAdnDialogWindow('paste')" title="paste - вставити">⧠</button>
             <div class="w3-dropdown-content w3-card-4 w3-leftbar" v-if="isPaste()" >
                 <button class="w3-btn am-b" @click="setAdnDialogWindow('paste')" title="paste - вставити">⧠</button>
-                <div>
+                <div class="w3-small">
+                    <button @click="setAdnDialogWindow('paste')" class="w3-btn" 
+                        title="reference">type-1 ⮫</button>
+                    <button class="w3-btn w3-padding-small" title="copy r">r: {{i('reference')}}</button>
+                </div> <div class="w3-small">
                     <button @click="setAdnDialogWindow('paste')" class="w3-btn w3-small" 
-                        title="reference">type-1 r&nbsp; ⮫</button>
-                        __
-                </div> <div>
-                    <button @click="setAdnDialogWindow('paste')" class="w3-btn w3-small" 
-                        title="reference2">type-2 r2 ⮫</button>
-                        __
+                        title="reference2">type-2 ⮫</button>
+                    <button class="w3-btn w3-padding-small" title="copy r2">r2: {{i('reference2')}}</button>
                 </div>
                 <button class="w3-btn am-b" @click="setAdnDialogWindow('paste')" title="paste inner - вставити внутрішній">+₊⧠</button>
             </div>
         </div>
-        Hi Menu | {{adnId}}
     </div> 
 </span>&nbsp;
 <span class="w3-small w3-text-blue" v-if="isFixedAdnDialogWindow()">✎</span>
