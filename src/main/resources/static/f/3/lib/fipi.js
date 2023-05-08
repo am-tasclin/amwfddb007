@@ -1,5 +1,7 @@
 'use strict'
 import { pd } from '/f/3/lib/pd_wsDbC.js'
+import EdCopyCut from '/f/3/lib/EdCopyCut.js'
+
 export const
     fipi = {},// FHIR Info Page Interface
     fipi2 = {},
@@ -34,7 +36,7 @@ fipiFn.initPageParts = (rawFipiStr, ppId) => {
 
 fipiFn.initFromJson = (jsonStr, ppId) => {
     const json = JSON.parse(decodeURI(jsonStr))
-    console.log(json.forPpId,'to test')
+    console.log(json.forPpId, 'to test')
     !fipi.l_ppId && (fipi.l_ppId = [])
     !fipi.l_ppId[json.forPpId] && fipi.l_ppId.splice(0, 0, json.forPpId)
 
@@ -104,3 +106,9 @@ fipiFn.headTitle = () => window.location.hash.includes('#cj=')
 fipiFn.headTitleApp = createApp =>
     createApp({ data() { return { hash: fipiFn.headTitle() } }, })
         .mount('#headTitle')
+
+fipiFn.edCopyCut = createApp => {
+    const edCopyCut = createApp()
+    edCopyCut.component('t-ed-copy-cut', EdCopyCut)
+    edCopyCut.mount('#edCopyCut')
+}

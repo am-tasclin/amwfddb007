@@ -33,4 +33,5 @@ tPageParts.component('t-page-parts', TPageParts)
 tPageParts.component('t-fhir-part', FhirPart)
 tPageParts.mount('#tPageParts')
 
+fipiFn.edCopyCut(createApp)
 fipiFn.headTitleApp(createApp)

@@ -12,6 +12,9 @@ fipiFn.reviewAdnMenu = (ppId, pp) => {
     fipPP.ppl2 &&
         Object.keys(fipPP.ppl2.fipId).find(fipId => Object.keys(fipPP.ppl2.fipId[fipId].adnMenu)
             .find(adnId => { fipPP.ppl2.fipId[fipId].adnMenu[adnId].count++ }))
+    fipi.edCopyCut
+        && fipi.edCopyCut.count++
+
 }
 
 export default {
@@ -41,10 +44,20 @@ export default {
         }
         , thisAdnDialogWindow() { return pd.adnDialogWindow && pd.adnDialogWindow.adnId == this.adnId }
         , isCopy() { return pd.adnDialogWindow && pd.adnDialogWindow.adnIdCopy == this.adnId }
+        , isCut() { return pd.adnDialogWindow && pd.adnDialogWindow.adnIdCut == this.adnId }
+        , setCut() {
+            pd.getAdnDialogWindow()
+            pd.adnDialogWindow.adnIdCut = this.adnId
+            delete pd.adnDialogWindow.adnIdCopy
+            fipiFn.reviewAdnMenu(this.ppId, this.pp)
+            console.log(pd.adnDialogWindow)
+        }
         , setCopy() {
             pd.getAdnDialogWindow()
             pd.adnDialogWindow.adnIdCopy = this.adnId
+            delete pd.adnDialogWindow.adnIdCut
             fipiFn.reviewAdnMenu(this.ppId, this.pp)
+            console.log(pd.adnDialogWindow, fipi)
         }, isPaste() {
             return pd.adnDialogWindow
                 && pd.adnDialogWindow.adnId == this.adnId
@@ -108,7 +121,7 @@ export default {
         </div>
         <div class="w3-border-top">
             <button class="w3-btn am-b" @click="setCopy()" title="copy - копіювати">⧉</button>
-            <button class="w3-btn am-b" @click="setAdnDialogWindow('cut')" title="cut - вирізати">✀</button>
+            <button class="w3-btn am-b" @click="setCut()" title="cut - вирізати">✀</button>
             <button class="w3-btn am-b" @click="setAdnDialogWindow('paste')" title="paste - вставити">⧠</button>
             <div class="w3-dropdown-content w3-card-4 w3-leftbar" v-if="isPaste()" >
                 <button class="w3-btn am-b" @click="setAdnDialogWindow('paste')" title="paste - вставити">⧠</button>
@@ -132,5 +145,6 @@ export default {
 </div> <span class="w3-hide"> {{count}} </span>
 <span class="w3-small w3-text-blue" v-if="thisAdnDialogWindow()">✎</span>
 <span class="w3-small w3-text-blue" v-if="isCopy()">⧉</span>
+<span class="w3-small w3-text-blue" v-if="isCut()">✀</span>
 `
 }

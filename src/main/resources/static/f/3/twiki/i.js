@@ -64,5 +64,6 @@ tWiki.component('t-wiki', TWiki)
 tWiki.component('t-fhir-part', FhirPart)
 tWiki.mount('#tWiki')
 
-createApp({ data() { return { pageId: pageId } }, })
-    .mount('#headTitle')
+fipiFn.edCopyCut(createApp)
+
+createApp({ data() { return { pageId: pageId } }, }).mount('#headTitle')
