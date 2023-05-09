@@ -1,6 +1,7 @@
 'use strict'
 export const
     sql_app = {} //sql_app: SQL Library
+    , sql_app_ws = {} //sql_app: SQL Library
     , pd = {
         session: {}, //sn: session
     } //pd: Page Data
