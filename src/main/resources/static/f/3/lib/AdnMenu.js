@@ -14,7 +14,25 @@ fipiFn.reviewAdnMenu = (ppId, pp) => {
             .find(adnId => { fipPP.ppl2.fipId[fipId].adnMenu[adnId].count++ }))
     fipi.edCopyCut
         && fipi.edCopyCut.count++
+}
 
+fipiFn.sortUpDown = (direction, adnId) => {
+    const parent = pd.eMap[adnId].parent
+        , l = pd.parentChild[parent]
+        , position = l.indexOf(adnId)
+    l.splice(position, 1)
+    let rounded = false
+    position == 0 && direction < 0 && l.push(adnId)
+        && (rounded = true) //first to end
+    position == l.length && direction > 0 && l.splice(0, 0, adnId)
+        && (rounded = true) //last to first
+    !rounded && l.splice(position + direction, 0, adnId)
+    console.log(l, fipi, parent)
+    fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].l_fipId
+        .filter(fipId => Object.keys(fipi.ppId[ppId].pp[pp].fipId[fipId]
+            .fhirPart).includes('' + parent))
+        .forEach(fipId => fipi.ppId[ppId].pp[pp].fipId[fipId]
+            .fhirPart[parent].count++)))
 }
 
 export default {
@@ -28,9 +46,9 @@ export default {
     }, methods: {
         i(n) { return pd.i(this.adnId, n) },
         sortUp() {
-            console.log(123)
+            fipiFn.sortUpDown(-1, this.adnId)
         }, sortDown() {
-            console.log(123)
+            fipiFn.sortUpDown(1, this.adnId)
         }, sortPlus() {
             console.log(123)
         }, sortMinus() {
@@ -90,7 +108,6 @@ export default {
             console.log(pd.adnDialogWindow)
 
         }, adnClick() {
-            console.log(this.adnId, this.ppId, this.pp, this.fipId, this.lrPl2)
             fipiFn.onOffChild(this.adnId, this.ppId, this.pp, this.fipId, this.lrPl2)
         }, viewIdrr2p() {
             this.count++
