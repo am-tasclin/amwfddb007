@@ -27,12 +27,26 @@ fipiFn.sortUpDown = (direction, adnId) => {
     position == l.length && direction > 0 && l.splice(0, 0, adnId)
         && (rounded = true) //last to first
     !rounded && l.splice(position + direction, 0, adnId)
-    console.log(l, fipi, parent)
+
+    !pd.dbSave && (pd.dbSave = {})
+    !pd.dbSave.sortParentChild && (pd.dbSave.sortParentChild = [])
+    !pd.dbSave.sortParentChild.includes(parent) && (pd.dbSave.sortParentChild.push(parent))
+
+    pd.getAdnDialogWindow().adnId = parent
+    fipi.edCopyCut
+        && fipi.edCopyCut.count++
+        
+    console.log(l, fipi, parent, pd.dbSave, pd.getAdnDialogWindow())
+
     fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].l_fipId
-        .filter(fipId => Object.keys(fipi.ppId[ppId].pp[pp].fipId[fipId]
-            .fhirPart).includes('' + parent))
-        .forEach(fipId => fipi.ppId[ppId].pp[pp].fipId[fipId]
+        .filter(fipId => fipi.ppId[ppId].pp[pp].fipId[fipId].fhirPart[parent]
+        ).forEach(fipId => fipi.ppId[ppId].pp[pp].fipId[fipId]
             .fhirPart[parent].count++)))
+    fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].ppl2
+        && fipi.ppId[ppId].pp[pp].ppl2.l_fipId
+            .filter(fipId => fipi.ppId[ppId].pp[pp].ppl2.fipId[fipId].fhirPart[parent]
+            ).forEach(fipId => fipi.ppId[ppId].pp[pp].ppl2.fipId[fipId]
+                .fhirPart[parent].count++)))
 }
 
 export default {
