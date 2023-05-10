@@ -2,6 +2,7 @@ package org.algoritmed.amwfddb007;
 
 import org.algoritmed.amwfddb007.webflux.HelloComponent;
 import org.algoritmed.amwfddb007.websocket.DbSelectWebSocketHandler;
+import org.algoritmed.amwfddb007.websocket.DbRwWebSocketHandler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,6 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import java.util.HashMap;
 import java.util.Map;
 
-
 @SpringBootApplication
 public class Amwfddb007Application {
 
@@ -34,9 +34,15 @@ public class Amwfddb007Application {
 	}
 
 	@Bean
+	public DbRwWebSocketHandler dbRwWebSocketHandler() {
+		return new DbRwWebSocketHandler();
+	}
+
+	@Bean
 	public HandlerMapping handlerMapping() {
 		Map<String, WebSocketHandler> map = new HashMap<>();
 		map.put("/dbSelect", dbSelectWebSocketHandler());
+		map.put("/dbRw", dbRwWebSocketHandler());
 		// logger.info("-26-\n" + map);
 		return new SimpleUrlHandlerMapping(map, Ordered.HIGHEST_PRECEDENCE);
 	}

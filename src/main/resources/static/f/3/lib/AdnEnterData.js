@@ -25,7 +25,7 @@ export default {
 <div class="w3-container">
     <span class="w3-tiny">Edit & Enter Adn Content Data</span>
     <div><textarea v-model="value_22" class="am-width-100pr" /></div>
-    <button @click="enterData" class="w3-btn w3-border">OK</button>
+    <button @click="enterData" class="w3-btn w3-border">send-відправити</button>
     {{adnId}}
 </div> <span class="w3-hide"> {{count}} </span>
     `,

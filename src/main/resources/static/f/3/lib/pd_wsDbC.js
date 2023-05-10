@@ -137,4 +137,6 @@ sql_app.adn01 = {
      LEFT JOIN sort o ON sort_id =d.doc_id ",
 }
 
+console.log(window.location.host)
+
 wsDbC.wsDbSelect = new WebSocket("ws://" + window.location.host + "/dbSelect")
