@@ -42,8 +42,11 @@ export default {
     </button>
     <div :id="'ppCmdEd_'+ppId" class="w3-dropdown-content w3-container w3-hover-shadow w3-border"
         style="right: -1em; width: 52em;">
-        <button class="w3-btn w3-border w3-padding-small w3-tiny" @click="confJson">confJson</button>
-        <div class="w3-tiny w3-border-bottom"> 
+        <div class="w3-border-bottom"> &nbsp;
+            <button class="w3-btn w3-border w3-padding-small w3-white w3-tiny w3-left" @click="confJson">confJson</button>
+            <span class="w3-tiny w3-opacity w3-right">{{ppId}}<span>
+        </div>
+        <div class="w3-tiny ">
         <a :href="'#cj='+ppIdStrHash" target="_blank">{{ppIdStrHash}}</a>
         </div>
         <div class="w3-row">

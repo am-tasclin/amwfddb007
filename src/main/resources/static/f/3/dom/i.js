@@ -25,6 +25,7 @@ wsDbC.cmdList = [{
     }
 }]; wsDbC.cmdListItem = 0
 
+// wsDbC.runWsOpenInPromise(wsDbC.cmdList[0].sendJson)
 wsDbC.runWsOpenInPromise(wsDbC.cmdList[0].sendJson)
     .then(wsDbC.cmdList[0].thenFn)
 

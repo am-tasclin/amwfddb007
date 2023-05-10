@@ -1,6 +1,7 @@
 'use strict'
 import { pd, sql_app_ws } from '/f/3/lib/pd_wsDbC.js'
 import { fipi } from '/f/3/lib/fipi.js'
+import { wsDbRw } from '/f/3/lib/wsDbRw.js'
 
 sql_app_ws.getSendSql = () => sql_app_ws.sendSql || (sql_app_ws.sendSql = {})
 sql_app_ws.sqlSort = parentSortId => {
@@ -15,7 +16,6 @@ sql_app_ws.sqlSort = parentSortId => {
 
     pd.parentChild[parentSortId].forEach((adnId, i) => sql_app_ws.sendSql.sort[parentSortId]
         .l.push({ adnId: adnId, sort: 1 + i }))
-
 }
 
 export default {
@@ -32,7 +32,10 @@ export default {
                 .forEach(parentSortId => sql_app_ws.sqlSort(parentSortId))
             console.log(sql_app_ws.sendSql)
         }, save1Update(adnUpdateId) {
-            console.log(adnUpdateId)
+            const sendJson = Object.assign(sql_app_ws.sendSql.update[adnUpdateId], { adnId: adnUpdateId })
+            wsDbRw.defOpenInPromise(sendJson).then(event => {
+                console.log('defOpenInPromise\n', event.data)
+            })
         }, saveUpdate() {
             console.log(sql_app_ws.sendSql.update)
         },
