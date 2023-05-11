@@ -17,6 +17,15 @@ sql_app_ws.sqlSort = parentSortId => {
     pd.parentChild[parentSortId].forEach((adnId, i) => sql_app_ws.sendSql.sort[parentSortId]
         .l.push({ adnId: adnId, sort: 1 + i }))
 }
+const updateDbMessage = adnId => {
+    !adnId && (adnId = Object.keys(sql_app_ws.sendSql.update)[0])
+    console.log('updateDbMessage', adnId, sql_app_ws.sendSql.update[adnId])
+    delete sql_app_ws.sendSql.update[adnId]
+        && fipi.edCopyCut.count--
+    console.log('updateDbMessage', Object.keys(sql_app_ws.sendSql.update).length)
+    Object.keys(sql_app_ws.sendSql.update).length > 0
+        && fipi.edCopyCut.countFn('updateDbMessage')
+}
 
 export default {
     data() { return { count: 0 } },
@@ -26,16 +35,18 @@ export default {
         sendSql() { return sql_app_ws.sendSql },
         countFn(from) {
             // this.count++
-            this.count = (pd.dbSave && pd.dbSave.sortParentChild
-                && pd.dbSave.sortParentChild.length || 0)
-                + (sql_app_ws.sendSql && sql_app_ws.sendSql.update
-                    && Object.keys(sql_app_ws.sendSql.update).length || 0)
-            console.log(from, sql_app_ws.sendSql
-                , pd.dbSave && pd.dbSave.sortParentChild
-                && pd.dbSave.sortParentChild.length || 0
-                , sql_app_ws.sendSql && sql_app_ws.sendSql.update
+            const update = sql_app_ws.sendSql && sql_app_ws.sendSql.update
                 && Object.keys(sql_app_ws.sendSql.update).length || 0
+                , sortParentChild = pd.dbSave && pd.dbSave.sortParentChild
+                    && pd.dbSave.sortParentChild.length || 0
+            this.count = sortParentChild + update
+            console.log(this.count, from
+                , sortParentChild, update
             )
+            update > 0 &&
+                updateDbMessage()
+            update > 0 &&
+                console.log('set delay update')
         },
         save1Sort(parentSortId) {
             sql_app_ws.sqlSort(parentSortId)
