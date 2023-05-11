@@ -1,6 +1,8 @@
 package org.algoritmed.amwfddb007.websocket;
 
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
 import reactor.core.publisher.Mono;
 import org.springframework.web.reactive.socket.WebSocketHandler;
 import org.springframework.web.reactive.socket.WebSocketSession;
@@ -23,13 +25,16 @@ public class DbRwWebSocketHandler extends SimpleWebSocketHandler implements WebS
             Map<String, Object> mapIn = null;
             try {
                 mapIn = objectMapper.readValue(sqlSelectJson, Map.class);
-                mapIn.put("x", "y");
+                logger.info("-32-\n" + mapIn.get("cmd"));
+                switch (mapIn.get("cmd").toString()) {
+                    case "updateString":
+                    dbSqlClient.updateString(mapIn);
+                    break;
+                }
+                logger.info("-38-:" + incrementAndGet + "--\n" + mapIn);
                 String jsonStr = objectMapper.writeValueAsString(mapIn);
                 m = session.textMessage(jsonStr);
-
-	            logger.info("-26-:" + incrementAndGet + "--\n\n" + mapIn);
-
-            } catch (JsonProcessingException e) {
+            } catch (JsonProcessingException | InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
             return m;

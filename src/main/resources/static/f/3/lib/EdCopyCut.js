@@ -32,8 +32,9 @@ export default {
                 .forEach(parentSortId => sql_app_ws.sqlSort(parentSortId))
             console.log(sql_app_ws.sendSql)
         }, save1Update(adnUpdateId) {
-            const sendJson = Object.assign(sql_app_ws.sendSql.update[adnUpdateId], { adnId: adnUpdateId })
-            wsDbRw.defOpenInPromise(sendJson).then(event => {
+            const sendJson = Object.assign(sql_app_ws.sendSql.update[adnUpdateId]
+                , { adnId: adnUpdateId, cmd:'updateString' })
+            wsDbRw.exchangeRwMessage(sendJson).then(event => {
                 console.log('defOpenInPromise\n', event.data)
             })
         }, saveUpdate() {

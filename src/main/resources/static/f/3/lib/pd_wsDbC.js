@@ -140,8 +140,6 @@ sql_app.adn01 = {
 console.log(window.location.host)
 
 const uri_wsDbRw = "ws://" + window.location.host + "/dbSelect"
-console.log(uri_wsDbRw)
-// wsDbRw.ws = new WebSocket(uri_wsDbRw)
 wsDbC.wsDbSelect = new WebSocket(uri_wsDbRw)
 
 
