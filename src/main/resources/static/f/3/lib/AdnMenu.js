@@ -36,15 +36,19 @@ fipiFn.sortUpDown = (direction, adnId) => {
 
     console.log(l, fipi, parent, pd.dbSave, pd.getAdnDialogWindow())
 
+    fipiFn.reviewFhirPart(parent)
+}
+
+fipiFn.reviewFhirPart = adnId => {
     fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].l_fipId
-        .filter(fipId => fipi.ppId[ppId].pp[pp].fipId[fipId].fhirPart[parent]
+        .filter(fipId => fipi.ppId[ppId].pp[pp].fipId[fipId].fhirPart[adnId]
         ).forEach(fipId => fipi.ppId[ppId].pp[pp].fipId[fipId]
-            .fhirPart[parent].count++)))
+            .fhirPart[adnId].count++)))
     fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].ppl2
         && fipi.ppId[ppId].pp[pp].ppl2.l_fipId
-            .filter(fipId => fipi.ppId[ppId].pp[pp].ppl2.fipId[fipId].fhirPart[parent]
+            .filter(fipId => fipi.ppId[ppId].pp[pp].ppl2.fipId[fipId].fhirPart[adnId]
             ).forEach(fipId => fipi.ppId[ppId].pp[pp].ppl2.fipId[fipId]
-                .fhirPart[parent].count++)))
+                .fhirPart[adnId].count++)))
 }
 
 export default {

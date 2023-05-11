@@ -1,6 +1,6 @@
 'use strict'
 import { pd, sql_app_ws } from '/f/3/lib/pd_wsDbC.js'
-import { fipi } from '/f/3/lib/fipi.js'
+import { fipi, fipiFn } from '/f/3/lib/fipi.js'
 import { wsDbRw } from '/f/3/lib/wsDbRw.js'
 
 sql_app_ws.getSendSql = () => sql_app_ws.sendSql || (sql_app_ws.sendSql = {})
@@ -43,8 +43,7 @@ export default {
             console.log(this.count, from
                 , sortParentChild, update
             )
-            update > 0 &&
-                updateDbMessage()
+            // update > 0 && updateDbMessage()
             update > 0 &&
                 console.log('set delay update')
         },
@@ -59,7 +58,9 @@ export default {
             const sendJson = Object.assign(sql_app_ws.sendSql.update[adnUpdateId]
                 , { adnId: adnUpdateId, cmd: 'updateString' })
             wsDbRw.exchangeRwMessage(sendJson).then(event => {
-                console.log('defOpenInPromise\n', event.data)
+                const json = JSON.parse(event.data)
+                pd.eMap[json.adnId].value_22 = json.string
+                fipiFn.reviewFhirPart(json.adnId)
             })
         }, saveUpdate() {
             console.log(sql_app_ws.sendSql.update)

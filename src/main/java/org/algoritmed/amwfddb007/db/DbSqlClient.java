@@ -41,13 +41,15 @@ public class DbSqlClient {
         return future;
     }
 
+    String sqlUpdateString = "UPDATE string SET value=:string WHERE string_id=:adnId";
+
     public void updateString(Map mapIn) throws InterruptedException, ExecutionException {
         logger.info("Hi 123 \n" + mapIn);
-        Mono<Long> x = sqlClient.sql("UPDATE string SET value=:string WHERE string_id=:adnId")
+        FetchSpec<Map<String, Object>> v = sqlClient.sql(sqlUpdateString)
                 .bind("string", mapIn.get("string").toString())
                 .bind("adnId", Integer.parseInt(mapIn.get("adnId").toString()))
-                .fetch()
-                .rowsUpdated();
+                .fetch();
+        Mono<Long> x = v.rowsUpdated();
         CompletableFuture<Long> y = x.toFuture();
         Long long1 = y.get();
         mapIn.put("rowsUpdated", long1);
