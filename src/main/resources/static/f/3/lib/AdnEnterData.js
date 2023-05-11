@@ -19,7 +19,7 @@ export default {
     methods: {
         enterData() {
             sql_app_ws.sqlUpdate(this.adnId, 'string', this.value_22)
-            fipi.edCopyCut && fipi.edCopyCut.count++
+            fipi.edCopyCut && fipi.edCopyCut.countFn('AdnEnterData')
         },
     }, template: `
 <div class="w3-container">

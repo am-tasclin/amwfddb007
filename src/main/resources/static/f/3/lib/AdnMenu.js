@@ -12,7 +12,7 @@ fipiFn.reviewAdnMenu = (ppId, pp) => {
     fipPP.ppl2 &&
         Object.keys(fipPP.ppl2.fipId).find(fipId => Object.keys(fipPP.ppl2.fipId[fipId].adnMenu)
             .find(adnId => { fipPP.ppl2.fipId[fipId].adnMenu[adnId].count++ }))
-    fipi.edCopyCut && fipi.edCopyCut.count++
+    fipi.edCopyCut && fipi.edCopyCut.countFn('AdnMenu.reviewAdnMenu')
 }
 
 fipiFn.sortUpDown = (direction, adnId) => {
@@ -32,7 +32,7 @@ fipiFn.sortUpDown = (direction, adnId) => {
     !pd.dbSave.sortParentChild.includes(parent) && (pd.dbSave.sortParentChild.push(parent))
 
     pd.getAdnDialogWindow().adnId = parent
-    fipi.edCopyCut && fipi.edCopyCut.count++
+    fipi.edCopyCut && fipi.edCopyCut.countFn('AdnMenu.sortUpDown')
 
     console.log(l, fipi, parent, pd.dbSave, pd.getAdnDialogWindow())
 
