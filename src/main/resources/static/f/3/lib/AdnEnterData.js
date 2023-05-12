@@ -18,14 +18,14 @@ export default {
     data() { return { count: 0, value_22: pd.eMap[this.adnId].value_22 } },
     methods: {
         enterData() {
-            sql_app_ws.sqlUpdate(this.adnId, 'string', this.value_22)
+            sql_app_ws.sqlUpdate(this.adnId, 'string', this.value_22.trim())
             fipi.edCopyCut && fipi.edCopyCut.countFn('AdnEnterData')
         },
     }, template: `
 <div class="w3-container">
     <span class="w3-tiny">Edit & Enter Adn Content Data</span>
     <div><textarea v-model="value_22" class="am-width-100pr" /></div>
-    <button @click="enterData" class="w3-btn w3-border">send-відправити</button>
+    <button @click="enterData" class="w3-btn w3-border">send Db - відправити БД</button>
     {{adnId}}
 </div> <span class="w3-hide"> {{count}} </span>
     `,
