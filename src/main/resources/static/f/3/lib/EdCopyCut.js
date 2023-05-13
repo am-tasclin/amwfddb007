@@ -24,6 +24,17 @@ const updateDbMessage = adnId => {
     save1Update(adnId)
     Object.keys(sql_app_ws.sendSql.update).length > 0
         && fipi.edCopyCut.countFn()
+}, save1Sort = parentSortId => {
+    sql_app_ws.sendSql.sort[parentSortId].l.forEach(s1s => {
+        const sendJson = Object.assign(s1s
+            , { adnId: s1s.adnId, cmd: 'save1Sort' })
+        console.log(sendJson)
+        wsDbRw.exchangeRwMessage(sendJson).then(event => {
+            const json = JSON.parse(event.data)
+            console.log(json)
+        })
+    })
+
 }, save1Update = adnUpdateId => {
     const sendJson = Object.assign(sql_app_ws.sendSql.update[adnUpdateId]
         , { adnId: adnUpdateId, cmd: 'updateString' })
@@ -32,13 +43,13 @@ const updateDbMessage = adnId => {
         pd.eMap[json.adnId].value_22 = json.string
         fipiFn.reviewFhirPart(json.adnId)
         delete sql_app_ws.sendSql.update[json.adnId]
-            && fipi.edCopyCut.count--
+            && fipi.edCopyCut.countDbSaved++
         fipi.edCopyCut.countFn()
     })
 }
 
 export default {
-    data() { return { count: 0 } },
+    data() { return { count: 0, countDbSaved: 0 } },
     mounted() {
         fipi.edCopyCut = this
     }, methods: {
@@ -57,6 +68,7 @@ export default {
         }, save1Sort(parentSortId) {
             sql_app_ws.sqlSort(parentSortId)
             console.log(sql_app_ws.sendSql)
+            save1Sort(parentSortId)
         }, saveSort() {
             pd.dbSave.sortParentChild
                 .forEach(parentSortId => sql_app_ws.sqlSort(parentSortId))
@@ -75,7 +87,7 @@ export default {
         <span class="w3-text-blue" v-if="adnId()"> ✎ {{adnId()}} </span>
         <span class="w3-text-blue" v-if="adnIdCopy()"> ⧉ {{adnIdCopy()}} </span>
         <span class="w3-text-blue" v-if="adnIdCut()"> ✀ {{adnIdCut()}} </span>
-        &nbsp; <sub> {{count}} </sub> ䷢ &nbsp;
+        &nbsp; <sub> {{count}} </sub>/<sup>{{countDbSaved}}</sup> ䷢ &nbsp;
     </span>
     <div class="w3-dropdown-content w3-border w3-right-align w3-hover-shadow" style="right: -1em; width: 33em;">
         <span class="w3-tiny w3-opacity w3-left">DB messages</span>

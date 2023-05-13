@@ -41,6 +41,40 @@ public class DbSqlClient {
         return future;
     }
 
+    public void saveSort(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
+        GenericExecuteSpec sql = sqlClient.sql(sqlUpdateSort);
+        for (Map<String, Object> map : (List<Map<String, Object>>) (List) mapIn.get("l")) {
+            logger.info("i=" + map.get("adnId") + "s=" + map.get("sort"));
+            FetchSpec<Map<String, Object>> v = sql
+                    .bind("sort", mapIn.get("sort").toString())
+                    .bind("adnId", Integer.parseInt(mapIn.get("adnId").toString()))
+                    .fetch();
+            Mono<Long> x = v.rowsUpdated();
+            CompletableFuture<Long> y = x.toFuture();
+            Long long1 = y.get();
+            mapIn.put("rowsUpdated", long1);
+        }
+        ;
+    }
+
+    // @Modifying
+    // @Query("UPDATE sort SET sort=:sort WHERE sort_id=:adnId")
+    // Mono<Integer> setFixedSortFor(String sort, Long adnId);
+
+    String sqlUpdateSort = "UPDATE sort SET sort=:sort WHERE sort_id=:adnId";
+    String sqlInsertSort = "INSERT INTO sort (sort, sort_id) VALUES (:sort, :adnId)";
+
+    public void save1Sort(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
+        FetchSpec<Map<String, Object>> v = sqlClient.sql(sqlUpdateSort)
+                .bind("sort", Integer.parseInt(mapIn.get("sort").toString()))
+                .bind("adnId", Integer.parseInt(mapIn.get("adnId").toString()))
+                .fetch();
+        Mono<Long> x = v.rowsUpdated();
+        CompletableFuture<Long> y = x.toFuture();
+        Long long1 = y.get();
+        mapIn.put("rowsUpdated", long1);
+    }
+
     String sqlUpdateString = "UPDATE string SET value=:string WHERE string_id=:adnId";
 
     public void updateString(Map mapIn) throws InterruptedException, ExecutionException {
