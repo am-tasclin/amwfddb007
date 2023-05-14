@@ -75,6 +75,8 @@ export default {
         }, isAdnDialogWindow(type) {
             return this.thisAdnDialogWindow()
                 && pd.adnDialogWindow.type == type
+        }, insertAdn() {
+            console.log(this.adnId)
         }
         , thisAdnDialogWindow() { return pd.adnDialogWindow && pd.adnDialogWindow.adnId == this.adnId }
         , isCopy() { return pd.adnDialogWindow && pd.adnDialogWindow.adnIdCopy == this.adnId }
@@ -141,7 +143,7 @@ export default {
         <button class="w3-btn" @click="sortUp()">⬆</button>
         <button class="w3-btn" @click="sortDown()">⬇</button>
         ｜
-        <button class="w3-btn am-b" @click="sortPlus()">＋</button>
+        <button class="w3-btn am-b" @click="insertAdn()">＋</button>
         <button class="w3-btn am-b" @click="sortMinus()">－</button>
         <div class="w3-border-top">
             <button class="w3-btn am-b" @click="setAdnDialogWindow('edit','fixed')">✐</button>

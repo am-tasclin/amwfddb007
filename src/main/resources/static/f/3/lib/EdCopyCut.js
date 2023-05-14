@@ -34,7 +34,6 @@ const updateDbMessage = adnId => {
             console.log(json)
         })
     })
-
 }, save1Update = adnUpdateId => {
     const sendJson = Object.assign(sql_app_ws.sendSql.update[adnUpdateId]
         , { adnId: adnUpdateId, cmd: 'updateString' })

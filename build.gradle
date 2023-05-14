@@ -33,6 +33,7 @@ dependencies {
 	implementation 'org.webjars:font-awesome:6.2.1'
 	runtimeOnly 'org.postgresql:postgresql'
 	runtimeOnly 'org.postgresql:r2dbc-postgresql'
+	// implementation 'io.r2dbc:r2dbc-postgresql:0.8.13.RELEASE'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 }

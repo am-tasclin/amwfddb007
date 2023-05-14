@@ -25,6 +25,14 @@ public class DbSqlClient {
         this.sqlClient = sqlTemplate.getDatabaseClient();
     }
 
+    public DatabaseClient getSqlClient() {
+        return sqlClient;
+    }
+
+    public String hello() {
+        return "Hello World DB! " + sqlClient;
+    }
+
     public String sqlAll = "SELECT * FROM idincredit";
     public String sql01 = sqlAll + " LIMIT 1";
 
@@ -89,12 +97,11 @@ public class DbSqlClient {
         mapIn.put("rowsUpdated", long1);
     }
 
-    public DatabaseClient getSqlClient() {
-        return sqlClient;
-    }
 
-    public String hello() {
-        return "Hello World DB! " + sqlClient;
-    }
+    // @Modifying
+    // @Query("SELECT nextval('dbid')")
+    // public Mono<Long> nextDbId() {
+    //     return null;
+    // }
 
 }

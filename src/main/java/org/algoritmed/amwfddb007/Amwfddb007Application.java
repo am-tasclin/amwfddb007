@@ -1,12 +1,19 @@
 package org.algoritmed.amwfddb007;
 
+import org.algoritmed.amwfddb007.dbr.Sort;
+import org.algoritmed.amwfddb007.dbr.SortRepository;
 import org.algoritmed.amwfddb007.webflux.HelloComponent;
 import org.algoritmed.amwfddb007.websocket.DbSelectWebSocketHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.algoritmed.amwfddb007.websocket.DbRwWebSocketHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
+import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -23,9 +30,34 @@ import java.util.Map;
 
 @SpringBootApplication
 public class Amwfddb007Application {
+	protected static final Logger logger = LoggerFactory.getLogger(Amwfddb007Application.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(Amwfddb007Application.class, args);
+	}
+
+	@Bean
+	public CommandLineRunner reactiveDatabaseExample(SortRepository sortRepository, @Autowired R2dbcEntityTemplate sqlTemplate) {
+		return args -> {
+			logger.info(("\n reactiveDatabaseExample"));
+			Sort s = new Sort(376642, 1);
+			logger.info(" " + s);
+			// List<Sort> sortL = Arrays.asList(s);
+
+			Sort x = sqlTemplate.insert(Sort.class)
+			.using(s).block();
+			// .as(StepVerifier::create)
+			// .expectNextCount(1)
+			// .verifyComplete()
+			;
+			logger.info(" " + x);
+	  
+
+			// sortRepository.save(s).subscribe();
+
+			// sortRepository.saveAll(sortL).blockLast(Duration.ofSeconds(1));
+
+		};
 	}
 
 	@Bean
