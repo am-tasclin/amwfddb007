@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import org.algoritmed.amwfddb007.dbr.Nextdbid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,10 @@ public class DbSqlClient {
     protected static final Logger logger = LoggerFactory.getLogger(DbSqlClient.class);
 
     DatabaseClient sqlClient;
+    R2dbcEntityTemplate sqlTemplate;
 
     public DbSqlClient(@Autowired R2dbcEntityTemplate sqlTemplate) {
+        this.sqlTemplate = sqlTemplate;
         this.sqlClient = sqlTemplate.getDatabaseClient();
     }
 
@@ -40,6 +43,10 @@ public class DbSqlClient {
         Mono<List<Map<String, Object>>> collectList = sqlClient.sql(sql).fetch().all().collectList();
         CompletableFuture<List<Map<String, Object>>> future = collectList.toFuture();
         return future;
+    }
+
+    public Long nextDbId() {
+        return sqlTemplate.select(Nextdbid.class).first().block().getNextval();
     }
 
     public CompletableFuture<Map<String, Object>> getOneRowObject(String sql) {
@@ -97,11 +104,10 @@ public class DbSqlClient {
         mapIn.put("rowsUpdated", long1);
     }
 
-
     // @Modifying
     // @Query("SELECT nextval('dbid')")
     // public Mono<Long> nextDbId() {
-    //     return null;
+    // return null;
     // }
 
 }

@@ -1,5 +1,7 @@
 package org.algoritmed.amwfddb007;
 
+import org.algoritmed.amwfddb007.db.DbSqlClient;
+import org.algoritmed.amwfddb007.dbr.Nextdbid;
 import org.algoritmed.amwfddb007.dbr.Sort;
 import org.algoritmed.amwfddb007.dbr.SortRepository;
 import org.algoritmed.amwfddb007.webflux.HelloComponent;
@@ -22,11 +24,17 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.reactive.socket.WebSocketHandler;
 
+import reactor.core.publisher.Mono;
+
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootApplication
 public class Amwfddb007Application {
@@ -36,26 +44,31 @@ public class Amwfddb007Application {
 		SpringApplication.run(Amwfddb007Application.class, args);
 	}
 
+	@Autowired
+	DbSqlClient dbSqlClient;
+
 	@Bean
-	public CommandLineRunner reactiveDatabaseExample(SortRepository sortRepository, @Autowired R2dbcEntityTemplate sqlTemplate) {
+	public CommandLineRunner reactiveDatabaseExample(SortRepository sortRepository,
+			@Autowired R2dbcEntityTemplate sqlTemplate) {
 		return args -> {
 			logger.info(("\n reactiveDatabaseExample"));
-			Sort s = new Sort(376642, 1);
+			Long y3 = dbSqlClient.nextDbId();
+			logger.info(" " + y3);
+			Sort s = new Sort(376642, 1111);
 			logger.info(" " + s);
-			// List<Sort> sortL = Arrays.asList(s);
+			List<Sort> sortL = Arrays.asList(s);
 
-			Sort x = sqlTemplate.insert(Sort.class)
-			.using(s).block();
+			// Sort x = sqlTemplate.insert(Sort.class).using(s).block();
 			// .as(StepVerifier::create)
 			// .expectNextCount(1)
 			// .verifyComplete()
 			;
-			logger.info(" " + x);
-	  
 
 			// sortRepository.save(s).subscribe();
 
-			// sortRepository.saveAll(sortL).blockLast(Duration.ofSeconds(1));
+			Sort x = sortRepository.saveAll(sortL).blockLast();
+
+			logger.info(" " + x);
 
 		};
 	}
