@@ -27,16 +27,24 @@ fipiFn.sortUpDown = (direction, adnId) => {
         && (rounded = true) //last to first
     !rounded && l.splice(position + direction, 0, adnId)
 
-    !pd.dbSave && (pd.dbSave = {})
-    !pd.dbSave.sortParentChild && (pd.dbSave.sortParentChild = [])
+    // !pd.dbSave && (pd.dbSave = {})
+    // !pd.dbSave.sortParentChild && (pd.dbSave.sortParentChild = [])
+    fipiFn.getDbSave('sortParentChild')
     !pd.dbSave.sortParentChild.includes(parent) && (pd.dbSave.sortParentChild.push(parent))
 
     pd.getAdnDialogWindow().adnId = parent
     fipi.edCopyCut && fipi.edCopyCut.countFn('AdnMenu.sortUpDown')
 
-    console.log(l, fipi, parent, pd.dbSave, pd.getAdnDialogWindow())
+    console.log(l, fipi, parent, pd.getAdnDialogWindow())
+    console.log(pd.dbSave)
 
     fipiFn.reviewFhirPart(parent)
+}
+
+fipiFn.getDbSave = blockName => {
+    !pd.dbSave && (pd.dbSave = {})
+    blockName &&
+        !pd.dbSave[blockName] && (pd.dbSave[blockName] = [])
 }
 
 fipiFn.reviewFhirPart = adnId => {
@@ -67,14 +75,18 @@ export default {
             fipiFn.sortUpDown(1, this.adnId)
         }, sortPlus() {
             console.log(123)
-        }, sortMinus() {
-            console.log(123)
         }, isPaste() {
             return pd.adnDialogWindow && pd.adnDialogWindow.type == 'paste'
                 && (pd.adnDialogWindow.adnIdPaste == this.adnId)
         }, isAdnDialogWindow(type) {
             return this.thisAdnDialogWindow()
                 && pd.adnDialogWindow.type == type
+        }, deleteAdn() {
+            console.log(this.adnId)
+            fipiFn.getDbSave('deleteAdn')
+            pd.dbSave.deleteAdn.push(this.adnId)
+            console.log(pd.dbSave)
+        	fipi.edCopyCut.count++
         }, insertAdn() {
             console.log(this.adnId)
         }
@@ -144,7 +156,7 @@ export default {
         <button class="w3-btn" @click="sortDown()">⬇</button>
         ｜
         <button class="w3-btn am-b" @click="insertAdn()">＋</button>
-        <button class="w3-btn am-b" @click="sortMinus()">－</button>
+        <button class="w3-btn am-b" @click="deleteAdn()">－</button>
         <div class="w3-border-top">
             <button class="w3-btn am-b" @click="setAdnDialogWindow('edit','fixed')">✐</button>
             <button class="w3-btn am-b" @click="setAdnDialogWindow('edit','fly')">✎</button>

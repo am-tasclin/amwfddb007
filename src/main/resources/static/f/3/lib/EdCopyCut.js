@@ -34,6 +34,8 @@ const updateDbMessage = adnId => {
             console.log(json)
         })
     })
+}, deleteAdn = deleteAdnId => {
+    console.log(deleteAdnId)
 }, save1Update = adnUpdateId => {
     const sendJson = Object.assign(sql_app_ws.sendSql.update[adnUpdateId]
         , { adnId: adnUpdateId, cmd: 'updateString' })
@@ -73,9 +75,8 @@ export default {
                 .forEach(parentSortId => sql_app_ws.sqlSort(parentSortId))
             console.log(sql_app_ws.sendSql)
         }, save1Update(adnUpdateId) { save1Update(adnUpdateId) }
-        , saveUpdate() {
-            console.log(sql_app_ws.sendSql.update)
-        },
+        , deleteAdn(deleteAdnId) { deleteAdn(deleteAdnId) }
+        , saveUpdate() { console.log(sql_app_ws.sendSql.update) },
         dbSave() { return pd.dbSave },
         adnIdCopy() { return pd.adnDialogWindow && pd.adnDialogWindow.adnIdCopy },
         adnIdCut() { return pd.adnDialogWindow && pd.adnDialogWindow.adnIdCut },
@@ -97,6 +98,13 @@ export default {
                 {{parentSortId}}, </button>
                 <span class="w3-opacity">|</span>
             <button @click="saveSort" class="w3-btn"> save all sort </button>
+            <div v-if="dbSave().deleteAdn">
+            deleteAdn
+            <button @click="deleteAdn(deleteAdnId)" class="w3-btn w3-padding-small"
+                v-for="deleteAdnId in dbSave().deleteAdn">
+                    {{deleteAdnId}}, </button>
+                <button @click="deleteAllAdn" class="w3-btn"> deleteAllAdn </button>
+            </div>
         </div>
         <div class="w3-border-top" v-if="sendSql() && sendSql().update">
             <button class="w3-btn" @click="saveUpdate"> saveUpdate </button>

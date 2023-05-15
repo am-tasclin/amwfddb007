@@ -1,11 +1,11 @@
-package org.algoritmed.amwfddb007.db;
+package org.algoritmed.amwfddb007.mcdb;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import org.algoritmed.amwfddb007.dbr.Nextdbid;
+import org.algoritmed.amwfddb007.mcrdb.Nextdbid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

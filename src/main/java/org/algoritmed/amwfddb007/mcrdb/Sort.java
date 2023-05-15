@@ -1,4 +1,4 @@
-package org.algoritmed.amwfddb007.dbr;
+package org.algoritmed.amwfddb007.mcrdb;
 
 import org.springframework.data.annotation.Id;
 
@@ -8,8 +8,8 @@ public class Sort {
     private Integer sort;
 
     @Override
-    public String toString() {
-        return String.format("Sort [sort_id=%d, sort=%d]", sort_id, sort);
+    public java.lang.String toString() {
+        return java.lang.String.format("Sort [sort_id=%d, sort=%d]", sort_id, sort);
     }
 
     public Sort(Integer sort_id, Integer sort) {

@@ -1,4 +1,4 @@
-package org.algoritmed.amwfddb007.dbr;
+package org.algoritmed.amwfddb007.mcrdb;
 
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 

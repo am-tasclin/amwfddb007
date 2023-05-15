@@ -1,4 +1,4 @@
-package org.algoritmed.amwfddb007.dbr;
+package org.algoritmed.amwfddb007.mcrdb;
 
 public class Nextdbid {
     Long nextval;
