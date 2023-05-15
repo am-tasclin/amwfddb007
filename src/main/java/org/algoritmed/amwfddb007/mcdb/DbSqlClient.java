@@ -6,14 +6,19 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import org.algoritmed.amwfddb007.mcrdb.Nextdbid;
+import org.algoritmed.amwfddb007.mcrdb.StringContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
+import org.springframework.data.relational.core.query.Criteria;
+import org.springframework.data.relational.core.query.Query;
+import org.springframework.data.relational.core.query.Update;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.r2dbc.core.DatabaseClient.GenericExecuteSpec;
 import org.springframework.stereotype.Component;
 import org.springframework.r2dbc.core.FetchSpec;
+
 import reactor.core.publisher.Mono;
 
 @Component
@@ -22,6 +27,10 @@ public class DbSqlClient {
 
     DatabaseClient sqlClient;
     R2dbcEntityTemplate sqlTemplate;
+
+    public R2dbcEntityTemplate getSqlTemplate() {
+        return sqlTemplate;
+    }
 
     public DbSqlClient(@Autowired R2dbcEntityTemplate sqlTemplate) {
         this.sqlTemplate = sqlTemplate;
@@ -90,24 +99,12 @@ public class DbSqlClient {
         mapIn.put("rowsUpdated", long1);
     }
 
-    String sqlUpdateString = "UPDATE string SET value=:string WHERE string_id=:adnId";
-
     public void updateString(Map mapIn) throws InterruptedException, ExecutionException {
-        logger.info("Hi 123 \n" + mapIn);
-        FetchSpec<Map<String, Object>> v = sqlClient.sql(sqlUpdateString)
-                .bind("string", mapIn.get("string").toString())
-                .bind("adnId", Integer.parseInt(mapIn.get("adnId").toString()))
-                .fetch();
-        Mono<Long> x = v.rowsUpdated();
-        CompletableFuture<Long> y = x.toFuture();
-        Long long1 = y.get();
-        mapIn.put("rowsUpdated", long1);
+        CompletableFuture<Long> rowsUpdated = sqlTemplate.update(StringContent.class)
+                .matching(Query.query(Criteria.where("string_id")
+                        .is(mapIn.get("adnId"))))
+                .apply(Update.update("value", mapIn.get("string"))).toFuture();
+        mapIn.put("rowsUpdated", rowsUpdated.get());
     }
-
-    // @Modifying
-    // @Query("SELECT nextval('dbid')")
-    // public Mono<Long> nextDbId() {
-    // return null;
-    // }
 
 }

@@ -41,11 +41,14 @@ const updateDbMessage = adnId => {
         , { adnId: adnUpdateId, cmd: 'updateString' })
     wsDbRw.exchangeRwMessage(sendJson).then(event => {
         const json = JSON.parse(event.data)
-        pd.eMap[json.adnId].value_22 = json.string
-        fipiFn.reviewFhirPart(json.adnId)
-        delete sql_app_ws.sendSql.update[json.adnId]
-            && fipi.edCopyCut.countDbSaved++
-        fipi.edCopyCut.countFn()
+        1 == json.rowsUpdated && (() => {
+            console.log(json)
+            pd.eMap[json.adnId].value_22 = json.string
+            fipiFn.reviewFhirPart(json.adnId)
+            delete sql_app_ws.sendSql.update[json.adnId]
+                && fipi.edCopyCut.countDbSaved++
+            fipi.edCopyCut.countFn()
+        })()
     })
 }
 

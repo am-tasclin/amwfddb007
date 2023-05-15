@@ -24,7 +24,6 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.reactive.socket.WebSocketHandler;
 
-
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
 
@@ -66,6 +65,14 @@ public class Amwfddb007Application {
 			Sort x = sortRepository.saveAll(sortL).blockLast();
 
 			logger.info(" " + x);
+/*
+ * 
+ StringContent sc = new StringContent(376642, "qwe 123");
+ Long y = sqlTemplate.update(StringContent.class)
+ .matching(Query.query(Criteria.where("string_id").is(sc.getString_id())))
+ .apply(Update.update("value", sc.getValue())).block();
+ logger.info(" " + y + " " + sc);
+ */
 
 		};
 	}
