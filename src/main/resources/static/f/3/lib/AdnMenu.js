@@ -1,6 +1,7 @@
 'use strict'
 import { pd } from '/f/3/lib/pd_wsDbC.js'
 import { fipi, fipiFn } from '/f/3/lib/fipi.js'
+import { dbMpView, dbMpFn } from '/f/3/lib/wsDbRw.js'
 import AdnEnterData from '/f/3/lib/AdnEnterData.js'
 
 pd.getAdnDialogWindow = () => pd.adnDialogWindow || (pd.adnDialogWindow = {})
@@ -26,17 +27,19 @@ fipiFn.sortUpDown = (direction, adnId) => {
     position == l.length && direction > 0 && l.splice(0, 0, adnId)
         && (rounded = true) //last to first
     !rounded && l.splice(position + direction, 0, adnId)
+    console.log(l)
 
     // !pd.dbSave && (pd.dbSave = {})
     // !pd.dbSave.sortParentChild && (pd.dbSave.sortParentChild = [])
     fipiFn.getDbSave('sortParentChild')
-    !pd.dbSave.sortParentChild.includes(parent) && (pd.dbSave.sortParentChild.push(parent))
+    // !pd.dbSave.sortParentChild.includes(parent) && (pd.dbSave.sortParentChild.push(parent))
+
+    dbMpFn.getDbSaveList('sortParentChild').push(parent)
+    dbMpView.dbMessagePool && dbMpView.dbMessagePool.addCountCurrentPool()
 
     pd.getAdnDialogWindow().adnId = parent
-    fipi.edCopyCut && fipi.edCopyCut.countFn('AdnMenu.sortUpDown')
-
-    console.log(l, fipi, parent, pd.getAdnDialogWindow())
-    console.log(pd.dbSave)
+    // fipi.edCopyCut && fipi.edCopyCut.countFn('AdnMenu.sortUpDown')
+    // console.log(fipi, parent, pd.getAdnDialogWindow())
 
     fipiFn.reviewFhirPart(parent)
 }
@@ -86,7 +89,7 @@ export default {
             fipiFn.getDbSave('deleteAdn')
             pd.dbSave.deleteAdn.push(this.adnId)
             console.log(pd.dbSave)
-        	fipi.edCopyCut.count++
+            fipi.edCopyCut.count++
         }, insertAdn() {
             console.log(this.adnId)
         }

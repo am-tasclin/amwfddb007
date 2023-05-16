@@ -42,7 +42,6 @@ const updateDbMessage = adnId => {
     wsDbRw.exchangeRwMessage(sendJson).then(event => {
         const json = JSON.parse(event.data)
         1 == json.rowsUpdated && (() => {
-            console.log(json)
             pd.eMap[json.adnId].value_22 = json.string
             fipiFn.reviewFhirPart(json.adnId)
             delete sql_app_ws.sendSql.update[json.adnId]

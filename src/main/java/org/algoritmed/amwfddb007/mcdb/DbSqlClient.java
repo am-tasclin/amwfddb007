@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import org.algoritmed.amwfddb007.mcrdb.Nextdbid;
+import org.algoritmed.amwfddb007.mcrdb.Sort;
 import org.algoritmed.amwfddb007.mcrdb.StringContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,6 +106,19 @@ public class DbSqlClient {
                         .is(mapIn.get("adnId"))))
                 .apply(Update.update("value", mapIn.get("string"))).toFuture();
         mapIn.put("rowsUpdated", rowsUpdated.get());
+    }
+
+    public void save1ParentSort(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
+        int updated = 0;
+        List<Integer> l = (List) mapIn.get("l");
+        for (int i = 0; i < l.size(); i++) {
+            Mono<Long> x = sqlTemplate.update(Query.query(Criteria.where("sort_id")
+                    .is(l.get(i))), Update.update("sort", i + 1), Sort.class);
+            CompletableFuture<Long> z = x.toFuture();
+            updated += z.get();
+            logger.info("updated = " + updated);
+        }
+        mapIn.put("updated", updated);
     }
 
 }

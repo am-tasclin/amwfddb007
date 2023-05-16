@@ -1,6 +1,7 @@
 'use strict'
 import { pd } from '/f/3/lib/pd_wsDbC.js'
 import EdCopyCut from '/f/3/lib/EdCopyCut.js'
+import DbMessagePool from '/f/3/lib/DbMessagePool.js'
 
 export const
     fipi = {},// FHIR Info Page Interface
@@ -111,4 +112,8 @@ fipiFn.edCopyCut = createApp => {
     const edCopyCut = createApp()
     edCopyCut.component('t-ed-copy-cut', EdCopyCut)
     edCopyCut.mount('#edCopyCut')
+
+    const dbMessagePool = createApp()
+    dbMessagePool.component('t-db-message-pool', DbMessagePool)
+    dbMessagePool.mount('#dbMessagePool')
 }
