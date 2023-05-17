@@ -1,7 +1,5 @@
 package org.algoritmed.amwfddb007;
 
-import org.algoritmed.amwfddb007.mcdb.DbSqlClient;
-import org.algoritmed.amwfddb007.mcrdb.Nextdbid;
 import org.algoritmed.amwfddb007.mcrdb.Sort;
 import org.algoritmed.amwfddb007.mcrdb.SortRepository;
 import org.algoritmed.amwfddb007.webflux.HelloComponent;
@@ -40,8 +38,8 @@ public class Amwfddb007Application {
 		SpringApplication.run(Amwfddb007Application.class, args);
 	}
 
-	@Autowired
-	DbSqlClient dbSqlClient;
+	// @Autowired
+	// DbSqlClient dbSqlClient;
 
 	@Bean
 	public CommandLineRunner reactiveDatabaseExample(SortRepository sortRepository,
@@ -50,9 +48,6 @@ public class Amwfddb007Application {
 			logger.info(("\n reactiveDatabaseExample"));
 			// Long y3 = dbSqlClient.nextDbId();
 			// logger.info(" " + y3);
-			Sort s = new Sort(376642, 1111);
-			logger.info(" " + s);
-			List<Sort> sortL = Arrays.asList(s);
 
 			// Sort x = sqlTemplate.insert(Sort.class).using(s).block();
 			// .as(StepVerifier::create)
@@ -62,9 +57,12 @@ public class Amwfddb007Application {
 
 			// sortRepository.save(s).subscribe();
 
-			Sort x = sortRepository.saveAll(sortL).blockLast();
-
-			logger.info(" " + x);
+			Sort s = new Sort(376642, 1111);
+			logger.info(" " + s);
+			
+			// List<Sort> sortL = Arrays.asList(s);
+			// Sort x = sortRepository.saveAll(sortL).blockLast();
+			// logger.info(" " + x);
 /*
  * 
  StringContent sc = new StringContent(376642, "qwe 123");

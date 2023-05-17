@@ -1,7 +1,7 @@
 'use strict'
 import { pd, sql_app_ws } from '/f/3/lib/pd_wsDbC.js'
 import { fipi, fipiFn } from '/f/3/lib/fipi.js'
-import { wsDbRw } from '/f/3/lib/wsDbRw.js'
+import { wsDbRw, dbMpFn } from '/f/3/lib/wsDbRw.js'
 
 sql_app_ws.getSendSql = () => sql_app_ws.sendSql || (sql_app_ws.sendSql = {})
 sql_app_ws.sqlSort = parentSortId => {
@@ -43,7 +43,7 @@ const updateDbMessage = adnId => {
         const json = JSON.parse(event.data)
         1 == json.rowsUpdated && (() => {
             pd.eMap[json.adnId].value_22 = json.string
-            fipiFn.reviewFhirPart(json.adnId)
+            dbMpFn.reviewFhirPart(json.adnId)
             delete sql_app_ws.sendSql.update[json.adnId]
                 && fipi.edCopyCut.countDbSaved++
             fipi.edCopyCut.countFn()
@@ -67,7 +67,7 @@ export default {
             this.count = sortParentChild + update
             console.log(this.count, from
                 , sortParentChild, update)
-            update > 0 && updateDbMessage()
+            // update > 0 && updateDbMessage()
         }, save1Sort(parentSortId) {
             sql_app_ws.sqlSort(parentSortId)
             console.log(sql_app_ws.sendSql)

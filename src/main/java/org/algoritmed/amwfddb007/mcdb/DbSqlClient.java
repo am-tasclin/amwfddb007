@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import org.algoritmed.amwfddb007.mcrdb.Doc;
 import org.algoritmed.amwfddb007.mcrdb.Nextdbid;
 import org.algoritmed.amwfddb007.mcrdb.Sort;
 import org.algoritmed.amwfddb007.mcrdb.StringContent;
@@ -119,6 +120,13 @@ public class DbSqlClient {
             logger.info("updated = " + updated);
         }
         mapIn.put("updated", updated);
+    }
+
+    public void deleteAdn1(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
+        logger.info("sql01 -125-" + mapIn);
+        Mono<Doc> x = sqlTemplate.delete(new Doc(Integer.parseInt(mapIn.get("adnId").toString())));
+        CompletableFuture<Doc> y = x.toFuture();
+        // mapIn.put("deleted", y.get());
     }
 
 }

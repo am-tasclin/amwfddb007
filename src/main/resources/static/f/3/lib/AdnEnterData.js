@@ -1,6 +1,7 @@
 'use strict'
 import { pd, sql_app_ws } from '/f/3/lib/pd_wsDbC.js'
 import { fipi } from '/f/3/lib/fipi.js'
+import { dbMpData, dbMpFn, dbMpView } from '/f/3/lib/wsDbRw.js'
 
 sql_app_ws.sqlUpdate = (adnId, contentTableName, fieldValue) => {
     sql_app_ws.getSendSql()
@@ -18,6 +19,10 @@ export default {
     data() { return { count: 0, value_22: pd.eMap[this.adnId].value_22 } },
     methods: {
         enterData() {
+            dbMpFn.getDbSaveObject('update')[this.adnId] = { string: this.value_22.trim() }
+            console.log(dbMpData, 123)
+            dbMpView.dbMessagePool && dbMpView.dbMessagePool.addCountCurrentPool()
+
             sql_app_ws.sqlUpdate(this.adnId, 'string', this.value_22.trim())
             fipi.edCopyCut && fipi.edCopyCut.countFn('AdnEnterData')
         },

@@ -34,14 +34,19 @@ fipiFn.sortUpDown = (direction, adnId) => {
     fipiFn.getDbSave('sortParentChild')
     // !pd.dbSave.sortParentChild.includes(parent) && (pd.dbSave.sortParentChild.push(parent))
 
-    dbMpFn.getDbSaveList('sortParentChild').push(parent)
+    dbMpFn.addDbSaveList('sortParentChild', parent)
+    console.log(dbMpFn.getDbSaveList('sortParentChil'))
+
+    // dbMpFn.getDbSaveList('sortParentChild') &&
+    //     !dbMpFn.getDbSaveList('sortParentChild').includes(parent) &&
+    //     dbMpFn.getDbSaveList('sortParentChild').push(parent)
     dbMpView.dbMessagePool && dbMpView.dbMessagePool.addCountCurrentPool()
 
     pd.getAdnDialogWindow().adnId = parent
     // fipi.edCopyCut && fipi.edCopyCut.countFn('AdnMenu.sortUpDown')
     // console.log(fipi, parent, pd.getAdnDialogWindow())
 
-    fipiFn.reviewFhirPart(parent)
+    dbMpFn.reviewFhirPart(parent)
 }
 
 fipiFn.getDbSave = blockName => {
@@ -50,17 +55,6 @@ fipiFn.getDbSave = blockName => {
         !pd.dbSave[blockName] && (pd.dbSave[blockName] = [])
 }
 
-fipiFn.reviewFhirPart = adnId => {
-    fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].l_fipId
-        .filter(fipId => fipi.ppId[ppId].pp[pp].fipId[fipId].fhirPart[adnId]
-        ).forEach(fipId => fipi.ppId[ppId].pp[pp].fipId[fipId]
-            .fhirPart[adnId].count++)))
-    fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].ppl2
-        && fipi.ppId[ppId].pp[pp].ppl2.l_fipId
-            .filter(fipId => fipi.ppId[ppId].pp[pp].ppl2.fipId[fipId].fhirPart[adnId]
-            ).forEach(fipId => fipi.ppId[ppId].pp[pp].ppl2.fipId[fipId]
-                .fhirPart[adnId].count++)))
-}
 
 export default {
     props: { adnId: Number, ppId: Number, pp: String, fipId: Number, lrPl2: Boolean },
@@ -84,8 +78,13 @@ export default {
         }, isAdnDialogWindow(type) {
             return this.thisAdnDialogWindow()
                 && pd.adnDialogWindow.type == type
-        }, deleteAdn() {
+        }, deleteAdn1() {
             console.log(this.adnId)
+            dbMpFn.addDbSaveList('deleteAdn', this.adnId)
+            dbMpView.dbMessagePool && dbMpView.dbMessagePool.addCountCurrentPool()
+            console.log(dbMpFn.getDbSaveList('deleteAdn'))
+        }, deleteAdn() {
+            console.log(this.adnId, 234)
             fipiFn.getDbSave('deleteAdn')
             pd.dbSave.deleteAdn.push(this.adnId)
             console.log(pd.dbSave)
@@ -159,7 +158,7 @@ export default {
         <button class="w3-btn" @click="sortDown()">⬇</button>
         ｜
         <button class="w3-btn am-b" @click="insertAdn()">＋</button>
-        <button class="w3-btn am-b" @click="deleteAdn()">－</button>
+        <button class="w3-btn am-b" @click="deleteAdn();deleteAdn1()">－</button>
         <div class="w3-border-top">
             <button class="w3-btn am-b" @click="setAdnDialogWindow('edit','fixed')">✐</button>
             <button class="w3-btn am-b" @click="setAdnDialogWindow('edit','fly')">✎</button>
