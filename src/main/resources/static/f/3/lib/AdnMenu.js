@@ -35,7 +35,6 @@ fipiFn.sortUpDown = (direction, adnId) => {
     // !pd.dbSave.sortParentChild.includes(parent) && (pd.dbSave.sortParentChild.push(parent))
 
     dbMpFn.addDbSaveList('sortParentChild', parent)
-    console.log(dbMpFn.getDbSaveList('sortParentChil'))
 
     // dbMpFn.getDbSaveList('sortParentChild') &&
     //     !dbMpFn.getDbSaveList('sortParentChild').includes(parent) &&

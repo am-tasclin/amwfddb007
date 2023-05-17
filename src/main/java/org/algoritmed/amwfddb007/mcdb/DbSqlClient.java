@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import org.algoritmed.amwfddb007.mcrdb.Doc;
 import org.algoritmed.amwfddb007.mcrdb.Nextdbid;
@@ -110,14 +111,29 @@ public class DbSqlClient {
     }
 
     public void save1ParentSort(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
+        logger.info("\n" + mapIn);
         int updated = 0;
         List<Integer> l = (List) mapIn.get("l");
-        for (int i = 0; i < l.size(); i++) {
-            Mono<Long> x = sqlTemplate.update(Query.query(Criteria.where("sort_id")
-                    .is(l.get(i))), Update.update("sort", i + 1), Sort.class);
-            CompletableFuture<Long> z = x.toFuture();
-            updated += z.get();
-            logger.info("updated = " + updated);
+        List<Integer> insertList = (List) mapIn.get("insertList");
+        List<Integer> lUpdate = l.stream()
+                .filter((adnId) -> !insertList.contains(adnId))
+                .collect(Collectors.toList());
+        for (Integer adnId : insertList) {
+            int sort = l.indexOf(adnId) + 1;
+            sqlTemplate.insert(new Sort(adnId, sort))
+                    .toFuture().get();
+            updated++;
+            logger.info(adnId + "/" + sort + " insert = " + updated);
+        }
+        for (Integer adnId : lUpdate) {
+            int sort = l.indexOf(adnId) + 1;
+            updated += sqlTemplate
+                    .update(Query.query(Criteria
+                            .where("sort_id").is(adnId)), Update
+                                    .update("sort", sort),
+                            Sort.class)
+                    .toFuture().get();
+            logger.info(adnId + "/" + sort + " updated = " + updated);
         }
         mapIn.put("updated", updated);
     }

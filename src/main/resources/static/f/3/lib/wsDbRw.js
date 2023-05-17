@@ -14,6 +14,7 @@ dbMpFn.reviewFhirPart = adnId => {
         .filter(fipId => fipi.ppId[ppId].pp[pp].fipId[fipId].fhirPart[adnId]
         ).forEach(fipId => fipi.ppId[ppId].pp[pp].fipId[fipId]
             .fhirPart[adnId].count++)))
+    // for ppl2
     fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].ppl2
         && fipi.ppId[ppId].pp[pp].ppl2.l_fipId
             .filter(fipId => fipi.ppId[ppId].pp[pp].ppl2.fipId[fipId].fhirPart[adnId]
@@ -35,14 +36,19 @@ dbMpFn.deleteAdn1 = deleteAdnId => {
 }
 
 dbMpFn.save1ParentSort = parentSortId => {
+    const insertList = pd.parentChild[parentSortId]
+        .filter(adnId => !pd.eMap[adnId].sort)
+        .reduce((insertList, adnId) =>
+            insertList.push(adnId) && insertList, [])
     const sendJson = {
         adnId: parentSortId, cmd: 'save1ParentSort'
         , l: pd.parentChild[parentSortId]
+        , insertList: insertList
     }
     console.log('→', sendJson)
     wsDbRw.exchangeRwMessage(sendJson).then(event => {
         const json = JSON.parse(event.data)
-        console.log('←', json)
+        console.log('←', json, dbMpData.dbSave.sortParentChild)
     })
 }
 
