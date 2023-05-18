@@ -7,7 +7,7 @@ import { fipi } from '/f/3/lib/fipi.js'
 export const
     dbMpView = {}
     , dbMpFn = {}
-    , dbMpData = {}
+    , dbMpData = {C2P:{},}
 
 dbMpFn.reviewFhirPart = adnId => {
     fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].l_fipId

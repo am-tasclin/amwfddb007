@@ -1,7 +1,7 @@
 'use strict'
 import { pd } from '/f/3/lib/pd_wsDbC.js'
 import { fipi, fipiFn } from '/f/3/lib/fipi.js'
-import { dbMpView, dbMpFn } from '/f/3/lib/wsDbRw.js'
+import { dbMpView, dbMpFn, dbMpData } from '/f/3/lib/wsDbRw.js'
 import AdnEnterData from '/f/3/lib/AdnEnterData.js'
 
 pd.getAdnDialogWindow = () => pd.adnDialogWindow || (pd.adnDialogWindow = {})
@@ -103,6 +103,9 @@ export default {
             fipiFn.reviewAdnMenu(this.ppId, this.pp)
             console.log(pd.adnDialogWindow)
         }, setCopy() {
+            dbMpData.C2P.adnIdCopy = this.adnId
+            dbMpView.dbMessagePool.count++
+            console.log(dbMpData)
             pd.getAdnDialogWindow()
             pd.adnDialogWindow.adnIdCopy = this.adnId
             delete pd.adnDialogWindow.adnIdCut

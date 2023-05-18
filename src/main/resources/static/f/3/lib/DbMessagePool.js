@@ -2,10 +2,11 @@
 import { wsDbRw, dbMpView, dbMpData, dbMpFn } from '/f/3/lib/wsDbRw.js'
 
 export default {
-    data() { return { countCurrentPool: 0, countDbSaved: 0 } },
+    data() { return { countCurrentPool: 0, countDbSaved: 0, count: 0 } },
     mounted() { dbMpView.dbMessagePool = this },
     methods: {
         dbSave() { return dbMpData.dbSave },
+        c2p() { return dbMpData.C2P },
         deleteAdn1(deleteAdn1Id) { dbMpFn.deleteAdn1(deleteAdn1Id) },
         save1ParentSort(parentSortId) { dbMpFn.save1ParentSort(parentSortId) },
         save1Update(adnUpdateId) { dbMpFn.save1Update(adnUpdateId) },
@@ -22,6 +23,9 @@ export default {
         },
     }, template: `
 <span class="w3-dropdown-hover w3-white">
+    <span class="w3-tiny w3-opacity">
+        <span class="w3-text-blue" v-if="c2p().adnIdCopy"> ⧉ </span> {{c2p().adnIdCopy}}
+    </span>&nbsp;<span class="w3-hide">{{count}}</span>
     <span class="w3-tiny w3-opacity w3-hover-shadow w3-card">
         &nbsp; <sub> {{countCurrentPool}} </sub>/<sup>{{countDbSaved}}</sup> ䷢ &nbsp;
     </span>
