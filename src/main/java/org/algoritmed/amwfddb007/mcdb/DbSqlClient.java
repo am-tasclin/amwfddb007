@@ -20,6 +20,9 @@ import org.springframework.data.relational.core.query.Update;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.r2dbc.core.DatabaseClient.GenericExecuteSpec;
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import org.springframework.r2dbc.core.FetchSpec;
 
 import reactor.core.publisher.Mono;
@@ -57,8 +60,8 @@ public class DbSqlClient {
         return future;
     }
 
-    public Long nextDbId() {
-        return sqlTemplate.select(Nextdbid.class).first().block().getNextval();
+    public Long nextDbId() throws InterruptedException, ExecutionException {
+        return sqlTemplate.select(Nextdbid.class).first().toFuture().get().getNextval();
     }
 
     public CompletableFuture<Map<String, Object>> getOneRowObject(String sql) {
@@ -140,9 +143,17 @@ public class DbSqlClient {
 
     public void deleteAdn1(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
         logger.info("sql01 -125-" + mapIn);
-        Mono<Doc> x = sqlTemplate.delete(new Doc(Integer.parseInt(mapIn.get("adnId").toString())));
+        Mono<Doc> x = sqlTemplate.delete(new Doc(Long.parseLong(mapIn.get("adnId").toString())));
         CompletableFuture<Doc> y = x.toFuture();
         // mapIn.put("deleted", y.get());
+    }
+
+    public void insertAdnChild(Map<String, Object> mapIn)
+            throws InterruptedException, ExecutionException, JsonProcessingException {
+        Doc d = new Doc(nextDbId());
+        d.setParent(Long.parseLong(mapIn.get("parent").toString()));
+        sqlTemplate.insert(d).toFuture().get();
+        mapIn.put("d", d);
     }
 
 }

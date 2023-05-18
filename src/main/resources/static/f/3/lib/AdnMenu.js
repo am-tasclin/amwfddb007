@@ -88,8 +88,10 @@ export default {
             pd.dbSave.deleteAdn.push(this.adnId)
             console.log(pd.dbSave)
             fipi.edCopyCut.count++
-        }, insertAdn() {
-            console.log(this.adnId)
+        }
+        , insertAdnChild() {
+            dbMpFn.addDbSaveList('insertAdnChild', this.adnId)
+            dbMpFn.insertAdnChild(this.adnId)
         }
         , thisAdnDialogWindow() { return pd.adnDialogWindow && pd.adnDialogWindow.adnId == this.adnId }
         , isCopy() { return pd.adnDialogWindow && pd.adnDialogWindow.adnIdCopy == this.adnId }
@@ -100,8 +102,7 @@ export default {
             delete pd.adnDialogWindow.adnIdCopy
             fipiFn.reviewAdnMenu(this.ppId, this.pp)
             console.log(pd.adnDialogWindow)
-        }
-        , setCopy() {
+        }, setCopy() {
             pd.getAdnDialogWindow()
             pd.adnDialogWindow.adnIdCopy = this.adnId
             delete pd.adnDialogWindow.adnIdCut
@@ -156,7 +157,7 @@ export default {
         <button class="w3-btn" @click="sortUp()">⬆</button>
         <button class="w3-btn" @click="sortDown()">⬇</button>
         ｜
-        <button class="w3-btn am-b" @click="insertAdn()">＋</button>
+        <button class="w3-btn am-b" @click="insertAdnChild()" title="addChild - додати дитину">＋</button>
         <button class="w3-btn am-b" @click="deleteAdn();deleteAdn1()">－</button>
         <div class="w3-border-top">
             <button class="w3-btn am-b" @click="setAdnDialogWindow('edit','fixed')">✐</button>

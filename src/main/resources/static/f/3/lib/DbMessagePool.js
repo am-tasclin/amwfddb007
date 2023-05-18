@@ -12,6 +12,13 @@ export default {
         addCountCurrentPool() {
             this.countCurrentPool++
             console.log(dbMpData)
+            dbMpData.dbSave.deleteAdn
+                && dbMpData.dbSave.deleteAdn.length > 0
+                && dbMpFn.deleteAdn1(dbMpData.dbSave.deleteAdn[0])
+
+            dbMpData.dbSave.sortParentChild
+                && dbMpData.dbSave.sortParentChild.length > 0
+                && dbMpFn.save1ParentSort(dbMpData.dbSave.sortParentChild[0])
         },
     }, template: `
 <span class="w3-dropdown-hover w3-white">

@@ -22,6 +22,24 @@ dbMpFn.reviewFhirPart = adnId => {
                 .fhirPart[adnId].count++)))
 }
 
+dbMpFn.insertAdnChild = parent => {
+    console.log(parent)
+    const sendJson = {
+        parent: parent, cmd: 'insertAdnChild'
+    }
+    console.log('→', parent, sendJson)
+    console.log('→', pd.eMap[parent])
+    wsDbRw.exchangeRwMessage(sendJson).then(event => {
+        const json = JSON.parse(event.data)
+        console.log('←', json)
+        pd.eMap[json.d.doc_id] = json.d;
+        (pd.parentChild[parent] || (pd.parentChild[parent] = []))
+            .push(json.d.doc_id)
+        console.log('←', pd.parentChild[parent])
+        // dbMpFn.reviewFhirPart(json.adnId)
+        dbMpFn.reviewFhirPart(json.parent)
+    })
+}
 
 dbMpFn.deleteAdn1 = deleteAdnId => {
     const sendJson = {
@@ -30,8 +48,15 @@ dbMpFn.deleteAdn1 = deleteAdnId => {
     console.log('→', deleteAdnId, sendJson)
     wsDbRw.exchangeRwMessage(sendJson).then(event => {
         const json = JSON.parse(event.data)
-        console.log('←', json)
-        dbMpFn.reviewFhirPart(json.adnId)
+            , parentId = pd.eMap[json.adnId].parent
+            , deleteAdnIdIndex = pd.parentChild[parentId].indexOf(json.adnId)
+            , deleteAdnIdIndexDbSave
+                = dbMpData.dbSave.deleteAdn.indexOf(deleteAdnId)
+        console.log('←', json, parentId)
+        pd.parentChild[parentId].splice(deleteAdnIdIndex, 1)
+        delete pd.eMap[json.adnId]
+        dbMpData.dbSave.deleteAdn.splice(deleteAdnIdIndexDbSave, 1)
+        dbMpFn.reviewFhirPart(parentId)
     })
 }
 
@@ -49,6 +74,14 @@ dbMpFn.save1ParentSort = parentSortId => {
     wsDbRw.exchangeRwMessage(sendJson).then(event => {
         const json = JSON.parse(event.data)
         console.log('←', json, dbMpData.dbSave.sortParentChild)
+
+        const parentIndex = dbMpData.dbSave.sortParentChild.indexOf(parent)
+        dbMpData.dbSave.sortParentChild.splice(parentIndex, 1)
+        dbMpView.dbMessagePool.countCurrentPool--
+        dbMpView.dbMessagePool.countDbSaved++
+        dbMpData.dbSave.sortParentChild.length > 0
+            && dbMpView.dbMessagePool.addCountCurrentPool()
+
     })
 }
 
