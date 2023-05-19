@@ -88,8 +88,9 @@ export default {
             pd.dbSave.deleteAdn.push(this.adnId)
             console.log(pd.dbSave)
             fipi.edCopyCut.count++
-        }
-        , insertAdnChild() {
+        }, pasteAdnSibling() {
+            dbMpFn.pasteAdnSibling(this.adnId, fipi.ppId[this.ppId].pp[this.pp], this.lrPl2)
+        }, insertAdnChild() {
             dbMpFn.addDbSaveList('insertAdnChild', this.adnId)
             dbMpFn.insertAdnChild(this.adnId)
         }
@@ -174,9 +175,9 @@ export default {
         <div class="w3-border-top">
             <button class="w3-btn am-b" @click="setCopy()" title="copy - копіювати">⧉</button>
             <button class="w3-btn am-b" @click="setCut()" title="cut - вирізати">✀</button>
-            <button class="w3-btn am-b" @click="setAdnDialogWindow('paste')" title="paste - вставити">⧠</button>
+            <button class="w3-btn am-b" @click="setAdnDialogWindow('paste')" title="pasteas - вставити як …">⧠</button>
             <div class="w3-dropdown-content w3-card-4 w3-leftbar" v-if="isPaste()" >
-                <button class="w3-btn am-b" @click="setAdnDialogWindow('paste')" title="paste - вставити">⧠</button>
+                <button class="w3-btn am-b" @click="pasteAdnSibling()" title="paste sibling - вставити як побратима">⧠</button>
                 <div class="w3-small">
                     <button @click="setAdnDialogWindow('paste')" class="w3-btn" 
                         title="reference">type-1 ⮫</button>
@@ -186,7 +187,7 @@ export default {
                         title="reference2">type-2 ⮫</button>
                     <button class="w3-btn w3-padding-small" title="copy r2">r2: {{i('reference2')}}</button>
                 </div>
-                <button class="w3-btn am-b" @click="setAdnDialogWindow('paste')" title="paste inner - вставити внутрішній">+₊⧠</button>
+                <button class="w3-btn am-b" @click="setAdnDialogWindow('paste')" title="paste inner - вставити як внутрішній">+₊⧠</button>
             </div>
         </div>
     </div> 

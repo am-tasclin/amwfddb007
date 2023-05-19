@@ -20,7 +20,7 @@ export default {
             dbMpData.dbSave.sortParentChild
                 && dbMpData.dbSave.sortParentChild.length > 0
                 && dbMpFn.save1ParentSort(dbMpData.dbSave.sortParentChild[0])
-        },
+        }, isPastePossible() { return dbMpFn.isPastePossible() }
     }, template: `
 <span class="w3-dropdown-hover w3-white">
     <span class="w3-tiny w3-opacity">
@@ -32,6 +32,16 @@ export default {
     <div class="w3-dropdown-content w3-border w3-right-align w3-hover-shadow" style="right: -1em; width: 33em;">
         <span class="w3-tiny w3-opacity w3-left">DB messages &nbsp;</span>
         &nbsp;
+        <div class="w3-small">
+            <span class="w3-left w3-red" v-if="!isPastePossible()">
+                ⚠ paste no possible
+                {{c2p().ppIdpp && c2p().ppIdpp.lrPl2}}
+            </span> 
+            <span class="w3-text-blue" v-if="c2p().adnIdCopy"> ⧉ </span> copy:{{c2p().adnIdCopy}}
+            <span v-if="c2p().siblingPasteAdnId"> ➾ 
+                <span class="w3-text-blue" > ⧠ </span> paste:{{c2p().siblingPasteAdnId}}
+            </span>
+        </div>
         <div v-if="dbSave()">
             <span class="w3-tiny w3-opacity w3-left">toSave</span>
             <div v-if="dbSave().update">

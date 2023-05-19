@@ -7,7 +7,7 @@ import { fipi } from '/f/3/lib/fipi.js'
 export const
     dbMpView = {}
     , dbMpFn = {}
-    , dbMpData = {C2P:{},}
+    , dbMpData = { C2P: {}, }
 
 dbMpFn.reviewFhirPart = adnId => {
     fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].l_fipId
@@ -20,6 +20,21 @@ dbMpFn.reviewFhirPart = adnId => {
             .filter(fipId => fipi.ppId[ppId].pp[pp].ppl2.fipId[fipId].fhirPart[adnId]
             ).forEach(fipId => fipi.ppId[ppId].pp[pp].ppl2.fipId[fipId]
                 .fhirPart[adnId].count++)))
+}
+
+dbMpFn.isPastePossible = () => {
+    const ppO = (dbMpData.C2P.lrPl2
+        && dbMpData.C2P.ppIdpp.ppl2 || dbMpData.C2P.ppIdpp)
+    return dbMpData.C2P.ppIdpp && !ppO.l_fipId.includes(dbMpData.C2P.siblingPasteAdnId)
+}
+
+dbMpFn.pasteAdnSibling = (siblingPasteAdnId, ppIdpp, lrPl2) => {
+    dbMpData.C2P.siblingPasteAdnId = siblingPasteAdnId
+    dbMpData.C2P.ppIdpp = ppIdpp
+    dbMpData.C2P.lrPl2 = lrPl2
+    console.log(dbMpData.C2P)
+    console.log(dbMpFn.isPastePossible())
+    dbMpView.dbMessagePool.count++
 }
 
 dbMpFn.insertAdnChild = parent => {
