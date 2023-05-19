@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.algoritmed.amwfddb007.mcdb.DbSqlClient;
+import org.algoritmed.amwfddb007.mcrdb.DbSqlClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

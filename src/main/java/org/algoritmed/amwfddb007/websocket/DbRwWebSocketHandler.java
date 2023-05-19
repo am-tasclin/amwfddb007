@@ -43,6 +43,9 @@ public class DbRwWebSocketHandler extends SimpleWebSocketHandler implements WebS
                     case "updateString":
                         dbSqlClient.updateString(mapIn);
                         break;
+                    case "insertString":
+                        dbSqlClient.insertString(mapIn);
+                        break;
                 }
                 logger.info("-40-:" + incrementAndGet + "--\n" + mapIn);
                 String jsonStr = objectMapper.writeValueAsString(mapIn);

@@ -1,4 +1,4 @@
-package org.algoritmed.amwfddb007.mcdb;
+package org.algoritmed.amwfddb007.mcrdb;
 
 import java.util.List;
 import java.util.Map;
@@ -6,10 +6,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-import org.algoritmed.amwfddb007.mcrdb.Doc;
-import org.algoritmed.amwfddb007.mcrdb.Nextdbid;
-import org.algoritmed.amwfddb007.mcrdb.Sort;
-import org.algoritmed.amwfddb007.mcrdb.StringContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,14 +101,6 @@ public class DbSqlClient {
         mapIn.put("rowsUpdated", long1);
     }
 
-    public void updateString(Map mapIn) throws InterruptedException, ExecutionException {
-        CompletableFuture<Long> rowsUpdated = sqlTemplate.update(StringContent.class)
-                .matching(Query.query(Criteria.where("string_id")
-                        .is(mapIn.get("adnId"))))
-                .apply(Update.update("value", mapIn.get("string"))).toFuture();
-        mapIn.put("rowsUpdated", rowsUpdated.get());
-    }
-
     public void save1ParentSort(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
         logger.info("\n" + mapIn);
         int updated = 0;
@@ -123,8 +111,7 @@ public class DbSqlClient {
                 .collect(Collectors.toList());
         for (Integer adnId : insertList) {
             int sort = l.indexOf(adnId) + 1;
-            sqlTemplate.insert(new Sort(adnId, sort))
-                    .toFuture().get();
+            sqlTemplate.insert(new Sort(adnId, sort)).toFuture().get();
             updated++;
             logger.info(adnId + "/" + sort + " insert = " + updated);
         }
@@ -154,6 +141,22 @@ public class DbSqlClient {
         d.setParent(Long.parseLong(mapIn.get("parent").toString()));
         sqlTemplate.insert(d).toFuture().get();
         mapIn.put("d", d);
+    }
+
+    public void insertString(Map mapIn) throws InterruptedException, ExecutionException {
+        StringContent stringContent = sqlTemplate.insert(
+                new StringContent(
+                        Long.parseLong(mapIn.get("adnId").toString()), mapIn.get("string")))
+                .toFuture().get();
+        mapIn.put("inserted", stringContent);
+    }
+
+    public void updateString(Map mapIn) throws InterruptedException, ExecutionException {
+        CompletableFuture<Long> rowsUpdated = sqlTemplate.update(StringContent.class)
+                .matching(Query.query(Criteria.where("string_id")
+                        .is(mapIn.get("adnId"))))
+                .apply(Update.update("value", mapIn.get("string"))).toFuture();
+        mapIn.put("rowsUpdated", rowsUpdated.get());
     }
 
 }

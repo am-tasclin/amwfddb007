@@ -32,7 +32,7 @@ export default {
     <div class="w3-dropdown-content w3-border w3-right-align w3-hover-shadow" style="right: -1em; width: 33em;">
         <span class="w3-tiny w3-opacity w3-left">DB messages &nbsp;</span>
         &nbsp;
-        <div class="w3-small">
+        <div class="w3-small" v-if="c2p().adnIdCopy && c2p().siblingPasteAdnId">
             <span class="w3-left w3-red" v-if="!isPastePossible()">
                 ⚠ paste no possible
                 {{c2p().ppIdpp && c2p().ppIdpp.lrPl2}}
