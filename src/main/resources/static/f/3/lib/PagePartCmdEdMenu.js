@@ -1,6 +1,9 @@
 'use strict'
 import { cl } from '/f/3/lib/common_lib.js'
+import { pd } from '/f/3/lib/pd_wsDbC.js'
 import { fipi, fipiFn } from '/f/3/lib/fipi.js'
+import { dbMpFn, dbMpView } from '/f/3/lib/wsDbRw.js'
+
 
 fipiFn.confJson = ppId => JSON.stringify(fipi.ppId[ppId], (k, v) =>
     !['pagePartCmdEdMenu', 'fhirPart', 'adnMenu', 'buildJson'].includes(k)
@@ -15,7 +18,8 @@ fipiFn.ppcvJsonStr = ppFips => JSON.stringify(ppFips, '', 2)
 export default {
     props: { ppId: Number }, data() { return { count: 0, ppIdStrHash: '', epl2Data: {}, } },
     mounted() {
-        // this.ppCmdEdOnOff()
+        // 376639 == this.ppId &&
+        //     this.ppCmdEdOnOff()
         fipi.ppId[this.ppId].l_pp.filter(pp => 'lr' != pp)
             .reduce((o, pp) => (o[pp] = !fipi.ppId[this.ppId].pp[pp].epl2 && [] ||
                 Object.assign([], fipi.ppId[this.ppId].pp[pp].epl2.l_fipId)) && o, this.epl2Data)
@@ -27,13 +31,22 @@ export default {
         ppCmdEdOnOff() { cl.W3ShowOnOff('ppCmdEd_' + this.ppId) },
         ppConfType(ppConfTypeName) {
             fipi.ppId[this.ppId].confType = ppConfTypeName
-            console.log(this.ppId, ppConfTypeName, fipi.ppId[this.ppId])
+            // console.log(this.ppId, ppConfTypeName, fipi.ppId[this.ppId])
             this.count++
+        }, ppDbId(event, ppId, pp, ppl2) {
+            console.log(ppId, pp, ppl2)
+            console.log(event.target.value.split(','))
+            const readNewAdnIds = event.target.value.split(',')
+                .filter(im => !pd.eMap[1 * im]).filter(im => 1 * im > 0)
+                .reduce((o, im) => o.push(1 * im) && o, [])
+
+            readNewAdnIds.length > 0
+                && (dbMpFn.getDbSaveObject('readNewAdnIds')[readNewAdnIds.join('_')] =
+                    { ppId: ppId, pp: pp, ppl2: ppl2 }
+                )
+                && dbMpView.dbMessagePool.addCountCurrentPool()
         },
-        ppDbId(ppId, pp, ppl2){
-            console.log(123, ppId, pp, ppl2)
-        },
-        confJsonStr(){ return fipiFn.ppcvJsonStr(JSON.parse(fipiFn.confJson(this.ppId)))},
+        confJsonStr() { return fipiFn.ppcvJsonStr(JSON.parse(fipiFn.confJson(this.ppId))) },
         confJson() {
             fipi.ppId[this.ppId].forPpId = this.ppId
             this.ppIdStrHash = fipiFn.confJson(this.ppId)
@@ -92,11 +105,11 @@ export default {
                         <span class="w3-opacity a1m-u">
                             {{pp}}: <span class="w3-small am-i"> {{fip(pp)}} </span>
                         </span>
-                        <input @keyup.enter="ppDbId(ppId, pp)" :value="ppO(pp).l_fipId.join(', ')" class="w3-hover-shadow w3-small am-width-100pr">
+                        <input @keyup.enter="ppDbId($event, ppId, pp)" :value="ppO(pp).l_fipId.join(', ')" class="w3-hover-shadow w3-small am-width-100pr">
                     </div>
                     <div class="w3-half w3-container">
                         <div v-if="'lr'==pp"> <span class="w3-opacity a1m-u"> &nbsp; </span>
-                            <input @keyup.enter="ppDbId(ppId, pp, true)" :value="ppO(pp).ppl2.l_fipId.join(', ')" class="w3-hover-shadow w3-small am-width-100pr"/>
+                            <input @keyup.enter="ppDbId($event, ppId, pp, true)" :value="ppO(pp).ppl2.l_fipId.join(', ')" class="w3-hover-shadow w3-small am-width-100pr"/>
                         </div>
                         <span v-for="k2 in ppIdFn().pp[pp].l_fipId" class="w3-small">
                             <template v-if="'lr'!=pp">

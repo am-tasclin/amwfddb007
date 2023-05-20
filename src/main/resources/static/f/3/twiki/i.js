@@ -7,8 +7,9 @@ import FhirPart from '/f/3/lib/FhirPart.js'
 
 const pageId = window.location.hash.substring(1).split(',')[1]
 
-console.log(pageId)
+// console.log(pageId)
 const firstReadIds = [pageId, fipi2.FhirInfoPageId].join(',')
+// console.log(firstReadIds)
 
 wsDbC.cmdList = [{
     sendJson: { sqlName: 'adn01NodesIn', adnId: firstReadIds },
@@ -21,11 +22,11 @@ wsDbC.cmdList = [{
     thenFn: event => {
         fipi.tWikiPart.count++
         fipi.fipList = fipiFn.childIdConcat(fipi2.FhirInfoPageId, [])
-        console.log(pageId, 'wsDbC.cmdList[1] 2', fipi.fipList)
+        // console.log(pageId, 'wsDbC.cmdList[1] 2', fipi.fipList)
         fipiFn.initPPBlock()
 
         const allAdnIds = fipiFn.getAllAdnIds()
-
+        // console.log(allAdnIds)
         wsDbC.cmdList[1].sendJson.adnId = allAdnIds
         allAdnIds &&
             wsDbC.sendAndSetMessageFn(Object.assign(wsDbC.cmdList[1].sendJson

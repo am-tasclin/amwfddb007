@@ -7,7 +7,7 @@ import { fipi } from '/f/3/lib/fipi.js'
 export const
     dbMpView = {}
     , dbMpFn = {}
-    , dbMpData = { C2P: {}, }
+    , dbMpData = { C2P: {}, dbSave: {} }
 
 dbMpFn.reviewFhirPart = adnId => {
     fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => fipi.ppId[ppId].pp[pp].l_fipId
@@ -119,8 +119,8 @@ dbMpFn.addDbSaveList = (blockName, im) => dbMpFn.getDbSaveList(blockName)
 
 dbMpFn.getDbSaveList = blockName => dbMpFn.getDbSaveElement([], blockName)
 dbMpFn.getDbSaveObject = blockName => dbMpFn.getDbSaveElement({}, blockName)
-dbMpFn.getDbSaveElement = (et, blockName) => blockName &&
-    (dbMpData.dbSave || (dbMpData.dbSave = {}))
+// (dbMpData.dbSave || (dbMpData.dbSave = {}))    && 
+dbMpFn.getDbSaveElement = (et, blockName) => blockName
     && dbMpData.dbSave[blockName]
     || (dbMpData.dbSave[blockName] = et) || null
 

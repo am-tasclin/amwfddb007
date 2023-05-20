@@ -44,6 +44,7 @@ wsDbC.readParentDeep = listDeepSql => wsDbC.sendAndSetMessageFn(wsDbC.jsonToSend
     }) // && true
 
 wsDbC.sendAndSetMessageFn = (sendJson) => {
+// console.log(sendJson)
     wsDbC.wsDbSelect.send(JSON.stringify(sendJson))
     return new Promise((onMessageFn, rejectFn) => {
         wsDbC.wsDbSelect.onmessage = event => onMessageFn(event)

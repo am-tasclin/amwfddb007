@@ -1,5 +1,6 @@
 'use strict'
-import { wsDbRw, dbMpView, dbMpData, dbMpFn } from '/f/3/lib/wsDbRw.js'
+import { dbMpView, dbMpData, dbMpFn } from '/f/3/lib/wsDbRw.js'
+import { wsDbC } from '/f/3/lib/pd_wsDbC.js'
 
 export default {
     data() { return { countCurrentPool: 0, countDbSaved: 0, count: 0 } },
@@ -12,7 +13,7 @@ export default {
         save1Update(adnUpdateId) { dbMpFn.save1Update(adnUpdateId) },
         addCountCurrentPool() {
             this.countCurrentPool++
-            console.log(dbMpData)
+            // console.log(dbMpData)
             dbMpData.dbSave.deleteAdn
                 && dbMpData.dbSave.deleteAdn.length > 0
                 && dbMpFn.deleteAdn1(dbMpData.dbSave.deleteAdn[0])
@@ -22,9 +23,20 @@ export default {
                 && dbMpFn.save1ParentSort(dbMpData.dbSave.sortParentChild[0])
 
             dbMpData.dbSave.saveContent && Object.keys(dbMpData.dbSave.saveContent)
-                .forEach(adnId => {
-                    console.log(adnId, 123, dbMpData.dbSave.saveContent[adnId])
-                    dbMpFn.save1Update(adnId)
+                .forEach(adnId => dbMpFn.save1Update(adnId))
+
+            // console.log('readNewAdnIds --> ', dbMpData.dbSave.readNewAdnIds)
+
+            dbMpData.dbSave.readNewAdnIds && Object.keys(dbMpData.dbSave.readNewAdnIds)
+                .forEach(readNewAdnIds => {
+                    const adnIds = readNewAdnIds.includes('_') && readNewAdnIds.split('_') || [readNewAdnIds]
+                        , sendJson = Object.assign(dbMpData.dbSave.readNewAdnIds[readNewAdnIds]
+                            , wsDbC.jsonToSend('adn01NodesIn', adnIds))
+                    console.log('→', sendJson)
+                    wsDbC.sendAndSetMessageFn(sendJson).then(event => {
+                        const json = JSON.parse(event.data)
+                        console.log('←', json)
+                    })
                 })
 
         }, isPastePossible() { return dbMpFn.isPastePossible() }
