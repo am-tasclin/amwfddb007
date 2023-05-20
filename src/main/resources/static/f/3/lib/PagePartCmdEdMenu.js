@@ -30,6 +30,9 @@ export default {
             console.log(this.ppId, ppConfTypeName, fipi.ppId[this.ppId])
             this.count++
         },
+        ppDbId(ppId, pp, ppl2){
+            console.log(123, ppId, pp, ppl2)
+        },
         confJsonStr(){ return fipiFn.ppcvJsonStr(JSON.parse(fipiFn.confJson(this.ppId)))},
         confJson() {
             fipi.ppId[this.ppId].forPpId = this.ppId
@@ -89,11 +92,11 @@ export default {
                         <span class="w3-opacity a1m-u">
                             {{pp}}: <span class="w3-small am-i"> {{fip(pp)}} </span>
                         </span>
-                        <input :value="ppO(pp).l_fipId.join(', ')" class="w3-hover-shadow w3-small am-width-100pr">
+                        <input @keyup.enter="ppDbId(ppId, pp)" :value="ppO(pp).l_fipId.join(', ')" class="w3-hover-shadow w3-small am-width-100pr">
                     </div>
                     <div class="w3-half w3-container">
                         <div v-if="'lr'==pp"> <span class="w3-opacity a1m-u"> &nbsp; </span>
-                            <input  :value="ppO(pp).ppl2.l_fipId.join(', ')" class="w3-hover-shadow w3-small am-width-100pr"/>
+                            <input @keyup.enter="ppDbId(ppId, pp, true)" :value="ppO(pp).ppl2.l_fipId.join(', ')" class="w3-hover-shadow w3-small am-width-100pr"/>
                         </div>
                         <span v-for="k2 in ppIdFn().pp[pp].l_fipId" class="w3-small">
                             <template v-if="'lr'!=pp">
@@ -105,6 +108,7 @@ export default {
                 </div>
             </div>
         </div>
+        &nbsp;
     </div>
 </span> <span class="w3-hide">{{count}}</span>
     `,

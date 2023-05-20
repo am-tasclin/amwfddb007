@@ -20,6 +20,13 @@ export default {
             dbMpData.dbSave.sortParentChild
                 && dbMpData.dbSave.sortParentChild.length > 0
                 && dbMpFn.save1ParentSort(dbMpData.dbSave.sortParentChild[0])
+
+            dbMpData.dbSave.saveContent && Object.keys(dbMpData.dbSave.saveContent)
+                .forEach(adnId => {
+                    console.log(adnId, 123, dbMpData.dbSave.saveContent[adnId])
+                    dbMpFn.save1Update(adnId)
+                })
+
         }, isPastePossible() { return dbMpFn.isPastePossible() }
     }, template: `
 <span class="w3-dropdown-hover w3-white">
@@ -44,11 +51,14 @@ export default {
         </div>
         <div v-if="dbSave()">
             <span class="w3-tiny w3-opacity w3-left">toSave</span>
-            <div v-if="dbSave().update">
-                update
-                <div v-for="( update, adnUpdateId) in dbSave().update ">
-                    <span class="w3-yellow w3-left w3-tiny"> {{update.status}} </span>
-                    {{update.string}}
+            a1
+            {{dbSave()}}
+            a1
+            <div v-if="dbSave().saveContent">
+                saveContent
+                <div v-for="( sc, adnUpdateId) in dbSave().saveContent ">
+                    <span class="w3-yellow w3-left w3-tiny"> {{sc.status}} </span>
+                    {{sc.string}}
                     <button class="w3-btn" @click="save1Update(adnUpdateId)"> {{adnUpdateId}} </button>
                 </div>
             </div>

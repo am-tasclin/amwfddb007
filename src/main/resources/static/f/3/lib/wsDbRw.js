@@ -101,8 +101,9 @@ dbMpFn.save1ParentSort = parentSortId => {
 }
 
 dbMpFn.save1Update = adnUpdateId => {
-    const sendJson = Object.assign(dbMpData.dbSave.update[adnUpdateId]
+    const sendJson = Object.assign(dbMpData.dbSave.saveContent[adnUpdateId]
         , { adnId: adnUpdateId, cmd: 'updateString' })
+    !pd.eMap[adnUpdateId].value_22 && (sendJson.cmd = 'insertString')
     console.log('→', sendJson)
     wsDbRw.exchangeRwMessage(sendJson).then(event => {
         const json = JSON.parse(event.data)

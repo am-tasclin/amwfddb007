@@ -19,7 +19,7 @@ export default {
     data() { return { count: 0, value_22: pd.eMap[this.adnId].value_22 } },
     methods: {
         enterData() {
-            dbMpFn.getDbSaveObject('update')[this.adnId] = { string: this.value_22.trim() }
+            dbMpFn.getDbSaveObject('saveContent')[this.adnId] = { string: this.value_22.trim() }
             console.log(dbMpData, 123)
             dbMpView.dbMessagePool && dbMpView.dbMessagePool.addCountCurrentPool()
 
