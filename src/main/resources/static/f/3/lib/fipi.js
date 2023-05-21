@@ -1,6 +1,6 @@
 'use strict'
 import { pd } from '/f/3/lib/pd_wsDbC.js'
-import EdCopyCut from '/f/3/lib/EdCopyCut.js'
+// import EdCopyCut from '/f/3/lib/EdCopyCut.js'
 import DbMessagePool from '/f/3/lib/DbMessagePool.js'
 
 export const
@@ -37,6 +37,8 @@ fipiFn.initPageParts = (rawFipiStr, ppId) => {
 
 fipiFn.initFromJson = (jsonStr, ppId) => {
     const json = JSON.parse(decodeURI(jsonStr))
+    ppId && (json.forPpId = ppId)
+
     console.log(json.forPpId, 'to test')
     !fipi.l_ppId && (fipi.l_ppId = [])
     !fipi.l_ppId[json.forPpId] && fipi.l_ppId.splice(0, 0, json.forPpId)
@@ -44,6 +46,8 @@ fipiFn.initFromJson = (jsonStr, ppId) => {
     !fipi.ppId && json.forPpId && (fipi.ppId = {})
         && (fipi.ppId[json.forPpId] = json)
         && delete json.forPpId
+
+    console.log(fipi)
 }
 
 fipiFn.initFromURI = (rawFipiStr, ppId) => {
@@ -109,9 +113,9 @@ fipiFn.headTitleApp = createApp =>
         .mount('#headTitle')
 
 fipiFn.edCopyCut = createApp => {
-    const edCopyCut = createApp()
-    edCopyCut.component('t-ed-copy-cut', EdCopyCut)
-    edCopyCut.mount('#edCopyCut')
+    // const edCopyCut = createApp()
+    // edCopyCut.component('t-ed-copy-cut', EdCopyCut)
+    // edCopyCut.mount('#edCopyCut')
 
     const dbMessagePool = createApp()
     dbMessagePool.component('t-db-message-pool', DbMessagePool)

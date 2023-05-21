@@ -20,6 +20,7 @@ export default {
     mounted() {
         // 376639 == this.ppId &&
         //     this.ppCmdEdOnOff()
+        console.log(this.ppId)
         fipi.ppId[this.ppId].l_pp.filter(pp => 'lr' != pp)
             .reduce((o, pp) => (o[pp] = !fipi.ppId[this.ppId].pp[pp].epl2 && [] ||
                 Object.assign([], fipi.ppId[this.ppId].pp[pp].epl2.l_fipId)) && o, this.epl2Data)
@@ -63,7 +64,7 @@ export default {
             <span class="w3-tiny w3-opacity w3-right">{{ppId}}<span>
         </div>
         <div class="w3-tiny ">
-        <a :href="'#cj='+ppIdStrHash" target="_blank">{{ppIdStrHash}}</a>
+        <a :href="'../dom/i.html#cj='+ppIdStrHash" target="_blank">{{ppIdStrHash}}</a>
         </div>
         <div class="w3-row">
             <div class="w3-quarter w13-border-right">

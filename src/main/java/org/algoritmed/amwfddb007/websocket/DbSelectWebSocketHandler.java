@@ -23,8 +23,8 @@ public class DbSelectWebSocketHandler extends SimpleWebSocketHandler implements 
             WebSocketMessage m;
             try {
                 mapIn = objectMapper.readValue(sqlSelectJson, Map.class);
-                logger.info("-26-" + incrementAndGet + ":, sql:");
                 String sqlSelect = (String) mapIn.get("sql");
+                logger.info("-26-" + incrementAndGet + ":, sql:"+sqlSelect.length());
                 mapIn.put("list", dbSqlClient.getListOfRowObject(sqlSelect).get());
                 mapIn.remove("sql");
                 String jsonStr = objectMapper.writeValueAsString(mapIn);
@@ -34,7 +34,7 @@ public class DbSelectWebSocketHandler extends SimpleWebSocketHandler implements 
                 m = session.textMessage(" ERROR:" + incrementAndGet + ":\n" + Map.of("mapIn", mapIn));
                 e.printStackTrace();
             }
-            logger.info("-50-:" + incrementAndGet + "--\n");
+            // logger.info("-50-:" + incrementAndGet + "--\n");
             return m;
         }));
     }

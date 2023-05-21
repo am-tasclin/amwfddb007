@@ -1,18 +1,19 @@
 'use strict'
-import { pd, sql_app_ws } from '/f/3/lib/pd_wsDbC.js'
+import { pd} from '/f/3/lib/pd_wsDbC.js'
+// import { pd, sql_app_ws } from '/f/3/lib/pd_wsDbC.js'
 import { fipi } from '/f/3/lib/fipi.js'
 import { dbMpData, dbMpFn, dbMpView } from '/f/3/lib/wsDbRw.js'
 
-sql_app_ws.sqlUpdate = (adnId, contentTableName, fieldValue) => {
-    sql_app_ws.getSendSql()
-    !sql_app_ws.sendSql.update
-        && (sql_app_ws.sendSql.update = {})
-    !sql_app_ws.sendSql.update[adnId]
-        && (sql_app_ws.sendSql.update[adnId] = {})
-        || delete sql_app_ws.sendSql.update[adnId][contentTableName]
-    sql_app_ws.sendSql.update[adnId][contentTableName] = fieldValue
-    console.log(adnId, sql_app_ws.sendSql)
-}
+// sql_app_ws.sqlUpdate = (adnId, contentTableName, fieldValue) => {
+//     sql_app_ws.getSendSql()
+//     !sql_app_ws.sendSql.update
+//         && (sql_app_ws.sendSql.update = {})
+//     !sql_app_ws.sendSql.update[adnId]
+//         && (sql_app_ws.sendSql.update[adnId] = {})
+//         || delete sql_app_ws.sendSql.update[adnId][contentTableName]
+//     sql_app_ws.sendSql.update[adnId][contentTableName] = fieldValue
+//     console.log(adnId, sql_app_ws.sendSql)
+// }
 
 export default {
     props: { adnId: Number, },
@@ -23,8 +24,8 @@ export default {
             console.log(dbMpData, 123)
             dbMpView.dbMessagePool && dbMpView.dbMessagePool.addCountCurrentPool()
 
-            sql_app_ws.sqlUpdate(this.adnId, 'string', this.value_22.trim())
-            fipi.edCopyCut && fipi.edCopyCut.countFn('AdnEnterData')
+            // sql_app_ws.sqlUpdate(this.adnId, 'string', this.value_22.trim())
+            // fipi.edCopyCut && fipi.edCopyCut.countFn('AdnEnterData')
         },
     }, template: `
 <div class="w3-container">

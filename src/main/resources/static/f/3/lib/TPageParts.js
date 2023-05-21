@@ -7,6 +7,9 @@ import PagePartCmdEdMenu from '/f/3/lib/PagePartCmdEdMenu.js'
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
     components: { FhirPart, BuildJson, PagePartCmdEdMenu },
+    mounted(){
+        console.log(this.ppId, fipi)
+    },
     methods: {
         pps() { return fipiFn.pps(this.ppId) },
         fip(fip) { return fipiFn.fip[fip] },
@@ -59,7 +62,7 @@ export default {
     <div class="w3-row" v-if="ppFn(pp).ppl2">
         <div class="w3-half">
             <template v-for="fipId in ppFn(pp).l_fipId">
-                <FhirPart v-else :adnId="fipId" :ppId="ppId" :pp="pp" :fipId="fipId" />
+                <FhirPart :adnId="fipId" :ppId="ppId" :pp="pp" :fipId="fipId" />
             </template>
         </div>
         <div class="w3-half">
