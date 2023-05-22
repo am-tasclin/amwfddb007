@@ -7,8 +7,9 @@ import PagePartCmdEdMenu from '/f/3/lib/PagePartCmdEdMenu.js'
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
     components: { FhirPart, BuildJson, PagePartCmdEdMenu },
-    mounted(){
-        console.log(this.ppId, fipi)
+    mounted() {
+        console.log(this.ppId, fipi.ppId[this.ppId])
+        fipi.ppId[this.ppId].tPagePart = this
     },
     methods: {
         pps() { return fipiFn.pps(this.ppId) },

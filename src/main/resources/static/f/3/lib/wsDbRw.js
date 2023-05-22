@@ -1,7 +1,6 @@
 'use strict'
-import { pd } from '/f/3/lib/pd_wsDbC.js'
+import { pd, wsDbC } from '/f/3/lib/pd_wsDbC.js'
 import { fipi } from '/f/3/lib/fipi.js'
-
 
 //dbMp: db Message Pool
 export const
@@ -100,6 +99,27 @@ dbMpFn.save1ParentSort = parentSortId => {
     })
 }
 
+dbMpFn.readNewAdnIds = () => Object.keys(dbMpData.dbSave.readNewAdnIds)
+    .forEach(readNewAdnIds => {
+        const sendJson = Object.assign(dbMpData.dbSave.readNewAdnIds[readNewAdnIds]
+            , wsDbC.jsonToSend('adn01NodesIn'
+                , readNewAdnIds.includes('_') && readNewAdnIds.split('_')
+                || [readNewAdnIds])
+        )
+        console.log('→', JSON
+            .stringify(sendJson, (k, v) => !['sql'].includes(k) && v || undefined))
+        wsDbC.sendAndSetMessageFn(sendJson).then(event => {
+            const json = JSON.parse(event.data)
+            console.log('←', json.ppId, json)
+            json.list.forEach(adn => pd.eMap[adn.doc_id] = adn)
+            const ppIdPp = json.ppl2 && fipi.ppId[json.ppId].pp[json.pp].ppl2
+                || fipi.ppId[json.ppId].pp[json.pp]
+            json.adnId.forEach(adnId => ppIdPp.l_fipId.push(adnId)
+                && (ppIdPp.fipId[adnId] = {}))
+            fipi.ppId[json.ppId].tPagePart.count++
+        })
+    })
+
 dbMpFn.save1Update = adnUpdateId => {
     const sendJson = Object.assign(dbMpData.dbSave.saveContent[adnUpdateId]
         , { adnId: adnUpdateId, cmd: 'updateString' })
@@ -135,4 +155,3 @@ wsDbRw.exchangeRwMessage = sendJson => {
 
 const uri_wsDbRw = "ws://" + window.location.host + "/dbRw"
 wsDbRw.ws = new WebSocket(uri_wsDbRw)
-

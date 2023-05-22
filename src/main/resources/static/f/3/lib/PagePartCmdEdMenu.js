@@ -6,7 +6,7 @@ import { dbMpFn, dbMpView } from '/f/3/lib/wsDbRw.js'
 
 
 fipiFn.confJson = ppId => JSON.stringify(fipi.ppId[ppId], (k, v) =>
-    !['pagePartCmdEdMenu', 'fhirPart', 'adnMenu', 'buildJson'].includes(k)
+    !['tPagePart', 'fhirPart', 'pagePartCmdEdMenu', 'adnMenu', 'buildJson'].includes(k)
     && v || undefined)
 
 fipiFn.ppcvJsonStr = ppFips => JSON.stringify(ppFips, '', 2)

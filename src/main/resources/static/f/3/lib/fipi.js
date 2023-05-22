@@ -10,10 +10,15 @@ export const
 
 // for SQL IN
 // from fipi config fipi.ppId.pp.
-fipiFn.getAllAdnIds = () => fipi.l_ppId && fipi.l_ppId.reduce((idList, ppId) => fipi.ppId[ppId]
-    .l_pp.filter(pp => fipi.ppId[ppId].pp[pp].l_fipId.filter(
-        fipId => !idList.includes(fipId) &&
-            idList.splice(0, 0, fipId))) && idList, [])
+fipiFn.getAllAdnIds = l => {
+    fipi.l_ppId.find(ppId => fipi.ppId[ppId].l_pp.find(pp => {
+        fipi.ppId[ppId].pp[pp].l_fipId.forEach(fipId =>
+            !l.includes(fipId) && l.push(fipId))
+        fipi.ppId[ppId].pp[pp].ppl2 && fipi.ppId[ppId].pp[pp].ppl2.l_fipId.forEach(fipId =>
+            !l.includes(fipId) && l.push(fipId))
+    }))
+    return l
+}
 
 fipiFn.initPPBlock = () => {
     const fipiList = Object.keys(pd.eMap)

@@ -1,6 +1,5 @@
 'use strict'
 import { dbMpView, dbMpData, dbMpFn } from '/f/3/lib/wsDbRw.js'
-import { wsDbC } from '/f/3/lib/pd_wsDbC.js'
 
 export default {
     data() { return { countCurrentPool: 0, countDbSaved: 0, count: 0 } },
@@ -25,19 +24,7 @@ export default {
             dbMpData.dbSave.saveContent && Object.keys(dbMpData.dbSave.saveContent)
                 .forEach(adnId => dbMpFn.save1Update(adnId))
 
-            // console.log('readNewAdnIds --> ', dbMpData.dbSave.readNewAdnIds)
-
-            dbMpData.dbSave.readNewAdnIds && Object.keys(dbMpData.dbSave.readNewAdnIds)
-                .forEach(readNewAdnIds => {
-                    const adnIds = readNewAdnIds.includes('_') && readNewAdnIds.split('_') || [readNewAdnIds]
-                        , sendJson = Object.assign(dbMpData.dbSave.readNewAdnIds[readNewAdnIds]
-                            , wsDbC.jsonToSend('adn01NodesIn', adnIds))
-                    console.log('→', sendJson)
-                    wsDbC.sendAndSetMessageFn(sendJson).then(event => {
-                        const json = JSON.parse(event.data)
-                        console.log('←', json)
-                    })
-                })
+            dbMpData.dbSave.readNewAdnIds && dbMpFn.readNewAdnIds()
 
         }, isPastePossible() { return dbMpFn.isPastePossible() }
     }, template: `
@@ -63,9 +50,6 @@ export default {
         </div>
         <div v-if="dbSave()">
             <span class="w3-tiny w3-opacity w3-left">toSave</span>
-            a1
-            {{dbSave()}}
-            a1
             <div v-if="dbSave().saveContent">
                 saveContent
                 <div v-for="( sc, adnUpdateId) in dbSave().saveContent ">

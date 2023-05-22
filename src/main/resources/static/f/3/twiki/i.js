@@ -25,8 +25,9 @@ wsDbC.cmdList = [{
         // console.log(pageId, 'wsDbC.cmdList[1] 2', fipi.fipList)
         fipiFn.initPPBlock()
 
-        const allAdnIds = fipiFn.getAllAdnIds()
-        // console.log(allAdnIds)
+        const allAdnIds = fipiFn.getAllAdnIds([])
+        console.log(allAdnIds.sort())
+
         wsDbC.cmdList[1].sendJson.adnId = allAdnIds
         allAdnIds &&
             wsDbC.sendAndSetMessageFn(Object.assign(wsDbC.cmdList[1].sendJson

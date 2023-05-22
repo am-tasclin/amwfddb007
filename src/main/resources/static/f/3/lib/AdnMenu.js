@@ -144,6 +144,7 @@ export default {
             console.log(pd.adnDialogWindow)
 
         }, adnClick() {
+            console.log(this.adnId)
             fipiFn.onOffChild(this.adnId, this.ppId, this.pp, this.fipId, this.lrPl2)
         }, viewIdrr2p() {
             this.count++
