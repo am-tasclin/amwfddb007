@@ -26,7 +26,7 @@ wsDbC.cmdList = [{
         fipiFn.initPPBlock()
 
         const allAdnIds = fipiFn.getAllAdnIds([])
-        console.log(allAdnIds.sort())
+        // console.log(allAdnIds.sort())
 
         wsDbC.cmdList[1].sendJson.adnId = allAdnIds
         allAdnIds &&

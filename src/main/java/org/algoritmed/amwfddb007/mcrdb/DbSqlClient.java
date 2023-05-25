@@ -110,22 +110,26 @@ public class DbSqlClient {
                 .filter((adnId) -> !insertList.contains(adnId))
                 .collect(Collectors.toList());
         for (Integer adnId : insertList) {
-            int sort = l.indexOf(adnId) + 1;
+            int sort = sortFrom1(l, adnId);
             sqlTemplate.insert(new Sort(adnId, sort)).toFuture().get();
             updated++;
             logger.info(adnId + "/" + sort + " insert = " + updated);
         }
         for (Integer adnId : lUpdate) {
-            int sort = l.indexOf(adnId) + 1;
-            updated += sqlTemplate
-                    .update(Query.query(Criteria
-                            .where("sort_id").is(adnId)), Update
-                                    .update("sort", sort),
-                            Sort.class)
+            int sort = sortFrom1(l, adnId);
+            updated += sqlTemplate.update(
+                    Query.query(Criteria
+                            .where("sort_id").is(adnId)),
+                    Update.update("sort", sort),
+                    Sort.class)
                     .toFuture().get();
             logger.info(adnId + "/" + sort + " updated = " + updated);
         }
         mapIn.put("updated", updated);
+    }
+
+    private int sortFrom1(List<Integer> l, Integer adnId) {
+        return l.indexOf(adnId) + 1;
     }
 
     public void deleteAdn1(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
