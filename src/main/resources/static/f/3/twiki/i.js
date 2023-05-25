@@ -2,6 +2,8 @@
 const { createApp } = Vue
 import { fipi, fipi2, fipiFn } from '/f/3/lib/fipi.js'
 import { wsDbC, pd } from '/f/3/lib/pd_wsDbC.js'
+import { wsDbRw } from '/f/3/lib/wsDbRw.js'
+import TFilesFolders from '/f/3/ff/TFF.js'
 import TWiki from '/f/3/twiki/TWiki.js'
 import FhirPart from '/f/3/lib/FhirPart.js'
 
@@ -62,9 +64,23 @@ const tWiki = createApp({
         ea(adnId, att) { return pd.eMap[adnId] && pd.eMap[adnId][att] },
     },
 })
+
 tWiki.component('t-wiki', TWiki)
 tWiki.component('t-fhir-part', FhirPart)
 tWiki.mount('#tWiki')
+
+const t_headPage = createApp({
+    data() { return { count: 0 } },
+    methods: {
+        clickFF() {
+            console.log(123)
+            document.getElementById('ffm').style.display='block'
+            wsDbRw.ffl()
+        }
+    },
+})
+t_headPage.component('t-ff', TFilesFolders)
+t_headPage.mount('#headPage')
 
 fipiFn.edCopyCut(createApp)
 

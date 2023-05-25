@@ -153,5 +153,23 @@ wsDbRw.exchangeRwMessage = sendJson => {
     return new Promise((thenFn, reject) => wsDbRw.ws.onmessage = event => thenFn(event))
 }
 
+wsDbRw.ffl = event => {
+    const sql = 'SELECT s.*, sort,parent FROM doc d \n\
+    LEFT JOIN (SELECT value value_22, string_id FROM string) s ON s.string_id = d.doc_id \n\
+    LEFT JOIN sort st ON st.sort_id = d.doc_id \n\
+    WHERE d.reference = 376600 \n\
+    ORDER BY sort'
+    const sendJson = {
+        sql: sql, cmd: 'executeQuery'
+    }
+    console.log('→', sendJson)
+    wsDbRw.exchangeRwMessage(sendJson).then(event => {
+        const json = JSON.parse(event.data)
+        console.log('←', json)
+        dbMpData.list = json.list
+        dbMpView.ff.count++
+    })
+}
+
 const uri_wsDbRw = "ws://" + window.location.host + "/dbRw"
 wsDbRw.ws = new WebSocket(uri_wsDbRw)

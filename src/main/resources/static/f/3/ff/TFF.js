@@ -12,7 +12,6 @@ export default {
         ffh() { return dbMpData.list && Object.keys(dbMpData.list[0]) },
     },
     template: `
-    ff2
 <table>
     <thead>
         <tr class="w3-tiny am-b">
