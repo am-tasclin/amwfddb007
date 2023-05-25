@@ -1,7 +1,6 @@
 'use strict'
 const { createApp } = Vue
-import { dbMpData} from '/f/3/lib/wsDbRw.js'
-import { wsDbRw } from '/f/3/lib/wsDbRw.js'
+import { wsDbRw, dbMpView, dbMpData } from '/f/3/lib/wsDbRw.js'
 import TFilesFolders from '/f/3/ff/TFF.js'
 
 const tFilesFolders = createApp({ data() { return { count: 0 } }, })
@@ -23,5 +22,6 @@ wsDbRw.ws.onopen = event =>
     wsDbRw.exchangeRwMessage(sendJson).then(event => {
         const json = JSON.parse(event.data)
         console.log('←', json)
-        dbMpData.list=json.list
+        dbMpData.list = json.list
+        dbMpView.ff.count++
     })
