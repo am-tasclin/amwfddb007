@@ -13,12 +13,27 @@
             <img style="display: flex;" src="/f/css/homeIcon.svg">
         </a><span class="w3-tiny am-b w3-topbar">tWiki:</span>
         <span class="w3-small">3 ⁙ Wiki </span>
+
         <a href="http://algoritmed.com/" class="am-0u w3-right w3-hover-shadow" target="_blank">&nbsp;<img
                 src="/f/img/algoritmed-logo.webp" style="width:75px;" />&nbsp;</a>
         <!--
             <span id="edCopyCut" class="w3-right"> <t-ed-copy-cut /> </span>
             -->
-            <span id="dbMessagePool" class="w3-right"> <t-db-message-pool /> </span>
+        <span id="dbMessagePool" class="w3-right"> <t-db-message-pool /> </span>
+        <span class="w3-right">
+            <span class="w3-btn w3-ripple w3-padding-small"
+                onclick="document.getElementById('ffm').style.display='block'">📁↕🗎</span>
+            <div id="ffm" class="w3-modal">
+                <div class="w3-modal-content">
+                    <div class="w3-container">
+                        <span onclick="document.getElementById('ffm').style.display='none'"
+                            class="w3-button w3-display-topright">&times;</span>
+                        <p>ff01</p>
+                        <p>Some text. Some text. Some text.</p>
+                    </div>
+                </div>
+            </div>
+        </span>
     </div>
     <div id="tWiki" class="am-max-width-1"> <span class="w3-hide">{{count}}</span>
         <h1> {{ea(pageId,'value_22')}}</h1>
