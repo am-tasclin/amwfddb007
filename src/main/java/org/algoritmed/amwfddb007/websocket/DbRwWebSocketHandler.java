@@ -37,14 +37,17 @@ public class DbRwWebSocketHandler extends SimpleWebSocketHandler implements WebS
                     case "save1ParentSort":
                         dbSqlClient.save1ParentSort(mapIn);
                         break;
-                    case "save1Sort":
-                        dbSqlClient.save1Sort(mapIn);
-                        break;
+                    // case "save1Sort":
+                    //     dbSqlClient.save1Sort(mapIn);
+                    //     break;
                     case "updateString":
                         dbSqlClient.updateString(mapIn);
                         break;
                     case "insertString":
                         dbSqlClient.insertString(mapIn);
+                        break;
+                    case "executeQuery":
+                        dbSqlClient.executeQuery(mapIn);
                         break;
                 }
                 logger.info("-40-:" + incrementAndGet + "--\n" + mapIn);

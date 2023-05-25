@@ -27,6 +27,8 @@ import reactor.core.publisher.Mono;
 public class DbSqlClient {
     protected static final Logger logger = LoggerFactory.getLogger(DbSqlClient.class);
 
+    // private static final String String = null;
+
     DatabaseClient sqlClient;
     R2dbcEntityTemplate sqlTemplate;
 
@@ -88,18 +90,20 @@ public class DbSqlClient {
     // Mono<Integer> setFixedSortFor(String sort, Long adnId);
 
     String sqlUpdateSort = "UPDATE sort SET sort=:sort WHERE sort_id=:adnId";
-    String sqlInsertSort = "INSERT INTO sort (sort, sort_id) VALUES (:sort, :adnId)";
+    // String sqlInsertSort = "INSERT INTO sort (sort, sort_id) VALUES (:sort,
+    // :adnId)";
 
-    public void save1Sort(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
-        FetchSpec<Map<String, Object>> v = sqlClient.sql(sqlUpdateSort)
-                .bind("sort", Integer.parseInt(mapIn.get("sort").toString()))
-                .bind("adnId", Integer.parseInt(mapIn.get("adnId").toString()))
-                .fetch();
-        Mono<Long> x = v.rowsUpdated();
-        CompletableFuture<Long> y = x.toFuture();
-        Long long1 = y.get();
-        mapIn.put("rowsUpdated", long1);
-    }
+    // public void save1Sort(Map<String, Object> mapIn) throws InterruptedException,
+    // ExecutionException {
+    // FetchSpec<Map<String, Object>> v = sqlClient.sql(sqlUpdateSort)
+    // .bind("sort", Integer.parseInt(mapIn.get("sort").toString()))
+    // .bind("adnId", Integer.parseInt(mapIn.get("adnId").toString()))
+    // .fetch();
+    // Mono<Long> x = v.rowsUpdated();
+    // CompletableFuture<Long> y = x.toFuture();
+    // Long long1 = y.get();
+    // mapIn.put("rowsUpdated", long1);
+    // }
 
     public void save1ParentSort(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
         logger.info("\n" + mapIn);
@@ -161,6 +165,14 @@ public class DbSqlClient {
                         .is(mapIn.get("adnId"))))
                 .apply(Update.update("value", mapIn.get("string"))).toFuture();
         mapIn.put("rowsUpdated", rowsUpdated.get());
+    }
+
+    public void executeQuery(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
+        String sql = mapIn.get("sql").toString();
+        logger.info("sql -171- \n", sql);
+        List<Map<java.lang.String, Object>> list = getListOfRowObject(sql).get();
+        mapIn.remove("sql");
+        mapIn.put("list", list);
     }
 
 }

@@ -1,7 +1,7 @@
 'use strict'
 const { createApp } = Vue
 import { fipi, fipi2, fipiFn } from '/f/3/lib/fipi.js'
-import { wsDbC, pd } from '/f/3/lib/pd_wsDbC.js'
+import { wsDbC } from '/f/3/lib/pd_wsDbC.js'
 import TPageParts from '/f/3/lib/TPageParts.js'
 import FhirPart from '/f/3/lib/FhirPart.js'
 
