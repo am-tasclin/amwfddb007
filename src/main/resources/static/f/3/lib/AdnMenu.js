@@ -10,8 +10,12 @@ fipiFn.reviewAdnMenu = (ppId, pp) => {
     const fipPP = fipi.ppId[ppId].pp[pp]
     Object.keys(fipPP.fipId).find(fipId => Object.keys(fipPP.fipId[fipId].adnMenu)
         .find(adnId => { fipPP.fipId[fipId].adnMenu[adnId].count++ }))
+
+    console.log(fipPP.ppl2)
+    console.log(Object.keys(fipPP.ppl2.fipId))
+
     fipPP.ppl2 &&
-        Object.keys(fipPP.ppl2.fipId).find(fipId => Object.keys(fipPP.ppl2.fipId[fipId].adnMenu)
+        Object.keys(fipPP.ppl2.fipId).find(fipId => fipPP.ppl2.fipId[fipId].adnMenu && Object.keys(fipPP.ppl2.fipId[fipId].adnMenu)
             .find(adnId => { fipPP.ppl2.fipId[fipId].adnMenu[adnId].count++ }))
     fipi.edCopyCut && fipi.edCopyCut.countFn('AdnMenu.reviewAdnMenu')
 }

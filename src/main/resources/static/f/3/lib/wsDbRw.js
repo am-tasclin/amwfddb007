@@ -157,17 +157,27 @@ wsDbRw.ffl = event => {
     const sql = 'SELECT s.*, sort,parent FROM doc d \n\
     LEFT JOIN (SELECT value value_22, string_id FROM string) s ON s.string_id = d.doc_id \n\
     LEFT JOIN sort st ON st.sort_id = d.doc_id \n\
-    WHERE d.reference = 376600 \n\
-    ORDER BY sort'
+    WHERE d.reference = 376600 '
+        , sql2 = 'SELECT DISTINCT parent , value FROM ( ' + sql + ') x \n\
+    LEFT JOIN string s ON s.string_id=parent'
+    console.log('→', sql)
+    console.log('→', sql2)
     const sendJson = {
-        sql: sql, cmd: 'executeQuery'
+        sql: sql + ' ORDER BY parent DESC, sort', cmd: 'executeQuery'
     }
-    console.log('→', sendJson)
+    // console.log('→', sendJson)
     wsDbRw.exchangeRwMessage(sendJson).then(event => {
         const json = JSON.parse(event.data)
         console.log('←', json)
         dbMpData.list = json.list
         dbMpView.ff.count++
+        sendJson.sql = sql2
+        wsDbRw.exchangeRwMessage(sendJson).then(event => {
+            const json = JSON.parse(event.data)
+            console.log('←', json)
+            dbMpData.list2 = json.list
+            dbMpView.ff.count++
+        })
     })
 }
 
