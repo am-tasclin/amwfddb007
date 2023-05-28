@@ -7,7 +7,7 @@ import FhirPart from '/f/3/lib/FhirPart.js'
 
 fipiFn.initPageParts(window.location.hash.substring(1), 1)
 const allAdnIds = fipiFn.getAllAdnIds([])
-// console.log(allAdnIds.sort())
+console.log(allAdnIds.sort())
 
 wsDbC.cmdList = [{
     sendJson: { sqlName: 'adn01NodesIn', adnId: allAdnIds.join(',') },

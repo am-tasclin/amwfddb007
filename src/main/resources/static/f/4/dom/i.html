@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title id="headTitle">DOM3t:{{hash}}</title>
+<link rel="stylesheet" href="/webjars/font-awesome/6.2.1/css/all.min.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<script src="/webjars/vue/3.2.47/dist/vue.global.prod.js" type="application/javascript"></script>
+<!-- <script type="application/javascript">const fd = {}</script> -->
+
+<body class="w3-container">
+    <div class="w3-border-bottom am-max-width-1">
+        <span class="w3-small">
+            <a href="/" class="w3-btn w3-padding-small">
+                <img style="display: flex;" src="/f/css/homeIcon.svg"> </a>
+            <span id="showDocId">
+                <span class="w3-tiny w3-topbar">
+                    <span class=" am-b ">D&amp;O&amp;M</span>
+                    <sub>MCrDB</sub></span>&nbsp; 📂 2 ➾
+            </span>
+            <span class="w3-small"> ⁙
+                <b>D</b>ata & <b>O</b>ntology editor & <b>M</b>eta-data <b>m</b>odeler
+            </span>
+        </span>
+        <a href="http://algoritmed.com/" class="am-0u w3-right w3-hover-shadow" target="_blank">&nbsp;<img
+                src="/f/img/algoritmed-logo.webp" style="width:75px;" />&nbsp;</a>
+        <!--
+                    <span id="edCopyCut" class="w3-right"> <t-ed-copy-cut /> </span>
+                -->
+        <span id="dbMessagePool" class="w3-right"> <t-db-message-pool /> </span>
+    </div>
+    <div id="tPageParts" class="am-max-width-1">
+        <t-page-parts :pp-id="1"></t-page-parts>
+    </div>
+    <div class="w3-border-top">
+        <p>&nbsp;</p>
+        🗎 ︳🖉 ＋+₊︱⟳
+        <a href="https://www.compart.com/en/unicode/U+29F0">
+            ⧮ ⧰
+        </a>
+        ⎘ ⎗
+        <a href="https://www.compart.com/en/unicode/U+2700">
+            ✄ ✂
+        </a>
+        ⧉ ⧠
+        <a href="https://www.compart.com/en/unicode/block/U+2190">
+            ↸
+        </a>
+        ↷ ⮫ ䷢
+        🪝 ↩
+        🩺 🫁 🫀 🪟 🪄
+        <a href="https://www.compart.com/en/unicode/block/U+2600">
+            ⚠ ⚡
+        </a>
+    </div>
+    <div id="dev">
+        {{count}}
+        <div class="w3-opacity w3-tiny" style="white-space: pre; overflow: auto;">
+            {{devText}}
+        </div>
+    </div>
+    <script src="i.js" type="module"></script>
+</body>
+
+</html>

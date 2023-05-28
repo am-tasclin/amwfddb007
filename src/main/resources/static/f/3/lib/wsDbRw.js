@@ -160,8 +160,8 @@ wsDbRw.ffl = event => {
     WHERE d.reference = 376600 '
         , sql2 = 'SELECT DISTINCT parent , value FROM ( ' + sql + ') x \n\
     LEFT JOIN string s ON s.string_id=parent'
-    console.log('→', sql)
-    console.log('→', sql2)
+    // console.log('→', sql)
+    // console.log('→', sql2)
     const sendJson = {
         sql: sql + ' ORDER BY parent DESC, sort', cmd: 'executeQuery'
     }
@@ -174,8 +174,12 @@ wsDbRw.ffl = event => {
         sendJson.sql = sql2
         wsDbRw.exchangeRwMessage(sendJson).then(event => {
             const json = JSON.parse(event.data)
+
             console.log('←', json)
-            dbMpData.list2 = json.list
+            dbMpData.eMap = {}
+            json.list.forEach(adn => {
+                dbMpData.eMap[adn.parent] = adn
+            })
             dbMpView.ff.count++
         })
     })

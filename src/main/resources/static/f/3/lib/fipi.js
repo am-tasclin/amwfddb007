@@ -30,7 +30,7 @@ fipiFn.initPPBlock = () => {
 }
 
 fipiFn.initPageParts = (rawFipiStr, ppId) => {
-    // console.log(rawFipiStr, ppId)
+    console.log(rawFipiStr, ppId)
 
     !rawFipiStr.includes('itjn=')
     !rawFipiStr.includes('cj=')
@@ -58,7 +58,8 @@ fipiFn.initFromJson = (jsonStr, ppId) => {
 fipiFn.initFromURI = (rawFipiStr, ppId) => {
     !fipi.l_ppId && (fipi.l_ppId = []); fipi.l_ppId.push(ppId)
     !fipi.ppId && (fipi.ppId = {})
-
+    console.log(JSON.stringify(fipi), fipi)
+    console.log(rawFipiStr)
     const rawFipi = rawFipiStr.split(';')
         , pl2 = rawFipi.filter(im => im.includes('_')).reduce((o, im) => {
             const a2 = im.split(',')[0].split('_'), fipIdList = im.split(',').slice(1)
