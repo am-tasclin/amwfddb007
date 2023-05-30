@@ -1,14 +1,15 @@
 'use strict'
 /**
  * Algoritmed ©
- * metal -- model business task language
- * medas -- metal data structure
- * pp -- page part
- * 
+ * MCD, mcd -- Meta Content Data
+ * METaL, metal -- Model businEss Task Language
+ * MEDAS, medas -- MEtal DAta Structure. Build from MCD.
+ * PP, pp -- Page Part. Block of MCD or MEDAS in Application Development Page.
  */
 
 export const
     metalData = {},
+    confPP = {},
     metalFnConfPP = {}
 
 metalFnConfPP.initPageParts = (rawPpStr, ppId) => {
@@ -16,29 +17,37 @@ metalFnConfPP.initPageParts = (rawPpStr, ppId) => {
 
     !rawPpStr.includes('cj=') &&
         metalFnConfPP.initFromURI(rawPpStr, ppId)
-
     rawPpStr.includes('cj=') &&
         metalFnConfPP.initFromJson(rawPpStr.replace('cj=', ''), ppId)
 }
 
 const initConfPP = (ppId) => {
     // pp -- page part
-    !metalData.confPP && (metalData.confPP = {})
-    !metalData.confPP.l_ppId && (metalData.confPP.l_ppId = [])
-    !metalData.confPP.ppId && (metalData.confPP.ppId = {})
-    metalData.confPP.l_ppId.push(ppId)
-    metalData.confPP.ppId[ppId] = {}
+    !confPP && (confPP = {})
+    !confPP.l_ppId && (confPP.l_ppId = [])
+    !confPP.ppId && (confPP.ppId = {})
+    confPP.l_ppId.push(ppId)
+    confPP.ppId[ppId] = {}
 }
+
+const confMedas = idList => idList.reduce((o, im) =>
+    o.l_mcdId.push(im) && (o.mcdId[im] = {}) && o, { l_mcdId: [], mcdId: {}, })
 
 metalFnConfPP.initFromURI = (rawPpStr, ppId) => {
     initConfPP(ppId)
-    console.log(JSON.stringify(metalData.confPP), metalData.confPP)
+    console.log(JSON.stringify(confPP), confPP)
     const rawPp = rawPpStr.split(';')
-    rawPp.reduce((o, im) => {
-        (o.l_medas || (o.l_medas = [])).push(im.split(',')[0]);
-        (o.medas || (o.medas = {}))[im.split(',')[0]] = im.split(',').splice(1)
-            .reduce((o, im) => (o[im] = {}) && o, {})
+
+    rawPp.filter(im => !im.split(',')[0].includes('_')).reduce((o, im) =>
+        o.l_medas.push(im.split(',')[0]) &&
+        (confPP.ppId[ppId].medas[im.split(',')[0]] = confMedas(im.split(',').slice(1)))
+        && o, (confPP.ppId[ppId] = { l_medas: [], medas: {}, })
+    )
+
+    rawPp.filter(im => im.split(',')[0].includes('_')).reduce((o, im) => {
+        const medas = confPP.ppId[ppId].medas[im.split(',')[0].split('_')[0]]
+        medas[im.split(',')[0].split('_')[1]] = confMedas(im.split(',').slice(1))
         return o
-    }, metalData.confPP.ppId[ppId])
-    console.log(metalData.confPP.ppId[ppId])
+    }, {})
+
 }
