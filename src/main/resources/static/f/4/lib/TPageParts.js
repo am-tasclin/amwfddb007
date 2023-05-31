@@ -39,10 +39,5 @@ export default {
     </template>
     </template>
 </template>
-
-    Hi
-<span class="w3-tiny">
-{{confPP()}}
-</span>
     `,
 }

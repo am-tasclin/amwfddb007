@@ -20,7 +20,7 @@ export default {
     mounted() {
         // 376639 == this.ppId &&
         //     this.ppCmdEdOnOff()
-        console.log(this.ppId)
+        console.log(this.ppId, this.epl2Data)
         fipi.ppId[this.ppId].l_pp.filter(pp => 'lr' != pp)
             .reduce((o, pp) => (o[pp] = !fipi.ppId[this.ppId].pp[pp].epl2 && [] ||
                 Object.assign([], fipi.ppId[this.ppId].pp[pp].epl2.l_fipId)) && o, this.epl2Data)
@@ -101,7 +101,7 @@ export default {
                     <div class="w3-half"> pageParts </div> 
                     <div class="w3-half w3-container"> pane2, right </div>
                 </div>
-                <div class="w3-row w3-border-bottom" v-for="pp in pps()" class="w3-hover-shadow">
+                <div v-for="pp in pps()" class="w3-row w3-border-bottom w3-hover-shadow" >
                     <div class="w3-half">
                         <span class="w3-opacity a1m-u">
                             {{pp}}: <span class="w3-small am-i"> {{fip(pp)}} </span>
@@ -112,6 +112,7 @@ export default {
                         <div v-if="'lr'==pp"> <span class="w3-opacity a1m-u"> &nbsp; </span>
                             <input @keyup.enter="ppDbId($event, ppId, pp, true)" :value="ppO(pp).ppl2.l_fipId.join(', ')" class="w3-hover-shadow w3-small am-width-100pr"/>
                         </div>
+                        {{epl2Data[pp]}}
                         <span v-for="k2 in ppIdFn().pp[pp].l_fipId" class="w3-small">
                             <template v-if="'lr'!=pp">
                                 <label><input v-model="epl2Data[pp]"
