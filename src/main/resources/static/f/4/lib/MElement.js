@@ -6,5 +6,5 @@ export default {
     {{mcdId}}
     {{medas}}
 </div>
-    `,
+`,
 }

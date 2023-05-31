@@ -3,8 +3,6 @@ const { createApp } = Vue
 import { confPP, metalFnConfPP } from '/f/4/lib/metal.js'
 import TPageParts from '/f/4/lib/TPageParts.js'
 
-
-console.log(123)
 metalFnConfPP.initPageParts(window.location.hash.substring(1), 1)
 
 const tPageParts = createApp({ data() { return { count: 0 } }, })

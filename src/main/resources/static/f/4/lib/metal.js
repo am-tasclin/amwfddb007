@@ -42,10 +42,10 @@ metalFnConfPP.initFromURI = (rawPpStr, ppId) => {
     const rawPp = rawPpStr.split(';')
 
     rawPp.filter(im => !im.split(',')[0].includes('_')).reduce((o, im) =>
-        o.l_medas.push(im.split(',')[0]) &&
-        (confPP.ppId[ppId].medas[im.split(',')[0]] = confMedas(im.split(',').slice(1)))
-        && o, (confPP.ppId[ppId] = { l_medas: [], medas: {}, })
-    )
+        o.l_medas.push(im.split(',')[0])
+        && (confPP.ppId[ppId].medas[im.split(',')[0]] = confMedas(im.split(',').slice(1)))
+        && o
+        , (confPP.ppId[ppId] = { l_medas: [], medas: {}, }))
 
     rawPp.filter(im => im.split(',')[0].includes('_')).reduce((o, im) => {
         const medas = confPP.ppId[ppId].medas[im.split(',')[0].split('_')[0]]

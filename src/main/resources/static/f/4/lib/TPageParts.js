@@ -25,8 +25,10 @@ export default {
             </template>
         </div>
     </div>
+    <template v-else>
     <template v-for="mcdId in confPP().medas[medas].l_mcdId">
         <MElement :mcdId="mcdId" :medas="medas"/>
+    </template>
     </template>
 </template>
 
