@@ -5,6 +5,9 @@
  * METaL, metal -- Model businEss Task Language
  * MEDAS, medas -- MEtal DAta Structure. Build from MCD.
  * PP, pp -- Page Part. Block of MCD or MEDAS in Application Development Page.
+ * pl2 -- Panel 2
+ * ppl2 -- Part Panel 2. Panel 2 for one for all medas block
+ * epl2 -- Element Panel 2. Panel 2 individual for some Element in medas block.
  */
 
 export const
