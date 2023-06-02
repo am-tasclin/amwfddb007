@@ -16,6 +16,17 @@ export const
     ppInteractivity = { fn: {}, appComponents: {} },
     metalFnConfPP = {}
 
+ppInteractivity.fn.mcdIdSortClick = (ppId, medas, mcdId) => {
+    const lToSort = confPP.ppId[ppId].medas[medas].l_mcdId
+    confPP.ppId[ppId].medas[medas].l_mcdId =
+        lToSort.splice(lToSort.indexOf(mcdId), 1).concat(lToSort)
+    ppInteractivity.appComponents.ppId[ppId].tPageParts.count++
+    Object.keys(ppInteractivity.appComponents.ppId[ppId].medas[medas].mcDataSort)
+        .forEach(location => ppInteractivity.appComponents
+            .ppId[ppId].medas[medas].mcDataSort[location].count++)
+    ppInteractivity.fn.ppId(ppId).ppCmd.count++
+}
+
 ppInteractivity.fn.ppIdMedas = (ppId, medas) => {
     ppInteractivity.fn.ppId(ppId)
     !ppInteractivity.appComponents.ppId[ppId].medas &&
