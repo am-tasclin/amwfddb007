@@ -1,5 +1,7 @@
 'use strict'
 import { confPP } from '/f/4/lib/metal.js'
+import { ppInteractivity } from '/f/4/lib/metal.js'
+import MCDataSort from '/f/4/lib/MCDataSort.js'
 
 const dropDownOpenId = dropDownOpenId => {
     confPP.dropDownOpenId == dropDownOpenId
@@ -9,7 +11,9 @@ const dropDownOpenId = dropDownOpenId => {
 
 export default {
     props: { ppId: Number }, data() { return { epl2Data: {}, medasConfTypeName: '', count: 0, } },
+    components: { MCDataSort, },
     mounted() {
+        ppInteractivity.fn.ppId(this.ppId).ppCmd = this
         confPP.ppId[this.ppId].l_medas.filter(medas => 'lr' != medas)
             .reduce((o, medas) => (o[medas] = []) && o, this.epl2Data)
     }, methods: {
@@ -31,8 +35,7 @@ export default {
         }, confTypeName(showMedasConfTypeName) {
             this.medasConfTypeName = showMedasConfTypeName
         },
-    },
-    template: `
+    }, template: `
 <span class="w3-dropdown-click">
     <button @click="ppCmdEdOnOff" class="w3-btn w3-ripple w3-padding-small w13-small" 
             @keyup.esc="keyEscEvent" >
@@ -46,8 +49,8 @@ export default {
             <div class="w3-quarter w13-border-right">
                 <div class="w3-tiny w3-border-bottom">
                     <span @click="confTypeName(showMedasConfTypeName)"
-                    class="w3-hover-shadow am-b"
-                    v-for="showMedasConfTypeName in ['URI','JSON']">
+                            class="w3-hover-shadow am-b"
+                            v-for="showMedasConfTypeName in ['URI','JSON']">
                         &nbsp; {{showMedasConfTypeName}},
                     </span>
                 </div>
@@ -82,7 +85,7 @@ export default {
                             :value="confPP().medas[medas].l_mcdId.join(', ')"
                             class="w3-hover-shadow w3-small am-width-100pr">
                         <div class="w3-tiny">
-                        ⬍
+                            ⬍ <MCDataSort :ppId="ppId" :medas="medas" location="ppCmd"/>
                         </div>
                     </div>
                     <div class="w3-half w3-container">
@@ -104,5 +107,5 @@ export default {
 
     </div>
 </span> <span class="w3-hide">{{count}}</span>
-    `,
+`,
 }

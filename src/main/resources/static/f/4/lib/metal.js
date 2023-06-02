@@ -13,8 +13,25 @@
 export const
     metalData = {},
     confPP = {},
-    ppInteractivity = {},
+    ppInteractivity = { fn: {}, appComponents: {} },
     metalFnConfPP = {}
+
+ppInteractivity.fn.ppIdMedas = (ppId, medas) => {
+    ppInteractivity.fn.ppId(ppId)
+    !ppInteractivity.appComponents.ppId[ppId].medas &&
+        (ppInteractivity.appComponents.ppId[ppId].medas = {});
+    !ppInteractivity.appComponents.ppId[ppId].medas[medas] &&
+        (ppInteractivity.appComponents.ppId[ppId].medas[medas] = {})
+    return ppInteractivity.appComponents.ppId[ppId].medas[medas]
+}
+
+ppInteractivity.fn.ppId = ppId => {
+    (ppInteractivity.appComponents.ppId ||
+        (ppInteractivity.appComponents.ppId = {}));
+    !ppInteractivity.appComponents.ppId[ppId] &&
+        (ppInteractivity.appComponents.ppId[ppId] = {});
+    return ppInteractivity.appComponents.ppId[ppId]
+}
 
 metalFnConfPP.initPageParts = (rawPpStr, ppId) => {
     console.log(rawPpStr, ppId)
