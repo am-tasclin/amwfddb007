@@ -3,11 +3,8 @@ import { confPP } from '/f/4/lib/metal.js'
 import { ppInteractivity } from '/f/4/lib/metal.js'
 import MCDataSort from '/f/4/lib/MCDataSort.js'
 
-const dropDownOpenId = dropDownOpenId => {
-    confPP.dropDownOpenId == dropDownOpenId
-        && delete confPP.dropDownOpenId
-        || (confPP.dropDownOpenId = dropDownOpenId)
-}
+const dropDownOpenId = dropDownOpenId => confPP.dropDownOpenId == dropDownOpenId
+    && delete confPP.dropDownOpenId || (confPP.dropDownOpenId = dropDownOpenId)
 
 export default {
     props: { ppId: Number }, data() { return { epl2Data: {}, medasConfTypeName: '', count: 0, } },
