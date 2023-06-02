@@ -53,7 +53,7 @@ export default {
         <span class="w3-tiny w3-right"> {{pp}} ⁙
             <span class="w3-hover-shadow" v-for="fipId in ppFn(pp).l_fipId"
             @click="fipIdClick(pp, fipId)" >
-            {{fipId}}, </span> 
+            {{fipId}}, </span>
             <span v-if="ppFn(pp).ppl2">|
                 {{ppFn(pp).ppl2.l_fipId.join(', ')}}
             </span>

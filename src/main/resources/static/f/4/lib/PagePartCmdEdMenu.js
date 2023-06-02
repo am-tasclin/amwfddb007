@@ -35,7 +35,7 @@ export default {
     template: `
 <span class="w3-dropdown-click">
     <button @click="ppCmdEdOnOff" class="w3-btn w3-ripple w3-padding-small w13-small" 
-    @keyup.esc="keyEscEvent()" >
+            @keyup.esc="keyEscEvent" >
         <span class="w3-tiny"> {{confPP().l_medas.join('‧')}} </span> ☰
     </button>
     <div :id="'ppCmdEd_'+ppId" class="w3-dropdown-content w3-container w3-hover-shadow w3-border"
@@ -81,6 +81,9 @@ export default {
                         <input @keyup.enter="medasMcdId($event, ppId, medas)" 
                             :value="confPP().medas[medas].l_mcdId.join(', ')"
                             class="w3-hover-shadow w3-small am-width-100pr">
+                        <div class="w3-tiny">
+                        ⬍
+                        </div>
                     </div>
                     <div class="w3-half w3-container">
                         &nbsp;

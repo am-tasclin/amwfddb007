@@ -13,6 +13,7 @@
 export const
     metalData = {},
     confPP = {},
+    ppInteractivity = {},
     metalFnConfPP = {}
 
 metalFnConfPP.initPageParts = (rawPpStr, ppId) => {
