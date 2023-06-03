@@ -23,6 +23,11 @@ export default {
         <span class="w3-tiny"> {{medas}}: </span>
         <span class="w3-tiny w3-right"> {{pp}} ⁙
             <MCDataSort :ppId="ppId" :medas="medas" location="pp"/>
+            <template v-if="confPP().medas[medas].ppl2">
+                |
+                <MCDataSort :ppId="ppId" :medas="medas" 
+                    :location="medas+'_ppl2'"/>
+            </template>
         </span>
     </div>
     <div v-if="confPP().medas[medas].ppl2" class="w3-row">

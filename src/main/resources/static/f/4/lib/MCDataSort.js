@@ -5,18 +5,18 @@ import { ppInteractivity } from '/f/4/lib/metal.js'
 export default {
     props: { ppId: Number, medas: String, location: String }, data() { return { count: 0 } },
     mounted() {
-        console.log(123, this.location)
-        !ppInteractivity.fn.ppIdMedas(this.ppId, this.medas).mcDataSort
-            && (ppInteractivity.fn.ppIdMedas(this.ppId, this.medas).mcDataSort = {});
-        ppInteractivity.fn.ppIdMedas(this.ppId, this.medas)
-            .mcDataSort[this.location] = this
+        const ppMedas1 = ppInteractivity.fn.ppIdMedas(this.ppId, this.medas)
+        !ppMedas1.mcDataSort && (ppMedas1.mcDataSort = {})
+        ppMedas1.mcDataSort[this.location] = this
     }, methods: {
-        confPP() { return confPP.ppId[this.ppId || 1] },
-        mcdIdSortClick(mcdId) {
-            ppInteractivity.fn.mcdIdSortClick(this.ppId, this.medas, mcdId)
+        confPpMedas() {
+            const ppMedas1 = confPP.ppId[this.ppId || 1].medas[this.medas]
+            return ppMedas1[this.location.split('_')[1]] || ppMedas1
+        }, mcdIdSortClick(mcdId) {
+            ppInteractivity.fn.mcdIdSortClick(this.ppId, this.medas, this.location, mcdId)
         }
     }, template: `
-⬍ <span v-for="mcdId in confPP().medas[medas].l_mcdId"
+⬍ <span v-for="mcdId in confPpMedas().l_mcdId"
         @click="mcdIdSortClick( mcdId)" class="w3-hover-shadow">
     {{mcdId}}, </span> <span class="w3-hide"> {{count}} </span>
 `,

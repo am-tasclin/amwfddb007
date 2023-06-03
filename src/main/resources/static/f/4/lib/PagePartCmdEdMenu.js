@@ -82,7 +82,7 @@ export default {
                             :value="confPP().medas[medas].l_mcdId.join(', ')"
                             class="w3-hover-shadow w3-small am-width-100pr">
                         <div class="w3-tiny">
-                            ⬍ <MCDataSort :ppId="ppId" :medas="medas" location="ppCmd"/>
+                            <MCDataSort :ppId="ppId" :medas="medas" location="ppCmd"/>
                         </div>
                     </div>
                     <div class="w3-half w3-container">
@@ -91,11 +91,15 @@ export default {
                             :value="confPP().medas[medas].ppl2 && confPP().medas[medas].ppl2.l_mcdId.join(', ')"
                             v-if="'lr'==medas"
                             class="w3-hover-shadow w3-small am-width-100pr">
+                            <div v-if="confPP().medas[medas].ppl2" class="w3-tiny">
+                                <MCDataSort :ppId="ppId" :medas="medas" 
+                                    :location="medas+'_ppl2'"/>
+                            </div>
                         <template v-if="'lr'!=medas">
-                        <template v-for="mcdId in confPP().medas[medas].l_mcdId">
-                            <label><input v-model="epl2Data[medas]"
-                                type="checkbox" :value="mcdId"/>&nbsp;{{mcdId}}</label>,
-                        </template>
+                            <template v-for="mcdId in confPP().medas[medas].l_mcdId">
+                                <label><input v-model="epl2Data[medas]"
+                                    type="checkbox" :value="mcdId"/>&nbsp;{{mcdId}}</label>,
+                            </template>
                         </template>
                     </div>
                 </div>
