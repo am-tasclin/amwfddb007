@@ -33,18 +33,18 @@ export default {
     <div v-if="confPP().medas[medas].ppl2" class="w3-row">
         <div class="w3-half">
             <template v-for="mcdId in confPP().medas[medas].l_mcdId">
-                <MElement :mcdId="mcdId" :medas="medas"/>
+                <MElement :adnId="mcdId" :medas="medas"/>
             </template>
         </div>
         <div class="w3-half">
             <template v-for="mcdId in confPP().medas[medas].ppl2.l_mcdId">
-                <MElement :mcdId="mcdId" :medas="medas"/>
+                <MElement :adnId="mcdId" :medas="medas"/>
             </template>
         </div>
     </div>
     <template v-else>
     <template v-for="mcdId in confPP().medas[medas].l_mcdId">
-        <MElement :mcdId="mcdId" :medas="medas"/>
+        <MElement :adnId="mcdId" :medas="medas"/>
     </template>
     </template>
 </template>

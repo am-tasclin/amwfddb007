@@ -2,6 +2,7 @@
 /**
  * Algoritmed ©
  * MCD, mcd -- Meta Content Data
+ * ADN, adn -- Abstract Data Node
  * METaL, metal -- Model businEss Task Language
  * MEDAS, medas -- MEtal DAta Structure. Build from MCD.
  * PP, pp -- Page Part. Block of MCD or MEDAS in Application Development Page.
@@ -12,9 +13,14 @@
 
 export const
     metalData = {},
+    // mcd -- eMap:: key:doc_id, value:ADN; 
+    // parentChild:: key: doc_id, value: [doc_id...] 
+    mcd = { eMap: {}, parentChild: {} },
+    // Config for Page Part to include and use in other grid.
     confPP = {},
-    ppInteractivity = { fn: {}, appComponents: {} },
-    metalFnConfPP = {}
+    // METaL container to build confPP.
+    metalFnConfPP = {},
+    ppInteractivity = { fn: {}, appComponents: {} }
 
 ppInteractivity.fn.mcdIdSortClick = (ppId, medas, location, mcdId) => {
     const ppMedas1 = confPP.ppId[ppId].medas[medas]

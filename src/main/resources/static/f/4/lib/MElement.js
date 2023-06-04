@@ -1,15 +1,18 @@
 'use strict'
 import AdnMenu from '/f/4/lib/AdnMenu.js'
+import { mcd } from '/f/4/lib/metal.js'
+
 
 export default {
-    props: { mcdId: Number, medas: String },
+    props: { adnId: Number, medas: String },
     components: { AdnMenu },
-    template: `
+    methods: {
+        eMap() { return mcd.eMap[this.adnId] || {} }
+    }, template: `
 <div class="w3-hover-shadow">
-    <AdnMenu :adnId="mcdId" />
-    {{medas}}
-
-    <span class="w3-tiny">text <span>
+    <AdnMenu :adnId="adnId" />
+    &nbsp;
+    <span class="w3-tiny"> {{eMap().vStr}} <span>
 
 </div>
 `,
