@@ -3,9 +3,6 @@ import { confPP } from '/f/4/lib/metal.js'
 import { ppInteractivity } from '/f/4/lib/metal.js'
 import MCDataSort from '/f/4/lib/MCDataSort.js'
 
-const dropDownOpenId = dropDownOpenId => confPP.dropDownOpenId == dropDownOpenId
-    && delete confPP.dropDownOpenId || (confPP.dropDownOpenId = dropDownOpenId)
-
 export default {
     props: { ppId: Number }, data() { return { epl2Data: {}, medasConfTypeName: '', count: 0, } },
     components: { MCDataSort, },
@@ -15,13 +12,13 @@ export default {
             .reduce((o, medas) => (o[medas] = []) && o, this.epl2Data)
     }, methods: {
         confPP() { return confPP.ppId[this.ppId || 1] },
-        dropDownOpenId() { return confPP.dropDownOpenId },
+        dropDownOpenId() { return ppInteractivity.dropDownOpenId },
         confPP() { return confPP.ppId[this.ppId || 1] },
         ppCmdEdOnOff() {
-            dropDownOpenId('ppCmdEd_' + this.ppId)
+            ppInteractivity.clickDropDownOpenId('ppCmdEd_' + this.ppId)
             this.count++
         }, keyEscEvent() {
-            delete confPP.dropDownOpenId
+            delete ppInteractivity.dropDownOpenId
             this.count++
         }, medasMcdId(event, ppId, medas) {
             console.log(event.target.value.split(','), ppId, medas)

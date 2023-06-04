@@ -22,6 +22,12 @@ export const
     metalFnConfPP = {},
     ppInteractivity = { fn: {}, appComponents: {} }
 
+ppInteractivity.clickDropDownOpenId = dropDownOpenId =>
+    ppInteractivity.dropDownOpenId == dropDownOpenId
+    && delete ppInteractivity.dropDownOpenId
+    || (ppInteractivity.dropDownOpenId = dropDownOpenId)
+
+
 ppInteractivity.fn.mcdIdSortClick = (ppId, medas, location, mcdId) => {
     const ppMedas1 = confPP.ppId[ppId].medas[medas]
         , ppMedas = ppMedas1[location.split('_')[1]] || ppMedas1
