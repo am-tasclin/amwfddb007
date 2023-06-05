@@ -10,6 +10,7 @@ export default {
             console.log(edAdnId, ppInteractivity.dropDownOpenId, this.vStr)
             //TODO test stub
             mcd.eMap[this.adnId].vStr = this.vStr
+            console.log(mcd.eMap[this.adnId])
             this.count++
             console.log(ppInteractivity.appComponents.eMap[edAdnId])
             ppInteractivity.appComponents.eMap[edAdnId].mElement.count++

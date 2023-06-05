@@ -19,7 +19,9 @@ dependencies {
 	// implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
 	implementation 'com.alibaba:fastjson:2.0.33'
+	implementation 'org.webjars.npm:marked:4.3.0'
 	implementation 'org.webjars.npm:vue:3.2.47'
+
 	// implementation 'org.webjars:stomp-websocket:2.3.4'
 	// implementation 'org.webjars:sockjs-client:1.5.1'
 
