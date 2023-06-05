@@ -34,5 +34,5 @@ export default {
     <button @click="enterData" class="w3-btn w3-border">send Db - відправити БД</button>
     {{adnId}}
 </div> <span class="w3-hide"> {{count}} </span>
-    `,
+`,
 }

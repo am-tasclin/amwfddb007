@@ -10,6 +10,7 @@ export default {
     components: { MElement, PagePartCmdEdMenu, MCDataSort, },
     mounted() {
         ppInteractivity.fn.ppId(this.ppId).tPageParts = this
+        console.log(ppInteractivity.appComponents)
     }, methods: {
         confPP() { return confPP.ppId[this.ppId || 1] },
     }, template: `
@@ -33,12 +34,12 @@ export default {
     <div v-if="confPP().medas[medas].ppl2" class="w3-row">
         <div class="w3-half">
             <template v-for="mcdId in confPP().medas[medas].l_mcdId">
-                <MElement :adnId="mcdId" :medas="medas"/>
+                <MElement :adnId="mcdId" :ppId="ppId" :medas="medas"/>
             </template>
         </div>
         <div class="w3-half">
             <template v-for="mcdId in confPP().medas[medas].ppl2.l_mcdId">
-                <MElement :adnId="mcdId" :medas="medas"/>
+                <MElement :adnId="mcdId" :ppId="ppId" :medas="medas"/>
             </template>
         </div>
     </div>

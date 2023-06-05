@@ -3,9 +3,13 @@ import { ppInteractivity } from '/f/4/lib/metal.js'
 import AdnEnterData from '/f/4/lib/AdnEnterData.js'
 
 export default {
-    props: { adnId: Number, }, data() { return { count: 0 } },
+    props: { adnId: Number, ppId: Number, }, data() { return { count: 0 } },
     components: { AdnEnterData },
-    methods: {
+    mounted() {
+        ppInteractivity.fn.setAdnComponent(this.adnId, 'adnMenu', this)
+    }, computed:{
+        
+    }, methods: {
         adnClick() {
             console.log(this.adnId)
         }, sortUp() {
@@ -21,13 +25,20 @@ export default {
         }, setCut() {
             console.log('123')
         }, setAdnDialogWindow(type, editType) {
+            const edAdnId = ppInteractivity.dropDownOpenId
+                && ppInteractivity.dropDownOpenId.split('_')[2]
+            console.log(edAdnId, this.ppId, ppInteractivity.dropDownOpenId
+                , ppInteractivity.appComponents.ppId[this.ppId])
             ppInteractivity.clickDropDownOpenId(type + '_' + editType + '_' + this.adnId)
             this.count++
+            // ppInteractivity.appComponents.ppId[this.ppId].tPageParts.count++
+            edAdnId &&
+                ppInteractivity.appComponents.eMap[edAdnId].adnMenu.count++
             console.log(ppInteractivity.dropDownOpenId)
         }, isFixedAdnDialogWindow() {
-            return 'edit_fixed_'+this.adnId == ppInteractivity.dropDownOpenId
+            return 'edit_fixed_' + this.adnId == ppInteractivity.dropDownOpenId
         }, isFlyAdnDialogWindow() {
-            return 'edit_fly_'+this.adnId == ppInteractivity.dropDownOpenId
+            return 'edit_fly_' + this.adnId == ppInteractivity.dropDownOpenId
         }, cleanEdit() {
             delete ppInteractivity.dropDownOpenId
             this.count++

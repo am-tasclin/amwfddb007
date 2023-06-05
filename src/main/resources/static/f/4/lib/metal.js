@@ -12,7 +12,7 @@
  */
 
 export const
-    metalData = {},
+    metalData = {}, //TO_DELETE
     // mcd -- eMap:: key:doc_id, value:ADN; 
     // parentChild:: key: doc_id, value: [doc_id...] 
     mcd = { eMap: {}, parentChild: {} },
@@ -20,13 +20,23 @@ export const
     confPP = {},
     // METaL container to build confPP.
     metalFnConfPP = {},
-    ppInteractivity = { fn: {}, appComponents: {} }
+    ppInteractivity = {
+        fn: {}
+        , appComponents: { // Components of web-application
+            eMap: {}, // MCD components to manage
+        }
+    }
 
 ppInteractivity.clickDropDownOpenId = dropDownOpenId =>
     ppInteractivity.dropDownOpenId == dropDownOpenId
     && delete ppInteractivity.dropDownOpenId
     || (ppInteractivity.dropDownOpenId = dropDownOpenId)
 
+ppInteractivity.fn.setAdnComponent = (adnId, key, component) => {
+    !ppInteractivity.appComponents.eMap[adnId]
+        && (ppInteractivity.appComponents.eMap[adnId] = {})
+    ppInteractivity.appComponents.eMap[adnId][key] = component
+}
 
 ppInteractivity.fn.mcdIdSortClick = (ppId, medas, location, mcdId) => {
     const ppMedas1 = confPP.ppId[ppId].medas[medas]

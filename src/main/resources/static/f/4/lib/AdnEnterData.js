@@ -1,15 +1,18 @@
 'use strict'
-import { mcd } from '/f/4/lib/metal.js'
+import { mcd, ppInteractivity } from '/f/4/lib/metal.js'
 
 export default {
     props: { adnId: Number, },
     data() { return { count: 0, vStr: mcd.eMap[this.adnId].vStr } },
     methods: {
         enterData() {
-            console.log(123, this.vStr)
+            const edAdnId = ppInteractivity.dropDownOpenId.split('_')[2]
+            console.log(edAdnId, ppInteractivity.dropDownOpenId, this.vStr)
             //TODO test stub
             mcd.eMap[this.adnId].vStr = this.vStr
             this.count++
+            console.log(ppInteractivity.appComponents.eMap[edAdnId])
+            ppInteractivity.appComponents.eMap[edAdnId].mElement.count++
         },
     },
     template: `
