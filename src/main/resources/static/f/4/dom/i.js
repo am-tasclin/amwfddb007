@@ -8,12 +8,15 @@ metalFnConfPP.initPageParts(window.location.hash.substring(1), 1)
 // symulation mcDB Data, remove by work with real DB
 const symulationMcd = () => {
     console.log(confPP, mcd)
-    const mcdIdList = [], uniqueList = l => l.reduce((mcdIdList, im) =>
-        !mcdIdList.includes(im) && mcdIdList.push(im) && mcdIdList, mcdIdList)
-    confPP.l_ppId.find(ppId => confPP.ppId[ppId].l_medas.find(
-        medas => uniqueList(confPP.ppId[ppId].medas[medas].l_mcdId) &&
-            confPP.ppId[ppId].medas[medas].ppl2
-            && uniqueList(confPP.ppId[ppId].medas[medas].ppl2.l_mcdId)))
+    const mcdIdList = [], uniqueList = l => l.reduce((l2, im) =>
+        !l2.includes(im) && l2.push(im) && l2, mcdIdList)
+    confPP.l_ppId.find(ppId => confPP.ppId[ppId].l_medas.find(medas => {
+        uniqueList(confPP.ppId[ppId].medas[medas].l_mcdId)
+        confPP.ppId[ppId].medas[medas].ppl2
+            && uniqueList(confPP.ppId[ppId].medas[medas].ppl2.l_mcdId)
+    }))
+
+    console.log(mcdIdList)
     mcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vStr: 'vStringValue' })
 
 }; symulationMcd()

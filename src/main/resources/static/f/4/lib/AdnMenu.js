@@ -3,12 +3,13 @@ import { ppInteractivity } from '/f/4/lib/metal.js'
 import AdnEnterData from '/f/4/lib/AdnEnterData.js'
 
 export default {
-    props: { adnId: Number, ppId: Number, }, data() { return { count: 0 } },
     components: { AdnEnterData },
-    mounted() {
-        ppInteractivity.fn.setAdnComponent(this.adnId, 'adnMenu', this)
-    }, computed:{
-        
+    props: { adnId: Number, ppMedasKey: String, }, data() { return { count: 0 } },
+    computed: {
+        ppId() { return this.ppMedasKey.split('_')[1] },
+        adnMenuKey() { return 'adnMenu_' + this.adnId + this.ppMedasKey },
+    }, mounted() {
+        ppInteractivity.fn.setAdnComponent(this.adnId, this.adnMenuKey, this)
     }, methods: {
         adnClick() {
             console.log(this.adnId)
@@ -25,20 +26,18 @@ export default {
         }, setCut() {
             console.log('123')
         }, setAdnDialogWindow(type, editType) {
-            const edAdnId = ppInteractivity.dropDownOpenId
-                && ppInteractivity.dropDownOpenId.split('_')[2]
-            console.log(edAdnId, this.ppId, ppInteractivity.dropDownOpenId
-                , ppInteractivity.appComponents.ppId[this.ppId])
-            ppInteractivity.clickDropDownOpenId(type + '_' + editType + '_' + this.adnId)
+            const edAdnId = ppInteractivity.dropDownOpenId && ppInteractivity.dropDownOpenId.split('_')[2]
+                , dropDownOpenId = type + '_' + editType + '_' + this.adnId + this.ppMedasKey
+            console.log(ppInteractivity.dropDownOpenId, edAdnId, dropDownOpenId)
+            ppInteractivity.clickDropDownOpenId(dropDownOpenId)
             this.count++
-            // ppInteractivity.appComponents.ppId[this.ppId].tPageParts.count++
-            edAdnId &&
-                ppInteractivity.appComponents.eMap[edAdnId].adnMenu.count++
-            console.log(ppInteractivity.dropDownOpenId)
+            edAdnId && Object.keys(ppInteractivity.appComponents.eMap[edAdnId])
+                .filter(k => k.includes('adnMenu_'))
+                .forEach(k => ppInteractivity.appComponents.eMap[edAdnId][k].count++)
         }, isFixedAdnDialogWindow() {
-            return 'edit_fixed_' + this.adnId == ppInteractivity.dropDownOpenId
+            return ('edit_fixed_' + this.adnId + this.ppMedasKey) == ppInteractivity.dropDownOpenId
         }, isFlyAdnDialogWindow() {
-            return 'edit_fly_' + this.adnId == ppInteractivity.dropDownOpenId
+            return ('edit_fly_' + this.adnId + this.ppMedasKey) == ppInteractivity.dropDownOpenId
         }, cleanEdit() {
             delete ppInteractivity.dropDownOpenId
             this.count++
@@ -63,7 +62,7 @@ export default {
             ｜
             <button class="w3-btn am-b w3-text-blue" @click="cleanEdit">－✎⧉</button>
             <div class="w3-dropdown-content w3-card-4 w3-leftbar" v-if="isFlyAdnDialogWindow()" >
-                <AdnEnterData :adnId="adnId"/>
+                <AdnEnterData :adnId="adnId" :ppMedasKey="ppMedasKey" editDataKey="edit_fly_" />
             </div>
         </div>
         <div class="w3-border-top">
@@ -73,7 +72,7 @@ export default {
     </div>
 </span> <span class="w3-hide">{{count}}</span>
 <div class="w3-card-4 w3-leftbar am-width-100pr" v-if="isFixedAdnDialogWindow()" >
-    <AdnEnterData :adnId="adnId"/>
+    <AdnEnterData :adnId="adnId" :ppMedasKey="ppMedasKey" editDataKey="edit_fixed_" />
 </div>
 <span class="w3-small w3-text-blue" v-if="isFixedAdnDialogWindow()">✎</span>
 `,

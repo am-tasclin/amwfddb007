@@ -39,13 +39,13 @@ export default {
         </div>
         <div class="w3-half">
             <template v-for="mcdId in confPP().medas[medas].ppl2.l_mcdId">
-                <MElement :adnId="mcdId" :ppId="ppId" :medas="medas"/>
+                <MElement :adnId="mcdId" :ppId="ppId" :medas="medas" ppl2="2"/>
             </template>
         </div>
     </div>
     <template v-else>
     <template v-for="mcdId in confPP().medas[medas].l_mcdId">
-        <MElement :adnId="mcdId" :medas="medas"/>
+        <MElement :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
     </template>
     </template>
 </template>
