@@ -26,20 +26,17 @@ export default {
         }, setCut() {
             console.log('123')
         }, setAdnDialogWindow(type, editType) {
-            const edAdnId = ppInteractivity.dropDownOpenId && ppInteractivity.dropDownOpenId.split('_')[2]
-                , dropDownOpenId = type + '_' + editType + '_' + this.adnId + this.ppMedasKey
-            console.log(ppInteractivity.dropDownOpenId, edAdnId, dropDownOpenId)
+            const dropDownOpenId = type + '_' + editType + '_' + this.adnId + this.ppMedasKey
             ppInteractivity.clickDropDownOpenId(dropDownOpenId)
             this.count++
-            edAdnId && Object.keys(ppInteractivity.appComponents.eMap[edAdnId])
-                .filter(k => k.includes('adnMenu_'))
-                .forEach(k => ppInteractivity.appComponents.eMap[edAdnId][k].count++)
+
         }, isFixedAdnDialogWindow() {
             return ('edit_fixed_' + this.adnId + this.ppMedasKey) == ppInteractivity.dropDownOpenId
         }, isFlyAdnDialogWindow() {
             return ('edit_fly_' + this.adnId + this.ppMedasKey) == ppInteractivity.dropDownOpenId
         }, cleanEdit() {
-            delete ppInteractivity.dropDownOpenId
+            // delete ppInteractivity.dropDownOpenId
+            ppInteractivity.clickDropDownOpenId('')
             this.count++
         }
     },

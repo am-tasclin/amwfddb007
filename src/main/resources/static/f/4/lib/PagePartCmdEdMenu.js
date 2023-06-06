@@ -4,8 +4,8 @@ import { ppInteractivity } from '/f/4/lib/metal.js'
 import MCDataSort from '/f/4/lib/MCDataSort.js'
 
 export default {
-    props: { ppId: Number }, data() { return { epl2Data: {}, medasConfTypeName: '', count: 0, } },
     components: { MCDataSort, },
+    props: { ppId: Number }, data() { return { epl2Data: {}, medasConfTypeName: '', count: 0, } },
     mounted() {
         ppInteractivity.fn.ppId(this.ppId).ppCmd = this
         confPP.ppId[this.ppId].l_medas.filter(medas => 'lr' != medas)
@@ -30,7 +30,7 @@ export default {
             this.medasConfTypeName = showMedasConfTypeName
         },
     }, template: `
-<span class="w3-dropdown-click">
+<span class="w3-dropdown-click w3-right">
     <button @click="ppCmdEdOnOff" class="w3-btn w3-ripple w3-padding-small w13-small" 
             @keyup.esc="keyEscEvent" >
         <span class="w3-tiny"> {{confPP().l_medas.join('‧')}} </span> ☰

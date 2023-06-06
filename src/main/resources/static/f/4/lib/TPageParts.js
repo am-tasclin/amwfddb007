@@ -4,19 +4,20 @@ import { ppInteractivity } from '/f/4/lib/metal.js'
 import MElement from '/f/4/lib/MElement.js'
 import MCDataSort from '/f/4/lib/MCDataSort.js'
 import PagePartCmdEdMenu from '/f/4/lib/PagePartCmdEdMenu.js'
+import PpCmdEdMenu from '/f/4/lib/PpCmdEdMenu.js'
 
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
-    components: { MElement, PagePartCmdEdMenu, MCDataSort, },
+    components: { MElement, PagePartCmdEdMenu, MCDataSort, PpCmdEdMenu,},
     mounted() {
         ppInteractivity.fn.ppId(this.ppId).tPageParts = this
-        console.log(ppInteractivity.appComponents)
     }, methods: {
         confPP() { return confPP.ppId[this.ppId || 1] },
     }, template: `
 <div> <span class="w3-tiny am-b"> MEDAS part </span> ➾
     <span v-for="medas in confPP().l_medas"> {{medas}},&nbsp; </span>
-    <span class="w3-right"> <PagePartCmdEdMenu :ppId="ppId"/> </span>
+    <PagePartCmdEdMenu :ppId="ppId"/>
+    <PpCmdEdMenu :ppId="ppId"/>
 </div> <span class="w3-hide"> {{count}} </span>
 
 <template v-for="medas in confPP().l_medas">

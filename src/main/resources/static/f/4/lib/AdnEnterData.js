@@ -6,7 +6,6 @@ export default {
     data() { return { count: 0, vStr: mcd.eMap[this.adnId].vStr } },
     computed: { editComponentKey() { return this.editDataKey + this.adnId + this.ppMedasKey } },
     mounted() {
-        console.log(this.editComponentKey)
         ppInteractivity.fn.setAdnComponent(this.adnId, this.editComponentKey, this)
     }, methods: {
         enterData() {
@@ -20,10 +19,13 @@ export default {
                 .forEach(k => ppInteractivity.appComponents.eMap[edAdnId][k].count++)
         }, cleanEdit() {
             delete ppInteractivity.dropDownOpenId
-            // this.count++
-            const adnMenuKey = 'adnMenu_' + this.ppId + '_' + this.medas
-                + '_' + (this.ppl2 && this.ppl2 || 1)
-            ppInteractivity.appComponents.eMap[this.adnId][adnMenuKey].count++
+            this.count++
+            // const adnMenuKey = 'adnMenu_' + this.ppId + '_' + this.medas
+            //     + '_' + (this.ppl2 && this.ppl2 || 1)
+            // ppInteractivity.appComponents.eMap[this.adnId][adnMenuKey].count++
+            Object.keys(ppInteractivity.appComponents.eMap[this.adnId])
+                .filter(k => k.includes('adnMenu_'))
+                .forEach(k => ppInteractivity.appComponents.eMap[this.adnId][k].count++)
         }
     },
     template: `

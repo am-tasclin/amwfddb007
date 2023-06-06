@@ -27,10 +27,20 @@ export const
         }
     }
 
-ppInteractivity.clickDropDownOpenId = dropDownOpenId =>
+ppInteractivity.clickDropDownOpenId = dropDownOpenId => {
+    const ddl = ppInteractivity.dropDownOpenId && ppInteractivity.dropDownOpenId.split('_')
+        , edAdnId = ppInteractivity.dropDownOpenId && ddl[2]
+    ddl && ppInteractivity.appComponents.ppId[ddl[2]] && // ppCmdEd_fly_1
+        ppInteractivity.appComponents.ppId[ddl[2]][ddl[0]].count++
+    edAdnId && ppInteractivity.appComponents.eMap[edAdnId] &&
+        Object.keys(ppInteractivity.appComponents.eMap[edAdnId])
+            .filter(k => k.includes('adnMenu_'))
+            .forEach(k => ppInteractivity.appComponents.eMap[edAdnId][k].count++)
+
     ppInteractivity.dropDownOpenId == dropDownOpenId
-    && delete ppInteractivity.dropDownOpenId
-    || (ppInteractivity.dropDownOpenId = dropDownOpenId)
+        && delete ppInteractivity.dropDownOpenId
+        || (ppInteractivity.dropDownOpenId = dropDownOpenId)
+}
 
 ppInteractivity.fn.setAdnComponent = (adnId, key, component) => {
     !ppInteractivity.appComponents.eMap[adnId]
@@ -93,7 +103,7 @@ const confMedas = idList => idList.reduce((o, im) =>
 
 metalFnConfPP.initFromURI = (rawPpStr, ppId) => {
     initConfPP(ppId)
-    console.log(JSON.stringify(confPP), confPP)
+    // console.log(JSON.stringify(confPP), confPP)
     const rawPp = rawPpStr.split(';')
 
     rawPp.filter(im => !im.split(',')[0].includes('_')).reduce((o, im) =>

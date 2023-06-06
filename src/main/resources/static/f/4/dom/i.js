@@ -7,7 +7,7 @@ metalFnConfPP.initPageParts(window.location.hash.substring(1), 1)
 
 // symulation mcDB Data, remove by work with real DB
 const symulationMcd = () => {
-    console.log(confPP, mcd)
+    // console.log(confPP, mcd)
     const mcdIdList = [], uniqueList = l => l.reduce((l2, im) =>
         !l2.includes(im) && l2.push(im) && l2, mcdIdList)
     confPP.l_ppId.find(ppId => confPP.ppId[ppId].l_medas.find(medas => {
