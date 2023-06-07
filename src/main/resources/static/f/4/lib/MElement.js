@@ -25,7 +25,6 @@ export default {
 <div class="w3-hover-shadow">
     <AdnMenu :adnId="adnId" :ppMedasKey="ppMedasKey" />
     &nbsp;
-    {{ppMedasKey}}
     <span class="w3-tiny" v-html="vStr()" />
 </div> <span class="w3-hide"> {{count}} </span>
 `,

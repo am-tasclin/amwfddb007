@@ -11,16 +11,15 @@ export default {
         confPP() { return confPP.ppId[this.ppId || 1] },
         dropDownOpenId() { return ppInteractivity.dropDownOpenId },
         clickFixFly() {
-            console.log(ppInteractivity.dropDownOpenId, ppInteractivity.dropDownOpenId.includes('ppCmdEd_fly_'))
             const dropDownOpenId = (!ppInteractivity.dropDownOpenId.includes('ppCmdEd_fly_')
                 && 'ppCmdEd_fly_' || 'ppCmdEd_fixed_') + this.ppId
-            console.log(dropDownOpenId)
             ppInteractivity.clickDropDownOpenId(dropDownOpenId)
-            this.count++
+            // this.count++
+            Object.keys(ppInteractivity.fn.ppId(this.ppId)).filter(k => k.includes('ppConfEd_'))
+                .forEach(k => ppInteractivity.fn.ppId(this.ppId)[k]
+                    .medasConfTypeName = ppInteractivity.medasConfTypeName)
         }, ppCmdEdOnOff() {
-            console.log(ppInteractivity.dropDownOpenId)
             const dropDownOpenId = 'ppCmdEd_fly_' + this.ppId
-            console.log(123, dropDownOpenId)
             ppInteractivity.clickDropDownOpenId(dropDownOpenId)
             this.count++
         }, closeDialog() {
@@ -37,24 +36,22 @@ export default {
             🪄 <span class="w3-tiny">  {{confPP().l_medas.join('‧')}} </span> ☰
         </button>
         <div :id="'ppCmdEd_fly_'+ppId" class="w3-dropdown-content w13-container w3-hover-shadow w3-border"
-            :class="{'w3-show':dropDownOpenId() == 'ppCmdEd_fly_'+ppId}" 
-            style="right: -1em; width: 52em;">
-                <button @click="clickFixFly" class="w3-right w3-btn">📌</button>
-            a1
-            <PpConfEd />
+                :class="{'w3-show':dropDownOpenId() == 'ppCmdEd_fly_'+ppId}" 
+                style="right: -1em; width: 52em;">
+            <button @click="clickFixFly" class="w3-right w3-btn">📌</button>
+            <PpConfEd :ppId="ppId" ff="fly"/>
         </div>
     </span>
 </div> <span class="w3-hide">{{count}}</span>
-{{dropDownOpenId()}}
 <div v-if="dropDownOpenId() == 'ppCmdEd_fixed_'+ppId">&nbsp;</div>
 <div :id="'ppCmdEd_fixed_'+ppId" class="w3-hover-shadow w3-border"
         :class="{'w3-show':dropDownOpenId() == 'ppCmdEd_fixed_'+ppId,
             'w3-hide':dropDownOpenId() != 'ppCmdEd_fixed_'+ppId, }" >
-    <button @click="closeDialog" class="w3-right w3-btn">❌</button>
-    <button @click="clickFixFly" class="w3-right w3-btn">📌</button>
-    
-a123
-<PpConfEd />
+    <span class="w3-right">
+        <button @click="closeDialog" class="w3-btn">❌</button>
+        <button @click="clickFixFly" class="w3-btn">📌</button>
+    </span>
+    <PpConfEd :ppId="ppId" ff="fixed"/>
 </div>
 `,
 }
