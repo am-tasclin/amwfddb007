@@ -2,8 +2,10 @@
 /**
  * Algoritmed ©
  * MCD, mcd -- Meta Content Data
+ * МКД      -- Мета-контент дані
  * ADN, adn -- Abstract Data Node
- * METaL, metal -- Model businEss Task Language
+ * METaL, metal -- Modeling businEss Task Language
+ *              -- Мова моделювання завдань бізнесу
  * MEDAS, medas -- MEtal DAta Structure. Build from MCD.
  * PP, pp -- Page Part. Block of MCD or MEDAS in Application Development Page.
  * pl2 -- Panel 2
@@ -106,11 +108,12 @@ metalFnConfPP.initFromURI = (rawPpStr, ppId) => {
     // console.log(JSON.stringify(confPP), confPP)
     const rawPp = rawPpStr.split(';')
 
-    rawPp.filter(im => !im.split(',')[0].includes('_')).reduce((o, im) =>
-        o.l_medas.push(im.split(',')[0])
-        && (confPP.ppId[ppId].medas[im.split(',')[0]] = confMedas(im.split(',').slice(1)))
-        && o
-        , (confPP.ppId[ppId] = { l_medas: [], medas: {}, }))
+    rawPp.filter(im => im.length != 0).filter(im => !im.split(',')[0].includes('_'))
+        .reduce((o, im) =>
+            o.l_medas.push(im.split(',')[0])
+            && (confPP.ppId[ppId].medas[im.split(',')[0]] = confMedas(im.split(',').slice(1)))
+            && o
+            , (confPP.ppId[ppId] = { l_medas: [], medas: {}, }))
 
     rawPp.filter(im => im.split(',')[0].includes('_')).reduce((o, im) => {
         const medas = confPP.ppId[ppId].medas[im.split(',')[0].split('_')[0]]

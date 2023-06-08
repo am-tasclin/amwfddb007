@@ -16,7 +16,7 @@ export default {
     }, template: `
 <div> <span class="w3-tiny am-b"> MEDAS part </span> ➾
     <span v-for="medas in confPP().l_medas"> {{medas}},&nbsp; </span>
-    <PagePartCmdEdMenu :ppId="ppId"/>
+    <!-- <PagePartCmdEdMenu :ppId="ppId"/> -->
     <PpCmdEdMenu :ppId="ppId"/>
 </div> <span class="w3-hide"> {{count}} </span>
 

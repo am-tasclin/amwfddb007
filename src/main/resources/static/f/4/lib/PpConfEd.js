@@ -8,8 +8,14 @@ export default {
     mounted() {
         const ppConfEdKey = 'ppConfEd_' + this.ff
         ppInteractivity.fn.ppId(this.ppId)[ppConfEdKey] = this
-
+        !ppInteractivity.epl2Data &&
+            confPP.ppId[this.ppId].l_medas.filter(medas => 'lr' != medas)
+                .reduce((o, medas) => (o[medas] = confPP.ppId[this.ppId].medas[medas].epl2
+                    && confPP.ppId[this.ppId].medas[medas].epl2.l_mcdId || []
+                ) && o, ppInteractivity.epl2Data = {})
+        this.epl2Data = ppInteractivity.epl2Data
     }, methods: {
+        epl2Data(medas) { return ppInteractivity.epl2Data[medas] },
         confPP() { return confPP.ppId[this.ppId || 1] },
         confTypeName(showMedasConfTypeName) {
             this.medasConfTypeName = ppInteractivity.medasConfTypeName = showMedasConfTypeName
@@ -17,7 +23,7 @@ export default {
             return JSON.stringify(confPP, '', 2)
                 .replace(/\s+]/g, ']')
                 .replace(/\s+}/g, '}')
-        },medasMcdId(event, ppId, medas) {
+        }, medasMcdId(event, ppId, medas) {
             console.log(event.target.value.split(','), ppId, medas)
         }
     }, template: `
