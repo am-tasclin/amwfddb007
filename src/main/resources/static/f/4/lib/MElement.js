@@ -1,6 +1,6 @@
 'use strict'
-import AdnMenu from '/f/4/lib/AdnMenu.js'
 import { mcd, ppInteractivity } from '/f/4/lib/metal.js'
+import AdnMenu from '/f/4/lib/AdnMenu.js'
 
 export default {
     props: { adnId: Number, ppId: Number, medas: String, ppl2: Number, },
@@ -15,17 +15,17 @@ export default {
         ppInteractivity.fn.setAdnComponent(this.adnId
             , 'mElement' + this.ppMedasKey, this)
     }, methods: {
-        vStr() {
-            // return this.eMap().vStr
-            // return marked.parse(this.eMap().vStr)
-            return this.eMap().vStr && marked.parseInline(this.eMap().vStr)
+        vlStr() {
+            // return this.eMap().vlStr
+            // return marked.parse(this.eMap().vlStr)
+            return this.eMap().vlStr && marked.parseInline(this.eMap().vlStr)
         },
         eMap() { return mcd.eMap[this.adnId] || {} },
     }, template: `
 <div class="w3-hover-shadow">
     <AdnMenu :adnId="adnId" :ppMedasKey="ppMedasKey" />
     &nbsp;
-    <span class="w3-tiny" v-html="vStr()" />
+    <span class="w3-tiny" v-html="vlStr()" />
 </div> <span class="w3-hide"> {{count}} </span>
 `,
 }

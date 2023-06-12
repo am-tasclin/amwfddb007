@@ -11,6 +11,8 @@
  * pl2 -- Panel 2
  * ppl2 -- Part Panel 2. Panel 2 for one for all medas block
  * epl2 -- Element Panel 2. Panel 2 individual for some Element in medas block.
+ * ----
+ * aco -- Application Component Object
  */
 
 export const
@@ -20,6 +22,7 @@ export const
     mcd = { eMap: {}, parentChild: {} },
     // Config for Page Part to include and use in other grid.
     confPP = {},
+    ppConfEd = {},
     // METaL container to build confPP.
     metalFnConfPP = {},
     ppInteractivity = {
@@ -28,6 +31,19 @@ export const
             eMap: {}, // MCD components to manage
         }
     }
+
+ppConfEd.medasMcdId = (val, ppId, medas) => {
+    const valList = val.replace(/\s+/g, '').split(',').filter(im => im)
+        , ppMedas = confPP.ppId[ppId].medas[medas]
+    valList.filter(mcdId => !ppMedas.mcdId[mcdId])
+        .forEach(mcdId => ppMedas.mcdId[mcdId] = {})
+    ppMedas.l_mcdId = valList
+    ppInteractivity.fn.ppId(ppId).tPagePart.count++
+    console.log(ppInteractivity.fn.ppId(ppId))
+    Object.keys(ppInteractivity.fn.ppId(ppId))
+        .filter(k => k.includes('ppConfEd_'))
+        .forEach(k => ppInteractivity.fn.ppId(ppId).count++)
+}
 
 ppInteractivity.clickDropDownOpenId = dropDownOpenId => {
     const ddl = ppInteractivity.dropDownOpenId && ppInteractivity.dropDownOpenId.split('_')
@@ -58,7 +74,7 @@ ppInteractivity.fn.mcdIdSortClick = (ppId, medas, location, mcdId) => {
 
     console.log(ppMedas)
 
-    ppInteractivity.appComponents.ppId[ppId].tPageParts.count++
+    ppInteractivity.appComponents.ppId[ppId].tPagePart.count++
     Object.keys(ppInteractivity.appComponents.ppId[ppId].medas[medas].mcDataSort)
         .forEach(location => ppInteractivity.appComponents
             .ppId[ppId].medas[medas].mcDataSort[location].count++)
@@ -82,7 +98,7 @@ ppInteractivity.fn.ppId = ppId => {
     return ppInteractivity.appComponents.ppId[ppId]
 }
 
-metalFnConfPP.initPageParts = (rawPpStr, ppId) => {
+metalFnConfPP.initPagePart = (rawPpStr, ppId) => {
     console.log(rawPpStr, ppId)
 
     !rawPpStr.includes('cj=') &&
@@ -91,7 +107,7 @@ metalFnConfPP.initPageParts = (rawPpStr, ppId) => {
         metalFnConfPP.initFromJson(rawPpStr.replace('cj=', ''), ppId)
 }
 
-const initConfPP = (ppId) => {
+const initConfPP = ppId => {
     // pp -- page part
     !confPP && (confPP = {})
     !confPP.l_ppId && (confPP.l_ppId = [])

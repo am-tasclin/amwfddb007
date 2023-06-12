@@ -9,6 +9,10 @@ export default {
         ppInteractivity.fn.ppId(this.ppId).ppCmdEd = this
     }, methods: {
         confPP() { return confPP.ppId[this.ppId || 1] },
+        keyEscEvent() {
+            delete ppInteractivity.dropDownOpenId
+            this.count++
+        },
         dropDownOpenId() { return ppInteractivity.dropDownOpenId },
         clickFixFly() {
             const dropDownOpenId = (!ppInteractivity.dropDownOpenId.includes('ppCmdEd_fly_')

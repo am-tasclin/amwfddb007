@@ -3,16 +3,16 @@ import { mcd, ppInteractivity } from '/f/4/lib/metal.js'
 
 export default {
     props: { adnId: Number, ppMedasKey: String, editDataKey: String },
-    data() { return { count: 0, vStr: mcd.eMap[this.adnId].vStr } },
+    data() { return { count: 0, vlStr: mcd.eMap[this.adnId].vlStr } },
     computed: { editComponentKey() { return this.editDataKey + this.adnId + this.ppMedasKey } },
     mounted() {
         ppInteractivity.fn.setAdnComponent(this.adnId, this.editComponentKey, this)
     }, methods: {
         enterData() {
             const edAdnId = ppInteractivity.dropDownOpenId.split('_')[2]
-            console.log(edAdnId, ppInteractivity.dropDownOpenId, this.vStr)
+            console.log(edAdnId, ppInteractivity.dropDownOpenId, this.vlStr)
             // TODO test stub
-            mcd.eMap[this.adnId].vStr = this.vStr
+            mcd.eMap[this.adnId].vlStr = this.vlStr
             // this.count++
             Object.keys(ppInteractivity.appComponents.eMap[edAdnId])
                 .filter(k => k.includes('mElement_'))
@@ -31,7 +31,7 @@ export default {
     template: `
 <div class="w3-container">
     <span class="w3-tiny">Edit & Enter Adn Content Data</span>
-    <div><textarea v-model="vStr" class="am-width-100pr" /></div>
+    <div><textarea v-model="vlStr" class="am-width-100pr" /></div>
     <button @click="enterData" class="w3-btn w3-border">send Db - відправити БД</button>
     <button @click="cleanEdit" class="w3-btn w3-tiny">close - закрити 
         <span class="w3-text-blue">－✎⧉ <span>

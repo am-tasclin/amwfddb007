@@ -1,10 +1,12 @@
 'use strict'
-import { confPP, ppInteractivity } from '/f/4/lib/metal.js'
+import { confPP, ppConfEd, ppInteractivity } from '/f/4/lib/metal.js'
 import MCDataSort from '/f/4/lib/MCDataSort.js'
 
 export default {
     components: { MCDataSort, }, props: { ppId: Number, ff: String },
     data() { return { medasConfTypeName: '', epl2Data: {}, count: 0, } },
+    computed: {
+    },
     mounted() {
         const ppConfEdKey = 'ppConfEd_' + this.ff
         ppInteractivity.fn.ppId(this.ppId)[ppConfEdKey] = this
@@ -23,8 +25,9 @@ export default {
             return JSON.stringify(confPP, '', 2)
                 .replace(/\s+]/g, ']')
                 .replace(/\s+}/g, '}')
-        }, medasMcdId(event, ppId, medas) {
-            console.log(event.target.value.split(','), ppId, medas)
+        }, medasMcdId(event, medas) {
+            console.log(this.ppId, medas, ppInteractivity.appComponents,confPP)
+            ppConfEd.medasMcdId(event.target.value, this.ppId, medas)
         }
     }, template: `
 <div class="w3-container">
@@ -59,28 +62,28 @@ export default {
         </div>
         <div class="w3-threequarter w3-container">
             <div class="w3-row w3-tiny am-b w3-border-bottom">
-                <div class="w3-half"> pageParts </div>
-                <div class="w3-half w3-container"> pane2, right </div>
+                <div class="w3-half" title="MEtal DAta Structure" > medas </div>
+                <div class="w3-half w3-container"> panel2, right </div>
             </div>
             <div v-for="medas in confPP().l_medas" class="w3-row w3-border-bottom w3-hover-shadow">
                 <div class="w3-half">
                     <span class="w3-opacity a1m-u">{{medas}}</span>
-                    <input @keyup.enter="medasMcdId($event, ppId, medas)" 
+                    <input @keyup.enter="medasMcdId($event, medas)" 
                         :value="confPP().medas[medas].l_mcdId.join(', ')"
                         class="w3-hover-shadow w3-small am-width-100pr">
                     <div class="w3-tiny">
-                        <MCDataSort :ppId="ppId" :medas="medas" location="ppCmd"/>
+                        <MCDataSort :ppId="ppId" :medas="medas" location="ppConfEd"/>
                     </div>
                 </div>
                 <div class="w3-half w3-container">
                     &nbsp;
-                    <input @keyup.enter="medasMcdId($event, ppId, medas, true)" 
+                    <input @keyup.enter="medasMcdId($event, medas, true)" 
                         :value="confPP().medas[medas].ppl2 && confPP().medas[medas].ppl2.l_mcdId.join(', ')"
                         v-if="'lr'==medas"
                         class="w3-hover-shadow w3-small am-width-100pr">
                         <div v-if="confPP().medas[medas].ppl2" class="w3-tiny">
                             <MCDataSort :ppId="ppId" :medas="medas" 
-                                :location="medas+'_ppl2'"/>
+                                location="ppConfEd_ppl2"/>
                         </div>
                     <template v-if="'lr'!=medas">
                         <template v-for="mcdId in confPP().medas[medas].l_mcdId">
