@@ -8,7 +8,9 @@ export default {
     computed: {
         ppId() { return this.ppMedasKey.split('_')[1] },
         adnMenuKey() { return 'adnMenu_' + this.adnId + this.ppMedasKey },
+        // adnMenuKey() { return 'adnMenu_' + this.adnId + this.ppMedasKey },
     }, mounted() {
+        console.log(this.adnMenuKey)
         dppInteractivity.fn.setAdnComponent(this.adnId, this.adnMenuKey, this)
     }, methods: {
         adnClick() {
@@ -27,16 +29,15 @@ export default {
             console.log('123')
         }, setAdnDialogWindow(type, editType) {
             const dropDownOpenId = type + '_' + editType + '_' + this.adnId + this.ppMedasKey
-            dppInteractivity.clickDropDownOpenId(dropDownOpenId)
+            dppInteractivity.clickDropDownOpenId(dropDownOpenId, this.ppId)
             this.count++
-
         }, isFixedAdnDialogWindow() {
             return ('edit_fixed_' + this.adnId + this.ppMedasKey) == dppInteractivity.dropDownOpenId
         }, isFlyAdnDialogWindow() {
             return ('edit_fly_' + this.adnId + this.ppMedasKey) == dppInteractivity.dropDownOpenId
         }, cleanEdit() {
             // delete dppInteractivity.dropDownOpenId
-            dppInteractivity.clickDropDownOpenId('')
+            dppInteractivity.clickDropDownOpenId('', this.ppId)
             this.count++
         }
     },

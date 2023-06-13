@@ -17,7 +17,7 @@ export default {
         clickFixFly() {
             const dropDownOpenId = (!dppInteractivity.dropDownOpenId.includes('confDppEdPanel_fly_')
                 && 'confDppEdPanel_fly_' || 'confDppEdPanel_fixed_') + this.ppId
-            dppInteractivity.clickDropDownOpenId(dropDownOpenId)
+            dppInteractivity.clickDropDownOpenId(dropDownOpenId, this.ppId)
             // this.count++
             Object.keys(dppInteractivity.fn.ppId(this.ppId)).filter(k => k.includes('ppConfEd_'))
                 .forEach(k => dppInteractivity.fn.ppId(this.ppId)[k]
@@ -25,11 +25,11 @@ export default {
         }, ppCmdEdOnOff() {
             const dropDownOpenId = 'confDppEdPanel_fly_' + this.ppId
             console.log(dropDownOpenId)
-            dppInteractivity.clickDropDownOpenId(dropDownOpenId)
+            dppInteractivity.clickDropDownOpenId(dropDownOpenId, this.ppId)
             this.count++
         }, closeDialog() {
             // delete dppInteractivity.dropDownOpenId
-            dppInteractivity.clickDropDownOpenId('')
+            dppInteractivity.clickDropDownOpenId('', this.ppId)
             this.count++
         },
     },

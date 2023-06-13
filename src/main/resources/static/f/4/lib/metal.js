@@ -47,31 +47,25 @@ export const
         },
     }
 
-dppInteractivity.clickDropDownOpenId = dropDownOpenId => {
-    const ddl = dppInteractivity.dropDownOpenId && dppInteractivity.dropDownOpenId.split('_')
-        , edAdnId = dppInteractivity.dropDownOpenId && ddl[2]
-    console.log(dppInteractivity.appComponents.meMap)
-    console.log(ddl, edAdnId)
-    ddl && console.log(ddl[2])
-    ddl && dppInteractivity.appComponents.ppId[ddl[2]]
-        && dppInteractivity.appComponents.ppId[ddl[2]].tGridDpp.confDppEd.aco.count++
-
-    /*
-    ddl && dppInteractivity.appComponents.ppId[ddl[2]] && // ppCmdEd_fly_1
-    dppInteractivity.appComponents.ppId[ddl[2]][ddl[0]].count++
-    edAdnId && dppInteractivity.appComponents.eMap[edAdnId] &&
-    Object.keys(dppInteractivity.appComponents.eMap[edAdnId])
-    .filter(k => k.includes('adnMenu_'))
-    .forEach(k => dppInteractivity.appComponents.eMap[edAdnId][k].count++)
-    */
-
-    dppInteractivity.dropDownOpenId == dropDownOpenId
-        && delete dppInteractivity.dropDownOpenId
-        || (dppInteractivity.dropDownOpenId = dropDownOpenId)
-
-    console.log(dppInteractivity.dropDownOpenId)
-
+dppInteractivity.clickDropDownOpenId = (dropDownOpenId, ppId) => {
+    const edAdnId = dppInteractivity.dropDownOpenId
+        && dppInteractivity.dropDownOpenId.split('_')[2]
+    componentActivate.meMap(edAdnId)
+    componentActivate.confDppEd(ppId)
+    componentActivate.dropDownOpenIdOnOff(dropDownOpenId)
 }
+
+const componentActivate = {}
+componentActivate.meMap = adnId => adnId && dppInteractivity.appComponents.meMap[adnId] &&
+    Object.keys(dppInteractivity.appComponents.meMap[adnId])
+        .filter(k => k.includes('adnMenu_'))
+        .forEach(k => dppInteractivity.appComponents.meMap[adnId][k].count++)
+
+componentActivate.confDppEd = ppId => dppInteractivity.appComponents.ppId[ppId]
+    && dppInteractivity.appComponents.ppId[ppId].tGridDpp.confDppEd.aco.count++
+
+componentActivate.dropDownOpenIdOnOff = dropDownOpenId => dppInteractivity.dropDownOpenId == dropDownOpenId
+    && delete dppInteractivity.dropDownOpenId || (dppInteractivity.dropDownOpenId = dropDownOpenId)
 
 dppInteractivity.fn.setAdnComponent = (adnId, key, component) => {
     !dppInteractivity.appComponents.meMap[adnId]
@@ -138,8 +132,7 @@ metalFnConfPP.initFromURI = (rawPpStr, ppId) => {
     const rawPp = rawPpStr.split(';')
 
     rawPp.filter(im => im.length != 0).filter(im => !im.split(',')[0].includes('_'))
-        .reduce((o, im) =>
-            o.l_medas.push(im.split(',')[0])
+        .reduce((o, im) => o.l_medas.push(im.split(',')[0])
             && (confDpp.ppId[ppId].medas[im.split(',')[0]] = confMedas(im.split(',').slice(1)))
             && o
             , (confDpp.ppId[ppId] = { l_medas: [], medas: {}, }))
