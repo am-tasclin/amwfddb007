@@ -1,5 +1,5 @@
 'use strict'
-import { mcd, ppInteractivity } from '/f/4/lib/metal.js'
+import { mcd, dppInteractivity } from '/f/4/lib/metal.js'
 import AdnMenu from '/f/4/lib/AdnMenu.js'
 
 export default {
@@ -12,7 +12,7 @@ export default {
                 + '_' + (this.ppl2 && this.ppl2 || 1)
         },
     }, mounted() {
-        ppInteractivity.fn.setAdnComponent(this.adnId
+        dppInteractivity.fn.setAdnComponent(this.adnId
             , 'mElement' + this.ppMedasKey, this)
     }, methods: {
         vlStr() {

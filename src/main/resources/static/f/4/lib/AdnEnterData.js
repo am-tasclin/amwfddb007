@@ -1,31 +1,31 @@
 'use strict'
-import { mcd, ppInteractivity } from '/f/4/lib/metal.js'
+import { mcd, dppInteractivity } from '/f/4/lib/metal.js'
 
 export default {
     props: { adnId: Number, ppMedasKey: String, editDataKey: String },
     data() { return { count: 0, vlStr: mcd.eMap[this.adnId].vlStr } },
     computed: { editComponentKey() { return this.editDataKey + this.adnId + this.ppMedasKey } },
     mounted() {
-        ppInteractivity.fn.setAdnComponent(this.adnId, this.editComponentKey, this)
+        dppInteractivity.fn.setAdnComponent(this.adnId, this.editComponentKey, this)
     }, methods: {
         enterData() {
-            const edAdnId = ppInteractivity.dropDownOpenId.split('_')[2]
-            console.log(edAdnId, ppInteractivity.dropDownOpenId, this.vlStr)
+            const edAdnId = dppInteractivity.dropDownOpenId.split('_')[2]
+            console.log(edAdnId, dppInteractivity.dropDownOpenId, this.vlStr)
             // TODO test stub
             mcd.eMap[this.adnId].vlStr = this.vlStr
             // this.count++
-            Object.keys(ppInteractivity.appComponents.eMap[edAdnId])
+            Object.keys(dppInteractivity.appComponents.eMap[edAdnId])
                 .filter(k => k.includes('mElement_'))
-                .forEach(k => ppInteractivity.appComponents.eMap[edAdnId][k].count++)
+                .forEach(k => dppInteractivity.appComponents.eMap[edAdnId][k].count++)
         }, cleanEdit() {
-            delete ppInteractivity.dropDownOpenId
+            delete dppInteractivity.dropDownOpenId
             this.count++
             // const adnMenuKey = 'adnMenu_' + this.ppId + '_' + this.medas
             //     + '_' + (this.ppl2 && this.ppl2 || 1)
-            // ppInteractivity.appComponents.eMap[this.adnId][adnMenuKey].count++
-            Object.keys(ppInteractivity.appComponents.eMap[this.adnId])
+            // dppInteractivity.appComponents.eMap[this.adnId][adnMenuKey].count++
+            Object.keys(dppInteractivity.appComponents.eMap[this.adnId])
                 .filter(k => k.includes('adnMenu_'))
-                .forEach(k => ppInteractivity.appComponents.eMap[this.adnId][k].count++)
+                .forEach(k => dppInteractivity.appComponents.eMap[this.adnId][k].count++)
         }
     },
     template: `

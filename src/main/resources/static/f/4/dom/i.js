@@ -8,22 +8,23 @@
  * tGridDpp -- Grid DOM Page Part
  * 
  * tMedasDpp -- MEDAS DOM Page Part
+ * 
  */
 const { createApp } = Vue
-import { mcd, confPP, metalFnConfPP } from '/f/4/lib/metal.js'
+import { mcd, confDpp, metalFnConfPP } from '/f/4/lib/metal.js'
 import TGridDpp from '/f/4/lib/TGridDpp.js'
 
 metalFnConfPP.initPagePart(window.location.hash.substring(1), 1)
 
 // symulation mcDB Data, remove by work with real DB
 const symulationMcd = () => {
-    // console.log(confPP, mcd)
+    // console.log(confDpp, mcd)
     const mcdIdList = [], uniqueList = l => l.reduce((l2, im) =>
         !l2.includes(im) && l2.push(im) && l2, mcdIdList)
-    confPP.l_ppId.find(ppId => confPP.ppId[ppId].l_medas.find(medas => {
-        uniqueList(confPP.ppId[ppId].medas[medas].l_mcdId)
-        confPP.ppId[ppId].medas[medas].ppl2
-            && uniqueList(confPP.ppId[ppId].medas[medas].ppl2.l_mcdId)
+    confDpp.l_ppId.find(ppId => confDpp.ppId[ppId].l_medas.find(medas => {
+        uniqueList(confDpp.ppId[ppId].medas[medas].l_mcdId)
+        confDpp.ppId[ppId].medas[medas].ppl2
+            && uniqueList(confDpp.ppId[ppId].medas[medas].ppl2.l_mcdId)
     }))
 
     console.log(mcdIdList)
@@ -36,7 +37,7 @@ tMedasDpp.component('t-grid-dpp', TGridDpp)
 tMedasDpp.mount('#tMedasDpp')
 
 const dev = {
-    count: 0, devText: JSON.stringify(confPP, '', 2)
+    count: 0, devText: JSON.stringify(confDpp, '', 2)
         .replace(/\s+]/g, ']')
         .replace(/\s+}/g, '}')
 }

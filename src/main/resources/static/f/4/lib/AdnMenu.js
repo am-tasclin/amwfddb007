@@ -1,5 +1,5 @@
 'use strict'
-import { ppInteractivity } from '/f/4/lib/metal.js'
+import { dppInteractivity } from '/f/4/lib/metal.js'
 import AdnEnterData from '/f/4/lib/AdnEnterData.js'
 
 export default {
@@ -9,7 +9,7 @@ export default {
         ppId() { return this.ppMedasKey.split('_')[1] },
         adnMenuKey() { return 'adnMenu_' + this.adnId + this.ppMedasKey },
     }, mounted() {
-        ppInteractivity.fn.setAdnComponent(this.adnId, this.adnMenuKey, this)
+        dppInteractivity.fn.setAdnComponent(this.adnId, this.adnMenuKey, this)
     }, methods: {
         adnClick() {
             console.log(this.adnId)
@@ -27,16 +27,16 @@ export default {
             console.log('123')
         }, setAdnDialogWindow(type, editType) {
             const dropDownOpenId = type + '_' + editType + '_' + this.adnId + this.ppMedasKey
-            ppInteractivity.clickDropDownOpenId(dropDownOpenId)
+            dppInteractivity.clickDropDownOpenId(dropDownOpenId)
             this.count++
 
         }, isFixedAdnDialogWindow() {
-            return ('edit_fixed_' + this.adnId + this.ppMedasKey) == ppInteractivity.dropDownOpenId
+            return ('edit_fixed_' + this.adnId + this.ppMedasKey) == dppInteractivity.dropDownOpenId
         }, isFlyAdnDialogWindow() {
-            return ('edit_fly_' + this.adnId + this.ppMedasKey) == ppInteractivity.dropDownOpenId
+            return ('edit_fly_' + this.adnId + this.ppMedasKey) == dppInteractivity.dropDownOpenId
         }, cleanEdit() {
-            // delete ppInteractivity.dropDownOpenId
-            ppInteractivity.clickDropDownOpenId('')
+            // delete dppInteractivity.dropDownOpenId
+            dppInteractivity.clickDropDownOpenId('')
             this.count++
         }
     },

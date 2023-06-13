@@ -1,34 +1,34 @@
 'use strict'
-import { confPP, ppInteractivity } from '/f/4/lib/metal.js'
+import { confDppId, dppInteractivity } from '/f/4/lib/metal.js'
 import PpConfEd from '/f/4/lib/PpConfEd.js'
 
 export default {
     components: { PpConfEd, },
     props: { ppId: Number }, data() { return { count: 0, } },
     mounted() {
-        ppInteractivity.fn.ppId(this.ppId).ppCmdEd = this
+        dppInteractivity.fn.ppId(this.ppId).ppCmdEd = this
     }, methods: {
-        confPP() { return confPP.ppId[this.ppId || 1] },
+        confDpp() { return confDppId(this.ppId) },
         keyEscEvent() {
-            delete ppInteractivity.dropDownOpenId
+            delete dppInteractivity.dropDownOpenId
             this.count++
         },
-        dropDownOpenId() { return ppInteractivity.dropDownOpenId },
+        dropDownOpenId() { return dppInteractivity.dropDownOpenId },
         clickFixFly() {
-            const dropDownOpenId = (!ppInteractivity.dropDownOpenId.includes('ppCmdEd_fly_')
+            const dropDownOpenId = (!dppInteractivity.dropDownOpenId.includes('ppCmdEd_fly_')
                 && 'ppCmdEd_fly_' || 'ppCmdEd_fixed_') + this.ppId
-            ppInteractivity.clickDropDownOpenId(dropDownOpenId)
+            dppInteractivity.clickDropDownOpenId(dropDownOpenId)
             // this.count++
-            Object.keys(ppInteractivity.fn.ppId(this.ppId)).filter(k => k.includes('ppConfEd_'))
-                .forEach(k => ppInteractivity.fn.ppId(this.ppId)[k]
-                    .medasConfTypeName = ppInteractivity.medasConfTypeName)
+            Object.keys(dppInteractivity.fn.ppId(this.ppId)).filter(k => k.includes('ppConfEd_'))
+                .forEach(k => dppInteractivity.fn.ppId(this.ppId)[k]
+                    .medasConfTypeName = dppInteractivity.medasConfTypeName)
         }, ppCmdEdOnOff() {
             const dropDownOpenId = 'ppCmdEd_fly_' + this.ppId
-            ppInteractivity.clickDropDownOpenId(dropDownOpenId)
+            dppInteractivity.clickDropDownOpenId(dropDownOpenId)
             this.count++
         }, closeDialog() {
-            // delete ppInteractivity.dropDownOpenId
-            ppInteractivity.clickDropDownOpenId('')
+            // delete dppInteractivity.dropDownOpenId
+            dppInteractivity.clickDropDownOpenId('')
             this.count++
         },
     },
@@ -37,7 +37,7 @@ export default {
     <span class="w3-dropdown-click w3-right">
         <button @click="ppCmdEdOnOff" class="w3-btn w3-ripple w3-padding-small w13-small" 
             @keyup.esc="keyEscEvent" >
-            🪄 <span class="w3-tiny">  {{confPP().l_medas.join('‧')}} </span> ☰
+            🪄 <span class="w3-tiny">  {{confDpp().l_medas.join('‧')}} </span> ☰
         </button>
         <div :id="'ppCmdEd_fly_'+ppId" class="w3-dropdown-content w13-container w3-hover-shadow w3-border"
                 :class="{'w3-show':dropDownOpenId() == 'ppCmdEd_fly_'+ppId}" 
