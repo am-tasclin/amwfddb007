@@ -13,7 +13,6 @@
  * pl2 -- Panel 2
  * ppl2 -- Part Panel 2. Panel 2 for one for all medas block
  * epl2 -- Element Panel 2. Panel 2 individual for some Element in medas block.
- * ----
  * aco -- Application Component Object
  */
 
@@ -44,29 +43,40 @@ export const
     dppInteractivity = {
         fn: {},
         appComponents: { // Components of web-application
-            eMap: {}, // MCD components to manage
+            meMap: {}, // MCD MElement components to manage
         },
     }
 
 dppInteractivity.clickDropDownOpenId = dropDownOpenId => {
     const ddl = dppInteractivity.dropDownOpenId && dppInteractivity.dropDownOpenId.split('_')
         , edAdnId = dppInteractivity.dropDownOpenId && ddl[2]
+    console.log(dppInteractivity.appComponents.meMap)
+    console.log(ddl, edAdnId)
+    ddl && console.log(ddl[2])
+    ddl && dppInteractivity.appComponents.ppId[ddl[2]]
+        && dppInteractivity.appComponents.ppId[ddl[2]].tGridDpp.confDppEd.aco.count++
+
+    /*
     ddl && dppInteractivity.appComponents.ppId[ddl[2]] && // ppCmdEd_fly_1
-        dppInteractivity.appComponents.ppId[ddl[2]][ddl[0]].count++
+    dppInteractivity.appComponents.ppId[ddl[2]][ddl[0]].count++
     edAdnId && dppInteractivity.appComponents.eMap[edAdnId] &&
-        Object.keys(dppInteractivity.appComponents.eMap[edAdnId])
-            .filter(k => k.includes('adnMenu_'))
-            .forEach(k => dppInteractivity.appComponents.eMap[edAdnId][k].count++)
+    Object.keys(dppInteractivity.appComponents.eMap[edAdnId])
+    .filter(k => k.includes('adnMenu_'))
+    .forEach(k => dppInteractivity.appComponents.eMap[edAdnId][k].count++)
+    */
 
     dppInteractivity.dropDownOpenId == dropDownOpenId
         && delete dppInteractivity.dropDownOpenId
         || (dppInteractivity.dropDownOpenId = dropDownOpenId)
+
+    console.log(dppInteractivity.dropDownOpenId)
+
 }
 
 dppInteractivity.fn.setAdnComponent = (adnId, key, component) => {
-    !dppInteractivity.appComponents.eMap[adnId]
-        && (dppInteractivity.appComponents.eMap[adnId] = {})
-    dppInteractivity.appComponents.eMap[adnId][key] = component
+    !dppInteractivity.appComponents.meMap[adnId]
+        && (dppInteractivity.appComponents.meMap[adnId] = {})
+    dppInteractivity.appComponents.meMap[adnId][key] = component
 }
 
 dppInteractivity.fn.mcdIdSortClick = (ppId, medas, location, mcdId) => {

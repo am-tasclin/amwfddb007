@@ -3,6 +3,8 @@
  * Algoritmed ©, EUPL-1.2 or later.
  * DOM -- Data & Ontology editor & Meta-data modeler
  * tGridDpp -- Grid DOM Page Part
+ * aco -- Application Component Object
+ * 
  */
 import { confDppId, dppInteractivity } from '/f/4/lib/metal.js'
 import MElement from '/f/4/lib/MElement.js'
@@ -15,7 +17,16 @@ export default {
     components: { MElement, MCDataSort, ConfDppEd, },
     // components: { MElement, PagePartCmdEdMenu, MCDataSort, ConfDppEd, },
     mounted() {
-        dppInteractivity.fn.ppId(this.ppId).tGridDpp = { aco: this }
+        const ppIdObj = dppInteractivity.fn.ppId(this.ppId)
+        ppIdObj.tGridDpp = { aco: this }
+        ppIdObj.tGridDpp.confDppEd = ppIdObj.confDppEd
+        delete ppIdObj.confDppEd
+        Object.keys(ppIdObj).filter(im => im.includes('confDppEdPanel_'))
+            .forEach(ctKey => {
+                ppIdObj.tGridDpp.confDppEd[ctKey] = ppIdObj[ctKey]
+                delete ppIdObj[ctKey]
+            })
+        console.log(ppIdObj)
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
     }, template: `

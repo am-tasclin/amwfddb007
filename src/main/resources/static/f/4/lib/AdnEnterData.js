@@ -23,9 +23,9 @@ export default {
             // const adnMenuKey = 'adnMenu_' + this.ppId + '_' + this.medas
             //     + '_' + (this.ppl2 && this.ppl2 || 1)
             // dppInteractivity.appComponents.eMap[this.adnId][adnMenuKey].count++
-            Object.keys(dppInteractivity.appComponents.eMap[this.adnId])
+            Object.keys(dppInteractivity.appComponents.meMap[this.adnId])
                 .filter(k => k.includes('adnMenu_'))
-                .forEach(k => dppInteractivity.appComponents.eMap[this.adnId][k].count++)
+                .forEach(k => dppInteractivity.appComponents.meMap[this.adnId][k].count++)
         }
     },
     template: `

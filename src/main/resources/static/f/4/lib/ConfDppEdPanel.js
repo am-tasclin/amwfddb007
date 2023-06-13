@@ -8,13 +8,13 @@ export default {
     computed: {
     },
     mounted() {
-        const ppConfEdKey = 'ppConfEd_' + this.ff
+        const ppConfEdKey = 'confDppEdPanel_' + this.ff
         dppInteractivity.fn.ppId(this.ppId)[ppConfEdKey] = this
-        !dppInteractivity.epl2Data &&
-            confDppId(this.ppId).l_medas.filter(medas => 'lr' != medas)
-                .reduce((o, medas) => (o[medas] = confDppId(this.ppId).medas[medas].epl2
-                    && confDppId(this.ppId).medas[medas].epl2.l_mcdId || []
-                ) && o, dppInteractivity.epl2Data = {})
+        !dppInteractivity.epl2Data && confDppId(this.ppId).l_medas
+            .filter(medas => 'lr' != medas)
+            .reduce((o, medas) => (o[medas] = confDppId(this.ppId).medas[medas].epl2
+                && confDppId(this.ppId).medas[medas].epl2.l_mcdId || []
+            ) && o, dppInteractivity.epl2Data = {})
         this.epl2Data = dppInteractivity.epl2Data
     }, methods: {
         epl2Data(medas) { return dppInteractivity.epl2Data[medas] },
