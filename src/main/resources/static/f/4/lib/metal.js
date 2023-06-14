@@ -6,7 +6,7 @@
  * MCDB     -- MC Data Bank. Model in relational database.
  * ADN, adn -- Abstract Data Node
  * 
- * DOM -- Data & Ontology editor & Meta-data modeler
+ * DOM -- Data & Ontology editor & Meta data modeler
  * METaL, metal -- Modeling businEss Task Language
  *              -- Мова моделювання завдань бізнесу
  * MEDAS, medas -- MEtal DAta Structure. Build from MCD.
@@ -49,18 +49,20 @@ export const mcd = {
 }
 
 export const
-    // METaL container to build confPP.
-    metalFnConfPP = {},
-    dppInteractivity = {// DOM Page Part interactivity data and functions.
+    dppInteractivity = {    // DOM Page Part interactivity data and functions.
         /**
          * 
          */
-        appComponents: { // Components of web-application
+        appComponents: {    // Components of web-application
             /**
              * Structure of application components.
              *  .ppId[ppId] 
+             *  .aco -- Place for application component Proxy
+             *  .ppId[ppId].tGridDpp
+             *  .ppId[ppId].tGridDpp.confDppEd
+             * 
              */
-            meMap: {}, // MCD MElement components to manage
+            meMap: {},      // MElement components to manage MCD data
             /**
              * 
              */
@@ -128,6 +130,9 @@ dppInteractivity.fn.ppId = ppId => {
         (dppInteractivity.appComponents.ppId[ppId] = {});
     return dppInteractivity.appComponents.ppId[ppId]
 }
+
+export const
+    metalFnConfPP = {}     // METaL container to build confPP.
 
 metalFnConfPP.initPagePart = (rawPpStr, ppId) => {
     console.log(rawPpStr, ppId)

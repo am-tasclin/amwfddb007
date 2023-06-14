@@ -2,8 +2,10 @@
 /**
  * Algoritmed ©, EUPL-1.2 or later.
  * MCD, mcd -- Meta Content Data
+ * ADN, adn -- Abstract Data Node
+ * DOM      -- Data & Ontology editor & Meta data modeler
  * 
- * MElement ── MCD Element view and edit
+ * MElement ── MCD Element view and edit. Manage ADN data to DOM structure
  *  └─ AdnMenu
  */
 import { mcd, dppInteractivity } from '/f/4/lib/metal.js'
