@@ -28,11 +28,10 @@ export const confDppMedasMcdId = (val, ppId, medas) => {
     valList.filter(mcdId => !dppMedas.mcdId[mcdId])
         .forEach(mcdId => dppMedas.mcdId[mcdId] = {})
     dppMedas.l_mcdId = valList
+    Object.keys(dppInteractivity.appComponents.mcDataSort)
+        .filter(im => im.split('_')[0] == ppId && im.split('_')[1] == medas)
+        .forEach(im => dppInteractivity.appComponents.mcDataSort[im].count++)
     dppInteractivity.fn.ppId(ppId).tGridDpp.aco.count++
-    console.log(dppInteractivity.fn.ppId(ppId))
-    Object.keys(dppInteractivity.fn.ppId(ppId))
-        .filter(k => k.includes('ppConfEd_'))
-        .forEach(k => dppInteractivity.fn.ppId(ppId).count++)
 }
 
 // Meta Content Data from DB
@@ -56,10 +55,14 @@ export const
         appComponents: {    // Components of web-application
             /**
              * Structure of application components.
-             *  .ppId[ppId] 
+             *  --.ppId[ppId] 
              *  .aco -- Place for application component Proxy
-             *  .ppId[ppId].tGridDpp
-             *  .ppId[ppId].tGridDpp.confDppEd
+             *  --.ppId[ppId].tGridDpp
+             *  --.ppId[ppId].tGridDpp.confDppEd
+             * 
+             */
+            mcDataSort: {},  // MCDataSort components with complex keys
+            /**
              * 
              */
             meMap: {},      // MElement components to manage MCD data
@@ -97,6 +100,7 @@ dppInteractivity.fn.setAdnComponent = (adnId, key, component) => {
     !dppInteractivity.appComponents.meMap[adnId]
         && (dppInteractivity.appComponents.meMap[adnId] = {})
     dppInteractivity.appComponents.meMap[adnId][key] = component
+    // dppInteractivity.appComponents.meMap[adnId][key] = { aco: component }
 }
 
 dppInteractivity.fn.mcdIdSortClick = (ppId, medas, location, mcdId) => {
@@ -112,15 +116,6 @@ dppInteractivity.fn.mcdIdSortClick = (ppId, medas, location, mcdId) => {
         .forEach(location => dppInteractivity.appComponents
             .ppId[ppId].medas[medas].mcDataSort[location].count++)
     dppInteractivity.fn.ppId(ppId).ppCmd.count++
-}
-
-dppInteractivity.fn.ppIdMedas = (ppId, medas) => {
-    dppInteractivity.fn.ppId(ppId)
-    !dppInteractivity.appComponents.ppId[ppId].medas &&
-        (dppInteractivity.appComponents.ppId[ppId].medas = {});
-    !dppInteractivity.appComponents.ppId[ppId].medas[medas] &&
-        (dppInteractivity.appComponents.ppId[ppId].medas[medas] = {})
-    return dppInteractivity.appComponents.ppId[ppId].medas[medas]
 }
 
 dppInteractivity.fn.ppId = ppId => {
@@ -163,8 +158,7 @@ metalFnConfPP.initFromURI = (rawPpStr, ppId) => {
     rawPp.filter(im => im.length != 0).filter(im => !im.split(',')[0].includes('_'))
         .reduce((o, im) => o.l_medas.push(im.split(',')[0])
             && (confDpp.ppId[ppId].medas[im.split(',')[0]] = confMedas(im.split(',').slice(1)))
-            && o
-            , (confDpp.ppId[ppId] = { l_medas: [], medas: {}, }))
+            && o, (confDpp.ppId[ppId] = { l_medas: [], medas: {}, }))
 
     rawPp.filter(im => im.split(',')[0].includes('_')).reduce((o, im) => {
         const medas = confDpp.ppId[ppId].medas[im.split(',')[0].split('_')[0]]

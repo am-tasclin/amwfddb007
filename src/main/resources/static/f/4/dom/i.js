@@ -45,3 +45,5 @@ const dev = {
 }
 createApp({ data() { return dev }, }).mount('#dev')
 
+createApp({ data() { return { hash: window.location.hash.substring(1) } }, })
+    .mount('#headTitle')

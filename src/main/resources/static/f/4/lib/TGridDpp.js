@@ -29,7 +29,8 @@ export default {
                 ppIdObj.tGridDpp.confDppEd[ctKey] = ppIdObj[ctKey]
                 delete ppIdObj[ctKey]
             })
-        console.log(ppIdObj)
+        console.log(ppIdObj, dppInteractivity.appComponents.meMap)
+        console.log(dppInteractivity.appComponents.mcDataSort)
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
     }, template: `
@@ -43,11 +44,11 @@ export default {
     <div class="w3-container w3-topbar w3-light-grey">
         <span class="w3-tiny"> {{medas}}: </span>
         <span class="w3-tiny w3-right"> {{pp}} ⁙
-            <MCDataSort :ppId="ppId" :medas="medas" location="tGridDpp"/>
+            <MCDataSort :ppId="ppId" :medas="medas" keysuffix="tGridDpp"/>
             <template v-if="confDpp().medas[medas].ppl2">
                 |
                 <MCDataSort :ppId="ppId" :medas="medas" 
-                    location="tGridDpp_ppl2"/>
+                    keysuffix="tGridDpp_ppl2"/>
             </template>
         </span>
     </div>

@@ -13,11 +13,10 @@ import MCDataSort from '/f/4/lib/MCDataSort.js'
 export default {
     components: { MCDataSort, }, props: { ppId: Number, ff: String },
     data() { return { medasConfTypeName: '', epl2Data: {}, count: 0, } },
-    computed: {
-    },
+    computed: { panelNameSuffix() { return 'confDppEdPanel_' + this.ff } },
     mounted() {
-        const ppConfEdKey = 'confDppEdPanel_' + this.ff
-        dppInteractivity.fn.ppId(this.ppId)[ppConfEdKey] = this
+        const confDppEdPanelKey = 'confDppEdPanel_' + this.ff
+        dppInteractivity.fn.ppId(this.ppId)[confDppEdPanelKey] = { aco: this }
         !dppInteractivity.epl2Data && confDppId(this.ppId).l_medas
             .filter(medas => 'lr' != medas)
             .reduce((o, medas) => (o[medas] = confDppId(this.ppId).medas[medas].epl2
@@ -81,7 +80,7 @@ export default {
                         :value="confDpp().medas[medas].l_mcdId.join(', ')"
                         class="w3-hover-shadow w3-small am-width-100pr">
                     <div class="w3-tiny">
-                        <MCDataSort :ppId="ppId" :medas="medas" location="ppConfEd"/>
+                        <MCDataSort :ppId="ppId" :medas="medas" :keysuffix="panelNameSuffix"/>
                     </div>
                 </div>
                 <div class="w3-half w3-container">
@@ -92,7 +91,7 @@ export default {
                         class="w3-hover-shadow w3-small am-width-100pr">
                         <div v-if="confDpp().medas[medas].ppl2" class="w3-tiny">
                             <MCDataSort :ppId="ppId" :medas="medas" 
-                                location="ppConfEd_ppl2"/>
+                                :keysuffix="panelNameSuffix+'_ppl2'"/>
                         </div>
                     <template v-if="'lr'!=medas">
                         <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
