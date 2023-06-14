@@ -1,4 +1,11 @@
 'use strict'
+/**
+ * Algoritmed ©, EUPL-1.2 or later.
+ * ADN, adn -- Abstract Data Node
+ * 
+ * AdnMenu ── Menu for edit the ADN node
+ *  └─ AdnEnterData
+ */
 import { dppInteractivity } from '/f/4/lib/metal.js'
 import AdnEnterData from '/f/4/lib/AdnEnterData.js'
 

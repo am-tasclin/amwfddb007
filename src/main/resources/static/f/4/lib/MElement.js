@@ -1,4 +1,11 @@
 'use strict'
+/**
+ * Algoritmed ©, EUPL-1.2 or later.
+ * MCD, mcd -- Meta Content Data
+ * 
+ * MElement ── MCD Element view and edit
+ *  └─ AdnMenu
+ */
 import { mcd, dppInteractivity } from '/f/4/lib/metal.js'
 import AdnMenu from '/f/4/lib/AdnMenu.js'
 

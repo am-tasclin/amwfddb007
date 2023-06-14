@@ -3,7 +3,9 @@
  * Algoritmed ©, EUPL-1.2 or later.
  * MCD, mcd -- Meta Content Data
  * МКД      -- Мета-контент дані
+ * MCDB     -- MC Data Bank. Model in relational database.
  * ADN, adn -- Abstract Data Node
+ * 
  * DOM -- Data & Ontology editor & Meta-data modeler
  * METaL, metal -- Modeling businEss Task Language
  *              -- Мова моделювання завдань бізнесу
@@ -13,6 +15,7 @@
  * pl2 -- Panel 2
  * ppl2 -- Part Panel 2. Panel 2 for one for all medas block
  * epl2 -- Element Panel 2. Panel 2 individual for some Element in medas block.
+ * 
  * aco -- Application Component Object
  */
 
@@ -35,16 +38,37 @@ export const confDppMedasMcdId = (val, ppId, medas) => {
 // Meta Content Data from DB
 export const mcd = {
     eMap: {}, // eMap:: key:doc_id, value:ADN; 
+    /**
+     * Data from MCDB
+     * Used for connect to data by ID (doc_id)
+     */
     parentChild: {}, // parentChild:: key: doc_id, value: [doc_id...] 
+    /**
+     * Used for navigate in hierarchical data structure.
+     */
 }
+
 export const
     // METaL container to build confPP.
     metalFnConfPP = {},
-    dppInteractivity = {
-        fn: {},
+    dppInteractivity = {// DOM Page Part interactivity data and functions.
+        /**
+         * 
+         */
         appComponents: { // Components of web-application
+            /**
+             * Structure of application components.
+             *  .ppId[ppId] 
+             */
             meMap: {}, // MCD MElement components to manage
+            /**
+             * 
+             */
         },
+        fn: {},// Function for application component manage
+        /**
+         * 
+         */
     }
 
 dppInteractivity.clickDropDownOpenId = (dropDownOpenId, ppId) => {

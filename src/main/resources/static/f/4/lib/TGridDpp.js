@@ -2,19 +2,22 @@
 /**
  * Algoritmed ©, EUPL-1.2 or later.
  * DOM -- Data & Ontology editor & Meta-data modeler
- * tGridDpp -- Grid DOM Page Part
  * aco -- Application Component Object
  * 
+ * TGridDpp ── Grid DOM Page Part
+ *  └─ ConfDppEd,           MElement,               MCDataSort
+ *      └─ ConfDppEdPanel    └─ AdnMenu
+ *          └─ MCDataSort        └─ AdnEnterData
  */
 import { confDppId, dppInteractivity } from '/f/4/lib/metal.js'
+import ConfDppEd from '/f/4/lib/ConfDppEd.js'
 import MElement from '/f/4/lib/MElement.js'
 import MCDataSort from '/f/4/lib/MCDataSort.js'
 // import PagePartCmdEdMenu from '/f/4/lib/PagePartCmdEdMenu.js'
-import ConfDppEd from '/f/4/lib/ConfDppEd.js'
 
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
-    components: { MElement, MCDataSort, ConfDppEd, },
+    components: { ConfDppEd, MElement, MCDataSort, },
     // components: { MElement, PagePartCmdEdMenu, MCDataSort, ConfDppEd, },
     mounted() {
         const ppIdObj = dppInteractivity.fn.ppId(this.ppId)

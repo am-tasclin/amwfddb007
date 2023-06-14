@@ -1,4 +1,12 @@
 'use strict'
+/**
+ * Algoritmed ©, EUPL-1.2 or later.
+ * DOM -- Data & Ontology editor & Meta-data modeler
+ * Dpp -- DOM Page Part
+ * 
+ * ConfDppEdPanel ── Edit dialog panel for config of Dpp 
+ *  └─ MCDataSort
+ */
 import { confDppId, confDppMedasMcdId, dppInteractivity } from '/f/4/lib/metal.js'
 import MCDataSort from '/f/4/lib/MCDataSort.js'
 

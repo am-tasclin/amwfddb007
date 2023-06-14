@@ -1,4 +1,11 @@
 'use strict'
+/**
+ * Algoritmed ©, EUPL-1.2 or later.
+ * ADN, adn -- Abstract Data Node
+ * 
+ * AdnEnterData ── ADN data editor
+ * 
+ */
 import { mcd, dppInteractivity } from '/f/4/lib/metal.js'
 
 export default {

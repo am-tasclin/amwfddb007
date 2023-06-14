@@ -9,6 +9,8 @@
  * 
  * tMedasDpp -- MEDAS DOM Page Part
  * 
+ * tMedasDpp
+ *  └─ TGridDpp
  */
 const { createApp } = Vue
 import { mcd, confDpp, metalFnConfPP } from '/f/4/lib/metal.js'
