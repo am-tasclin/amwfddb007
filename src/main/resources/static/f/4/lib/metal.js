@@ -28,11 +28,18 @@ export const confDppMedasMcdId = (val, ppId, medas) => {
     valList.filter(mcdId => !dppMedas.mcdId[mcdId])
         .forEach(mcdId => dppMedas.mcdId[mcdId] = {})
     dppMedas.l_mcdId = valList
+    /*
     Object.keys(dppInteractivity.appComponents.mcDataSort)
-        .filter(im => im.split('_')[0] == ppId && im.split('_')[1] == medas)
-        .forEach(im => dppInteractivity.appComponents.mcDataSort[im].count++)
+    .filter(im => im.split('_')[0] == ppId && im.split('_')[1] == medas)
+    .forEach(im => dppInteractivity.appComponents.mcDataSort[im].count++)
+    */
+    mcDataSort2p(ppId, medas)
     dppInteractivity.fn.ppId(ppId).tGridDpp.aco.count++
 }
+
+const mcDataSort2p = (ppId, medas) => Object.keys(dppInteractivity.appComponents.mcDataSort)
+    .filter(im => im.split('_')[0] == ppId && im.split('_')[1] == medas)
+    .forEach(im => dppInteractivity.appComponents.mcDataSort[im].count++)
 
 // Meta Content Data from DB
 export const mcd = {
@@ -103,19 +110,24 @@ dppInteractivity.fn.setAdnComponent = (adnId, key, component) => {
     // dppInteractivity.appComponents.meMap[adnId][key] = { aco: component }
 }
 
-dppInteractivity.fn.mcdIdSortClick = (ppId, medas, location, mcdId) => {
+dppInteractivity.fn.mcdIdSortClick = (ppId, medas, keysuffix, mcdId) => {
+    console.log(ppId, medas, keysuffix, mcdId)
     const ppMedas1 = confDpp.ppId[ppId].medas[medas]
-        , ppMedas = ppMedas1[location.split('_')[1]] || ppMedas1
+        , ppMedas = ppMedas1[keysuffix.split('_')[1]] || ppMedas1
     const lToSort = ppMedas.l_mcdId
     ppMedas.l_mcdId = lToSort.splice(lToSort.indexOf(mcdId), 1).concat(lToSort)
 
     console.log(ppMedas)
 
-    dppInteractivity.appComponents.ppId[ppId].tPagePart.count++
+    dppInteractivity.appComponents.ppId[ppId].tGridDpp.aco.count++
+
+    mcDataSort2p(ppId, medas)
+    /*
     Object.keys(dppInteractivity.appComponents.ppId[ppId].medas[medas].mcDataSort)
-        .forEach(location => dppInteractivity.appComponents
-            .ppId[ppId].medas[medas].mcDataSort[location].count++)
-    dppInteractivity.fn.ppId(ppId).ppCmd.count++
+    .forEach(location => dppInteractivity.appComponents
+        .ppId[ppId].medas[medas].mcDataSort[location].count++)
+        dppInteractivity.fn.ppId(ppId).ppCmd.count++
+    */
 }
 
 dppInteractivity.fn.ppId = ppId => {

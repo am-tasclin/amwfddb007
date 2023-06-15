@@ -19,7 +19,7 @@ export default {
             const ppMedas1 = confDppId(this.ppId).medas[this.medas]
             return ppMedas1[this.keysuffix.split('_')[1]] || ppMedas1
         }, mcdIdSortClick(mcdId) {
-            dppInteractivity.fn.mcdIdSortClick(this.ppId, this.medas, this.location, mcdId)
+            dppInteractivity.fn.mcdIdSortClick(this.ppId, this.medas, this.keysuffix, mcdId)
         }
     }, template: `
 ⬍ <span v-for="mcdId in confPpMedas().l_mcdId"
