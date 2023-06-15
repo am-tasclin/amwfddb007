@@ -5,13 +5,13 @@
  * Dpp -- DOM Page Part
  * 
  * ConfDppEdPanel ── Edit dialog panel for config of Dpp 
- *  └─ MCDataSort
+ *  └─ SortMCData
  */
 import { confDppId, confDppMedasMcdId, dppInteractivity } from '/f/4/lib/metal.js'
-import MCDataSort from '/f/4/lib/MCDataSort.js'
+import SortMCData from '/f/4/lib/SortMCData.js'
 
 export default {
-    components: { MCDataSort, }, props: { ppId: Number, ff: String },
+    components: { SortMCData, }, props: { ppId: Number, ff: String },
     data() { return { medasConfTypeName: '', epl2Data: {}, count: 0, } },
     computed: { panelNameSuffix() { return 'confDppEdPanel_' + this.ff } },
     mounted() {
@@ -30,8 +30,8 @@ export default {
             this.medasConfTypeName = dppInteractivity.medasConfTypeName = showMedasConfTypeName
         }, confJsonStr() {
             return JSON.stringify(confDppId(this.ppId), '', 2)
-                .replace(/\s+]/g, ']')
-                .replace(/\s+}/g, '}')
+                .replace(/\s+]/g, ']').replace(/\s+}/g, '}')
+                .replace(/\[\s+"/g, '\["').replace(/",\s+"/g, '","')
         }, medasMcdId(event, medas) {
             console.log(dppInteractivity.appComponents)
             console.log(this.ppId, medas, confDppId(this.ppId))
@@ -80,7 +80,7 @@ export default {
                         :value="confDpp().medas[medas].l_mcdId.join(', ')"
                         class="w3-hover-shadow w3-small am-width-100pr">
                     <div class="w3-tiny">
-                        <MCDataSort :ppId="ppId" :medas="medas" :keysuffix="panelNameSuffix"/>
+                        <SortMCData :ppId="ppId" :medas="medas" :keysuffix="panelNameSuffix"/>
                     </div>
                 </div>
                 <div class="w3-half w3-container">
@@ -90,7 +90,7 @@ export default {
                         v-if="'lr'==medas"
                         class="w3-hover-shadow w3-small am-width-100pr">
                         <div v-if="confDpp().medas[medas].ppl2" class="w3-tiny">
-                            <MCDataSort :ppId="ppId" :medas="medas" 
+                            <SortMCData :ppId="ppId" :medas="medas" 
                                 :keysuffix="panelNameSuffix+'_ppl2'"/>
                         </div>
                     <template v-if="'lr'!=medas">

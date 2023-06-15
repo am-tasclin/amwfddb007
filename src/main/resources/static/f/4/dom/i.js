@@ -29,7 +29,6 @@ const symulationMcd = () => {
             && uniqueList(confDpp.ppId[ppId].medas[medas].ppl2.l_mcdId)
     }))
 
-    console.log(mcdIdList)
     mcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vlStr: 'vlStringValue' })
 
 }; symulationMcd()
@@ -40,8 +39,8 @@ tMedasDpp.mount('#tMedasDpp')
 
 const dev = {
     count: 0, devText: JSON.stringify(confDpp, '', 2)
-        .replace(/\s+]/g, ']')
-        .replace(/\s+}/g, '}')
+        .replace(/\s+]/g, ']').replace(/\s+}/g, '}')
+        .replace(/\[\s+"/g, '\["').replace(/",\s+"/g, '","')
 }
 createApp({ data() { return dev }, }).mount('#dev')
 

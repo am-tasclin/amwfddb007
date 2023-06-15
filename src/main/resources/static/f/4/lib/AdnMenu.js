@@ -17,7 +17,6 @@ export default {
         adnMenuKey() { return 'adnMenu_' + this.adnId + this.ppMedasKey },
         // adnMenuKey() { return 'adnMenu_' + this.adnId + this.ppMedasKey },
     }, mounted() {
-        console.log(this.adnMenuKey)
         dppInteractivity.fn.setAdnComponent(this.adnId, this.adnMenuKey, this)
     }, methods: {
         adnClick() {

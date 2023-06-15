@@ -5,20 +5,21 @@
  * aco -- Application Component Object
  * 
  * TGridDpp ── Grid DOM Page Part
- *  └─ ConfDppEd,           MElement,               MCDataSort
+ *  └─ ConfDppEd,           MElement,   SortMCData,  SortMedas
  *      └─ ConfDppEdPanel    └─ AdnMenu
- *          └─ MCDataSort        └─ AdnEnterData
+ *          └─ SortMCData        └─ AdnEnterData
  */
 import { confDppId, dppInteractivity } from '/f/4/lib/metal.js'
 import ConfDppEd from '/f/4/lib/ConfDppEd.js'
 import MElement from '/f/4/lib/MElement.js'
-import MCDataSort from '/f/4/lib/MCDataSort.js'
+import SortMCData from '/f/4/lib/SortMCData.js'
+import SortMedas from '/f/4/lib/SortMedas.js'
 // import PagePartCmdEdMenu from '/f/4/lib/PagePartCmdEdMenu.js'
 
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
-    components: { ConfDppEd, MElement, MCDataSort, },
-    // components: { MElement, PagePartCmdEdMenu, MCDataSort, ConfDppEd, },
+    components: { ConfDppEd, MElement, SortMCData, SortMedas},
+    // components: { MElement, PagePartCmdEdMenu, SortMCData, ConfDppEd, },
     mounted() {
         const ppIdObj = dppInteractivity.fn.ppId(this.ppId)
         ppIdObj.tGridDpp = { aco: this }
@@ -29,13 +30,11 @@ export default {
                 ppIdObj.tGridDpp.confDppEd[ctKey] = ppIdObj[ctKey]
                 delete ppIdObj[ctKey]
             })
-        console.log(ppIdObj, dppInteractivity.appComponents.meMap)
-        console.log(dppInteractivity.appComponents.mcDataSort)
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
     }, template: `
 <div> <span class="w3-tiny am-b"> MEDAS dom page part </span> ➾
-    <span v-for="medas in confDpp().l_medas"> {{medas}},&nbsp; </span>
+    <SortMedas :ppId="ppId"/>
     <!-- <PagePartCmdEdMenu :ppId="ppId"/> -->
     <ConfDppEd :ppId="ppId"/>
 </div> <span class="w3-hide"> {{count}} </span>
@@ -44,10 +43,10 @@ export default {
     <div class="w3-container w3-topbar w3-light-grey">
         <span class="w3-tiny"> {{medas}}: </span>
         <span class="w3-tiny w3-right"> {{pp}} ⁙
-            <MCDataSort :ppId="ppId" :medas="medas" keysuffix="tGridDpp"/>
+            <SortMCData :ppId="ppId" :medas="medas" keysuffix="tGridDpp"/>
             <template v-if="confDpp().medas[medas].ppl2">
                 |
-                <MCDataSort :ppId="ppId" :medas="medas" 
+                <SortMCData :ppId="ppId" :medas="medas" 
                     keysuffix="tGridDpp_ppl2"/>
             </template>
         </span>
