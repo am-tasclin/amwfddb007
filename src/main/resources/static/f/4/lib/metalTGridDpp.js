@@ -76,6 +76,43 @@ export const mcd = {
      */
 }
 
+// mgd -- metalTGridDpp prefix
+export const mgdConfDppEdPanel = {}
+mgdConfDppEdPanel.medasRemoveFromConfDpp = (ppId, medas) => {
+    console.log(medas, confDppId(ppId).removeMedas)
+    confDppId(ppId).removeMedas
+        .splice(confDppId(ppId).removeMedas.indexOf(medas), 1)
+    confDppId(ppId).l_medas
+        .splice(confDppId(ppId).l_medas.indexOf(medas), 1)
+    delete confDppId(ppId).medas[medas]
+    //this.count++
+    dppInteractivity.appComponents.ppId[ppId].tGridDpp.aco.count++
+    reViewConfDppEd(ppId)
+}
+
+mgdConfDppEdPanel.medasRemoveFromRemove = (ppId, medas) => {
+    confDppId(ppId).removeMedas
+        .splice(confDppId(ppId).removeMedas.indexOf(medas), 1)
+    reViewConfDppEd(ppId)
+}
+
+mgdConfDppEdPanel.medasAddRemove = (ppId, medas) => {
+    confDppId(ppId).l_medas.includes(medas)
+        && !confDppId(ppId).removeMedas
+        && (confDppId(ppId).removeMedas = [])
+
+    confDppId(ppId).l_medas.includes(medas)
+        && !confDppId(ppId).removeMedas.includes(medas)
+        && confDppId(ppId).removeMedas.push(medas)
+
+    !confDppId(ppId).l_medas.includes(medas)
+        && confDppId(ppId).l_medas.push(medas)
+        && (confDppId(ppId).medas[medas] = { l_mcdId: [], mcdId: {} })
+    dppInteractivity.appComponents.ppId[ppId].tGridDpp.aco.count++
+    dppInteractivity.appComponents.ppId[ppId].sortMedas.aco.count++
+    reViewConfDppEd(ppId)
+}
+
 export const
     dppInteractivity = {    // DOM Page Part interactivity data and functions.
         /**

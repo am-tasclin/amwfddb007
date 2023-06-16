@@ -9,7 +9,7 @@
  */
 import {
     confDppId, confDppMedasMcdId, confMedasDd,
-    dppInteractivity
+    dppInteractivity, mgdConfDppEdPanel
 } from '/f/4/lib/metalTGridDpp.js'
 import SortMCData from '/f/4/lib/SortMCData.js'
 
@@ -55,42 +55,11 @@ export default {
         }, isMedasToRemove(medas) {
             return confDppId(this.ppId).removeMedas && confDppId(this.ppId).removeMedas.includes(medas)
         }, medasRemoveFromConfDpp(medas) {
-            console.log(medas, confDppId(this.ppId).removeMedas)
-            confDppId(this.ppId).removeMedas
-                .splice(confDppId(this.ppId).removeMedas.indexOf(medas), 1)
-            confDppId(this.ppId).l_medas
-                .splice(confDppId(this.ppId).l_medas.indexOf(medas), 1)
-            delete confDppId(this.ppId).medas[medas]
-            this.count++
-            dppInteractivity.appComponents.ppId[this.ppId].tGridDpp.aco.count++
+            mgdConfDppEdPanel.medasRemoveFromConfDpp(this.ppId, medas)
         }, medasRemoveFromRemove(medas) {
-            confDppId(this.ppId).removeMedas
-                .splice(confDppId(this.ppId).removeMedas.indexOf(medas), 1)
-            this.count++
+            mgdConfDppEdPanel.medasRemoveFromRemove(this.ppId, medas)
         }, medasAddRemove(medas) {
-            console.log(medas
-                , confDppId(this.ppId).l_medas
-                , confDppId(this.ppId).l_medas.includes(medas)
-                , confDppId(this.ppId).l_medas.indexOf(medas)
-            )
-            confDppId(this.ppId).l_medas.includes(medas)
-                && !confDppId(this.ppId).removeMedas
-                && (confDppId(this.ppId).removeMedas = [])
-
-            confDppId(this.ppId).l_medas.includes(medas)
-                && !confDppId(this.ppId).removeMedas.includes(medas)
-                && confDppId(this.ppId).removeMedas.push(medas)
-
-            console.log(confDppId(this.ppId).l_medas.includes(medas)
-                && !confDppId(this.ppId).removeMedas.includes(medas))
-            console.log(confDppId(this.ppId).l_medas.includes(medas)
-                , confDppId(this.ppId).removeMedas)
-
-            !confDppId(this.ppId).l_medas.includes(medas)
-                && confDppId(this.ppId).l_medas.push(medas)
-                && (confDppId(this.ppId).medas[medas] = { l_mcdId: [] })
-            this.count++
-            dppInteractivity.appComponents.ppId[this.ppId].tGridDpp.aco.count++
+            mgdConfDppEdPanel.medasAddRemove(this.ppId, medas)
         },
     }, template: `
 <div class="w3-row">
