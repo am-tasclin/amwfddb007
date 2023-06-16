@@ -36,11 +36,24 @@ export default {
             console.log(dppInteractivity.appComponents)
             console.log(this.ppId, medas, confDppId(this.ppId))
             confDppMedasMcdId(event.target.value, this.ppId, medas)
+        }, clickFixFly() {
+            const dropDownOpenId = (!dppInteractivity.dropDownOpenId.includes('confDppEdPanel_fly_')
+                && 'confDppEdPanel_fly_' || 'confDppEdPanel_fixed_') + this.ppId
+            dppInteractivity.clickDropDownOpenId(dropDownOpenId, this.ppId)
+            // this.count++
+            Object.keys(dppInteractivity.fn.ppId(this.ppId)).filter(k => k.includes('ppConfEd_'))
+                .forEach(k => dppInteractivity.fn.ppId(this.ppId)[k]
+                    .medasConfTypeName = dppInteractivity.medasConfTypeName)
+        }, closeDialog() {
+            // delete dppInteractivity.dropDownOpenId
+            dppInteractivity.clickDropDownOpenId('', this.ppId)
+            this.count++
         }
     }, template: `
-<div class="w3-container">
+<div class="">
+    
     <div class="w3-row">
-        <div class="w3-quarter w13-border-right">
+        <div class="w3-quarter w13-border-right w3-container">
             <div class="w3-tiny w3-border-bottom">
                 <span @click="confTypeName(showMedasConfTypeName)"
                         class="w3-hover-shadow am-b"
@@ -69,9 +82,15 @@ export default {
             </template>
         </div>
         <div class="w3-threequarter w3-container">
+    
             <div class="w3-row w3-tiny am-b w3-border-bottom">
-                <div class="w3-half" title="MEtal DAta Structure" > medas </div>
-                <div class="w3-half w3-container"> panel2, right </div>
+                <div class="w3-half w3-container" title="MEtal DAta Structure" > medas </div>
+                <div class="w3-half "> panel2, right 
+                    <span class="w3-right">
+                        <button @click="clickFixFly" class="w3-btn">📌</button>
+                        <button @click="closeDialog" class="w3-btn">❌</button>
+                    </span>
+                </div>
             </div>
             <div v-for="medas in confDpp().l_medas" class="w3-row w3-border-bottom w3-hover-shadow">
                 <div class="w3-half">

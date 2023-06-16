@@ -24,22 +24,10 @@ export default {
             this.count++
         },
         dropDownOpenId() { return dppInteractivity.dropDownOpenId },
-        clickFixFly() {
-            const dropDownOpenId = (!dppInteractivity.dropDownOpenId.includes('confDppEdPanel_fly_')
-                && 'confDppEdPanel_fly_' || 'confDppEdPanel_fixed_') + this.ppId
-            dppInteractivity.clickDropDownOpenId(dropDownOpenId, this.ppId)
-            // this.count++
-            Object.keys(dppInteractivity.fn.ppId(this.ppId)).filter(k => k.includes('ppConfEd_'))
-                .forEach(k => dppInteractivity.fn.ppId(this.ppId)[k]
-                    .medasConfTypeName = dppInteractivity.medasConfTypeName)
-        }, ppCmdEdOnOff() {
+        ppCmdEdOnOff() {
             const dropDownOpenId = 'confDppEdPanel_fly_' + this.ppId
             console.log(dropDownOpenId)
             dppInteractivity.clickDropDownOpenId(dropDownOpenId, this.ppId)
-            this.count++
-        }, closeDialog() {
-            // delete dppInteractivity.dropDownOpenId
-            dppInteractivity.clickDropDownOpenId('', this.ppId)
             this.count++
         },
     },
@@ -53,23 +41,16 @@ export default {
         <div :id="'ppCmdEd_fly_'+ppId" class="w3-dropdown-content w13-container w3-hover-shadow w3-border"
                 :class="{'w3-show':dropDownOpenId() == 'confDppEdPanel_fly_'+ppId}" 
                 style="right: -1em; width: 52em;">
-            <span class="w3-right">
-                <button @click="clickFixFly" class=" w3-btn">📌</button>
-                <button @click="closeDialog" class=" w3-btn">❌</button>
-            </span>
             <ConfDppEdPanel :ppId="ppId" ff="fly"/>
         </div>
     </span>
-</div> <span class="w3-hide">{{count}}</span>
 <div v-if="dropDownOpenId() == 'confDppEdPanel_fixed_'+ppId">&nbsp;</div>
-<div :id="'ppCmdEd_fixed_'+ppId" class="w3-hover-shadow w3-border"
+</div> <span class="w3-hide">{{count}}</span>
+<div :id="'ppCmdEd_fixed_'+ppId" class="w3-card w3-border"
         :class="{'w3-show':dropDownOpenId() == 'confDppEdPanel_fixed_'+ppId,
             'w3-hide':dropDownOpenId() != 'confDppEdPanel_fixed_'+ppId, }" >
-    <span class="w3-right">
-        <button @click="clickFixFly" class="w3-btn">📌</button>
-        <button @click="closeDialog" class="w3-btn">❌</button>
-    </span>
     <ConfDppEdPanel :ppId="ppId" ff="fixed"/>
 </div>
+<div v-if="dropDownOpenId() == 'confDppEdPanel_fixed_'+ppId">&nbsp;</div>
 `,
 }
