@@ -9,7 +9,7 @@
  *      └─ ConfDppEdPanel    └─ AdnMenu
  *          └─ SortMCData        └─ AdnEnterData
  */
-import { confDppId, dppInteractivity } from '/f/4/lib/metalTGridDpp.js'
+import { confDppId, confMedasDd, dppInteractivity } from '/f/4/lib/metalTGridDpp.js'
 import ConfDppEd from '/f/4/lib/ConfDppEd.js'
 import MElement from '/f/4/lib/MElement.js'
 import SortMCData from '/f/4/lib/SortMCData.js'
@@ -18,7 +18,7 @@ import SortMedas from '/f/4/lib/SortMedas.js'
 
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
-    components: { ConfDppEd, MElement, SortMCData, SortMedas},
+    components: { ConfDppEd, MElement, SortMCData, SortMedas },
     // components: { MElement, PagePartCmdEdMenu, SortMCData, ConfDppEd, },
     mounted() {
         const ppIdObj = dppInteractivity.fn.ppId(this.ppId)
@@ -32,6 +32,20 @@ export default {
             })
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
+        confMedasName(key) { return confMedasDd[key] },
+        isMedasClosed(medas) {
+            return confDppId(this.ppId).medasClosed
+                && confDppId(this.ppId).medasClosed.includes(medas)
+        },
+        medasOnOffClick(medas) {
+            const dpp = confDppId(this.ppId)
+                , medasClosed = dpp.medasClosed || (dpp.medasClosed = [])
+            console.log(medas, dpp)
+            medasClosed.includes(medas)
+                && medasClosed.splice(medasClosed.indexOf(medas), 1)
+                || medasClosed.push(medas)
+            this.count++
+        }
     }, template: `
 <div> <span class="w3-tiny am-b"> MEDAS dom page part </span> ➾
     <SortMedas :ppId="ppId"/>
@@ -42,6 +56,9 @@ export default {
 <template v-for="medas in confDpp().l_medas">
     <div class="w3-container w3-topbar w3-light-grey">
         <span class="w3-tiny"> {{medas}}: </span>
+        <span class="w3-hover-shadow am-u" @click="medasOnOffClick(medas)">
+            {{confMedasName(medas)}}
+        </span>
         <span class="w3-tiny w3-right"> {{pp}} ⁙
             <SortMCData :ppId="ppId" :medas="medas" keysuffix="tGridDpp"/>
             <template v-if="confDpp().medas[medas].ppl2">
@@ -51,6 +68,7 @@ export default {
             </template>
         </span>
     </div>
+    <template v-if="!isMedasClosed(medas)">
     <div v-if="confDpp().medas[medas].ppl2" class="w3-row">
         <div class="w3-half">
             <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
@@ -66,6 +84,7 @@ export default {
     <template v-else>
     <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
         <MElement :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
+    </template>
     </template>
     </template>
 </template>

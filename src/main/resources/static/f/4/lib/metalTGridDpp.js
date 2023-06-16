@@ -38,6 +38,18 @@ export const confDppMedasMcdId = (val, ppId, medas) => {
     dppInteractivity.fn.ppId(ppId).tGridDpp.aco.count++
 }
 
+const confMedas = {
+    medas: {
+        lr: 'Left|Right ::mc', //mc: Midnight Commander
+        mcDd: 'Data Dictionary',
+        mcEt: 'Element',
+        mcPl: 'Profile',
+    }, panel2: {
+        epl2: ['mcEt', 'mcPl']
+    }
+}
+export const confMedasDd = confMedas.medas
+
 const Okeys = Object.keys
     , reViewConfDppEd = ppId => {
         const ppIdObj = dppInteractivity.fn.ppId(ppId)
@@ -46,8 +58,8 @@ const Okeys = Object.keys
     }
     , reViewSortMCData2p = (ppId, medas) => {
         Okeys(dppInteractivity.appComponents.sortMCData)
-        .filter(im => im.split('_')[0] == ppId && im.split('_')[1] == medas)
-        .forEach(im => dppInteractivity.appComponents.sortMCData[im].count++)
+            .filter(im => im.split('_')[0] == ppId && im.split('_')[1] == medas)
+            .forEach(im => dppInteractivity.appComponents.sortMCData[im].count++)
         reViewConfDppEd(ppId)
     }
 
@@ -180,7 +192,7 @@ const initConfPP = ppId => {
     confDpp.ppId[ppId] = {}
 }
 
-const confMedas = idList => idList.reduce((o, im) =>
+const initMedas = idList => idList.reduce((o, im) =>
     o.l_mcdId.push(im) && (o.mcdId[im] = {}) && o, { l_mcdId: [], mcdId: {}, })
 
 metalFnConfPP.initFromURI = (rawPpStr, ppId) => {
@@ -190,12 +202,12 @@ metalFnConfPP.initFromURI = (rawPpStr, ppId) => {
 
     rawPp.filter(im => im.length != 0).filter(im => !im.split(',')[0].includes('_'))
         .reduce((o, im) => o.l_medas.push(im.split(',')[0])
-            && (confDpp.ppId[ppId].medas[im.split(',')[0]] = confMedas(im.split(',').slice(1)))
+            && (confDpp.ppId[ppId].medas[im.split(',')[0]] = initMedas(im.split(',').slice(1)))
             && o, (confDpp.ppId[ppId] = { l_medas: [], medas: {}, }))
 
     rawPp.filter(im => im.split(',')[0].includes('_')).reduce((o, im) => {
         const medas = confDpp.ppId[ppId].medas[im.split(',')[0].split('_')[0]]
-        medas[im.split(',')[0].split('_')[1]] = confMedas(im.split(',').slice(1))
+        medas[im.split(',')[0].split('_')[1]] = initMedas(im.split(',').slice(1))
         return o
     }, {})
 

@@ -81,7 +81,7 @@ export default {
                 </div>
             </template>
         </div>
-        <div class="w3-threequarter w3-container">
+        <div class="w3-threequarter ">
     
             <div class="w3-row w3-tiny am-b w3-border-bottom">
                 <div class="w3-half w3-container" title="MEtal DAta Structure" > medas </div>
@@ -122,6 +122,7 @@ export default {
             </div>
         </div>
     </div>
+    <div>&nbsp;</div>
 </div> <span class="w3-hide">{{count}}</span>
 `,
 }

@@ -44,7 +44,6 @@ export default {
             <ConfDppEdPanel :ppId="ppId" ff="fly"/>
         </div>
     </span>
-<div v-if="dropDownOpenId() == 'confDppEdPanel_fixed_'+ppId">&nbsp;</div>
 </div> <span class="w3-hide">{{count}}</span>
 <div :id="'ppCmdEd_fixed_'+ppId" class="w3-card w3-border"
         :class="{'w3-show':dropDownOpenId() == 'confDppEdPanel_fixed_'+ppId,
