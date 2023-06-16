@@ -7,7 +7,10 @@
  * ConfDppEdPanel ── Edit dialog panel for config of Dpp 
  *  └─ SortMCData
  */
-import { confDppId, confDppMedasMcdId, dppInteractivity } from '/f/4/lib/metalTGridDpp.js'
+import {
+    confDppId, confDppMedasMcdId, confMedasDd,
+    dppInteractivity
+} from '/f/4/lib/metalTGridDpp.js'
 import SortMCData from '/f/4/lib/SortMCData.js'
 
 export default {
@@ -24,8 +27,9 @@ export default {
             ) && o, dppInteractivity.epl2Data = {})
         this.epl2Data = dppInteractivity.epl2Data
     }, methods: {
-        epl2Data(medas) { return dppInteractivity.epl2Data[medas] },
         confDpp() { return confDppId(this.ppId) },
+        getConfMedasDd() { return confMedasDd },
+        epl2Data(medas) { return dppInteractivity.epl2Data[medas] },
         confTypeName(showMedasConfTypeName) {
             this.medasConfTypeName = dppInteractivity.medasConfTypeName = showMedasConfTypeName
         }, confJsonStr() {
@@ -48,81 +52,141 @@ export default {
             // delete dppInteractivity.dropDownOpenId
             dppInteractivity.clickDropDownOpenId('', this.ppId)
             this.count++
-        }
+        }, isMedasToRemove(medas) {
+            return confDppId(this.ppId).removeMedas && confDppId(this.ppId).removeMedas.includes(medas)
+        }, medasRemoveFromConfDpp(medas) {
+            console.log(medas, confDppId(this.ppId).removeMedas)
+            confDppId(this.ppId).removeMedas
+                .splice(confDppId(this.ppId).removeMedas.indexOf(medas), 1)
+            confDppId(this.ppId).l_medas
+                .splice(confDppId(this.ppId).l_medas.indexOf(medas), 1)
+            delete confDppId(this.ppId).medas[medas]
+            this.count++
+            dppInteractivity.appComponents.ppId[this.ppId].tGridDpp.aco.count++
+        }, medasRemoveFromRemove(medas) {
+            confDppId(this.ppId).removeMedas
+                .splice(confDppId(this.ppId).removeMedas.indexOf(medas), 1)
+            this.count++
+        }, medasAddRemove(medas) {
+            console.log(medas
+                , confDppId(this.ppId).l_medas
+                , confDppId(this.ppId).l_medas.includes(medas)
+                , confDppId(this.ppId).l_medas.indexOf(medas)
+            )
+            confDppId(this.ppId).l_medas.includes(medas)
+                && !confDppId(this.ppId).removeMedas
+                && (confDppId(this.ppId).removeMedas = [])
+
+            confDppId(this.ppId).l_medas.includes(medas)
+                && !confDppId(this.ppId).removeMedas.includes(medas)
+                && confDppId(this.ppId).removeMedas.push(medas)
+
+            console.log(confDppId(this.ppId).l_medas.includes(medas)
+                && !confDppId(this.ppId).removeMedas.includes(medas))
+            console.log(confDppId(this.ppId).l_medas.includes(medas)
+                , confDppId(this.ppId).removeMedas)
+
+            !confDppId(this.ppId).l_medas.includes(medas)
+                && confDppId(this.ppId).l_medas.push(medas)
+                && (confDppId(this.ppId).medas[medas] = { l_mcdId: [] })
+            this.count++
+            dppInteractivity.appComponents.ppId[this.ppId].tGridDpp.aco.count++
+        },
     }, template: `
-<div class="">
-    
-    <div class="w3-row">
-        <div class="w3-quarter w13-border-right w3-container">
-            <div class="w3-tiny w3-border-bottom">
-                <span @click="confTypeName(showMedasConfTypeName)"
-                        class="w3-hover-shadow am-b"
-                        v-for="showMedasConfTypeName in ['URI','JSON']">
-                    &nbsp; {{showMedasConfTypeName}},
-                </span>
-                <sub class="w3-right">
-                    {{medasConfTypeName}}
-                </sub>
-            </div>
-            <div v-if="'JSON'==medasConfTypeName" class="w3-opacity w3-tiny"
-                    style="white-space: pre; overflow: auto;" >
-                {{confJsonStr()}}
-                <div>&nbsp;</div>
-            </div>
-            <template v-else>
-                <div v-for="medas in confDpp().l_medas" class="w3-opacity w3-tiny"
-                        style="white-space: pre; overflow: auto;">
-                    <b> {{medas}}</b>,
-                    {{confDpp().medas[medas].l_mcdId.join(',')}}
-                    <div v-if="confDpp().medas[medas].ppl2">
-                        <b>{{medas}}_ppl2</b>,
-                        {{confDpp().medas[medas].ppl2.l_mcdId.join(',')}}
-                    </div>
-                </div>
-            </template>
+<div class="w3-row">
+    <div class="w3-quarter w13-border-right w3-container">
+        <div class="w3-tiny w3-border-bottom">
+            <span @click="confTypeName(showMedasConfTypeName)"
+                    class="w3-hover-shadow am-b"
+                    v-for="showMedasConfTypeName in ['URI','JSON']">
+                &nbsp; {{showMedasConfTypeName}},
+            </span>
+            <sub class="w3-right">
+                {{medasConfTypeName}}
+            </sub>
         </div>
-        <div class="w3-threequarter ">
-    
-            <div class="w3-row w3-tiny am-b w3-border-bottom">
-                <div class="w3-half w3-container" title="MEtal DAta Structure" > medas </div>
-                <div class="w3-half "> panel2, right 
-                    <span class="w3-right">
-                        <button @click="clickFixFly" class="w3-btn">📌</button>
-                        <button @click="closeDialog" class="w3-btn">❌</button>
-                    </span>
+        <div v-if="'JSON'==medasConfTypeName" class="w3-opacity w3-tiny"
+                style="white-space: pre; overflow: auto;" >
+            {{confJsonStr()}}
+            <div>&nbsp;</div>
+        </div>
+        <template v-else>
+            <div v-for="medas in confDpp().l_medas" class="w3-opacity w3-tiny"
+                    style="white-space: pre; overflow: auto;">
+                <b> {{medas}}</b>,
+                {{confDpp().medas[medas].l_mcdId.join(',')}}
+                <div v-if="confDpp().medas[medas].ppl2">
+                    <b>{{medas}}_ppl2</b>,
+                    {{confDpp().medas[medas].ppl2.l_mcdId.join(',')}}
                 </div>
             </div>
-            <div v-for="medas in confDpp().l_medas" class="w3-row w3-border-bottom w3-hover-shadow">
-                <div class="w3-half">
-                    <span class="w3-opacity a1m-u">{{medas}}</span>
-                    <input @keyup.enter="medasMcdId($event, medas)" 
-                        :value="confDpp().medas[medas].l_mcdId.join(', ')"
-                        class="w3-hover-shadow w3-small am-width-100pr">
-                    <div class="w3-tiny">
-                        <SortMCData :ppId="ppId" :medas="medas" :keysuffix="panelNameSuffix"/>
+        </template>
+    </div>
+    <div class="w3-threequarter">
+        <div class="w3-row  w3-border-bottom">
+            <div class="w3-half w3-container" title="MEtal DAta Structure" > 
+                <div class="w3-dropdown-hover">
+                    <button class="w3-btn w3-padding-small w3-white w3-tiny am-b">
+                        medas</button>
+                    <div class="w3-dropdown-content w3-bar-block w3-border"
+                            style="width:20em;">
+                        <a class="w3-bar-item w3-button"
+                            @click="medasAddRemove(medas)"
+                                v-for="(v,medas) in getConfMedasDd()">
+                            <span class="w3-tiny">{{medas}}: &nbsp;</span>{{v}} </a>
                     </div>
                 </div>
-                <div class="w3-half w3-container">
-                    &nbsp;
-                    <input @keyup.enter="medasMcdId($event, medas, true)" 
-                        :value="confDpp().medas[medas].ppl2 && confDpp().medas[medas].ppl2.l_mcdId.join(', ')"
-                        v-if="'lr'==medas"
-                        class="w3-hover-shadow w3-small am-width-100pr">
-                        <div v-if="confDpp().medas[medas].ppl2" class="w3-tiny">
-                            <SortMCData :ppId="ppId" :medas="medas" 
-                                :keysuffix="panelNameSuffix+'_ppl2'"/>
-                        </div>
-                    <template v-if="'lr'!=medas">
-                        <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
-                            <label><input v-model="epl2Data[medas]"
-                                type="checkbox" :value="mcdId"/>&nbsp;{{mcdId}}</label>,
-                        </template>
-                    </template>
+            </div>
+            <div class="w3-half">
+            <span class="w3-tiny am-b">panel2, right</span>
+                <span class="w3-right">
+                    <button @click="clickFixFly" class="w3-btn">📌</button>
+                    <button @click="closeDialog" class="w3-btn">❌</button>
+                </span>
+            </div>
+        </div>
+        <div v-for="medas in confDpp().l_medas" class="w3-row w3-border-bottom w3-hover-shadow">
+            <div class="w3-half">
+                <span class="w3-opacity a1m-u">{{medas}}</span>
+                <span class="w3-text-red w3-small w3-right" v-if="isMedasToRemove(medas)">
+                    ?
+                    remove--вилучити
+                    <button class="w3-btn w3-padding-small"
+                        @click="medasRemoveFromConfDpp(medas)"
+                    >Yes</button>
+                    <button class="w3-btn w3-border w3-padding-small"
+                        @click="medasRemoveFromRemove(medas)"
+                    >No</button>
+                    ?
+                </span>
+
+                <input @keyup.enter="medasMcdId($event, medas)" 
+                    :value="confDpp().medas[medas].l_mcdId.join(', ')"
+                    class="w3-hover-shadow w3-small am-width-100pr">
+                <div class="w3-tiny">
+                    <SortMCData :ppId="ppId" :medas="medas" :keysuffix="panelNameSuffix"/>
                 </div>
+            </div>
+            <div class="w3-half w3-container">
+                &nbsp;
+                <input @keyup.enter="medasMcdId($event, medas, true)" 
+                    :value="confDpp().medas[medas].ppl2 && confDpp().medas[medas].ppl2.l_mcdId.join(', ')"
+                    v-if="'lr'==medas"
+                    class="w3-hover-shadow w3-small am-width-100pr">
+                    <div v-if="confDpp().medas[medas].ppl2" class="w3-tiny">
+                        <SortMCData :ppId="ppId" :medas="medas" 
+                            :keysuffix="panelNameSuffix+'_ppl2'"/>
+                    </div>
+                <template v-if="'lr'!=medas">
+                    <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
+                        <label><input v-model="epl2Data[medas]"
+                            type="checkbox" :value="mcdId"/>&nbsp;{{mcdId}}</label>,
+                    </template>
+                </template>
             </div>
         </div>
     </div>
-    <div>&nbsp;</div>
-</div> <span class="w3-hide">{{count}}</span>
+</div> <div>&nbsp;</div>
+<span class="w3-hide">{{count}}</span>
 `,
 }
