@@ -7,7 +7,7 @@
  * ConfDppEdPanel ── Edit dialog panel for config of Dpp 
  *  └─ SortMCData
  */
-import { confDppId, confDppMedasMcdId, dppInteractivity } from '/f/4/lib/metal.js'
+import { confDppId, confDppMedasMcdId, dppInteractivity } from '/f/4/lib/metalTGridDpp.js'
 import SortMCData from '/f/4/lib/SortMCData.js'
 
 export default {

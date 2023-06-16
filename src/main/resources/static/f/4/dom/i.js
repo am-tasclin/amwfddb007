@@ -13,7 +13,7 @@
  *  └─ TGridDpp
  */
 const { createApp } = Vue
-import { mcd, confDpp, metalFnConfPP } from '/f/4/lib/metal.js'
+import { mcd, confDpp, metalFnConfPP } from '/f/4/lib/metalTGridDpp.js'
 import TGridDpp from '/f/4/lib/TGridDpp.js'
 
 metalFnConfPP.initPagePart(window.location.hash.substring(1), 1)

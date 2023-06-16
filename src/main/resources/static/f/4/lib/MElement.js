@@ -8,7 +8,7 @@
  * MElement ── MCD Element view and edit. Manage ADN data to DOM structure
  *  └─ AdnMenu
  */
-import { mcd, dppInteractivity } from '/f/4/lib/metal.js'
+import { mcd, dppInteractivity } from '/f/4/lib/metalTGridDpp.js'
 import AdnMenu from '/f/4/lib/AdnMenu.js'
 
 export default {

@@ -1,6 +1,5 @@
 'use strict'
-import { confPP } from '/f/4/lib/metal.js'
-import { ppInteractivity } from '/f/4/lib/metal.js'
+import { confPP, ppInteractivity } from '/f/4/lib/metalTGridDpp.js'
 import MCDataSort from '/f/4/lib/MCDataSort.js'
 
 export default {

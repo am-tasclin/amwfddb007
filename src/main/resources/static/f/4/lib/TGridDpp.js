@@ -9,7 +9,7 @@
  *      └─ ConfDppEdPanel    └─ AdnMenu
  *          └─ SortMCData        └─ AdnEnterData
  */
-import { confDppId, dppInteractivity } from '/f/4/lib/metal.js'
+import { confDppId, dppInteractivity } from '/f/4/lib/metalTGridDpp.js'
 import ConfDppEd from '/f/4/lib/ConfDppEd.js'
 import MElement from '/f/4/lib/MElement.js'
 import SortMCData from '/f/4/lib/SortMCData.js'

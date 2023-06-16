@@ -7,7 +7,8 @@
  * ADN, adn -- Abstract Data Node
  * 
  * DOM -- Data & Ontology editor & Meta data modeler
- * METaL, metal -- Modeling businEss Task Language
+ * METaL, 
+ * metal, ml    -- Modeling businEss Task Language
  *              -- Мова моделювання завдань бізнесу
  * MEDAS, medas -- MEtal DAta Structure. Build from MCD.
  * PP, pp -- Page Part. Block of MCD or MEDAS in Application Development Page.

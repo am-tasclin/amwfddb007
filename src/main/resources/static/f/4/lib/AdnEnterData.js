@@ -6,7 +6,7 @@
  * AdnEnterData ── ADN data editor
  * 
  */
-import { mcd, dppInteractivity } from '/f/4/lib/metal.js'
+import { mcd, dppInteractivity } from '/f/4/lib/metalTGridDpp.js'
 
 export default {
     props: { adnId: Number, ppMedasKey: String, editDataKey: String },
