@@ -9,7 +9,7 @@
  */
 import {
     confDppId, confDppMedasMcdId,
-    confMedasDd, confMedasEp2,
+    confMedasDd, confMedasEpl2,
     dppInteractivity, mgdConfDppEdPanel
 } from '/f/4/lib/metalTGridDpp.js'
 import SortMCData from '/f/4/lib/SortMCData.js'
@@ -30,7 +30,7 @@ export default {
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
         getConfMedasDd() { return confMedasDd },
-        isEp2(medas) { return confMedasEp2 && confMedasEp2.includes(medas) },
+        isEpl2(medas) { return confMedasEpl2.includes(medas) },
         epl2Data(medas) { return dppInteractivity.epl2Data[medas] },
         confTypeName(showMedasConfTypeName) {
             this.medasConfTypeName = dppInteractivity.medasConfTypeName = showMedasConfTypeName
@@ -137,16 +137,16 @@ export default {
                 </div>
             </div>
             <div class="w3-half w3-container">
-                <sub class="w3-right" v-if="isEp2(medas)">epl2</sub>
+                <sub class="w3-right" v-if="isEpl2(medas)">epl2</sub>
                 &nbsp;
-                <input @keyup.enter="medasMcdId($event, medas, true)" v-if="!isEp2(medas)"
+                <input @keyup.enter="medasMcdId($event, medas, true)" v-if="!isEpl2(medas)"
                     :value="confDpp().medas[medas].ppl2 && confDpp().medas[medas].ppl2.l_mcdId.join(', ')"
                     class="w3-hover-shadow w3-small am-width-100pr">
                     <div v-if="confDpp().medas[medas].ppl2" class="w3-tiny">
                         <SortMCData :ppId="ppId" :medas="medas" 
                             :keysuffix="panelNameSuffix+'_ppl2'"/>
                     </div>
-                <template v-if="isEp2(medas)">
+                <template v-if="isEpl2(medas)">
                     <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
                         <label><input v-model="epl2Data[medas]"
                             type="checkbox" :value="mcdId"/>&nbsp;{{mcdId}}</label>,

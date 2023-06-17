@@ -50,7 +50,7 @@ const confMedas = {
 }
 
 export const confMedasDd = confMedas.medas
-export const confMedasEp2 = confMedas.panel2.epl2
+export const confMedasEpl2 = confMedas.panel2.epl2
 
 const Okeys = Object.keys
     , reViewConfDppEd = ppId => {
