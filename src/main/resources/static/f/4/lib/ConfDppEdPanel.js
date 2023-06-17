@@ -31,6 +31,9 @@ export default {
         confDpp() { return confDppId(this.ppId) },
         getConfMedasDd() { return confMedasDd },
         isEpl2(medas) { return confMedasEpl2.includes(medas) },
+        epl2Click(medas, mcdId) {
+            console.log(medas, mcdId)
+        },
         epl2Data(medas) { return dppInteractivity.epl2Data[medas] },
         confTypeName(showMedasConfTypeName) {
             this.medasConfTypeName = dppInteractivity.medasConfTypeName = showMedasConfTypeName
@@ -118,17 +121,13 @@ export default {
             <div class="w3-half">
                 <span class="w3-opacity a1m-u">{{medas}}</span>
                 <span class="w3-text-red w3-small w3-right" v-if="isMedasToRemove(medas)">
-                    ?
-                    remove--вилучити
+                    ?  remove--вилучити
                     <button class="w3-btn w3-padding-small"
-                        @click="medasRemoveFromConfDpp(medas)"
-                    >Yes</button>
+                        @click="medasRemoveFromConfDpp(medas)" >Yes</button>
                     <button class="w3-btn w3-border w3-padding-small"
-                        @click="medasRemoveFromRemove(medas)"
-                    >No</button>
+                        @click="medasRemoveFromRemove(medas)" >No</button>
                     ?
                 </span>
-
                 <input @keyup.enter="medasMcdId($event, medas)" 
                     :value="confDpp().medas[medas].l_mcdId.join(', ')"
                     class="w3-hover-shadow w3-small am-width-100pr">
@@ -148,7 +147,7 @@ export default {
                     </div>
                 <template v-if="isEpl2(medas)">
                     <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
-                        <label><input v-model="epl2Data[medas]"
+                        <label><input v-model="epl2Data[medas]" @click="epl2Click(medas, mcdId)"
                             type="checkbox" :value="mcdId"/>&nbsp;{{mcdId}}</label>,
                     </template>
                 </template>
