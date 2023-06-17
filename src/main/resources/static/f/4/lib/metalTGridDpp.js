@@ -48,7 +48,9 @@ const confMedas = {
         epl2: ['mcEt', 'mcPl']
     }
 }
+
 export const confMedasDd = confMedas.medas
+export const confMedasEp2 = confMedas.panel2.epl2
 
 const Okeys = Object.keys
     , reViewConfDppEd = ppId => {
