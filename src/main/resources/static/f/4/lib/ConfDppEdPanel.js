@@ -31,9 +31,7 @@ export default {
         confDpp() { return confDppId(this.ppId) },
         getConfMedasDd() { return confMedasDd },
         isEpl2(medas) { return confMedasEpl2.includes(medas) },
-        epl2Click(medas, mcdId) {
-            console.log(medas, mcdId)
-        },
+        epl2Click(medas, mcdId) { mgdConfDppEdPanel.epl2Click(this.ppId,medas, mcdId) },
         epl2Data(medas) { return dppInteractivity.epl2Data[medas] },
         confTypeName(showMedasConfTypeName) {
             this.medasConfTypeName = dppInteractivity.medasConfTypeName = showMedasConfTypeName

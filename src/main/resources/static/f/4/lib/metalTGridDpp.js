@@ -80,6 +80,18 @@ export const mcd = {
 
 // mgd -- metalTGridDpp prefix
 export const mgdConfDppEdPanel = {}
+mgdConfDppEdPanel.epl2Click = (ppId, medas, mcdId) => {
+    console.log(dppInteractivity.epl2Data[medas])
+    console.log(medas, mcdId, confDpp.ppId[ppId].medas[medas].epl2)
+    const epl2 = confDpp.ppId[ppId].medas[medas].epl2
+        , epl2Data = dppInteractivity.epl2Data[medas]
+    !epl2Data.includes(mcdId)
+        && epl2Data.push(mcdId) || epl2Data.splice(epl2Data.indexOf(mcdId), 1)
+    !epl2.mcdId[mcdId]
+        && ((epl2.mcdId[mcdId] = {}) && epl2.l_mcdId.push(mcdId))
+        || (delete epl2.mcdId[mcdId] && epl2.l_mcdId.splice(epl2.l_mcdId.indexOf(mcdId), 1))
+    dppInteractivity.appComponents.ppId[ppId].tGridDpp.aco.count++
+}
 mgdConfDppEdPanel.medasRemoveFromConfDpp = (ppId, medas) => {
     console.log(medas, confDppId(ppId).removeMedas)
     confDppId(ppId).removeMedas
