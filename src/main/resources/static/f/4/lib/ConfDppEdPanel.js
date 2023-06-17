@@ -20,7 +20,8 @@ export default {
     computed: { panelNameSuffix() { return 'confDppEdPanel_' + this.ff } },
     mounted() {
         const confDppEdPanelKey = 'confDppEdPanel_' + this.ff
-        dppInteractivity.fn.ppId(this.ppId)[confDppEdPanelKey] = { aco: this }
+        dppInteractivity.fn.ppId(this.ppId)[confDppEdPanelKey] = this
+        // dppInteractivity.fn.ppId(this.ppId)[confDppEdPanelKey] = { aco: this }
         !dppInteractivity.epl2Data && confDppId(this.ppId).l_medas
             .filter(medas => 'lr' != medas)
             .reduce((o, medas) => (o[medas] = confDppId(this.ppId).medas[medas].epl2
@@ -31,7 +32,7 @@ export default {
         confDpp() { return confDppId(this.ppId) },
         getConfMedasDd() { return confMedasDd },
         isEpl2(medas) { return confMedasEpl2.includes(medas) },
-        epl2Click(medas, mcdId) { mgdConfDppEdPanel.epl2Click(this.ppId,medas, mcdId) },
+        epl2Click(medas, mcdId) { mgdConfDppEdPanel.epl2Click(this.ppId, medas, mcdId) },
         epl2Data(medas) { return dppInteractivity.epl2Data[medas] },
         confTypeName(showMedasConfTypeName) {
             this.medasConfTypeName = dppInteractivity.medasConfTypeName = showMedasConfTypeName

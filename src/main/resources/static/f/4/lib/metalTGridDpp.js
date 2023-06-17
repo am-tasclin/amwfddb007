@@ -55,9 +55,16 @@ export const confMedasEpl2 = confMedas.panel2.epl2
 const Okeys = Object.keys
     , reViewConfDppEd = ppId => {
         const ppIdObj = dppInteractivity.fn.ppId(ppId)
-        const l_confDppEd = Okeys(ppIdObj.tGridDpp.confDppEd).filter(im => 'aco' != im)
-        l_confDppEd.forEach(im => ppIdObj.tGridDpp.confDppEd[im].aco.count++)
+        ppIdObj.confDppEd.count++
+    	reViewConfDppEdPanel(ppId)
+        // const l_confDppEd = Okeys(ppIdObj.tGridDpp.confDppEd).filter(im => 'aco' != im)
+        // l_confDppEd.forEach(im => ppIdObj.tGridDpp.confDppEd[im].aco.count++)
     }
+    , reViewConfDppEdPanel = ppId => Okeys(dppInteractivity.appComponents.ppId[ppId])
+        .filter(im => im.includes('confDppEdPanel')).forEach(im => {
+            dppInteractivity.appComponents.ppId[ppId][im].epl2Data = dppInteractivity.epl2Data
+            dppInteractivity.appComponents.ppId[ppId][im].count++
+        })
     , reViewSortMCData2p = (ppId, medas) => {
         Okeys(dppInteractivity.appComponents.sortMCData)
             .filter(im => im.split('_')[0] == ppId && im.split('_')[1] == medas)
@@ -85,12 +92,17 @@ mgdConfDppEdPanel.epl2Click = (ppId, medas, mcdId) => {
     console.log(medas, mcdId, confDpp.ppId[ppId].medas[medas].epl2)
     const epl2 = confDpp.ppId[ppId].medas[medas].epl2
         , epl2Data = dppInteractivity.epl2Data[medas]
+
     !epl2Data.includes(mcdId)
         && epl2Data.push(mcdId) || epl2Data.splice(epl2Data.indexOf(mcdId), 1)
+
     !epl2.mcdId[mcdId]
         && ((epl2.mcdId[mcdId] = {}) && epl2.l_mcdId.push(mcdId))
         || (delete epl2.mcdId[mcdId] && epl2.l_mcdId.splice(epl2.l_mcdId.indexOf(mcdId), 1))
-    dppInteractivity.appComponents.ppId[ppId].tGridDpp.aco.count++
+    dppInteractivity.appComponents.ppId[ppId].tGridDpp.count++
+    //dppInteractivity.appComponents.ppId[ppId].tGridDpp.aco.count++
+    console.log(dppInteractivity.appComponents.ppId[ppId])
+    reViewConfDppEdPanel(ppId)
 }
 mgdConfDppEdPanel.medasRemoveFromConfDpp = (ppId, medas) => {
     console.log(medas, confDppId(ppId).removeMedas)
@@ -171,7 +183,9 @@ componentActivate.meMap = adnId => adnId && dppInteractivity.appComponents.meMap
         .forEach(k => dppInteractivity.appComponents.meMap[adnId][k].count++)
 
 componentActivate.confDppEd = ppId => dppInteractivity.appComponents.ppId[ppId]
-    && dppInteractivity.appComponents.ppId[ppId].tGridDpp.confDppEd.aco.count++
+    && dppInteractivity.appComponents.ppId[ppId].confDppEd.count++
+//&& dppInteractivity.appComponents.ppId[ppId].confDppEd.aco.count++
+//&& dppInteractivity.appComponents.ppId[ppId].tGridDpp.confDppEd.aco.count++
 
 componentActivate.dropDownOpenIdOnOff = dropDownOpenId => dppInteractivity.dropDownOpenId == dropDownOpenId
     && delete dppInteractivity.dropDownOpenId || (dppInteractivity.dropDownOpenId = dropDownOpenId)
@@ -203,7 +217,8 @@ dppInteractivity.fn.sortMcdIdClick = (ppId, medas, keysuffix, mcdId) => {
 
     console.log(ppMedas)
 
-    dppInteractivity.appComponents.ppId[ppId].tGridDpp.aco.count++
+    dppInteractivity.appComponents.ppId[ppId].tGridDpp.count++
+    //dppInteractivity.appComponents.ppId[ppId].tGridDpp.aco.count++
 
     reViewSortMCData2p(ppId, medas)
     /*

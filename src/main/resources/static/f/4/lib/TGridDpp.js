@@ -22,14 +22,17 @@ export default {
     // components: { MElement, PagePartCmdEdMenu, SortMCData, ConfDppEd, },
     mounted() {
         const ppIdObj = dppInteractivity.fn.ppId(this.ppId)
-        ppIdObj.tGridDpp = { aco: this }
+        ppIdObj.tGridDpp = this
+        /**
+         ppIdObj.tGridDpp = { aco: this }
         ppIdObj.tGridDpp.confDppEd = ppIdObj.confDppEd
         delete ppIdObj.confDppEd
-        Object.keys(ppIdObj).filter(im => im.includes('confDppEdPanel_'))
-            .forEach(ctKey => {
-                ppIdObj.tGridDpp.confDppEd[ctKey] = ppIdObj[ctKey]
-                delete ppIdObj[ctKey]
+         Object.keys(ppIdObj).filter(im => im.includes('confDppEdPanel_'))
+         .forEach(ctKey => {
+             ppIdObj.tGridDpp.confDppEd[ctKey] = ppIdObj[ctKey]
+             delete ppIdObj[ctKey]
             })
+            */
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
         confMedasName(key) { return confMedasDd[key] },

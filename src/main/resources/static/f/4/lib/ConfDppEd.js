@@ -16,7 +16,8 @@ export default {
     components: { ConfDppEdPanel, },
     props: { ppId: Number }, data() { return { count: 0, } },
     mounted() {
-        dppInteractivity.fn.ppId(this.ppId).confDppEd = { aco: this }
+        dppInteractivity.fn.ppId(this.ppId).confDppEd = this
+        // dppInteractivity.fn.ppId(this.ppId).confDppEd = { aco: this }
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
         keyEscEvent() {
