@@ -33,6 +33,9 @@ export default {
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
         confMedasName(key) { return confMedasDd[key] },
+        epl2(medas, mcdId) {
+            return confDppId(this.ppId).medas[medas].epl2 && confDppId(this.ppId).medas[medas].epl2.mcdId[mcdId]
+        },
         isMedasClosed(medas) {
             return confDppId(this.ppId).medasClosed
                 && confDppId(this.ppId).medasClosed.includes(medas)
@@ -83,7 +86,15 @@ export default {
     </div>
     <template v-else>
     <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
-        <MElement :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
+        <div v-if="epl2(medas, mcdId)" class="w3-row">
+            <div class="w3-half">
+                <MElement :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
+            </div>
+            <div class="w3-half w3-border-bottom w3-container">
+                a2 epl2
+            </div>
+        </div>
+        <MElement v-else :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
     </template>
     </template>
     </template>
