@@ -118,7 +118,8 @@ export default {
         </div>
         <div v-for="medas in confDpp().l_medas" class="w3-row w3-border-bottom w3-hover-shadow">
             <div class="w3-half">
-                <span class="w3-opacity a1m-u">{{medas}}</span>
+                <span class="w3-opacity">{{medas}}</span>&nbsp;
+                <span class="w3-small w3-right w3-opacity a1m-u"> {{getConfMedasDd()[medas]}} </span>
                 <span class="w3-text-red w3-small w3-right" v-if="isMedasToRemove(medas)">
                     ?  remove--вилучити
                     <button class="w3-btn w3-padding-small"

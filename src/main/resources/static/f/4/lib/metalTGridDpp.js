@@ -72,8 +72,7 @@ const Okeys = Object.keys
         reViewConfDppEd(ppId)
     }
 
-// Meta Content Data from DB
-export const mcd = {
+export const mcd = { // Meta Content Data from DB
     eMap: {}, // eMap:: key:doc_id, value:ADN; 
     /**
      * Data from MCDB
