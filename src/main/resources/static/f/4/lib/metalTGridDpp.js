@@ -35,7 +35,7 @@ export const confDppMedasMcdId = (val, ppId, medas) => {
     .forEach(im => dppInteractivity.appComponents.sortMCData[im].count++)
     */
     reViewSortMCData2p(ppId, medas)
-    dppInteractivity.fn.ppId(ppId).tGridDpp.aco.count++
+    dppInteractivity.fn.ppId(ppId).tGridDpp.count++
 }
 
 const confMedas = {
@@ -112,7 +112,7 @@ mgdConfDppEdPanel.medasRemoveFromConfDpp = (ppId, medas) => {
         .splice(confDppId(ppId).l_medas.indexOf(medas), 1)
     delete confDppId(ppId).medas[medas]
     //this.count++
-    dppInteractivity.appComponents.ppId[ppId].tGridDpp.aco.count++
+    dppInteractivity.appComponents.ppId[ppId].tGridDpp.count++
     reViewConfDppEd(ppId)
 }
 
@@ -134,8 +134,8 @@ mgdConfDppEdPanel.medasAddRemove = (ppId, medas) => {
     !confDppId(ppId).l_medas.includes(medas)
         && confDppId(ppId).l_medas.push(medas)
         && (confDppId(ppId).medas[medas] = { l_mcdId: [], mcdId: {} })
-    dppInteractivity.appComponents.ppId[ppId].tGridDpp.aco.count++
-    dppInteractivity.appComponents.ppId[ppId].sortMedas.aco.count++
+    dppInteractivity.appComponents.ppId[ppId].tGridDpp.count++
+    dppInteractivity.appComponents.ppId[ppId].sortMedas.count++
     reViewConfDppEd(ppId)
 }
 
@@ -203,8 +203,8 @@ dppInteractivity.fn.sortMedas = (ppId, medas) => {
         , ppIdObj = dppInteractivity.fn.ppId(ppId)
     // console.log(ppId, medas, l_medas, l_medas2, ppIdObj)
     confDpp.ppId[ppId].l_medas = l_medas2
-    ppIdObj.tGridDpp.aco.count++
-    ppIdObj.sortMedas.aco.count++
+    ppIdObj.tGridDpp.count++
+    ppIdObj.sortMedas.count++
     reViewConfDppEd(ppId)
 }
 

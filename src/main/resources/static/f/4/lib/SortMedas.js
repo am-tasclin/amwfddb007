@@ -8,7 +8,7 @@ export default {
     props: { ppId: Number }, data() { return { count: 0 } },
     mounted() {
         const ppIdObj = dppInteractivity.fn.ppId(this.ppId)
-        ppIdObj.sortMedas = { aco: this }
+        ppIdObj.sortMedas = this
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
         sortMedas(medas) {
