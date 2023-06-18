@@ -22,7 +22,9 @@
 
 // Config for Dpp to include and use in other grid.
 export const confDpp = {}
+console.log(confDpp)
 export const confDppId = ppId => confDpp.ppId[ppId || 1]
+export const confDppMedas = (ppId, medas) => confDppId(ppId).medas[medas]
 export const confDppMedasMcdId = (val, ppId, medas) => {
     const valList = val.replace(/\s+/g, '').split(',').filter(im => im)
         , dppMedas = confDpp.ppId[ppId].medas[medas]

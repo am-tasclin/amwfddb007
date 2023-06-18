@@ -6,7 +6,7 @@
  * AdnMenu ── Menu for edit the ADN node
  *  └─ AdnEnterData
  */
-import { dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
+import { confDppMedas, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
 import AdnEnterData from '/f/4/libTGridDpp/AdnEnterData.js'
 
 export default {
@@ -14,13 +14,25 @@ export default {
     props: { adnId: Number, ppMedasKey: String, }, data() { return { count: 0 } },
     computed: {
         ppId() { return this.ppMedasKey.split('_')[1] },
-        adnMenuKey() { return 'adnMenu_' + this.adnId + this.ppMedasKey },
+        adnDppKey() { return this.adnId + this.ppMedasKey },
+        adnMenuKey() { return 'adnMenu_' + this.adnDppKey },
         // adnMenuKey() { return 'adnMenu_' + this.adnId + this.ppMedasKey },
     }, mounted() {
         dppInteractivity.fn.setAdnComponent(this.adnId, this.adnMenuKey, this)
     }, methods: {
         adnClick() {
-            console.log(this.adnId)
+            const cgDppMedas = confDppMedas(this.ppId, this.ppMedasKey.split('_')[2])
+            console.log(cgDppMedas, this.ppMedasKey.split('_')[2])
+            !cgDppMedas.openedId && (cgDppMedas.openedId = [])
+            !cgDppMedas.openedId.includes(this.adnId)
+                && cgDppMedas.openedId.push(this.adnId)
+                || cgDppMedas.openedId.splice(cgDppMedas.openedId.indexOf(this.adnId), 1)
+            console.log(cgDppMedas)
+            console.log(this.adnId, this.adnMenuKey, this.adnDppKey
+                , dppInteractivity.appComponents.meMap[this.adnId])
+            // this.count++
+            dppInteractivity.appComponents.meMap[this.adnId]
+            ['mElement_' + this.adnDppKey].count++
         }, sortUp() {
             console.log('fipiFn.sortUpDown(-1, this.adnId)')
         }, sortDown() {

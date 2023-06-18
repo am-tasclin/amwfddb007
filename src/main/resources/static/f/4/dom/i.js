@@ -15,6 +15,7 @@
 const { createApp } = Vue
 import { mcd, confDpp, metalFnConfPP, minSpaceJson } from '/f/4/libTGridDpp/metalTGridDpp.js'
 import TGridDpp from '/f/4/libTGridDpp/TGridDpp.js'
+import MElement from '/f/4/libTGridDpp/MElement.js'
 
 metalFnConfPP.initPagePart(window.location.hash.substring(1), 1)
 
@@ -46,6 +47,7 @@ createApp({ data() { return dev }, }).mount('#dev')
 // init App TgridDpp
 const tMedasDpp = createApp({ data() { return { count: 0 } }, })
 tMedasDpp.component('t-grid-dpp', TGridDpp)
+tMedasDpp.component('t-m-element', MElement)
 tMedasDpp.mount('#tMedasDpp')
 
 createApp({ data() { return { hash: window.location.hash.substring(1) } }, })
