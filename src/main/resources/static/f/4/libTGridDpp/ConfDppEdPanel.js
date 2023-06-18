@@ -10,9 +10,9 @@
 import {
     confDppId, confDppMedasMcdId,
     confMedasDd, confMedasEpl2,
-    dppInteractivity, mgdConfDppEdPanel
-} from '/f/4/lib/metalTGridDpp.js'
-import SortMCData from '/f/4/lib/SortMCData.js'
+    dppInteractivity, mgdConfDppEdPanel, minSpaceJson
+} from '/f/4/libTGridDpp/metalTGridDpp.js'
+import SortMCData from '/f/4/libTGridDpp/SortMCData.js'
 
 export default {
     components: { SortMCData, }, props: { ppId: Number, ff: String },
@@ -37,9 +37,7 @@ export default {
         confTypeName(showMedasConfTypeName) {
             this.medasConfTypeName = dppInteractivity.medasConfTypeName = showMedasConfTypeName
         }, confJsonStr() {
-            return JSON.stringify(confDppId(this.ppId), '', 2)
-                .replace(/\s+]/g, ']').replace(/\s+}/g, '}')
-                .replace(/\[\s+"/g, '\["').replace(/",\s+"/g, '","')
+            return minSpaceJson(confDppId(this.ppId))
         }, medasMcdId(event, medas) {
             console.log(dppInteractivity.appComponents)
             console.log(this.ppId, medas, confDppId(this.ppId))

@@ -13,36 +13,40 @@
  *  └─ TGridDpp
  */
 const { createApp } = Vue
-import { mcd, confDpp, metalFnConfPP } from '/f/4/lib/metalTGridDpp.js'
-import TGridDpp from '/f/4/lib/TGridDpp.js'
+import { mcd, confDpp, metalFnConfPP, minSpaceJson } from '/f/4/libTGridDpp/metalTGridDpp.js'
+import TGridDpp from '/f/4/libTGridDpp/TGridDpp.js'
 
 metalFnConfPP.initPagePart(window.location.hash.substring(1), 1)
 
 // symulation mcDB Data, remove by work with real DB
 const symulationMcd = () => {
     // console.log(confDpp, mcd)
-    const mcdIdList = [], uniqueList = l => l.reduce((l2, im) =>
-        !l2.includes(im) && l2.push(im) && l2, mcdIdList)
+    const testMcdIdList = [], uniqueList = l => l.reduce((l2, im) =>
+        !l2.includes(im) && l2.push(im) && l2, testMcdIdList)
     confDpp.l_ppId.find(ppId => confDpp.ppId[ppId].l_medas.find(medas => {
         uniqueList(confDpp.ppId[ppId].medas[medas].l_mcdId)
         confDpp.ppId[ppId].medas[medas].ppl2
             && uniqueList(confDpp.ppId[ppId].medas[medas].ppl2.l_mcdId)
     }))
 
-    mcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vlStr: 'vlStringValue' })
+    console.log(testMcdIdList)
+    testMcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
+
+    const testParentChild = [100, 1001, 1002, 1003, 1004]
+    console.log(testParentChild)
+    testParentChild.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
+    mcd.parentChild[100] = testParentChild.shift() && testParentChild
+    console.log(mcd.parentChild)
 
 }; symulationMcd()
 
+const dev = { count: 0, devText: minSpaceJson(confDpp) }
+createApp({ data() { return dev }, }).mount('#dev')
+
+// init App TgridDpp
 const tMedasDpp = createApp({ data() { return { count: 0 } }, })
 tMedasDpp.component('t-grid-dpp', TGridDpp)
 tMedasDpp.mount('#tMedasDpp')
-
-const dev = {
-    count: 0, devText: JSON.stringify(confDpp, '', 2)
-        .replace(/\s+]/g, ']').replace(/\s+}/g, '}')
-        .replace(/\[\s+"/g, '\["').replace(/",\s+"/g, '","')
-}
-createApp({ data() { return dev }, }).mount('#dev')
 
 createApp({ data() { return { hash: window.location.hash.substring(1) } }, })
     .mount('#headTitle')

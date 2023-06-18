@@ -6,8 +6,8 @@
  * AdnMenu ── Menu for edit the ADN node
  *  └─ AdnEnterData
  */
-import { dppInteractivity } from '/f/4/lib/metalTGridDpp.js'
-import AdnEnterData from '/f/4/lib/AdnEnterData.js'
+import { dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
+import AdnEnterData from '/f/4/libTGridDpp/AdnEnterData.js'
 
 export default {
     components: { AdnEnterData },

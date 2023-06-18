@@ -3,7 +3,7 @@
  * Algoritmed ©, EUPL-1.2 or later.
  * 
  */
-import { confDppId, dppInteractivity } from '/f/4/lib/metalTGridDpp.js'
+import { confDppId, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
     mounted() {

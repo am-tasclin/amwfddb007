@@ -6,20 +6,20 @@
  * AdnEnterData ── ADN data editor
  * 
  */
-import { mcd, dppInteractivity } from '/f/4/lib/metalTGridDpp.js'
+import { mcd, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
 
 export default {
     props: { adnId: Number, ppMedasKey: String, editDataKey: String },
-    data() { return { count: 0, vlStr: mcd.eMap[this.adnId].vlStr } },
+    data() { return { count: 0, vl_str: mcd.eMap[this.adnId].vl_str } },
     computed: { editComponentKey() { return this.editDataKey + this.adnId + this.ppMedasKey } },
     mounted() {
         dppInteractivity.fn.setAdnComponent(this.adnId, this.editComponentKey, this)
     }, methods: {
         enterData() {
             const edAdnId = dppInteractivity.dropDownOpenId.split('_')[2]
-            console.log(edAdnId, dppInteractivity.dropDownOpenId, this.vlStr)
+            console.log(edAdnId, dppInteractivity.dropDownOpenId, this.vl_str)
             // TODO test stub
-            mcd.eMap[this.adnId].vlStr = this.vlStr
+            mcd.eMap[this.adnId].vl_str = this.vl_str
             // this.count++
             Object.keys(dppInteractivity.appComponents.eMap[edAdnId])
                 .filter(k => k.includes('mElement_'))
@@ -38,7 +38,7 @@ export default {
     template: `
 <div class="w3-container">
     <span class="w3-tiny">Edit & Enter Adn Content Data</span>
-    <div><textarea v-model="vlStr" class="am-width-100pr" /></div>
+    <div><textarea v-model="vl_str" class="am-width-100pr" /></div>
     <button @click="enterData" class="w3-btn w3-border">send Db - відправити БД</button>
     <button @click="cleanEdit" class="w3-btn w3-tiny">close - закрити 
         <span class="w3-text-blue">－✎⧉ <span>

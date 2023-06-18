@@ -56,7 +56,7 @@ const Okeys = Object.keys
     , reViewConfDppEd = ppId => {
         const ppIdObj = dppInteractivity.fn.ppId(ppId)
         ppIdObj.confDppEd.count++
-    	reViewConfDppEdPanel(ppId)
+        reViewConfDppEdPanel(ppId)
         // const l_confDppEd = Okeys(ppIdObj.tGridDpp.confDppEd).filter(im => 'aco' != im)
         // l_confDppEd.forEach(im => ppIdObj.tGridDpp.confDppEd[im].aco.count++)
     }
@@ -277,3 +277,8 @@ metalFnConfPP.initFromURI = (rawPpStr, ppId) => {
     }, {})
 
 }
+
+export const
+    minSpaceJson = json => JSON.stringify(json, '', 2)
+        .replace(/\s+]/g, ']').replace(/\s+}/g, '}')
+        .replace(/\[\s+"/g, '\["').replace(/",\s+"/g, '","')

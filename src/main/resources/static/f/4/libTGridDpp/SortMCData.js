@@ -5,7 +5,7 @@
  *  ├─ TGridDpp
  *  ├─ ConfDppEdPanel
  */
-import { confDppId, dppInteractivity } from '/f/4/lib/metalTGridDpp.js'
+import { confDppId, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
 
 export default {
     props: { ppId: Number, medas: String, keysuffix: String }, data() { return { count: 0 } },

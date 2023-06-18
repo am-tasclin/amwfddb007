@@ -9,8 +9,8 @@
  *      └─ MCDataSort
  * 
  */
-import { confDppId, dppInteractivity } from '/f/4/lib/metalTGridDpp.js'
-import ConfDppEdPanel from '/f/4/lib/ConfDppEdPanel.js'
+import { confDppId, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
+import ConfDppEdPanel from '/f/4/libTGridDpp/ConfDppEdPanel.js'
 
 export default {
     components: { ConfDppEdPanel, },
