@@ -135,9 +135,21 @@ mgdSortMcData.sortMcdIdClick = (ppId, medas, isPl2, mcdId) => {
         , lToSort = ppMedas.l_mcdId
     ppMedas.l_mcdId = lToSort.splice(lToSort.indexOf(mcdId), 1).concat(lToSort)
 
-    dppInteractivity.appComponents.ppId[ppId].tGridDpp.count++
+    dppInteractivity.fn.reviewPpidMedas(ppId, medas, isPl2)
+}
+
+dppInteractivity.fn.reviewPpidMedas = (ppId, medas, isPl2) => {
+    const ppMedas = !isPl2 && confDpp.ppId[ppId].medas[medas]
+        || confDpp.ppId[ppId].medas[medas].ppl2
+        , meMap = dppInteractivity.appComponents.meMap
 
     reViewSortMCData2p(ppId, medas)
+    Okeys(meMap).filter(im => ppMedas.l_mcdId.includes(im)).forEach(im => Okeys(meMap[im])
+        .filter(im2 => im2.includes(ppId + '_' + medas + '_' + (isPl2 && 2 || 1)))
+        .filter(im2 => im2.includes('mElement_'))
+        .forEach(im2 => meMap[im][im2].count++))
+
+    dppInteractivity.appComponents.ppId[ppId].tGridDpp.count++
     dppInteractivity.appComponents.dev.count++
 }
 
