@@ -9,12 +9,11 @@
  *      └─ ConfDppEdPanel    └─ AdnMenu
  *          └─ SortMCData        └─ AdnEnterData
  */
-import { confDppId, confMedasDd, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
 import ConfDppEd from '/f/4/libTGridDpp/ConfDppEd.js'
 import MElement from '/f/4/libTGridDpp/MElement.js'
 import SortMCData from '/f/4/libTGridDpp/SortMCData.js'
 import SortMedas from '/f/4/libTGridDpp/SortMedas.js'
-// import PagePartCmdEdMenu from '/f/4/lib/PagePartCmdEdMenu.js'
+import { confDppId, confMedasDd, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
 
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },

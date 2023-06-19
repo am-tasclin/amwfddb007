@@ -20,10 +20,11 @@ import {
     dppItyDevComponent, dppItyCtViewJson
 } from '/f/4/libTGridDpp/metalTGridDpp.js'
 
-metalFnConfPP.initPagePart(window.location.hash.substring(1), 1)
+metalFnConfPP.initPagePart(window.location.hash.substring(1), 1);
 
 // symulation mcDB Data, remove by work with real DB
-const symulationMcd = () => {
+//const symulationMcd = 
+(() => {
     // console.log(confDpp, mcd)
     const testMcdIdList = [], uniqueList = l => l.reduce((l2, im) =>
         !l2.includes(im) && l2.push(im) && l2, testMcdIdList)
@@ -33,16 +34,13 @@ const symulationMcd = () => {
             && uniqueList(confDpp.ppId[ppId].medas[medas].ppl2.l_mcdId)
     }))
 
-    console.log(testMcdIdList)
     testMcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
 
     const testParentChild = [100, 1001, 1002, 1003, 1004]
-    console.log(testParentChild)
     testParentChild.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
     mcd.parentChild[100] = testParentChild.shift() && testParentChild
-    console.log(mcd.parentChild)
 
-}; symulationMcd()
+})() //; symulationMcd()
 
 createApp({
     data() { return { count: 0, } },

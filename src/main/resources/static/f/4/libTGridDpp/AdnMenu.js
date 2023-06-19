@@ -6,8 +6,10 @@
  * AdnMenu ── Menu for edit the ADN node
  *  └─ AdnEnterData
  */
-import { confDppMedas, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
 import AdnEnterData from '/f/4/libTGridDpp/AdnEnterData.js'
+import {
+    confDppMedas, dppInteractivity, setMeMapComponent
+} from '/f/4/libTGridDpp/metalTGridDpp.js'
 
 export default {
     components: { AdnEnterData },
@@ -20,12 +22,12 @@ export default {
         adnMenuKey() { return 'adnMenu_' + this.adnDppKey },
         // adnMenuKey() { return 'adnMenu_' + this.adnId + this.ppMedasKey },
     }, mounted() {
-        dppInteractivity.fn.setAdnComponent(this.adnId, this.adnMenuKey, this)
+        setMeMapComponent(this.adnId, this.adnMenuKey, this)
     }, methods: {
         adnClick() {
-console.log(this.isPl2)
+            console.log(this.isPl2)
             const cgDppMedas = confDppMedas(this.ppId, this.medas, this.isPl2)
-console.log(cgDppMedas)
+            console.log(cgDppMedas)
             !cgDppMedas.openedId && (cgDppMedas.openedId = [])
             !cgDppMedas.openedId.includes(this.adnId)
                 && cgDppMedas.openedId.push(this.adnId)
@@ -35,7 +37,7 @@ console.log(cgDppMedas)
             console.log(mElement)
             dppInteractivity.appComponents.meMap[this.adnId][mElement].count++
             this.count++
-    		dppInteractivity.appComponents.dev.count++
+            dppInteractivity.appComponents.dev.count++
         }, sortUp() {
             console.log('fipiFn.sortUpDown(-1, this.adnId)')
         }, sortDown() {

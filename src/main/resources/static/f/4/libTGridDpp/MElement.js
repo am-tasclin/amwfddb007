@@ -8,8 +8,11 @@
  * MElement ── MCD Element view and edit. Manage ADN data to DOM structure
  *  └─ AdnMenu
  */
-import { confDppMedas, mcd, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
 import AdnMenu from '/f/4/libTGridDpp/AdnMenu.js'
+import {
+    confDppMedas, mcd,
+    setMeMapComponent, dppInteractivity
+} from '/f/4/libTGridDpp/metalTGridDpp.js'
 
 export default {
     props: { adnId: Number, ppId: Number, medas: String, ppl2: Number, },
@@ -22,8 +25,7 @@ export default {
         },
         mEtKey() { return 'mElement_' + this.adnId + this.ppMedasKey },
     }, mounted() {
-        console.log(this.ppMedasKey, this.mEtKey)
-        dppInteractivity.fn.setAdnComponent(this.adnId, this.mEtKey, this)
+        setMeMapComponent(this.adnId, this.mEtKey, this)
     }, methods: {
         vlStr() {
             // return this.eMap().vlStr

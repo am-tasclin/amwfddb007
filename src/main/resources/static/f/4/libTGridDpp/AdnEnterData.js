@@ -6,14 +6,16 @@
  * AdnEnterData ── ADN data editor
  * 
  */
-import { mcd, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
+import {
+    mcd, dppInteractivity, setMeMapComponent
+} from '/f/4/libTGridDpp/metalTGridDpp.js'
 
 export default {
     props: { adnId: Number, ppMedasKey: String, editDataKey: String },
     data() { return { count: 0, vl_str: mcd.eMap[this.adnId].vl_str } },
     computed: { editComponentKey() { return this.editDataKey + this.adnId + this.ppMedasKey } },
     mounted() {
-        dppInteractivity.fn.setAdnComponent(this.adnId, this.editComponentKey, this)
+        setMeMapComponent(this.adnId, this.editComponentKey, this)
     }, methods: {
         enterData() {
             const edAdnId = dppInteractivity.dropDownOpenId.split('_')[2]
