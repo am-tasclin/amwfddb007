@@ -13,25 +13,16 @@ import ConfDppEd from '/f/4/libTGridDpp/ConfDppEd.js'
 import MElement from '/f/4/libTGridDpp/MElement.js'
 import SortMCData from '/f/4/libTGridDpp/SortMCData.js'
 import SortMedas from '/f/4/libTGridDpp/SortMedas.js'
-import { confDppId, confMedasDd, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
+import {
+    confDppId, confMedasDd, dppInteractivityPpId
+} from '/f/4/libTGridDpp/metalTGridDpp.js'
 
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
     components: { ConfDppEd, MElement, SortMCData, SortMedas },
     // components: { MElement, PagePartCmdEdMenu, SortMCData, ConfDppEd, },
     mounted() {
-        const ppIdObj = dppInteractivity.fn.ppId(this.ppId)
-        ppIdObj.tGridDpp = this
-        /**
-         ppIdObj.tGridDpp = { aco: this }
-        ppIdObj.tGridDpp.confDppEd = ppIdObj.confDppEd
-        delete ppIdObj.confDppEd
-         Object.keys(ppIdObj).filter(im => im.includes('confDppEdPanel_'))
-         .forEach(ctKey => {
-             ppIdObj.tGridDpp.confDppEd[ctKey] = ppIdObj[ctKey]
-             delete ppIdObj[ctKey]
-            })
-            */
+        dppInteractivityPpId(this.ppId).tGridDpp = this
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
         confMedasName(key) { return confMedasDd[key] },

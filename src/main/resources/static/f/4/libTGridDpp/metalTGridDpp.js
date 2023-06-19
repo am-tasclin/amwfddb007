@@ -35,13 +35,8 @@ export const confDppMedasMcdId = (val, ppId, medas, isPpl2) => {
     valList.filter(mcdId => !dppMedas.mcdId[mcdId])
         .forEach(mcdId => dppMedas.mcdId[mcdId] = {})
     dppMedas.l_mcdId = valList
-    /*
-    Object.keys(dppInteractivity.appComponents.sortMCData)
-    .filter(im => im.split('_')[0] == ppId && im.split('_')[1] == medas)
-    .forEach(im => dppInteractivity.appComponents.sortMCData[im].count++)
-    */
     reViewSortMCData2p(ppId, medas)
-    dppInteractivity.fn.ppId(ppId).tGridDpp.count++
+    dppInteractivityPpId(ppId).tGridDpp.count++
 }
 
 const confMedas = {
@@ -71,10 +66,6 @@ export const
              *  --.ppId[ppId].tGridDpp.confDppEd
              * 
              */
-            sortMCData: {},  // SortMCData components with complex keys
-            /**
-             * 
-             */
             meMap: {},      // MElement components to manage MCD data
             /**
              * 
@@ -89,38 +80,37 @@ export const
 export const dppItyDevComponent = dev => dppInteractivity.appComponents.dev = dev
     , dppItyCtViewJson = () => {
         const cvj = {}
+
         cvj.l_appComponents = Okeys(dppInteractivity.appComponents)
-        cvj.l_sortMCData = Okeys(dppInteractivity.appComponents.sortMCData)
-        // dppInteractivity.appComponents.ppId &&
-        //     (cvj.ppId = { l_ppId: Okeys(dppInteractivity.appComponents.ppId) })
         Okeys(dppInteractivity.appComponents.meMap).reduce((o, im) =>
             (o[im] = Okeys(dppInteractivity.appComponents.meMap[im]))
             && o, cvj.meMap = {})
         dppInteractivity.appComponents.ppId &&
-            Okeys(dppInteractivity.appComponents.ppId).reduce((o, im) =>
-                (o[im] = Okeys(dppInteractivity.appComponents.ppId[im]))
-                && o, cvj.ppId = {})
+            Okeys(dppInteractivity.appComponents.ppId).reduce((o, im) => {
+                o[im] = {}
+                o[im].l = Okeys(dppInteractivity.appComponents.ppId[im])
+                o[im].l_sortMCData = Okeys(dppInteractivity.appComponents
+                    .ppId[im].sortMcData)
+                return o
+            }, cvj.ppId = {})
         return cvj
     }
 
 
 const Okeys = Object.keys
     , reViewConfDppEd = ppId => {
-        const ppIdObj = dppInteractivity.fn.ppId(ppId)
-        ppIdObj.confDppEd.count++
+        dppInteractivityPpId(ppId).confDppEd.count++
         reViewConfDppEdPanel(ppId)
-        // const l_confDppEd = Okeys(ppIdObj.tGridDpp.confDppEd).filter(im => 'aco' != im)
-        // l_confDppEd.forEach(im => ppIdObj.tGridDpp.confDppEd[im].aco.count++)
     }
     , reViewConfDppEdPanel = ppId => Okeys(dppInteractivity.appComponents.ppId[ppId])
         .filter(im => im.includes('confDppEdPanel')).forEach(im => {
-            dppInteractivity.appComponents.ppId[ppId][im].epl2Data = dppInteractivity.epl2Data
-            dppInteractivity.appComponents.ppId[ppId][im].count++
+            dppInteractivityPpId(ppId)[im].epl2Data = dppInteractivity.epl2Data
+            dppInteractivityPpId(ppId)[im].count++
         })
     , reViewSortMCData2p = (ppId, medas) => {
-        Okeys(dppInteractivity.appComponents.sortMCData)
+        Okeys(dppInteractivityPpId(ppId).sortMcData)
             .filter(im => im.split('_')[0] == ppId && im.split('_')[1] == medas)
-            .forEach(im => dppInteractivity.appComponents.sortMCData[im].count++)
+            .forEach(im => dppInteractivityPpId(ppId).sortMcData[im].count++)
         reViewConfDppEd(ppId)
     }
 
@@ -137,20 +127,18 @@ export const mcd = { // Meta Content Data from DB
 }
 
 // mgd -- metalTGridDpp prefix
-export const mgdSortMCData = {} // mgd for SortMCData.js logic
+export const mgdSortMcData = {} // mgd for SortMCData.js logic
 
-mgdSortMCData.sortMcdIdClick = (ppId, medas, isPl2, mcdId) => {
+mgdSortMcData.sortMcdIdClick = (ppId, medas, isPl2, mcdId) => {
     const ppMedas = !isPl2 && confDpp.ppId[ppId].medas[medas]
         || confDpp.ppId[ppId].medas[medas].ppl2
         , lToSort = ppMedas.l_mcdId
     ppMedas.l_mcdId = lToSort.splice(lToSort.indexOf(mcdId), 1).concat(lToSort)
 
     dppInteractivity.appComponents.ppId[ppId].tGridDpp.count++
-    //dppInteractivity.appComponents.ppId[ppId].tGridDpp.aco.count++
 
     reViewSortMCData2p(ppId, medas)
     dppInteractivity.appComponents.dev.count++
-    console.log(dppInteractivity.appComponents)
 }
 
 export const mgdConfDppEdPanel = {} // mgd for ConfDppEdPanel.js logic
@@ -235,7 +223,7 @@ export const setMeMapComponent = (adnId, key, component) => {
 dppInteractivity.fn.sortMedas = (ppId, medas) => {
     const l_medas = confDpp.ppId[ppId].l_medas
         , l_medas2 = l_medas.splice(l_medas.indexOf(medas), 1).concat(l_medas)
-        , ppIdObj = dppInteractivity.fn.ppId(ppId)
+        , ppIdObj = dppInteractivityPpId(ppId)
     // console.log(ppId, medas, l_medas, l_medas2, ppIdObj)
     confDpp.ppId[ppId].l_medas = l_medas2
     ppIdObj.tGridDpp.count++
@@ -243,13 +231,14 @@ dppInteractivity.fn.sortMedas = (ppId, medas) => {
     reViewConfDppEd(ppId)
 }
 
-dppInteractivity.fn.ppId = ppId => {
-    (dppInteractivity.appComponents.ppId ||
-        (dppInteractivity.appComponents.ppId = {}));
-    !dppInteractivity.appComponents.ppId[ppId] &&
-        (dppInteractivity.appComponents.ppId[ppId] = {});
-    return dppInteractivity.appComponents.ppId[ppId]
-}
+export const
+    dppInteractivityPpId = ppId => {
+        (dppInteractivity.appComponents.ppId ||
+            (dppInteractivity.appComponents.ppId = {}));
+        !dppInteractivity.appComponents.ppId[ppId] &&
+            (dppInteractivity.appComponents.ppId[ppId] = {});
+        return dppInteractivity.appComponents.ppId[ppId]
+    }
 
 export const
     metalFnConfPP = {}     // METaL container to build confPP.

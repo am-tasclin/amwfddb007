@@ -9,16 +9,16 @@
  *      └─ MCDataSort
  * 
  */
-import { confDppId, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
 import ConfDppEdPanel from '/f/4/libTGridDpp/ConfDppEdPanel.js'
+import {
+    confDppId, dppInteractivityPpId, dppInteractivity
+} from '/f/4/libTGridDpp/metalTGridDpp.js'
 
 export default {
     components: { ConfDppEdPanel, },
     props: { ppId: Number }, data() { return { count: 0, } },
-    mounted() {
-        dppInteractivity.fn.ppId(this.ppId).confDppEd = this
-        // dppInteractivity.fn.ppId(this.ppId).confDppEd = { aco: this }
-    }, methods: {
+    mounted() { dppInteractivityPpId(this.ppId).confDppEd = this },
+    methods: {
         confDpp() { return confDppId(this.ppId) },
         keyEscEvent() {
             delete dppInteractivity.dropDownOpenId
@@ -31,8 +31,7 @@ export default {
             dppInteractivity.clickDropDownOpenId(dropDownOpenId, this.ppId)
             this.count++
         },
-    },
-    template: `
+    }, template: `
 <div class="w3-right">
     <span class="w3-dropdown-click w3-right">
         <button @click="ppCmdEdOnOff" class="w3-btn w3-ripple w3-padding-small w13-small" 

@@ -11,6 +11,7 @@
 import SortMCData from '/f/4/libTGridDpp/SortMCData.js'
 import {
     confDppId, confDppMedasMcdId, confMedasDd, confMedasEpl2,
+    dppInteractivityPpId,
     dppInteractivity, mgdConfDppEdPanel, minSpaceJson
 } from '/f/4/libTGridDpp/metalTGridDpp.js'
 
@@ -21,8 +22,7 @@ export default {
     computed: { panelNameSuffix() { return 'confDppEdPanel_' + this.ff } },
     mounted() {
         const confDppEdPanelKey = 'confDppEdPanel_' + this.ff
-        dppInteractivity.fn.ppId(this.ppId)[confDppEdPanelKey] = this
-        // dppInteractivity.fn.ppId(this.ppId)[confDppEdPanelKey] = { aco: this }
+        dppInteractivityPpId(this.ppId)[confDppEdPanelKey] = this
         !dppInteractivity.epl2Data && confDppId(this.ppId).l_medas
             .filter(medas => 'lr' != medas)
             .reduce((o, medas) => (o[medas] = confDppId(this.ppId).medas[medas].epl2
@@ -48,8 +48,8 @@ export default {
                 && 'confDppEdPanel_fly_' || 'confDppEdPanel_fixed_') + this.ppId
             dppInteractivity.clickDropDownOpenId(dropDownOpenId, this.ppId)
             // this.count++
-            Object.keys(dppInteractivity.fn.ppId(this.ppId)).filter(k => k.includes('ppConfEd_'))
-                .forEach(k => dppInteractivity.fn.ppId(this.ppId)[k]
+            Object.keys(dppInteractivityPpId(this.ppId)).filter(k => k.includes('ppConfEd_'))
+                .forEach(k => dppInteractivityPpId(this.ppId)[k]
                     .medasConfTypeName = dppInteractivity.medasConfTypeName)
         }, closeDialog() {
             // delete dppInteractivity.dropDownOpenId

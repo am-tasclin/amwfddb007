@@ -5,7 +5,7 @@
  *  ├─ TGridDpp
  *  ├─ ConfDppEdPanel
  */
-import { confDppId, mgdSortMCData, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
+import { confDppId, mgdSortMcData, dppInteractivityPpId } from '/f/4/libTGridDpp/metalTGridDpp.js'
 
 export default {
     props: { ppId: Number, medas: String, keysuffix: String }, data() { return { count: 0 } },
@@ -13,7 +13,9 @@ export default {
         sortMCDataKey() { return this.ppId + '_' + this.medas + '_' + this.keysuffix },
         isPl2() { return this.keysuffix.includes('_ppl2') },
     }, mounted() {
-        dppInteractivity.appComponents.sortMCData[this.sortMCDataKey] = this
+        const sortMcData = dppInteractivityPpId(this.ppId).sortMcData
+            || (dppInteractivityPpId(this.ppId).sortMcData = {})
+        sortMcData[this.sortMCDataKey] = this
     }, methods: {
         confPpMedas() {
             const ppMedas = !this.isPl2
@@ -21,7 +23,7 @@ export default {
                 || confDppId(this.ppId).medas[this.medas].ppl2
             return ppMedas
         }, sortMcdIdClick(mcdId) {
-            mgdSortMCData.sortMcdIdClick(this.ppId, this.medas, this.isPl2, mcdId)
+            mgdSortMcData.sortMcdIdClick(this.ppId, this.medas, this.isPl2, mcdId)
         }
     }, template: `
 ⬍ <span v-for="mcdId in confPpMedas().l_mcdId"

@@ -3,13 +3,13 @@
  * Algoritmed ©, EUPL-1.2 or later.
  * 
  */
-import { confDppId, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
+import {
+    confDppId, dppInteractivityPpId, dppInteractivity
+} from '/f/4/libTGridDpp/metalTGridDpp.js'
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
-    mounted() {
-        const ppIdObj = dppInteractivity.fn.ppId(this.ppId)
-        ppIdObj.sortMedas = this
-    }, methods: {
+    mounted() { dppInteractivityPpId(this.ppId).sortMedas = this },
+    methods: {
         confDpp() { return confDppId(this.ppId) },
         sortMedas(medas) {
             dppInteractivity.fn.sortMedas(this.ppId, medas)
