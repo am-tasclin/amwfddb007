@@ -10,16 +10,21 @@ import { confDppId, dppInteractivity } from '/f/4/libTGridDpp/metalTGridDpp.js'
 export default {
     props: { ppId: Number, medas: String, keysuffix: String }, data() { return { count: 0 } },
     computed: {
-        sortMCDataKey() { return this.ppId + '_' + this.medas + '_' + this.keysuffix }
+        sortMCDataKey() { return this.ppId + '_' + this.medas + '_' + this.keysuffix },
+        isPl2() { return this.keysuffix.includes('_ppl2') },
     }, mounted() {
-        // console.log(this.sortMCDataKey)
+        console.log(this.sortMCDataKey, this.keysuffix, this.isPl2, this.keysuffix.split('_')[1])
         dppInteractivity.appComponents.sortMCData[this.sortMCDataKey] = this
     }, methods: {
         confPpMedas() {
-            const ppMedas1 = confDppId(this.ppId).medas[this.medas]
-            return ppMedas1[this.keysuffix.split('_')[1]] || ppMedas1
+            const ppMedas = !this.isPl2
+                && confDppId(this.ppId).medas[this.medas]
+                || confDppId(this.ppId).medas[this.medas].ppl2
+            return ppMedas
+            //return ppMedas1[this.keysuffix.split('_')[1]] || ppMedas1
         }, sortMcdIdClick(mcdId) {
-            dppInteractivity.fn.sortMcdIdClick(this.ppId, this.medas, this.keysuffix, mcdId)
+            dppInteractivity.fn.sortMcdIdClick(this.ppId, this.medas, this.isPl2, mcdId)
+            //dppInteractivity.fn.sortMcdIdClick(this.ppId, this.medas, this.keysuffix, mcdId)
         }
     }, template: `
 ⬍ <span v-for="mcdId in confPpMedas().l_mcdId"

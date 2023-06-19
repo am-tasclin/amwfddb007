@@ -22,10 +22,8 @@ export default {
         },
         mEtKey() { return 'mElement_' + this.adnId + this.ppMedasKey },
     }, mounted() {
-        console.log(this.ppMedasKey)
-        console.log(this.mEtKey)
-        dppInteractivity.fn.setAdnComponent(this.adnId
-            , this.mEtKey, this)
+        console.log(this.ppMedasKey, this.mEtKey)
+        dppInteractivity.fn.setAdnComponent(this.adnId, this.mEtKey, this)
     }, methods: {
         vlStr() {
             // return this.eMap().vlStr
@@ -36,8 +34,8 @@ export default {
         x(i) { return mcd.eMap[i] },
         parentChild() { return mcd.parentChild[this.adnId] },
         isOpened() {
-            return confDppMedas(this.ppId, this.medas).openedId &&
-                confDppMedas(this.ppId, this.medas).openedId.includes(this.adnId)
+            const pplMedas = confDppMedas(this.ppId, this.medas, this.ppl2 == 2)
+            return pplMedas.openedId && pplMedas.openedId.includes(this.adnId)
         }
     }, template: `
 <div class="w3-hover-shadow">
@@ -47,7 +45,7 @@ export default {
 </div> <span class="w3-hide"> {{count}} </span>
 <div v-if="isOpened()" class="w3-container w3-border-left">
     <template v-for="adnId2 in parentChild()" >
-        <t-m-element :adnId="adnId2" :ppId="ppId" :medas="medas" />
+        <t-m-element :adnId="adnId2" :ppId="ppId" :medas="medas" :ppl2="ppl2" />
     </template>
 </div>
 `,

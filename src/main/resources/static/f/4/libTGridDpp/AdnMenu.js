@@ -14,6 +14,8 @@ export default {
     props: { adnId: Number, ppMedasKey: String, }, data() { return { count: 0 } },
     computed: {
         ppId() { return this.ppMedasKey.split('_')[1] },
+        medas() { return this.ppMedasKey.split('_')[2] },
+        isPl2() { return this.ppMedasKey.split('_')[3] == 2 },
         adnDppKey() { return this.adnId + this.ppMedasKey },
         adnMenuKey() { return 'adnMenu_' + this.adnDppKey },
         // adnMenuKey() { return 'adnMenu_' + this.adnId + this.ppMedasKey },
@@ -21,18 +23,14 @@ export default {
         dppInteractivity.fn.setAdnComponent(this.adnId, this.adnMenuKey, this)
     }, methods: {
         adnClick() {
-            const cgDppMedas = confDppMedas(this.ppId, this.ppMedasKey.split('_')[2])
-            console.log(cgDppMedas, this.ppMedasKey.split('_')[2])
+            const cgDppMedas = confDppMedas(this.ppId, this.medas, this.isPl2)
             !cgDppMedas.openedId && (cgDppMedas.openedId = [])
             !cgDppMedas.openedId.includes(this.adnId)
                 && cgDppMedas.openedId.push(this.adnId)
                 || cgDppMedas.openedId.splice(cgDppMedas.openedId.indexOf(this.adnId), 1)
-            console.log(cgDppMedas)
-            console.log(this.adnId, this.adnMenuKey, this.adnDppKey
-                , dppInteractivity.appComponents.meMap[this.adnId])
+            console.log(this.adnDppKey, dppInteractivity.appComponents.meMap[this.adnId])
             // this.count++
-            dppInteractivity.appComponents.meMap[this.adnId]
-            ['mElement_' + this.adnDppKey].count++
+            dppInteractivity.appComponents.meMap[this.adnId]['mElement_' + this.adnDppKey].count++
         }, sortUp() {
             console.log('fipiFn.sortUpDown(-1, this.adnId)')
         }, sortDown() {

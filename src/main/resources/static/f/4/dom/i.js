@@ -10,12 +10,14 @@
  * tMedasDpp -- MEDAS DOM Page Part
  * 
  * tMedasDpp
- *  └─ TGridDpp
+ *  └─ TGridDpp,    MElement
  */
 const { createApp } = Vue
-import { mcd, confDpp, metalFnConfPP, minSpaceJson } from '/f/4/libTGridDpp/metalTGridDpp.js'
 import TGridDpp from '/f/4/libTGridDpp/TGridDpp.js'
 import MElement from '/f/4/libTGridDpp/MElement.js'
+import {
+    mcd, confDpp, metalFnConfPP, minSpaceJson
+} from '/f/4/libTGridDpp/metalTGridDpp.js'
 
 metalFnConfPP.initPagePart(window.location.hash.substring(1), 1)
 

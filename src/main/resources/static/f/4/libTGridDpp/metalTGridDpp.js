@@ -24,10 +24,14 @@
 export const confDpp = {}
 console.log(confDpp)
 export const confDppId = ppId => confDpp.ppId[ppId || 1]
-export const confDppMedas = (ppId, medas) => confDppId(ppId).medas[medas]
-export const confDppMedasMcdId = (val, ppId, medas) => {
+export const confDppMedas = (ppId, medas, isPpl2) => !isPpl2
+    && confDppId(ppId).medas[medas] || confDppId(ppId).medas[medas].ppl2
+
+export const confDppMedasMcdId = (val, ppId, medas, isPpl2) => {
     const valList = val.replace(/\s+/g, '').split(',').filter(im => im)
-        , dppMedas = confDpp.ppId[ppId].medas[medas]
+        , dppMedas = !isPpl2
+            && confDpp.ppId[ppId].medas[medas]
+            || confDpp.ppId[ppId].medas[medas].ppl2
     valList.filter(mcdId => !dppMedas.mcdId[mcdId])
         .forEach(mcdId => dppMedas.mcdId[mcdId] = {})
     dppMedas.l_mcdId = valList
@@ -105,6 +109,7 @@ mgdConfDppEdPanel.epl2Click = (ppId, medas, mcdId) => {
     console.log(dppInteractivity.appComponents.ppId[ppId])
     reViewConfDppEdPanel(ppId)
 }
+
 mgdConfDppEdPanel.medasRemoveFromConfDpp = (ppId, medas) => {
     console.log(medas, confDppId(ppId).removeMedas)
     confDppId(ppId).removeMedas
@@ -209,14 +214,11 @@ dppInteractivity.fn.sortMedas = (ppId, medas) => {
     reViewConfDppEd(ppId)
 }
 
-dppInteractivity.fn.sortMcdIdClick = (ppId, medas, keysuffix, mcdId) => {
-    console.log(ppId, medas, keysuffix, mcdId)
-    const ppMedas1 = confDpp.ppId[ppId].medas[medas]
-        , ppMedas = ppMedas1[keysuffix.split('_')[1]] || ppMedas1
-    const lToSort = ppMedas.l_mcdId
+dppInteractivity.fn.sortMcdIdClick = (ppId, medas, isPl2, mcdId) => {
+    const ppMedas = !isPl2 && confDpp.ppId[ppId].medas[medas]
+        || confDpp.ppId[ppId].medas[medas].ppl2
+        , lToSort = ppMedas.l_mcdId
     ppMedas.l_mcdId = lToSort.splice(lToSort.indexOf(mcdId), 1).concat(lToSort)
-
-    console.log(ppMedas)
 
     dppInteractivity.appComponents.ppId[ppId].tGridDpp.count++
     //dppInteractivity.appComponents.ppId[ppId].tGridDpp.aco.count++
@@ -267,16 +269,18 @@ metalFnConfPP.initFromURI = (rawPpStr, ppId) => {
     // console.log(JSON.stringify(confPP), confPP)
     const rawPp = rawPpStr.split(';')
 
-    rawPp.filter(im => im.length != 0).filter(im => !im.split(',')[0].includes('_'))
+    rawPp.filter(im => im.length != 0)
+        .filter(im => !im.split(',')[0].includes('_'))// is not panel2
         .reduce((o, im) => o.l_medas.push(im.split(',')[0])
             && (confDpp.ppId[ppId].medas[im.split(',')[0]] = initMedas(im.split(',').slice(1)))
             && o, (confDpp.ppId[ppId] = { l_medas: [], medas: {}, }))
 
-    rawPp.filter(im => im.split(',')[0].includes('_')).reduce((o, im) => {
-        const medas = confDpp.ppId[ppId].medas[im.split(',')[0].split('_')[0]]
-        medas[im.split(',')[0].split('_')[1]] = initMedas(im.split(',').slice(1))
-        return o
-    }, {})
+    rawPp.filter(im => im.split(',')[0].includes('_'))// is panel2
+        .forEach(im => {
+            const medas_pl2 = im.split(',')[0].split('_')
+                , medas = confDpp.ppId[ppId].medas[medas_pl2[0]]
+            medas[medas_pl2[1]] = initMedas(im.split(',').slice(1))
+        })
 
 }
 

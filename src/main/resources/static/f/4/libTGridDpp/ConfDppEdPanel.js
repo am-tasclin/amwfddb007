@@ -8,12 +8,12 @@
  *  └─ SortMCData
  */
 
+import SortMCData from '/f/4/libTGridDpp/SortMCData.js'
 import {
     confDppId, confDppMedasMcdId, confMedasDd, confMedasEpl2,
     dppInteractivity, mgdConfDppEdPanel, minSpaceJson
 } from '/f/4/libTGridDpp/metalTGridDpp.js'
 
-import SortMCData from '/f/4/libTGridDpp/SortMCData.js'
 
 export default {
     components: { SortMCData, }, props: { ppId: Number, ff: String },
@@ -39,10 +39,10 @@ export default {
             this.medasConfTypeName = dppInteractivity.medasConfTypeName = showMedasConfTypeName
         }, confJsonStr() {
             return minSpaceJson(confDppId(this.ppId))
-        }, medasMcdId(event, medas) {
+        }, medasMcdId(event, medas, isPpl2) {
             console.log(dppInteractivity.appComponents)
             console.log(this.ppId, medas, confDppId(this.ppId))
-            confDppMedasMcdId(event.target.value, this.ppId, medas)
+            confDppMedasMcdId(event.target.value, this.ppId, medas, isPpl2)
         }, clickFixFly() {
             const dropDownOpenId = (!dppInteractivity.dropDownOpenId.includes('confDppEdPanel_fly_')
                 && 'confDppEdPanel_fly_' || 'confDppEdPanel_fixed_') + this.ppId
