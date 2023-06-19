@@ -23,14 +23,19 @@ export default {
         dppInteractivity.fn.setAdnComponent(this.adnId, this.adnMenuKey, this)
     }, methods: {
         adnClick() {
+console.log(this.isPl2)
             const cgDppMedas = confDppMedas(this.ppId, this.medas, this.isPl2)
+console.log(cgDppMedas)
             !cgDppMedas.openedId && (cgDppMedas.openedId = [])
             !cgDppMedas.openedId.includes(this.adnId)
                 && cgDppMedas.openedId.push(this.adnId)
                 || cgDppMedas.openedId.splice(cgDppMedas.openedId.indexOf(this.adnId), 1)
             console.log(this.adnDppKey, dppInteractivity.appComponents.meMap[this.adnId])
-            // this.count++
-            dppInteractivity.appComponents.meMap[this.adnId]['mElement_' + this.adnDppKey].count++
+            const mElement = 'mElement_' + this.adnDppKey
+            console.log(mElement)
+            dppInteractivity.appComponents.meMap[this.adnId][mElement].count++
+            this.count++
+    		dppInteractivity.appComponents.dev.count++
         }, sortUp() {
             console.log('fipiFn.sortUpDown(-1, this.adnId)')
         }, sortDown() {

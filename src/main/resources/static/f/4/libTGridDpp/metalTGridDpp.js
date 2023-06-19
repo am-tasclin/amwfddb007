@@ -54,9 +54,74 @@ const confMedas = {
         epl2: ['mcEt', 'mcPl']
     }
 }
-
 export const confMedasDd = confMedas.medas
 export const confMedasEpl2 = confMedas.panel2.epl2
+
+export const
+    dppInteractivity = {    // dppIty -- DOM Page Part interactivity data and functions.
+        /**
+         * 
+         */
+        appComponents: {    // Components of web-application
+            /**
+             * Structure of application components.
+             *  --.ppId[ppId] 
+             *  .aco -- Place for application component Proxy
+             *  --.ppId[ppId].tGridDpp
+             *  --.ppId[ppId].tGridDpp.confDppEd
+             * 
+             */
+            sortMCData: {},  // SortMCData components with complex keys
+            /**
+             * 
+             */
+            meMap: {},      // MElement components to manage MCD data
+            /**
+             * 
+             */
+        },
+        fn: {},// Function for application component manage
+        /**
+         * 
+         */
+    }
+
+export const dppItyDevComponent = dev => dppInteractivity.appComponents.dev = dev
+    , dppItyCtViewJson = () => {
+        const cvj = {}
+        cvj.l_appComponents = Okeys(dppInteractivity.appComponents)
+        cvj.l_sortMCData = Okeys(dppInteractivity.appComponents.sortMCData)
+        // dppInteractivity.appComponents.ppId &&
+        //     (cvj.ppId = { l_ppId: Okeys(dppInteractivity.appComponents.ppId) })
+        Okeys(dppInteractivity.appComponents.meMap).reduce((o, im) =>
+            (o[im] = Okeys(dppInteractivity.appComponents.meMap[im]))
+            && o, cvj.meMap = {})
+        dppInteractivity.appComponents.ppId &&
+            Okeys(dppInteractivity.appComponents.ppId).reduce((o, im) =>
+                (o[im] = Okeys(dppInteractivity.appComponents.ppId[im]))
+                && o, cvj.ppId = {})
+        return cvj
+    }
+
+dppInteractivity.fn.sortMcdIdClick = (ppId, medas, isPl2, mcdId) => {
+    const ppMedas = !isPl2 && confDpp.ppId[ppId].medas[medas]
+        || confDpp.ppId[ppId].medas[medas].ppl2
+        , lToSort = ppMedas.l_mcdId
+    ppMedas.l_mcdId = lToSort.splice(lToSort.indexOf(mcdId), 1).concat(lToSort)
+
+    dppInteractivity.appComponents.ppId[ppId].tGridDpp.count++
+    //dppInteractivity.appComponents.ppId[ppId].tGridDpp.aco.count++
+
+    reViewSortMCData2p(ppId, medas)
+    dppInteractivity.appComponents.dev.count++
+    console.log(dppInteractivity.appComponents)
+    /*
+    Object.keys(dppInteractivity.appComponents.ppId[ppId].medas[medas].sortMCData)
+    .forEach(location => dppInteractivity.appComponents
+        .ppId[ppId].medas[medas].sortMCData[location].count++)
+        dppInteractivity.fn.ppId(ppId).ppCmd.count++
+    */
+}
 
 const Okeys = Object.keys
     , reViewConfDppEd = ppId => {
@@ -145,35 +210,6 @@ mgdConfDppEdPanel.medasAddRemove = (ppId, medas) => {
     reViewConfDppEd(ppId)
 }
 
-export const
-    dppInteractivity = {    // DOM Page Part interactivity data and functions.
-        /**
-         * 
-         */
-        appComponents: {    // Components of web-application
-            /**
-             * Structure of application components.
-             *  --.ppId[ppId] 
-             *  .aco -- Place for application component Proxy
-             *  --.ppId[ppId].tGridDpp
-             *  --.ppId[ppId].tGridDpp.confDppEd
-             * 
-             */
-            sortMCData: {},  // SortMCData components with complex keys
-            /**
-             * 
-             */
-            meMap: {},      // MElement components to manage MCD data
-            /**
-             * 
-             */
-        },
-        fn: {},// Function for application component manage
-        /**
-         * 
-         */
-    }
-
 dppInteractivity.clickDropDownOpenId = (dropDownOpenId, ppId) => {
     const edAdnId = dppInteractivity.dropDownOpenId
         && dppInteractivity.dropDownOpenId.split('_')[2]
@@ -212,24 +248,6 @@ dppInteractivity.fn.sortMedas = (ppId, medas) => {
     ppIdObj.tGridDpp.count++
     ppIdObj.sortMedas.count++
     reViewConfDppEd(ppId)
-}
-
-dppInteractivity.fn.sortMcdIdClick = (ppId, medas, isPl2, mcdId) => {
-    const ppMedas = !isPl2 && confDpp.ppId[ppId].medas[medas]
-        || confDpp.ppId[ppId].medas[medas].ppl2
-        , lToSort = ppMedas.l_mcdId
-    ppMedas.l_mcdId = lToSort.splice(lToSort.indexOf(mcdId), 1).concat(lToSort)
-
-    dppInteractivity.appComponents.ppId[ppId].tGridDpp.count++
-    //dppInteractivity.appComponents.ppId[ppId].tGridDpp.aco.count++
-
-    reViewSortMCData2p(ppId, medas)
-    /*
-    Object.keys(dppInteractivity.appComponents.ppId[ppId].medas[medas].sortMCData)
-    .forEach(location => dppInteractivity.appComponents
-        .ppId[ppId].medas[medas].sortMCData[location].count++)
-        dppInteractivity.fn.ppId(ppId).ppCmd.count++
-    */
 }
 
 dppInteractivity.fn.ppId = ppId => {
@@ -287,4 +305,5 @@ metalFnConfPP.initFromURI = (rawPpStr, ppId) => {
 export const
     minSpaceJson = json => JSON.stringify(json, '', 2)
         .replace(/\s+]/g, ']').replace(/\s+}/g, '}')
-        .replace(/\[\s+"/g, '\["').replace(/",\s+"/g, '","')
+        .replace(/\[\s+"/g, '\["').replace(/",\s+"/g, '", "')
+

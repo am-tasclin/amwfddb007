@@ -76,18 +76,18 @@ export default {
             <sub class="w3-right">{{medasConfTypeName}}</sub>
         </div>
         <div v-if="'JSON'==medasConfTypeName" class="w3-opacity w3-tiny"
-                style="white-space: pre; overflow: auto;" >
+                style="white-space: pre-wrap; overflow: auto;" >
             {{confJsonStr()}}
             <div>&nbsp;</div>
         </div>
         <template v-else>
             <div v-for="medas in confDpp().l_medas" class="w3-opacity w3-tiny"
-                    style="white-space: pre; overflow: auto;">
+                    style="white-space: pre-wrap; overflow: auto;">
                 <b> {{medas}}</b>,
                 {{confDpp().medas[medas].l_mcdId.join(',')}}
                 <div v-if="confDpp().medas[medas].ppl2">
                     <b>{{medas}}_ppl2</b>,
-                    {{confDpp().medas[medas].ppl2.l_mcdId.join(',')}}
+                    {{confDpp().medas[medas].ppl2.l_mcdId.join(', ')}};
                 </div>
             </div>
         </template>

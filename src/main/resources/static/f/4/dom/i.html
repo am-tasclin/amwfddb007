@@ -30,7 +30,7 @@
                 -->
         <span id="dbMessagePool" class="w3-right"> <t-db-message-pool /> </span>
     </div>
-    <div id="tMedasDpp" class="am-max-width-1" >
+    <div id="tMedasDpp" class="am-max-width-1">
         <t-grid-dpp :pp-id="1" />
     </div>
     <div class="w3-border-top">
@@ -54,10 +54,16 @@
             ⚠ ⚡
         </a>
     </div>
-    <div id="dev">
+    <div id="dev" class="am-max-width-1">
         {{count}}
-        <div class="w3-opacity w3-tiny" style="white-space: pre; overflow: auto;">
-            {{devText}}
+        <div class="w3-opacity w3-tiny w3-row" style="white-space: pre-wrap; overflow: auto;">
+            <div class="w3-half">
+                {{devText()}}
+            </div>
+            <div class="w3-half">
+                <div class="am-b"> dppInteractivity </div>
+                {{dppItyCtViewJson()}}
+            </div>
         </div>
     </div>
     <script src="i.js" type="module"></script>
