@@ -59,6 +59,5 @@ tMedasDpp.mount('#tMedasDpp')
 
 createApp({
     data() { return { hash: window.location.hash.substring(1) } },
-
 })
     .mount('#headTitle')

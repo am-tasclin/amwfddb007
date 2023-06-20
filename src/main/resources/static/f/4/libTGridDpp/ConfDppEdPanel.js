@@ -15,7 +15,6 @@ import {
     dppInteractivity, mgdConfDppEdPanel, minSpaceJson
 } from '/f/4/libTGridDpp/metalTGridDpp.js'
 
-
 export default {
     components: { SortMCData, }, props: { ppId: Number, ff: String },
     data() { return { medasConfTypeName: '', epl2Data: {}, count: 0, } },
@@ -51,6 +50,7 @@ export default {
                 .forEach(k => dppInteractivityPpId(this.ppId)[k]
                     .medasConfTypeName = dppInteractivity.medasConfTypeName)
         }, closeDialog() {
+            console.log(123)
             // delete dppInteractivity.dropDownOpenId
             dppInteractivity.clickDropDownOpenId('', this.ppId)
             this.count++
@@ -126,10 +126,11 @@ export default {
                         @click="medasRemoveFromRemove(medas)" >No</button>
                     ?
                 </span>
-                <input @keyup.enter="medasMcdId($event, medas)" 
+                <input @keyup.enter="medasMcdId($event, medas)"
                     :value="confDpp().medas[medas].l_mcdId.join(', ')"
                     class="w3-hover-shadow w3-small am-width-100pr">
                 <div class="w3-tiny">
+               		<button class="w3-btn w3-padding-small" @keyup.esc="closeDialog"> ᳑</button>
                     <SortMCData :ppId="ppId" :medas="medas" :keysuffix="panelNameSuffix"/>
                 </div>
             </div>

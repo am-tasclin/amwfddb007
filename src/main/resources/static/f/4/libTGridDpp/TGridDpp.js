@@ -5,7 +5,7 @@
  * aco -- Application Component Object
  * 
  * TGridDpp ── Grid DOM Page Part
- *  └─ ConfDppEd,           MElement,   SortMCData,  SortMedas
+ *  └─ ConfDppEd,           MElement, SortMCData, Epl2, SortMedas
  *      └─ ConfDppEdPanel    └─ AdnMenu
  *          └─ SortMCData        └─ AdnEnterData
  */
@@ -13,13 +13,17 @@ import ConfDppEd from '/f/4/libTGridDpp/ConfDppEd.js'
 import MElement from '/f/4/libTGridDpp/MElement.js'
 import SortMCData from '/f/4/libTGridDpp/SortMCData.js'
 import SortMedas from '/f/4/libTGridDpp/SortMedas.js'
+import Epl2 from '/f/4/libTGridDpp/Epl2.js'
 import {
     confDppId, confMedasDd, dppInteractivityPpId
 } from '/f/4/libTGridDpp/metalTGridDpp.js'
 
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
-    components: { ConfDppEd, MElement, SortMCData, SortMedas },
+    components: {
+        ConfDppEd, MElement, Epl2,
+        SortMCData, SortMedas,
+    },
     // components: { MElement, PagePartCmdEdMenu, SortMCData, ConfDppEd, },
     mounted() {
         dppInteractivityPpId(this.ppId).tGridDpp = this
@@ -83,8 +87,8 @@ export default {
             <div class="w3-half">
                 <MElement :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
             </div>
-            <div class="w3-half w3-border-bottom w3-container">
-                a2 epl2
+            <div class="w3-half w3-border-bottom w3-container w3-leftbar">
+                <Epl2 />
             </div>
         </div>
         <MElement v-else :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
