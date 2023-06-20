@@ -32,6 +32,7 @@ export const confDppMedasMcdId = (val, ppId, medas, isPpl2) => {
         , dppMedas = !isPpl2
             && confDpp.ppId[ppId].medas[medas]
             || confDpp.ppId[ppId].medas[medas].ppl2
+            || (confDpp.ppId[ppId].medas[medas].ppl2 = { l_mcdId: [], mcdId: {} })
     valList.filter(mcdId => !dppMedas.mcdId[mcdId])
         .forEach(mcdId => dppMedas.mcdId[mcdId] = {})
     dppMedas.l_mcdId = valList

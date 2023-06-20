@@ -40,7 +40,6 @@ export default {
         }, confJsonStr() {
             return minSpaceJson(confDppId(this.ppId))
         }, medasMcdId(event, medas, isPpl2) {
-            console.log(dppInteractivity.appComponents)
             console.log(this.ppId, medas, confDppId(this.ppId))
             confDppMedasMcdId(event.target.value, this.ppId, medas, isPpl2)
         }, clickFixFly() {
