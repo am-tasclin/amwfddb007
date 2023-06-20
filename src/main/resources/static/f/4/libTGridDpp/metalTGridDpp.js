@@ -97,12 +97,11 @@ export const dppItyDevComponent = dev => dppInteractivity.appComponents.dev = de
         return cvj
     }
 
-
-const Okeys = Object.keys
-    , reViewConfDppEd = ppId => {
-        dppInteractivityPpId(ppId).confDppEd.count++
-        reViewConfDppEdPanel(ppId)
-    }
+export const Okeys = Object.keys
+const reViewConfDppEd = ppId => {
+    dppInteractivityPpId(ppId).confDppEd.count++
+    reViewConfDppEdPanel(ppId)
+}
     , reViewConfDppEdPanel = ppId => Okeys(dppInteractivity.appComponents.ppId[ppId])
         .filter(im => im.includes('confDppEdPanel')).forEach(im => {
             dppInteractivityPpId(ppId)[im].epl2Data = dppInteractivity.epl2Data
@@ -165,8 +164,9 @@ mgdConfDppEdPanel.epl2Click = (ppId, medas, mcdId) => {
         && epl2Data.push(mcdId) || epl2Data.splice(epl2Data.indexOf(mcdId), 1)
 
     !epl2.mcdId[mcdId]
-        && ((epl2.mcdId[mcdId] = {}) && epl2.l_mcdId.push(mcdId))
-        || (delete epl2.mcdId[mcdId] && epl2.l_mcdId.splice(epl2.l_mcdId.indexOf(mcdId), 1))
+        && (epl2.mcdId[mcdId] = {}) || delete epl2.mcdId[mcdId]
+    // && ((epl2.mcdId[mcdId] = {}) && epl2.l_mcdId.push(mcdId))
+    // || (delete epl2.mcdId[mcdId] && epl2.l_mcdId.splice(epl2.l_mcdId.indexOf(mcdId), 1))
     dppInteractivity.appComponents.ppId[ppId].tGridDpp.count++
     console.log(dppInteractivity.appComponents.ppId[ppId])
     reViewConfDppEdPanel(ppId)
@@ -274,31 +274,33 @@ const initConfPP = ppId => {
     confDpp.ppId[ppId] = {}
 }
 
-const initMedas = idList => idList.reduce((o, im) =>
-    o.l_mcdId.push(im) && (o.mcdId[im] = {}) && o, { l_mcdId: [], mcdId: {}, })
+const initMedas = idList => idList.reduce((o, mcdId) =>
+    o.l_mcdId.push(mcdId) && (o.mcdId[mcdId] = {}) && o, { l_mcdId: [], mcdId: {}, })
 
 metalFnConfPP.initFromURI = (rawPpStr, ppId) => {
     initConfPP(ppId)
-    // console.log(JSON.stringify(confPP), confPP)
     const rawPp = rawPpStr.split(';')
+        , confPpId = (confDpp.ppId[ppId] = { l_medas: [], medas: {}, })
 
     rawPp.filter(im => im.length != 0)
         .filter(im => !im.split(',')[0].includes('_'))// is not panel2
         .reduce((o, im) => o.l_medas.push(im.split(',')[0])
-            && (confDpp.ppId[ppId].medas[im.split(',')[0]] = initMedas(im.split(',').slice(1)))
-            && o, (confDpp.ppId[ppId] = { l_medas: [], medas: {}, }))
+            && (confPpId.medas[im.split(',')[0]] = initMedas(im.split(',').slice(1)))
+            && o, confPpId)
 
-    rawPp.filter(im => im.split(',')[0].includes('_'))// is panel2
-        .forEach(im => {
-            const medas_pl2 = im.split(',')[0].split('_')
-                , medas = confDpp.ppId[ppId].medas[medas_pl2[0]]
-            medas[medas_pl2[1]] = initMedas(im.split(',').slice(1))
-        })
+    rawPp.filter(im => im.split(',')[0].includes('_')) // is ppl2
+        .filter(im => 'ppl2' == im.split(',')[0].split('_')[1])
+        .forEach(im => confPpId.medas[im.split(',')[0].split('_')[0]]
+            .ppl2 = initMedas(im.split(',').slice(1)))
 
+    rawPp.filter(im => im.split(',')[0].includes('_')) // is epl2
+        .filter(im => 'epl2' == im.split(',')[0].split('_')[1])
+        .forEach(im => im.split(',').slice(1).reduce((o, mcdId) =>
+            (o.mcdId[mcdId] = {}) && o, confPpId.medas[im.split(',')[0].split('_')[0]]
+                .epl2 = { mcdId: {} }))
 }
 
-export const
-    minSpaceJson = json => JSON.stringify(json, '', 2)
-        .replace(/\s+]/g, ']').replace(/\s+}/g, '}')
-        .replace(/\[\s+"/g, '\["').replace(/",\s+"/g, '", "')
+export const minSpaceJson = json => JSON.stringify(json, '', 2)
+    .replace(/\s+]/g, ']').replace(/\s+}/g, '}')
+    .replace(/\[\s+"/g, '\["').replace(/",\s+"/g, '", "')
 

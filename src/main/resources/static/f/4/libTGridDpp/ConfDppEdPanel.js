@@ -12,7 +12,7 @@ import SortMCData from '/f/4/libTGridDpp/SortMCData.js'
 import {
     confDppId, confDppMedasMcdId, confMedasDd, confMedasEpl2,
     dppInteractivityPpId,
-    dppInteractivity, mgdConfDppEdPanel, minSpaceJson
+    dppInteractivity, mgdConfDppEdPanel, minSpaceJson, Okeys
 } from '/f/4/libTGridDpp/metalTGridDpp.js'
 
 export default {
@@ -22,12 +22,22 @@ export default {
     mounted() {
         const confDppEdPanelKey = 'confDppEdPanel_' + this.ff
         dppInteractivityPpId(this.ppId)[confDppEdPanelKey] = this
-        !dppInteractivity.epl2Data && confDppId(this.ppId).l_medas
-            .filter(medas => 'lr' != medas)
+
+        this.epl2Data = dppInteractivity.epl2Data = confDppId(this.ppId).l_medas
+            .filter(im => confMedasEpl2.includes(im))
+            .reduce((o, medas) => (o[medas] = Okeys(confDppId(this.ppId)
+                .medas[medas].epl2.mcdId)) && o, {})
+
+        /**
+         !dppInteractivity.epl2Data && confDppId(this.ppId).l_medas
+         .filter(medas => 'lr' != medas)
             .reduce((o, medas) => (o[medas] = confDppId(this.ppId).medas[medas].epl2
-                && confDppId(this.ppId).medas[medas].epl2.l_mcdId || []
+            && confDppId(this.ppId).medas[medas].epl2.l_mcdId || []
             ) && o, dppInteractivity.epl2Data = {})
-        this.epl2Data = dppInteractivity.epl2Data
+            this.epl2Data = dppInteractivity.epl2Data
+            console.log(dppInteractivity.epl2Data)
+            */
+
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
         getConfMedasDd() { return confMedasDd },

@@ -3,14 +3,22 @@
  * Algoritmed ©, EUPL-1.2 or later.
  * Epl2 ── 
  */
+
+import { confDppId } from '/f/4/libTGridDpp/metalTGridDpp.js'
 export default {
-    data() { return { count: 0, panelType:'Json', panelTypeL:['Json','Sql']} },
+    data() {
+        return {
+            panelTypeL: ['Json', 'Sql'],
+            panelType: confDppId(this.ppId).medas[this.medas].epl2.mcdId[this.mcdId].panelType ||
+                'Json',
+        }
+    }, props: { ppId: Number, medas: String, mcdId: Number, },
     methods: {
         setEpl2Type(pt) {
-            this.panelType=pt
+            confDppId(this.ppId).medas[this.medas].epl2.mcdId[this.mcdId].panelType =
+                this.panelType = pt
         },
-    },
-    template: `
+    }, template: `
 <div class="w3-dropdown-hover">
     <button class="w3-btn w3-padding-small w3-white w3-tiny am-b">
         ☰ {{panelType}} </button>
@@ -21,5 +29,5 @@ export default {
         </a>
     </div>
 </div>
-    `
+`,
 }

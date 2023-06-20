@@ -32,12 +32,10 @@ export default {
         confMedasName(key) { return confMedasDd[key] },
         epl2(medas, mcdId) {
             return confDppId(this.ppId).medas[medas].epl2 && confDppId(this.ppId).medas[medas].epl2.mcdId[mcdId]
-        },
-        isMedasClosed(medas) {
+        }, isMedasClosed(medas) {
             return confDppId(this.ppId).medasClosed
                 && confDppId(this.ppId).medasClosed.includes(medas)
-        },
-        medasOnOffClick(medas) {
+        }, medasOnOffClick(medas) {
             const dpp = confDppId(this.ppId)
                 , medasClosed = dpp.medasClosed || (dpp.medasClosed = [])
             console.log(medas, dpp)
@@ -88,7 +86,7 @@ export default {
                 <MElement :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
             </div>
             <div class="w3-half w3-border-bottom w3-container w3-leftbar">
-                <Epl2 />
+                <Epl2 :ppId="ppId" :medas="medas" :mcdId="mcdId" />
             </div>
         </div>
         <MElement v-else :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
