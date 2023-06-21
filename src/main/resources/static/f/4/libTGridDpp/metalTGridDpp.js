@@ -87,11 +87,11 @@ export const dppItyDevComponent = dev => dppInteractivity.appComponents.dev = de
             (o[im] = Okeys(dppInteractivity.appComponents.meMap[im]))
             && o, cvj.meMap = {})
         dppInteractivity.appComponents.ppId &&
-            Okeys(dppInteractivity.appComponents.ppId).reduce((o, im) => {
-                o[im] = {}
-                o[im].l = Okeys(dppInteractivity.appComponents.ppId[im])
-                o[im].l_sortMCData = Okeys(dppInteractivity.appComponents
-                    .ppId[im].sortMcData)
+            Okeys(dppInteractivity.appComponents.ppId).reduce((o, ppId) => {
+                o[ppId] = {}
+                o[ppId].l = Okeys(dppInteractivity.appComponents.ppId[ppId])
+                o[ppId].l_sortMCData = Okeys(dppInteractivity.appComponents
+                    .ppId[ppId].sortMcData)
                 return o
             }, cvj.ppId = {})
         return cvj
@@ -214,6 +214,7 @@ dppInteractivity.clickDropDownOpenId = (dropDownOpenId, ppId) => {
     componentActivate.confDppEd(ppId)
     componentActivate.dropDownOpenIdOnOff(dropDownOpenId)
 }
+export const dropDownOpenId = () => dppInteractivity.dropDownOpenId
 
 const componentActivate = {} // 
 componentActivate.meMap = adnId => adnId && dppInteractivity.appComponents.meMap[adnId] &&

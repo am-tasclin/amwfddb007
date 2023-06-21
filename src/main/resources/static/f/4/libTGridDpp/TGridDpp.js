@@ -14,6 +14,7 @@ import MElement from '/f/4/libTGridDpp/MElement.js'
 import SortMCData from '/f/4/libTGridDpp/SortMCData.js'
 import SortMedas from '/f/4/libTGridDpp/SortMedas.js'
 import Epl2 from '/f/4/libTGridDpp/Epl2.js'
+
 import {
     confDppId, confMedasDd, dppInteractivityPpId
 } from '/f/4/libTGridDpp/metalTGridDpp.js'
@@ -22,7 +23,7 @@ export default {
     props: { ppId: Number }, data() { return { count: 0 } },
     components: {
         ConfDppEd, MElement, Epl2,
-        SortMCData, SortMedas,
+        SortMCData, SortMedas, 
     },
     // components: { MElement, PagePartCmdEdMenu, SortMCData, ConfDppEd, },
     mounted() {
@@ -67,34 +68,37 @@ export default {
         </span>
     </div>
     <template v-if="!isMedasClosed(medas)">
-    <div v-if="confDpp().medas[medas].ppl2" class="w3-row">
-        <div class="w3-half">
-            <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
-                <MElement :adnId="mcdId" :ppId="ppId" :medas="medas"/>
-            </template>
-        </div>
-        <div class="w3-half">
-            <template v-for="mcdId in confDpp().medas[medas].ppl2.l_mcdId">
-                <MElement :adnId="mcdId" :ppId="ppId" :medas="medas" ppl2="2"/>
-            </template>
-        </div>
-    </div>
-    <template v-else>
-    <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
-        <div v-if="epl2(medas, mcdId)" class="w3-row">
+        <div v-if="confDpp().medas[medas].ppl2" class="w3-row">
             <div class="w3-half">
-                <MElement :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
+                <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
+                    <MElement :adnId="mcdId" :ppId="ppId" :medas="medas"/>
+                </template>
             </div>
-            <div class="w3-half w3-border-bottom w3-container w3-leftbar">
-                <Epl2 :ppId="ppId" :medas="medas" :mcdId="mcdId" />
-                <div>
-                    a1
-                </div>
+            <div class="w3-half">
+                <template v-for="mcdId in confDpp().medas[medas].ppl2.l_mcdId">
+                    <MElement :adnId="mcdId" :ppId="ppId" :medas="medas" ppl2="2"/>
+                </template>
             </div>
         </div>
-        <MElement v-else :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
-    </template>
-    </template>
+        <template v-else>
+            <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
+                <div v-if="epl2(medas, mcdId)" class="w3-row">
+                    <div class="w3-half">
+                        <MElement :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
+                    </div>
+                    <div class="w3-half w3-container">
+                        <Epl2 :ppId="ppId" :medas="medas" :mcdId="mcdId" />
+                        <div class="w3-border-bottom w3-leftbar">&nbsp;
+                            a1
+                        </div>
+                        <div>
+                            a1
+                        </div>
+                    </div>
+                </div>
+                <MElement v-else :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
+            </template>
+        </template>
     </template>
 </template>
 `,

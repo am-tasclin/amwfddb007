@@ -11,7 +11,8 @@
  */
 import ConfDppEdPanel from '/f/4/libTGridDpp/ConfDppEdPanel.js'
 import {
-    confDppId, dppInteractivityPpId, dppInteractivity
+    confDppId, dppInteractivityPpId, dppInteractivity,
+    dropDownOpenId
 } from '/f/4/libTGridDpp/metalTGridDpp.js'
 
 export default {
@@ -24,10 +25,9 @@ export default {
             delete dppInteractivity.dropDownOpenId
             this.count++
         },
-        dropDownOpenId() { return dppInteractivity.dropDownOpenId },
+        dropDownOpenId() { return dropDownOpenId() },
         ppCmdEdOnOff() {
             const dropDownOpenId = 'confDppEdPanel_fly_' + this.ppId
-            console.log(dropDownOpenId)
             dppInteractivity.clickDropDownOpenId(dropDownOpenId, this.ppId)
             this.count++
         },

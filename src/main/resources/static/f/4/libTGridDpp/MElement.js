@@ -10,8 +10,8 @@
  */
 import AdnMenu from '/f/4/libTGridDpp/AdnMenu.js'
 import {
-    confDppMedas, mcd,
-    setMeMapComponent, dppInteractivity
+    dppInteractivityPpId, dropDownOpenId,
+    confDppMedas, mcd, setMeMapComponent,
 } from '/f/4/libTGridDpp/metalTGridDpp.js'
 
 export default {
@@ -33,9 +33,11 @@ export default {
             return this.eMap().vl_str && marked.parseInline(this.eMap().vl_str)
         },
         eMap() { return mcd.eMap[this.adnId] || {} },
-        x(i) { return mcd.eMap[i] },
         cmClick(e) { // https://codepen.io/SimpleSoftwareIO/pen/yNwYJb
+            // <div class="w3-hover-shadow" @contextmenu="cmClick">
             console.log(this, this.$nextTick, e,)
+            const cmId = 'contextMenu1_' + this.ppId
+            console.log(dropDownOpenId(), dppInteractivityPpId(this.ppId).ctMu1)
             e.preventDefault()
         },
         parentChild() { return mcd.parentChild[this.adnId] },
@@ -44,7 +46,7 @@ export default {
             return pplMedas.openedId && pplMedas.openedId.includes(this.adnId)
         }
     }, template: `
-<div class="w3-hover-shadow" @contextmenu="cmClick">
+<div class="w3-hover-shadow">
     <AdnMenu :adnId="adnId" :ppMedasKey="ppMedasKey" />
     &nbsp;
     <span class="w3-tiny" v-html="vlStr()" />
