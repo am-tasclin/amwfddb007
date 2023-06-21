@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title id="headTitle">4DOM:{{hash}}</title>
+<link rel="stylesheet" href="/f/css/w3am.css">
+<script src="/webjars/vue/3.2.47/dist/vue.global.prod.js" type="application/javascript"></script>
+<script src="/webjars/marked/4.3.0/marked.min.js" type="module"></script>
+<!-- <script type="application/javascript">const fd = {}</script> -->
+
+<body class="w3-container">
+    <div class="w3-border-bottom am-max-width-1">
+        <span class="w3-small">
+            <a href="/" class="w3-btn w3-padding-small">
+                <img style="display: flex;" src="/f/css/homeIcon.svg"> </a>
+            <span id="showDocId">
+                <span class="w3-tiny w3-topbar">
+                    <span class=" am-b ">D&amp;O&amp;M</span>
+                    <sub>MCrDB</sub></span>&nbsp; 📂 2 ➾
+            </span>
+            <span class="w3-small"> ⁙
+                <b>D</b>ata & <b>O</b>ntology editor & <b>M</b>eta data <b>M</b>odeler
+            </span>
+        </span>
+        <a href="http://algoritmed.com/" class="am-0u w3-right w3-hover-shadow" target="_blank">&nbsp;<img
+                src="/f/img/algoritmed-logo.webp" style="width:75px;" />&nbsp;</a>
+        <!-- <span id="edCopyCut" class="w3-right"> <t-ed-copy-cut /> </span> -->
+        <span id="dbMessagePool" class="w3-right"> <t-db-message-pool /> </span>
+    </div>
+    <div id="tMedasDpp" class="am-max-width-1">
+        <t-grid-dpp :pp-id="1" />
+    </div>
+    <p> 🚧 </p>
+    <div id="dev" class="am-max-width-1 w3-border-top">
+        <div class="w3-opacity w3-tiny w3-row" style="white-space: pre-wrap; overflow: auto;">
+            <div class="w3-half">
+                <div class="am-b w3-light-grey">DEV:: dppConf </div>
+                {{devText()}}
+            </div>
+            <div class="w3-half">
+                <div class="am-b w3-light-grey w3-border-left"> dppInteractivity
+                    <span class="w3-right">{{count}}</span>
+                </div>
+                {{dppItyCtViewJson()}}
+            </div>
+        </div>
+    </div>
+    <div class="w3-border-top">
+        <p>&nbsp;</p>
+        🗎 ︳🖉 ＋+₊︱⟳ 📌 ✕ ✖
+        <a href="https://www.compart.com/en/unicode/U+29F0">
+            ⧮ ⧰
+        </a>
+        ⎘ ⎗
+        <a href="https://www.compart.com/en/unicode/U+2700">
+            ✄ ✂
+        </a>
+        ⧉ ⧠
+        <a href="https://www.compart.com/en/unicode/block/U+2190">
+            ↸
+        </a>
+        ↷ ⮫ ䷢
+        🪝 ↩
+        🩺 🫁 🫀 🪟 🪄
+        <a href="https://www.compart.com/en/unicode/block/U+2600">
+            ⚠ ⚡
+        </a>
+        <a href="http://daniel-hug.github.io/characters/#k_76">
+            -- - ᳐- ᳑᳑᳑ -᳒-.᳔.᳛.᳜.᳝.᳞.᳟.⁜ &nbsp; .⃣ .⨻..... a b⃣c
+        </a>
+        ⟑⟕ 🌱 🏆
+    </div>
+    <script src="i.js" type="module"></script>
+</body>
+
+</html>
