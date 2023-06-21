@@ -34,13 +34,17 @@ export default {
         },
         eMap() { return mcd.eMap[this.adnId] || {} },
         x(i) { return mcd.eMap[i] },
+        cmClick(e) { // https://codepen.io/SimpleSoftwareIO/pen/yNwYJb
+            console.log(this, this.$nextTick, e,)
+            e.preventDefault()
+        },
         parentChild() { return mcd.parentChild[this.adnId] },
         isOpened() {
             const pplMedas = confDppMedas(this.ppId, this.medas, this.ppl2 == 2)
             return pplMedas.openedId && pplMedas.openedId.includes(this.adnId)
         }
     }, template: `
-<div class="w3-hover-shadow">
+<div class="w3-hover-shadow" @contextmenu="cmClick">
     <AdnMenu :adnId="adnId" :ppMedasKey="ppMedasKey" />
     &nbsp;
     <span class="w3-tiny" v-html="vlStr()" />

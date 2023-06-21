@@ -87,6 +87,9 @@ export default {
             </div>
             <div class="w3-half w3-border-bottom w3-container w3-leftbar">
                 <Epl2 :ppId="ppId" :medas="medas" :mcdId="mcdId" />
+                <div>
+                    a1
+                </div>
             </div>
         </div>
         <MElement v-else :adnId="mcdId"  :ppId="ppId" :medas="medas"/>

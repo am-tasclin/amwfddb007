@@ -19,10 +19,10 @@ export default {
                 this.panelType = pt
         },
     }, template: `
-<div class="w3-dropdown-hover">
+<div class="w3-dropdown-hover w3-right" >
     <button class="w3-btn w3-padding-small w3-white w3-tiny am-b">
-        ☰ {{panelType}} </button>
-    <div class="w3-dropdown-content w3-bar-block w3-border" >
+         {{panelType}} ☰ </button>
+    <div class="w3-dropdown-content w3-bar-block w3-border" style="right: -1em; ">
         <a @click="setEpl2Type(pt)" v-for="pt in panelTypeL"
             class="w3-bar-item w3-button" >
             {{pt}}
