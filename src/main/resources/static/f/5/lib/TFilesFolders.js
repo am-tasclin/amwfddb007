@@ -22,9 +22,7 @@ export default {
 <table>
     <thead>
         <tr class="w3-tiny am-b">
-            <th class="w3-light-gray" v-for="ch in ffh()">
-                {{ch}}
-            </th>
+            <th class="w3-light-gray" v-for="ch in ffh()">{{ch}}</th>
         </tr>
     </thead>
     <tbody>
@@ -40,7 +38,6 @@ export default {
                     <a :href="'/f/5/twiki/i.html#page,'+r.string_id">{{r.string_id}}</a>
                 </td>
                 <td>{{r.vl_str}}</td>
-                <td>{{r.parent}}</td>
             </tr>
         </template>
     </tbody>

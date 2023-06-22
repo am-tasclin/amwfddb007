@@ -13,12 +13,14 @@
  *  └─ TGridDpp,    MElement
  */
 const { createApp } = Vue
-import TGridDpp from '/f/4/libTGridDpp/TGridDpp.js'
-import MElement from '/f/4/libTGridDpp/MElement.js'
+import TGridDpp from '/f/5/libTGridDpp/TGridDpp.js'
+import MElement from '/f/5/libTGridDpp/MElement.js'
+import { mcd } from '/f/5/lib/MetaContentData.js'
 import {
-    mcd, confDpp, metalFnConfPP, minSpaceJson,
-    dppItyDevComponent, dppItyCtViewJson
-} from '/f/4/libTGridDpp/metalTGridDpp.js'
+    confDpp, metalFnConfPP, minSpaceJson, dppItyDevComponent, dppItyCtViewJson
+} from '/f/5/libTGridDpp/metalTGridDpp.js'
+
+console.log(mcd,)
 
 metalFnConfPP.initPagePart(window.location.hash.substring(1), 1);
 

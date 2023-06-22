@@ -6,8 +6,9 @@
  * AdnEnterData ── ADN data editor
  * 
  */
+import { mcd } from '/f/5/lib/MetaContentData.js'
 import {
-    mcd, dppInteractivity, setMeMapComponent
+    dppInteractivity, setMeMapComponent
 } from '/f/5/libTGridDpp/metalTGridDpp.js'
 
 export default {

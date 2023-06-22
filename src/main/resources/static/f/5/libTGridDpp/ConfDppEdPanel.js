@@ -13,7 +13,7 @@ import {
     confDppId, confDppMedasMcdId, confMedasDd, confMedasEpl2,
     dppInteractivityPpId,
     dppInteractivity, mgdConfDppEdPanel, minSpaceJson, Okeys
-} from '/f/4/libTGridDpp/metalTGridDpp.js'
+} from '/f/5/libTGridDpp/metalTGridDpp.js'
 
 export default {
     components: { SortMCData, }, props: { ppId: Number, ff: String },

@@ -9,9 +9,10 @@
  *  └─ AdnMenu
  */
 import AdnMenu from '/f/5/libTGridDpp/AdnMenu.js'
+import { mcd } from '/f/5/lib/MetaContentData.js'
 import {
     dppInteractivityPpId, dropDownOpenId,
-    confDppMedas, mcd, setMeMapComponent,
+    confDppMedas, setMeMapComponent,
 } from '/f/5/libTGridDpp/metalTGridDpp.js'
 
 export default {
