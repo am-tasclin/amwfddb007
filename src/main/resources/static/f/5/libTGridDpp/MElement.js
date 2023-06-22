@@ -51,7 +51,7 @@ export default {
 <div class="w3-hover-shadow">
     <AdnMenu :adnId="adnId" :ppMedasKey="ppMedasKey" />
     &nbsp;
-    <span class="w3-tiny" v-html="vlStr()" />
+    <span v-html="vlStr()" />
 </div> <span class="w3-hide"> {{count}} </span>
 <div v-if="isOpened()" class="w3-container w3-border-left">
     <template v-for="adnId2 in parentChild()" >

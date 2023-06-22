@@ -57,7 +57,7 @@ export default {
 <template v-for="medas in confDpp().l_medas">
     <div class="w3-container w3-topbar w3-light-grey">
         <span class="w3-tiny"> {{medas}}: </span>
-        <span class="w3-hover-shadow am-u" @click="medasOnOffClick(medas)">
+        <span class="w3-hover-shadow w3-opacity am-u" @click="medasOnOffClick(medas)">
             {{confMedasName(medas)}}
         </span>
         <span class="w3-tiny w3-right"> {{pp}} ⁙

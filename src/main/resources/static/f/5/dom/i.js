@@ -20,7 +20,7 @@ import { mcd } from '/f/5/lib/MetaContentData.js'
 import { confDpp, confDppUniqueMcdId } from '/f/5/lib/ConfDomPagePart.js'
 import {
     metalFnConfPP, minSpaceJson, dppItyDevComponent, dppItyCtViewJson,
-    dppInteractivityPpId
+    dppInteractivity, Okeys
 } from '/f/5/libTGridDpp/metalTGridDpp.js'
 
 
@@ -30,21 +30,24 @@ metalFnConfPP.initPagePart(window.location.hash.substring(1), 1)
 const uniqueMcdIdList = confDppUniqueMcdId()
 wsDbRw.ws.onopen = event => wsDbRw.readMcdId(event, uniqueMcdIdList).then(event => {
     const json = JSON.parse(event.data)
+    console.log('←', json, mcd)
+    console.log(dppInteractivity.appComponents.meMap)
     json.list.forEach(adn => mcd.eMap[adn.doc_id] = adn)
-    console.log('←', json, mcd,dppInteractivityPpId(1).tGridDpp.count)
-    dppInteractivityPpId(1).tGridDpp.count++
-    console.log(dppInteractivityPpId(1).tGridDpp.count)
+    json.list//.filter(adn => adn.vl_str)
+    .forEach(adn => Okeys(dppInteractivity.appComponents
+        .meMap[adn.doc_id])
+        .forEach(im => dppInteractivity.appComponents.meMap[adn.doc_id][im].count++))
 })
 
 
-// symulation mcDB Data, remove by work with real DB
-//const symulationMcd = 
-;(() => {
-    uniqueMcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
-    const testParentChild = [100, 1001, 1002, 1003, 1004]
-    testParentChild.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
-    mcd.parentChild[100] = testParentChild.shift() && testParentChild
-})() //; symulationMcd()
+    // symulation mcDB Data, remove by work with real DB
+    //const symulationMcd = 
+    ; (() => {
+        uniqueMcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
+        const testParentChild = [100, 1001, 1002, 1003, 1004]
+        testParentChild.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
+        mcd.parentChild[100] = testParentChild.shift() && testParentChild
+    })() //; symulationMcd()
 
 createApp({
     data() { return { count: 0, } },
