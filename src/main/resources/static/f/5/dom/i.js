@@ -16,8 +16,9 @@ const { createApp } = Vue
 import TGridDpp from '/f/5/libTGridDpp/TGridDpp.js'
 import MElement from '/f/5/libTGridDpp/MElement.js'
 import { mcd } from '/f/5/lib/MetaContentData.js'
+import { confDpp, confDppId } from '/f/5/lib/ConfDomPagePart.js'
 import {
-    confDpp, metalFnConfPP, minSpaceJson, dppItyDevComponent, dppItyCtViewJson
+    metalFnConfPP, minSpaceJson, dppItyDevComponent, dppItyCtViewJson
 } from '/f/5/libTGridDpp/metalTGridDpp.js'
 
 console.log(mcd,)
@@ -30,10 +31,10 @@ metalFnConfPP.initPagePart(window.location.hash.substring(1), 1);
     // console.log(confDpp, mcd)
     const testMcdIdList = [], uniqueList = l => l.reduce((l2, im) =>
         !l2.includes(im) && l2.push(im) && l2, testMcdIdList)
-    confDpp.l_ppId.find(ppId => confDpp.ppId[ppId].l_medas.find(medas => {
-        uniqueList(confDpp.ppId[ppId].medas[medas].l_mcdId)
+    confDpp.l_ppId.find(ppId => confDppId(ppId).l_medas.find(medas => {
+        uniqueList(confDppId(ppId).medas[medas].l_mcdId)
         confDpp.ppId[ppId].medas[medas].ppl2
-            && uniqueList(confDpp.ppId[ppId].medas[medas].ppl2.l_mcdId)
+            && uniqueList(confDppId(ppId).medas[medas].ppl2.l_mcdId)
     }))
 
     testMcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })

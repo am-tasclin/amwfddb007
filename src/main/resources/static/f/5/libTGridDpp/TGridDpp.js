@@ -16,10 +16,9 @@ import SortMedas from '/f/5/libTGridDpp/SortMedas.js'
 import Epl2 from '/f/5/libTGridDpp/Epl2.js'
 import Epl2Sql from '/f/5/libTGridDpp/Epl2Sql.js'
 import Epl2Json from '/f/5/libTGridDpp/Epl2Json.js'
-import {
-    confDppId, confMedasDd, dppInteractivityPpId,
-    confDppMedasEpl2
-} from '/f/5/libTGridDpp/metalTGridDpp.js'
+
+import { confDppId, confDppMedasEpl2, confMedasDd } from '/f/5/lib/ConfDomPagePart.js'
+import { dppInteractivityPpId, } from '/f/5/libTGridDpp/metalTGridDpp.js'
 
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },

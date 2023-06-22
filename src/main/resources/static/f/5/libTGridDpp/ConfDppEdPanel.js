@@ -9,8 +9,8 @@
  */
 
 import SortMCData from '/f/5/libTGridDpp/SortMCData.js'
+import { confDppId, confDppMedasMcdId, confMedasDd, confMedasEpl2, } from '/f/5/lib/ConfDomPagePart.js'
 import {
-    confDppId, confDppMedasMcdId, confMedasDd, confMedasEpl2,
     dppInteractivityPpId,
     dppInteractivity, mgdConfDppEdPanel, minSpaceJson, Okeys
 } from '/f/5/libTGridDpp/metalTGridDpp.js'

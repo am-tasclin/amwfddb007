@@ -3,8 +3,8 @@
  * Algoritmed ©, EUPL-1.2 or later.
  * Epl2 ── 
  */
-
-import { dppInteractivityPpId, confDppMedasEpl2 } from '/f/5/libTGridDpp/metalTGridDpp.js'
+import { confDppMedasEpl2 } from '/f/5/lib/ConfDomPagePart.js'
+import { dppInteractivityPpId,  } from '/f/5/libTGridDpp/metalTGridDpp.js'
 export default {
     data() {
         return {

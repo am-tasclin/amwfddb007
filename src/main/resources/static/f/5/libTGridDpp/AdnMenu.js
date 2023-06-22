@@ -7,8 +7,9 @@
  *  └─ AdnEnterData
  */
 import AdnEnterData from '/f/5/libTGridDpp/AdnEnterData.js'
+import { confDppMedas } from '/f/5/lib/ConfDomPagePart.js'
 import {
-    confDppMedas, dppInteractivity, setMeMapComponent
+    dppInteractivity, setMeMapComponent
 } from '/f/5/libTGridDpp/metalTGridDpp.js'
 
 export default {

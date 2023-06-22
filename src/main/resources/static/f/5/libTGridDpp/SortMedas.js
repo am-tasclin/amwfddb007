@@ -3,8 +3,9 @@
  * Algoritmed ©, EUPL-1.2 or later.
  * 
  */
+import { confDppId } from '/f/5/lib/ConfDomPagePart.js'
 import {
-    confDppId, dppInteractivityPpId, dppInteractivity
+    dppInteractivityPpId, dppInteractivity
 } from '/f/5/libTGridDpp/metalTGridDpp.js'
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
