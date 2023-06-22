@@ -19,26 +19,19 @@ import MElement from '/f/5/libTGridDpp/MElement.js'
 import { mcd } from '/f/5/lib/MetaContentData.js'
 import { confDpp, confDppUniqueMcdId } from '/f/5/lib/ConfDomPagePart.js'
 import {
-    metalFnConfPP, minSpaceJson, dppItyDevComponent, dppItyCtViewJson,
-    dppInteractivity, Okeys
+    metalFnConfPP, minSpaceJson, Okeys,
+    dppItyDevComponent, dppItyCtViewJson, dppInteractivity,
 } from '/f/5/libTGridDpp/metalTGridDpp.js'
-
-
-console.log(mcd,)
 
 metalFnConfPP.initPagePart(window.location.hash.substring(1), 1)
 const uniqueMcdIdList = confDppUniqueMcdId()
 wsDbRw.ws.onopen = event => wsDbRw.readMcdId(event, uniqueMcdIdList).then(event => {
     const json = JSON.parse(event.data)
-    console.log('←', json, mcd)
-    console.log(dppInteractivity.appComponents.meMap)
+    console.log('←', json, mcd, dppInteractivity.appComponents.meMap)
     json.list.forEach(adn => mcd.eMap[adn.doc_id] = adn)
-    json.list//.filter(adn => adn.vl_str)
-    .forEach(adn => Okeys(dppInteractivity.appComponents
-        .meMap[adn.doc_id])
+    json.list.forEach(adn => Okeys(dppInteractivity.appComponents.meMap[adn.doc_id])
         .forEach(im => dppInteractivity.appComponents.meMap[adn.doc_id][im].count++))
 })
-
 
     // symulation mcDB Data, remove by work with real DB
     //const symulationMcd = 
