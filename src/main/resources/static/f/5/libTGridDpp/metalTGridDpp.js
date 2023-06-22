@@ -19,13 +19,14 @@
  * 
  * aco -- Application Component Object
  */
+import { mcd } from '/f/5/lib/MetaContentData.js'
 
 // Config for Dpp to include and use in other grid.
 export const confDpp = {}
 console.log(confDpp)
 export const confDppId = ppId => confDpp.ppId[ppId || 1]
-export const confDppMedasEpl2 =  (ppId, medas, mcdId) =>
-	confDppId(ppId).medas[medas].epl2.mcdId[mcdId]
+export const confDppMedasEpl2 = (ppId, medas, mcdId) =>
+    confDppId(ppId).medas[medas].epl2.mcdId[mcdId]
 
 export const confDppMedas = (ppId, medas, isPpl2) => !isPpl2
     && confDppId(ppId).medas[medas] || confDppId(ppId).medas[medas].ppl2
@@ -117,17 +118,6 @@ const reViewConfDppEd = ppId => {
         reViewConfDppEd(ppId)
     }
 
-export const mcd = { // Meta Content Data from DB
-    eMap: {}, // eMap:: key:doc_id, value:ADN; 
-    /**
-     * Data from MCDB
-     * Used for connect to data by ID (doc_id)
-     */
-    parentChild: {}, // parentChild:: key: doc_id, value: [doc_id...] 
-    /**
-     * Used for navigate in hierarchical data structure.
-     */
-}
 
 // mgd -- metalTGridDpp prefix
 export const mgdSortMcData = {} // mgd for SortMCData.js logic
