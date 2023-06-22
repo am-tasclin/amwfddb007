@@ -18,6 +18,17 @@ export const
     getFfInteractivityComponent = n =>
         ffInteractivity.components[n]
 
+wsDbRw.readMcdId = (event, uniqueMcdIdList) => {
+    const sql = 'SELECT d.*, value vl_str FROM doc d \n\
+        LEFT JOIN string ON doc_id=string_id \n\
+        WHERE doc_id IN (:idList)'.replace(':idList', uniqueMcdIdList.join(',')),
+        sendJson = { sql: sql, cmd: 'executeQuery' }
+    console.log('→', sql)
+    wsDbRw.ws.send(JSON.stringify(sendJson))
+    return new Promise((thenFn, reject) => wsDbRw.ws.onmessage = event => thenFn(event))
+    // wsDbRw.exchangeRwMessage(sendJson).then()
+}
+
 wsDbRw.fileFolderList = event => {
     const sql = 'SELECT s.*, sort,parent FROM doc d \n\
         LEFT JOIN (SELECT value vl_str, string_id FROM string) s ON s.string_id = d.doc_id \n\

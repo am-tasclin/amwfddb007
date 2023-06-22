@@ -13,6 +13,17 @@ export const confDppId = ppId => confDpp.ppId[ppId || 1]
 export const confDppMedasEpl2 = (ppId, medas, mcdId) =>
     confDppId(ppId).medas[medas].epl2.mcdId[mcdId]
 
+export const confDppUniqueMcdId = () => {
+    const uniqueMcdIdList = [], uniqueList = l => l.reduce((l2, im) =>
+        !l2.includes(im) && l2.push(im) && l2, uniqueMcdIdList)
+    confDpp.l_ppId.find(ppId => confDppId(ppId).l_medas.find(medas => {
+        uniqueList(confDppId(ppId).medas[medas].l_mcdId)
+        confDpp.ppId[ppId].medas[medas].ppl2
+            && uniqueList(confDppId(ppId).medas[medas].ppl2.l_mcdId)
+    }))
+    return uniqueMcdIdList
+}
+
 export const confDppMedas = (ppId, medas, isPpl2) => !isPpl2
     && confDppId(ppId).medas[medas] || confDppId(ppId).medas[medas].ppl2
 

@@ -13,36 +13,37 @@
  *  └─ TGridDpp,    MElement
  */
 const { createApp } = Vue
+import { wsDbRw } from '/f/5/lib/wsDbRw.js'
 import TGridDpp from '/f/5/libTGridDpp/TGridDpp.js'
 import MElement from '/f/5/libTGridDpp/MElement.js'
 import { mcd } from '/f/5/lib/MetaContentData.js'
-import { confDpp, confDppId } from '/f/5/lib/ConfDomPagePart.js'
+import { confDpp, confDppUniqueMcdId } from '/f/5/lib/ConfDomPagePart.js'
 import {
-    metalFnConfPP, minSpaceJson, dppItyDevComponent, dppItyCtViewJson
+    metalFnConfPP, minSpaceJson, dppItyDevComponent, dppItyCtViewJson,
+    dppInteractivityPpId
 } from '/f/5/libTGridDpp/metalTGridDpp.js'
+
 
 console.log(mcd,)
 
-metalFnConfPP.initPagePart(window.location.hash.substring(1), 1);
+metalFnConfPP.initPagePart(window.location.hash.substring(1), 1)
+const uniqueMcdIdList = confDppUniqueMcdId()
+wsDbRw.ws.onopen = event => wsDbRw.readMcdId(event, uniqueMcdIdList).then(event => {
+    const json = JSON.parse(event.data)
+    json.list.forEach(adn => mcd.eMap[adn.doc_id] = adn)
+    console.log('←', json, mcd,dppInteractivityPpId(1).tGridDpp.count)
+    dppInteractivityPpId(1).tGridDpp.count++
+    console.log(dppInteractivityPpId(1).tGridDpp.count)
+})
+
 
 // symulation mcDB Data, remove by work with real DB
 //const symulationMcd = 
-(() => {
-    // console.log(confDpp, mcd)
-    const testMcdIdList = [], uniqueList = l => l.reduce((l2, im) =>
-        !l2.includes(im) && l2.push(im) && l2, testMcdIdList)
-    confDpp.l_ppId.find(ppId => confDppId(ppId).l_medas.find(medas => {
-        uniqueList(confDppId(ppId).medas[medas].l_mcdId)
-        confDpp.ppId[ppId].medas[medas].ppl2
-            && uniqueList(confDppId(ppId).medas[medas].ppl2.l_mcdId)
-    }))
-
-    testMcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
-
+;(() => {
+    uniqueMcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
     const testParentChild = [100, 1001, 1002, 1003, 1004]
     testParentChild.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
     mcd.parentChild[100] = testParentChild.shift() && testParentChild
-
 })() //; symulationMcd()
 
 createApp({
