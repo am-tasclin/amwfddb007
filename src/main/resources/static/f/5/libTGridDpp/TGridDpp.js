@@ -9,18 +9,17 @@
  *      └─ ConfDppEdPanel    └─ AdnMenu             └─ Epl2Sql
  *          └─ SortMCData        └─ AdnEnterData    └─ Epl2Json
  */
-import ConfDppEd from '/f/4/libTGridDpp/ConfDppEd.js'
-import MElement from '/f/4/libTGridDpp/MElement.js'
-import SortMCData from '/f/4/libTGridDpp/SortMCData.js'
-import SortMedas from '/f/4/libTGridDpp/SortMedas.js'
-import Epl2 from '/f/4/libTGridDpp/Epl2.js'
-import Epl2Sql from '/f/4/libTGridDpp/Epl2Sql.js'
-import Epl2Json from '/f/4/libTGridDpp/Epl2Json.js'
-
+import ConfDppEd from '/f/5/libTGridDpp/ConfDppEd.js'
+import MElement from '/f/5/libTGridDpp/MElement.js'
+import SortMCData from '/f/5/libTGridDpp/SortMCData.js'
+import SortMedas from '/f/5/libTGridDpp/SortMedas.js'
+import Epl2 from '/f/5/libTGridDpp/Epl2.js'
+import Epl2Sql from '/f/5/libTGridDpp/Epl2Sql.js'
+import Epl2Json from '/f/5/libTGridDpp/Epl2Json.js'
 import {
     confDppId, confMedasDd, dppInteractivityPpId,
     confDppMedasEpl2
-} from '/f/4/libTGridDpp/metalTGridDpp.js'
+} from '/f/5/libTGridDpp/metalTGridDpp.js'
 
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },

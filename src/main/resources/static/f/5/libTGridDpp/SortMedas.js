@@ -5,7 +5,7 @@
  */
 import {
     confDppId, dppInteractivityPpId, dppInteractivity
-} from '/f/4/libTGridDpp/metalTGridDpp.js'
+} from '/f/5/libTGridDpp/metalTGridDpp.js'
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
     mounted() { dppInteractivityPpId(this.ppId).sortMedas = this },

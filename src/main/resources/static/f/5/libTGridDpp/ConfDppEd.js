@@ -9,11 +9,11 @@
  *      └─ MCDataSort
  * 
  */
-import ConfDppEdPanel from '/f/4/libTGridDpp/ConfDppEdPanel.js'
+import ConfDppEdPanel from '/f/5/libTGridDpp/ConfDppEdPanel.js'
 import {
     confDppId, dppInteractivityPpId, dppInteractivity,
     dropDownOpenId
-} from '/f/4/libTGridDpp/metalTGridDpp.js'
+} from '/f/5/libTGridDpp/metalTGridDpp.js'
 
 export default {
     components: { ConfDppEdPanel, },

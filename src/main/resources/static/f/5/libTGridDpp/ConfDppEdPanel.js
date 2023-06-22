@@ -8,7 +8,7 @@
  *  └─ SortMCData
  */
 
-import SortMCData from '/f/4/libTGridDpp/SortMCData.js'
+import SortMCData from '/f/5/libTGridDpp/SortMCData.js'
 import {
     confDppId, confDppMedasMcdId, confMedasDd, confMedasEpl2,
     dppInteractivityPpId,

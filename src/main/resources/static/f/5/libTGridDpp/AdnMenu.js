@@ -6,10 +6,10 @@
  * AdnMenu ── Menu for edit the ADN node
  *  └─ AdnEnterData
  */
-import AdnEnterData from '/f/4/libTGridDpp/AdnEnterData.js'
+import AdnEnterData from '/f/5/libTGridDpp/AdnEnterData.js'
 import {
     confDppMedas, dppInteractivity, setMeMapComponent
-} from '/f/4/libTGridDpp/metalTGridDpp.js'
+} from '/f/5/libTGridDpp/metalTGridDpp.js'
 
 export default {
     components: { AdnEnterData },

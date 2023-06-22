@@ -4,7 +4,7 @@
  * Epl2 ── 
  */
 
-import { dppInteractivityPpId, confDppMedasEpl2 } from '/f/4/libTGridDpp/metalTGridDpp.js'
+import { dppInteractivityPpId, confDppMedasEpl2 } from '/f/5/libTGridDpp/metalTGridDpp.js'
 export default {
     data() {
         return {
