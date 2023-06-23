@@ -25,13 +25,29 @@ import {
 
 metalFnConfPP.initPagePart(window.location.hash.substring(1), 1)
 const uniqueMcdIdList = confDppUniqueMcdId()
-wsDbRw.ws.onopen = event => wsDbRw.readMcdId(event, uniqueMcdIdList).then(event => {
+console.log(uniqueMcdIdList)
+
+
+wsDbRw.ws.onopen = event => wsDbRw.readMcdIdStr(event, uniqueMcdIdList).then(event => {
     const json = JSON.parse(event.data)
     console.log('←', json, mcd, dppInteractivity.appComponents.meMap)
     json.list.forEach(adn => mcd.eMap[adn.doc_id] = adn)
-    json.list.forEach(adn => Okeys(dppInteractivity.appComponents.meMap[adn.doc_id])
-        .forEach(im => dppInteractivity.appComponents.meMap[adn.doc_id][im].count++))
+    reView(json)
+    //readReference
+    const refIds = Okeys(mcd.eMap).filter(adnId => mcd.eMap[adnId].reference)
+        .reduce((o, adnId) => o.push(mcd.eMap[adnId].reference) && o, [])
+    wsDbRw.readMcdIdStr(event, refIds).then(event => {
+        const json = JSON.parse(event.data)
+        console.log('←', refIds, json,)
+
+    })
 })
+
+const reView = json => json.list.forEach(adn =>
+    Okeys(dppInteractivity.appComponents.meMap[adn.doc_id])
+        .forEach(im => dppInteractivity.appComponents.meMap[adn.doc_id][im].count++))
+    && dppInteractivity.appComponents.dev.count++
+
 
     // symulation mcDB Data, remove by work with real DB
     //const symulationMcd = 

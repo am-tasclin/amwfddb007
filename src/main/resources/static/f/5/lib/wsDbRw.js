@@ -18,12 +18,12 @@ export const
     getFfInteractivityComponent = n =>
         ffInteractivity.components[n]
 
-wsDbRw.readMcdId = (event, uniqueMcdIdList) => {
+wsDbRw.readMcdIdStr = (event, uniqueMcdIdList) => {
     const sql = 'SELECT d.*, value vl_str FROM doc d \n\
         LEFT JOIN string ON doc_id=string_id \n\
         WHERE doc_id IN (:idList)'.replace(':idList', uniqueMcdIdList.join(',')),
         sendJson = { sql: sql, cmd: 'executeQuery' }
-    console.log('→', sql)
+    // console.log('→', sql)
     wsDbRw.ws.send(JSON.stringify(sendJson))
     return new Promise((thenFn, reject) => wsDbRw.ws.onmessage = event => thenFn(event))
     // wsDbRw.exchangeRwMessage(sendJson).then()

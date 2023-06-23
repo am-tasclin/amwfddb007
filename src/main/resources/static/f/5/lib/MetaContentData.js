@@ -4,7 +4,7 @@
  * MCD, mcd -- Meta Content Data
  * 
  */
-export const mcd = { // Meta Content Data from DB
+export const mcd = { // Container for Meta Content Data from DB
     eMap: {}, // eMap:: key:doc_id, value:ADN; 
     /**
      * Data from MCDB

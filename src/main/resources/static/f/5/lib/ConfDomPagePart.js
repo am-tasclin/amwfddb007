@@ -6,9 +6,10 @@
  * DOM -- Data & Ontology editor & Meta data modeler
  * PP, pp -- Page Part. Block of MCD or MEDAS in Application Development Page.
  * 
+ * confDpp -- Config JSON for MEDAS to initialise & include in application.
  */
-export const confDpp = {}
-console.log(confDpp)
+export const confDpp = {} 
+
 export const confDppId = ppId => confDpp.ppId[ppId || 1]
 export const confDppMedasEpl2 = (ppId, medas, mcdId) =>
     confDppId(ppId).medas[medas].epl2.mcdId[mcdId]
