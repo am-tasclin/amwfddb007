@@ -13,49 +13,62 @@
  *  └─ TGridDpp,    MElement
  */
 const { createApp } = Vue
-import { wsDbRw } from '/f/5/lib/wsDbRw.js'
+import { ws, readMcdIdStr } from '/f/5/lib/wsDbRw.js'
 import TGridDpp from '/f/5/libTGridDpp/TGridDpp.js'
 import MElement from '/f/5/libTGridDpp/MElement.js'
-import { mcd } from '/f/5/lib/MetaContentData.js'
-import { confDpp, confDppUniqueMcdId } from '/f/5/lib/ConfDomPagePart.js'
+import { mcd, addToEMap } from '/f/5/lib/MetaContentData.js'
+import {
+    confDpp, confDppUniqueMcdId, pushListUnique
+} from '/f/5/lib/ConfDomPagePart.js'
 import {
     metalFnConfPP, minSpaceJson, Okeys,
     dppItyDevComponent, dppItyCtViewJson, dppInteractivity,
 } from '/f/5/libTGridDpp/metalTGridDpp.js'
 
+
 metalFnConfPP.initPagePart(window.location.hash.substring(1), 1)
 const uniqueMcdIdList = confDppUniqueMcdId()
-console.log(uniqueMcdIdList)
+console.log(uniqueMcdIdList, mcd)
 
-
-wsDbRw.ws.onopen = event => wsDbRw.readMcdIdStr(event, uniqueMcdIdList).then(event => {
+ws.onopen = event => readMcdIdStr(event, uniqueMcdIdList).then(event => {
     const json = JSON.parse(event.data)
-    console.log('←', json, mcd, dppInteractivity.appComponents.meMap)
-    json.list.forEach(adn => mcd.eMap[adn.doc_id] = adn)
-    reView(json)
-    //readReference
-    const refIds = Okeys(mcd.eMap).filter(adnId => mcd.eMap[adnId].reference)
-        .reduce((o, adnId) => o.push(mcd.eMap[adnId].reference) && o, [])
-    wsDbRw.readMcdIdStr(event, refIds).then(event => {
-        const json = JSON.parse(event.data)
-        console.log('←', refIds, json,)
-
-    })
+    // console.log('←', json, mcd)
+    addToEMap(json.list)
+    reView(uniqueMcdIdList)
+    readR1R2(uniqueMcdIdList, 'r')
 })
 
-const reView = json => json.list.forEach(adn =>
-    Okeys(dppInteractivity.appComponents.meMap[adn.doc_id])
-        .forEach(im => dppInteractivity.appComponents.meMap[adn.doc_id][im].count++))
-    && dppInteractivity.appComponents.dev.count++
+const readR1R2 = (uniqueMcdIdList, rName) => {
+    const refIds = uniqueMcdIdList.filter(adnId => mcd.eMap[adnId][rName])
+        , rList = refIds.reduce((o, adnId) => pushListUnique(o, mcd.eMap[adnId][rName]), [])
+        , rvName = rName + '_vl_str'
+    readMcdIdStr(null, rList).then(event => {
+        const json = JSON.parse(event.data)
+            , eMapVlStr = json.list.reduce((o, r) => (o[r.doc_id] = r.vl_str) && o || o, {})
+        // console.log('←', rName, eMapVlStr)
+        refIds.forEach(adnId => mcd.eMap[adnId][rvName] = eMapVlStr[mcd.eMap[adnId][rName]])
+        reView(refIds)
+        'r' == rName &&
+            readR1R2(uniqueMcdIdList, 'r2')
+    })
+}
+
+const reView = jsonList => jsonList.forEach(adnId => {
+    Okeys(dppInteractivity.appComponents
+        .meMap[adnId]).forEach(im => dppInteractivity.appComponents.meMap[adnId][im].count++)
+    dppInteractivity.appComponents.dev.count++
+})
 
 
     // symulation mcDB Data, remove by work with real DB
     //const symulationMcd = 
-    ; (() => {
+    ; false && (() => {
         uniqueMcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
+
         const testParentChild = [100, 1001, 1002, 1003, 1004]
         testParentChild.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
         mcd.parentChild[100] = testParentChild.shift() && testParentChild
+
     })() //; symulationMcd()
 
 createApp({

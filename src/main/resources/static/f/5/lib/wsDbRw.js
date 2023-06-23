@@ -4,10 +4,11 @@
  * 
  */
 import { mcd } from '/f/5/lib/MetaContentData.js'
-export const
+//export 
+const
     wsDbRw = {} // WebSocket dbRw ➾ DbRwWebSocketHandler.java
 const uri_wsDbRw = "ws://" + window.location.host + "/dbRw"
-wsDbRw.ws = new WebSocket(uri_wsDbRw)
+export const ws = wsDbRw.ws = new WebSocket(uri_wsDbRw)
 
 export const Okeys = Object.keys
 export const fileFolder = {}
@@ -18,8 +19,9 @@ export const
     getFfInteractivityComponent = n =>
         ffInteractivity.components[n]
 
-wsDbRw.readMcdIdStr = (event, uniqueMcdIdList) => {
-    const sql = 'SELECT d.*, value vl_str FROM doc d \n\
+// wsDbRw.readMcdIdStr = (event, uniqueMcdIdList) => {
+export const readMcdIdStr = (event, uniqueMcdIdList) => {
+    const sql = 'SELECT doc_id, parent p, reference r, reference2 r2, value vl_str FROM doc \n\
         LEFT JOIN string ON doc_id=string_id \n\
         WHERE doc_id IN (:idList)'.replace(':idList', uniqueMcdIdList.join(',')),
         sendJson = { sql: sql, cmd: 'executeQuery' }

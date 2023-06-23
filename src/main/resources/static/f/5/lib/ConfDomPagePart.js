@@ -8,19 +8,24 @@
  * 
  * confDpp -- Config JSON for MEDAS to initialise & include in application.
  */
-export const confDpp = {} 
+import {
+    reViewSortMCData2p, dppInteractivityPpId
+} from '/f/5/libTGridDpp/metalTGridDpp.js'
+
+export const confDpp = {}
 
 export const confDppId = ppId => confDpp.ppId[ppId || 1]
 export const confDppMedasEpl2 = (ppId, medas, mcdId) =>
     confDppId(ppId).medas[medas].epl2.mcdId[mcdId]
 
+export const pushListUnique = (lTo, vl) => !lTo.includes(vl) && lTo.push(vl) && lTo || lTo
+const addToUniqueList = (lFrom, lTo) => lFrom.reduce((lTo2, im) => pushListUnique(lTo2, im), lTo)
 export const confDppUniqueMcdId = () => {
-    const uniqueMcdIdList = [], uniqueList = l => l.reduce((l2, im) =>
-        !l2.includes(im) && l2.push(im) && l2, uniqueMcdIdList)
+    const uniqueMcdIdList = []
     confDpp.l_ppId.find(ppId => confDppId(ppId).l_medas.find(medas => {
-        uniqueList(confDppId(ppId).medas[medas].l_mcdId)
+        addToUniqueList(confDppId(ppId).medas[medas].l_mcdId, uniqueMcdIdList)
         confDpp.ppId[ppId].medas[medas].ppl2
-            && uniqueList(confDppId(ppId).medas[medas].ppl2.l_mcdId)
+            && addToUniqueList(confDppId(ppId).medas[medas].ppl2.l_mcdId, uniqueMcdIdList)
     }))
     return uniqueMcdIdList
 }

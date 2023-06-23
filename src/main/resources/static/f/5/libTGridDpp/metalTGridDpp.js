@@ -20,7 +20,7 @@
  * aco -- Application Component Object
  */
 // import { mcd } from '/f/5/lib/MetaContentData.js'
- import { confDpp } from '/f/5/lib/ConfDomPagePart.js'
+import { confDpp } from '/f/5/lib/ConfDomPagePart.js'
 
 export const
     dppInteractivity = {    // dppIty -- DOM Page Part interactivity data and functions.
@@ -76,12 +76,12 @@ const reViewConfDppEd = ppId => {
             dppInteractivityPpId(ppId)[im].epl2Data = dppInteractivity.epl2Data
             dppInteractivityPpId(ppId)[im].count++
         })
-    , reViewSortMCData2p = (ppId, medas) => {
-        Okeys(dppInteractivityPpId(ppId).sortMcData)
-            .filter(im => im.split('_')[0] == ppId && im.split('_')[1] == medas)
-            .forEach(im => dppInteractivityPpId(ppId).sortMcData[im].count++)
-        reViewConfDppEd(ppId)
-    }
+export const reViewSortMCData2p = (ppId, medas) => {
+    Okeys(dppInteractivityPpId(ppId).sortMcData)
+        .filter(im => im.split('_')[0] == ppId && im.split('_')[1] == medas)
+        .forEach(im => dppInteractivityPpId(ppId).sortMcData[im].count++)
+    reViewConfDppEd(ppId)
+}
 
 
 // mgd -- metalTGridDpp prefix
@@ -203,14 +203,13 @@ dppInteractivity.fn.sortMedas = (ppId, medas) => {
     reViewConfDppEd(ppId)
 }
 
-export const
-    dppInteractivityPpId = ppId => {
-        (dppInteractivity.appComponents.ppId ||
-            (dppInteractivity.appComponents.ppId = {}));
-        !dppInteractivity.appComponents.ppId[ppId] &&
-            (dppInteractivity.appComponents.ppId[ppId] = {});
-        return dppInteractivity.appComponents.ppId[ppId]
-    }
+export const dppInteractivityPpId = ppId => {
+    (dppInteractivity.appComponents.ppId ||
+        (dppInteractivity.appComponents.ppId = {}));
+    !dppInteractivity.appComponents.ppId[ppId] &&
+        (dppInteractivity.appComponents.ppId[ppId] = {});
+    return dppInteractivity.appComponents.ppId[ppId]
+}
 
 export const
     metalFnConfPP = {}     // METaL container to build confPP.

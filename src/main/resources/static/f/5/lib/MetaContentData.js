@@ -15,3 +15,6 @@ export const mcd = { // Container for Meta Content Data from DB
      * Used for navigate in hierarchical data structure.
      */
 }
+
+export const addToEMap = jsonAdnList =>
+    jsonAdnList.forEach(adn => mcd.eMap[adn.doc_id] = adn)

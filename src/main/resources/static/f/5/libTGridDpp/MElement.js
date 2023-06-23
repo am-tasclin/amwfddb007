@@ -49,9 +49,10 @@ export default {
         }
     }, template: `
 <div class="w3-hover-shadow">
-    <AdnMenu :adnId="adnId" :ppMedasKey="ppMedasKey" />
-    &nbsp;
+    <AdnMenu :adnId="adnId" :ppMedasKey="ppMedasKey" />&nbsp;
     <span v-html="vlStr()" />
+    <span class="w3-small" v-if="eMap().r_vl_str"> ::{{eMap().r_vl_str}}</span>
+    <span v-if="eMap().r2_vl_str"> :{{eMap().r2_vl_str}}</span>
 </div> <span class="w3-hide"> {{count}} </span>
 <div v-if="isOpened()" class="w3-container w3-border-left">
     <template v-for="adnId2 in parentChild()" >
