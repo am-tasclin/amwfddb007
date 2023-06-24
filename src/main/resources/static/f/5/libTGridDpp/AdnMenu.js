@@ -9,7 +9,7 @@
 import AdnEnterData from '/f/5/libTGridDpp/AdnEnterData.js'
 import { confDppMedas } from '/f/5/lib/ConfDomPagePart.js'
 import {
-    dppInteractivity, setMeMapComponent
+    dppInteractivity, setMeMapComponent, mgdAdnMenu
 } from '/f/5/libTGridDpp/metalTGridDpp.js'
 
 export default {
@@ -26,14 +26,7 @@ export default {
         setMeMapComponent(this.adnId, this.adnMenuKey, this)
     }, methods: {
         adnClick() {
-            const cgDppMedas = confDppMedas(this.ppId, this.medas, this.isPl2)
-            !cgDppMedas.openedId && (cgDppMedas.openedId = [])
-            !cgDppMedas.openedId.includes(this.adnId)
-                && cgDppMedas.openedId.push(this.adnId)
-                || cgDppMedas.openedId.splice(cgDppMedas.openedId.indexOf(this.adnId), 1)
-
-            dppInteractivity.fn.reviewPpidMedas(this.ppId, this.medas, this.isPl2)
-
+            mgdAdnMenu.adnClick(this.adnId, this.ppId, this.medas, this.isPl2)
         }, sortUp() {
             console.log('fipiFn.sortUpDown(-1, this.adnId)')
         }, sortDown() {

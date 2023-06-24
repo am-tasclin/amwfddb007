@@ -20,7 +20,7 @@
  * aco -- Application Component Object
  */
 // import { mcd } from '/f/5/lib/MetaContentData.js'
-import { confDpp } from '/f/5/lib/ConfDomPagePart.js'
+import { confDpp, confDppMedas } from '/f/5/lib/ConfDomPagePart.js'
 
 export const
     dppInteractivity = {    // dppIty -- DOM Page Part interactivity data and functions.
@@ -85,6 +85,18 @@ export const reViewSortMCData2p = (ppId, medas) => {
 
 
 // mgd -- metalTGridDpp prefix
+export const mgdAdnMenu = {} // mgd for AdnMenu.js logic
+mgdAdnMenu.adnClick = (adnId, ppId, medas, isPl2) => {
+    console.log(adnId)
+    const cgDppMedas = confDppMedas(ppId, medas, isPl2)
+    !cgDppMedas.openedId && (cgDppMedas.openedId = [])
+    !cgDppMedas.openedId.includes(adnId)
+        && cgDppMedas.openedId.push(adnId)
+        || cgDppMedas.openedId.splice(cgDppMedas.openedId.indexOf(adnId), 1)
+
+    dppInteractivity.fn.reviewPpidMedas(ppId, medas, isPl2)
+}
+
 export const mgdSortMcData = {} // mgd for SortMCData.js logic
 
 mgdSortMcData.sortMcdIdClick = (ppId, medas, isPl2, mcdId) => {

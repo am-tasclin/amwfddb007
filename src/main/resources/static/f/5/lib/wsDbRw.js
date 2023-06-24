@@ -19,16 +19,16 @@ export const
     getFfInteractivityComponent = n =>
         ffInteractivity.components[n]
 
-// wsDbRw.readMcdIdStr = (event, uniqueMcdIdList) => {
+const sql_vl_str = 'SELECT doc_id, parent p, reference r, reference2 r2, value vl_str FROM doc \n\
+    LEFT JOIN string ON doc_id=string_id \n\
+    WHERE doc_id IN (:idList)'
+
 export const readMcdIdStr = (event, uniqueMcdIdList) => {
-    const sql = 'SELECT doc_id, parent p, reference r, reference2 r2, value vl_str FROM doc \n\
-        LEFT JOIN string ON doc_id=string_id \n\
-        WHERE doc_id IN (:idList)'.replace(':idList', uniqueMcdIdList.join(',')),
-        sendJson = { sql: sql, cmd: 'executeQuery' }
+    const sql = sql_vl_str.replace(':idList', uniqueMcdIdList.join(','))
+        , sendJson = { sql: sql, cmd: 'executeQuery' }
     // console.log('→', sql)
     wsDbRw.ws.send(JSON.stringify(sendJson))
     return new Promise((thenFn, reject) => wsDbRw.ws.onmessage = event => thenFn(event))
-    // wsDbRw.exchangeRwMessage(sendJson).then()
 }
 
 wsDbRw.fileFolderList = event => {

@@ -32,7 +32,7 @@ console.log(uniqueMcdIdList, mcd)
 
 ws.onopen = event => readMcdIdStr(event, uniqueMcdIdList).then(event => {
     const json = JSON.parse(event.data)
-    // console.log('←', json, mcd)
+    console.log('←', json, mcd)
     addToEMap(json.list)
     reView(uniqueMcdIdList)
     readR1R2(uniqueMcdIdList, 'r')
@@ -42,34 +42,36 @@ const readR1R2 = (uniqueMcdIdList, rName) => {
     const refIds = uniqueMcdIdList.filter(adnId => mcd.eMap[adnId][rName])
         , rList = refIds.reduce((o, adnId) => pushListUnique(o, mcd.eMap[adnId][rName]), [])
         , rvName = rName + '_vl_str'
-    readMcdIdStr(null, rList).then(event => {
-        const json = JSON.parse(event.data)
-            , eMapVlStr = json.list.reduce((o, r) => (o[r.doc_id] = r.vl_str) && o || o, {})
-        // console.log('←', rName, eMapVlStr)
-        refIds.forEach(adnId => mcd.eMap[adnId][rvName] = eMapVlStr[mcd.eMap[adnId][rName]])
-        reView(refIds)
-        'r' == rName &&
-            readR1R2(uniqueMcdIdList, 'r2')
-    })
+    rList.length > 0 &&
+        readMcdIdStr(null, rList).then(event => {
+            const json = JSON.parse(event.data)
+                , eMapVlStr = json.list.reduce((o, r) => (o[r.doc_id] = r.vl_str) && o || o, {})
+            // console.log('←', rName, eMapVlStr)
+            refIds.forEach(adnId => mcd.eMap[adnId][rvName] = eMapVlStr[mcd.eMap[adnId][rName]])
+            reView(refIds)
+            'r' == rName &&
+                readR1R2(uniqueMcdIdList, 'r2')
+        })
+    rList.length == 0 && 'r' == rName &&
+        readR1R2(uniqueMcdIdList, 'r2')
 }
 
 const reView = jsonList => jsonList.forEach(adnId => {
     Okeys(dppInteractivity.appComponents
         .meMap[adnId]).forEach(im => dppInteractivity.appComponents.meMap[adnId][im].count++)
     dppInteractivity.appComponents.dev.count++
-})
+});
 
+// symulation mcDB Data, remove by work with real DB
+//const symulationMcd = 
+; true && (() => {
+    uniqueMcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
 
-    // symulation mcDB Data, remove by work with real DB
-    //const symulationMcd = 
-    ; false && (() => {
-        uniqueMcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
+    const testParentChild = [100, 1001, 1002, 1003, 1004]
+    testParentChild.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
+    mcd.parentChild[100] = testParentChild.shift() && testParentChild
 
-        const testParentChild = [100, 1001, 1002, 1003, 1004]
-        testParentChild.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
-        mcd.parentChild[100] = testParentChild.shift() && testParentChild
-
-    })() //; symulationMcd()
+})() //; symulationMcd()
 
 createApp({
     data() { return { count: 0, } },
