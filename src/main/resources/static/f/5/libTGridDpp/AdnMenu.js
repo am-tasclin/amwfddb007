@@ -7,7 +7,8 @@
  *  └─ AdnEnterData
  */
 import AdnEnterData from '/f/5/libTGridDpp/AdnEnterData.js'
-import { confDppMedas } from '/f/5/lib/ConfDomPagePart.js'
+import { mcd } from '/f/5/lib/MetaContentData.js'
+import { readDppForParent } from '/f/5/lib/wsDbRw.js'
 import {
     dppInteractivity, setMeMapComponent, mgdAdnMenu
 } from '/f/5/libTGridDpp/metalTGridDpp.js'
@@ -26,7 +27,12 @@ export default {
         setMeMapComponent(this.adnId, this.adnMenuKey, this)
     }, methods: {
         adnClick() {
-            mgdAdnMenu.adnClick(this.adnId, this.ppId, this.medas, this.isPl2)
+            !mcd.parentChild[this.adnId] &&
+                readDppForParent(this.adnId, () => {
+                    mgdAdnMenu.adnClick(this.adnId, this.ppId, this.medas, this.isPl2)
+                })
+            mcd.parentChild[this.adnId] &&
+                mgdAdnMenu.adnClick(this.adnId, this.ppId, this.medas, this.isPl2)
         }, sortUp() {
             console.log('fipiFn.sortUpDown(-1, this.adnId)')
         }, sortDown() {

@@ -83,11 +83,9 @@ export const reViewSortMCData2p = (ppId, medas) => {
     reViewConfDppEd(ppId)
 }
 
-
 // mgd -- metalTGridDpp prefix
 export const mgdAdnMenu = {} // mgd for AdnMenu.js logic
 mgdAdnMenu.adnClick = (adnId, ppId, medas, isPl2) => {
-    console.log(adnId)
     const cgDppMedas = confDppMedas(ppId, medas, isPl2)
     !cgDppMedas.openedId && (cgDppMedas.openedId = [])
     !cgDppMedas.openedId.includes(adnId)
