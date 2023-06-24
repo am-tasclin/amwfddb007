@@ -30,9 +30,8 @@ metalFnConfPP.initPagePart(window.location.hash.substring(1), 1)
 const uniqueMcdIdList = confDppUniqueMcdId()
 console.log(uniqueMcdIdList, mcd)
 
-ws.onopen = event => readMcdIdStr(event, uniqueMcdIdList).then(event => {
-    const json = JSON.parse(event.data)
-    console.log('←', json, mcd)
+ws.onopen = event => readMcdIdStr(uniqueMcdIdList).then(json => {
+    console.log('← ', json, mcd)
     addToEMap(json.list)
     reView(uniqueMcdIdList)
     readR1R2(uniqueMcdIdList, 'r')
@@ -42,16 +41,14 @@ const readR1R2 = (uniqueMcdIdList, rName) => {
     const refIds = uniqueMcdIdList.filter(adnId => mcd.eMap[adnId][rName])
         , rList = refIds.reduce((o, adnId) => pushListUnique(o, mcd.eMap[adnId][rName]), [])
         , rvName = rName + '_vl_str'
-    rList.length > 0 &&
-        readMcdIdStr(null, rList).then(event => {
-            const json = JSON.parse(event.data)
-                , eMapVlStr = json.list.reduce((o, r) => (o[r.doc_id] = r.vl_str) && o || o, {})
-            // console.log('←', rName, eMapVlStr)
-            refIds.forEach(adnId => mcd.eMap[adnId][rvName] = eMapVlStr[mcd.eMap[adnId][rName]])
-            reView(refIds)
-            'r' == rName &&
-                readR1R2(uniqueMcdIdList, 'r2')
-        })
+    rList.length > 0 && readMcdIdStr(rList).then(json => {
+        const eMapVlStr = json.list.reduce((o, r) => (o[r.doc_id] = r.vl_str) && o || o, {})
+        // console.log('←', rName, eMapVlStr)
+        refIds.forEach(adnId => mcd.eMap[adnId][rvName] = eMapVlStr[mcd.eMap[adnId][rName]])
+        reView(refIds)
+        'r' == rName &&
+            readR1R2(uniqueMcdIdList, 'r2')
+    })
     rList.length == 0 && 'r' == rName &&
         readR1R2(uniqueMcdIdList, 'r2')
 }

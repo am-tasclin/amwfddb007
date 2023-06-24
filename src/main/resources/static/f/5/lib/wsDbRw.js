@@ -23,12 +23,12 @@ const sql_vl_str = 'SELECT doc_id, parent p, reference r, reference2 r2, value v
     LEFT JOIN string ON doc_id=string_id \n\
     WHERE doc_id IN (:idList)'
 
-export const readMcdIdStr = (event, uniqueMcdIdList) => {
+export const readMcdIdStr = (uniqueMcdIdList) => {
     const sql = sql_vl_str.replace(':idList', uniqueMcdIdList.join(','))
         , sendJson = { sql: sql, cmd: 'executeQuery' }
     // console.log('→', sql)
     wsDbRw.ws.send(JSON.stringify(sendJson))
-    return new Promise((thenFn, reject) => wsDbRw.ws.onmessage = event => thenFn(event))
+    return new Promise((thenFn, reject) => wsDbRw.ws.onmessage = event => thenFn(JSON.parse(event.data)))
 }
 
 wsDbRw.fileFolderList = event => {
