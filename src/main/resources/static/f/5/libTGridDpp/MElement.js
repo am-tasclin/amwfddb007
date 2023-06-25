@@ -32,7 +32,7 @@ export default {
             return this.eMap().vl_str && marked.parseInline(this.eMap().vl_str)
         },
         eMap() { return mcd.eMap[this.adnId] || {} },
-        cmClick(e) { // https://codepen.io/SimpleSoftwareIO/pen/yNwYJb
+        cmClick_TODO(e) { // https://codepen.io/SimpleSoftwareIO/pen/yNwYJb
             // <div class="w3-hover-shadow" @contextmenu="cmClick">
             console.log(this, this.$nextTick, e,)
             const cmId = 'contextMenu1_' + this.ppId
@@ -41,7 +41,7 @@ export default {
         },
         parentChild() { return mcd.parentChild[this.adnId] },
         isOpened() {
-            const pplMedas = confDppMedas(this.ppId, this.medas, this.ppl2 == 2)
+            const pplMedas = confDppMedas(this.ppId, this.medas, this.ppl2)
             return pplMedas.openedId && pplMedas.openedId.includes(this.adnId)
         }
     }, template: `

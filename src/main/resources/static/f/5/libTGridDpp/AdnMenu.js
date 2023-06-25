@@ -22,7 +22,6 @@ export default {
         ppl2() { return this.ppMedasKey.split('_')[3] },
         adnDppKey() { return this.adnId + this.ppMedasKey },
         adnMenuKey() { return 'adnMenu_' + this.adnDppKey },
-        // adnMenuKey() { return 'adnMenu_' + this.adnId + this.ppMedasKey },
     }, mounted() {
         setMeMapComponent(this.adnId, this.adnMenuKey, this)
     }, methods: {
@@ -33,7 +32,6 @@ export default {
             mcd.parentChild[this.adnId] &&
                 mgdAdnMenu.adnClick(this.adnId, this.ppId, this.medas, this.ppl2)
             reViewMeMcdPpMedasPl(this.adnId, this.ppMedasKey)
-            console.log(this.ppMedasKey)
         }, sortUp() {
             console.log('fipiFn.sortUpDown(-1, this.adnId)')
         }, sortDown() {

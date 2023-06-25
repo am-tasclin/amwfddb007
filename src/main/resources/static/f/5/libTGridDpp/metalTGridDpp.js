@@ -111,7 +111,6 @@ export const reViewMeMcdPpMedasPl = (mcdId, ppMedasKey) => {
     const x = Okeys(meMap[mcdId])
         .filter(im2 => im2.includes(ppMedasKey))
         .filter(im2 => im2.includes('mElement_'))
-    // console.log(x)
     x.forEach(im2 => meMap[mcdId][im2].count++)
 }
 
@@ -210,6 +209,7 @@ componentActivate.dropDownOpenIdOnOff = dropDownOpenId => dppInteractivity.dropD
     && delete dppInteractivity.dropDownOpenId || (dppInteractivity.dropDownOpenId = dropDownOpenId)
 
 export const setMeMapComponent = (adnId, key, component) => {
+    // console.log(adnId, key)
     !dppInteractivity.appComponents.meMap[adnId]
         && (dppInteractivity.appComponents.meMap[adnId] = {})
     dppInteractivity.appComponents.meMap[adnId][key] = component

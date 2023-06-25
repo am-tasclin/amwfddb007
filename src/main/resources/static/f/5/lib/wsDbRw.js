@@ -29,6 +29,7 @@ const reView = jsonList => jsonList.forEach(adnId => {
 })
 
 const readR1R2 = (uniqueMcdIdList, rName, fn) => {
+    // console.log(uniqueMcdIdList, rName, mcd.eMap)
     const refIds = uniqueMcdIdList.filter(adnId => mcd.eMap[adnId][rName])
         , rList = refIds.reduce((o, adnId) => pushListUnique(o, mcd.eMap[adnId][rName]), [])
         , rvName = rName + '_vl_str'
@@ -46,6 +47,7 @@ const readR1R2 = (uniqueMcdIdList, rName, fn) => {
 export const readDppForParent = (parentId, fn) => {
     const sql = sql_vl_str.concat('WHERE parent = :parentId').replace(':parentId', parentId)
     executeSelectQuery(sql).then(json => {
+        console.log(parentId, json.list)
         addToEMap(json.list)
         addToParentChild(json.list)
         readR1R2(mcd.parentChild[parentId], 'r', fn)

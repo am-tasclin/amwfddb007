@@ -33,7 +33,7 @@ ws.onopen = event => readDppFromList(uniqueMcdIdList, ()=>{
     ;
 // symulation mcDB Data, remove by work with real DB
 //const symulationMcd = 
-false && (() => {
+true && (() => {
     uniqueMcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
 
     const testParentChild = [100, 1001, 1002, 1003, 1004]
