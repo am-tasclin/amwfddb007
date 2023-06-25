@@ -64,8 +64,8 @@ export default {
             <SortMCData :ppId="ppId" :medas="medas" keysuffix="tGridDpp"/>
             <template v-if="confDpp().medas[medas].ppl2">
                 |
-                <SortMCData :ppId="ppId" :medas="medas" 
-                    keysuffix="tGridDpp_ppl2"/>
+                <SortMCData :ppId="ppId" :medas="medas" ppl2="2"
+                    keysuffix="tGridDpp"/>
             </template>
         </span>
     </div>
@@ -88,7 +88,7 @@ export default {
                     <div class="w3-half">
                         <MElement :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
                     </div>
-                    <div class="w3-half w3-container">
+                    <div class="w3-half w13-container">
                         <Epl2 :ppId="ppId" :medas="medas" :mcdId="mcdId" />
                         <Epl2Sql v-if="'Sql'==confDppMedasEpl2(medas, mcdId).panelType"/>
                         <Epl2Json v-else />

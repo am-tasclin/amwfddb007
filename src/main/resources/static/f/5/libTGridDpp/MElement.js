@@ -10,7 +10,7 @@
  */
 import AdnMenu from '/f/5/libTGridDpp/AdnMenu.js'
 import { mcd } from '/f/5/lib/MetaContentData.js'
-import { confDppMedas } from '/f/5/lib/ConfDomPagePart.js'
+import { confDppMedas, ppMedasKey } from '/f/5/lib/ConfDomPagePart.js'
 import {
     dppInteractivityPpId, dropDownOpenId,
     setMeMapComponent,
@@ -21,10 +21,7 @@ export default {
     data() { return { count: 0, } },
     components: { AdnMenu },
     computed: {
-        ppMedasKey() {
-            return '_' + this.ppId + '_' + this.medas
-                + '_' + (this.ppl2 && this.ppl2 || 1)
-        },
+        ppMedasKey() { return ppMedasKey(this.ppId, this.medas, this.ppl2) },
         mEtKey() { return 'mElement_' + this.adnId + this.ppMedasKey },
     }, mounted() {
         setMeMapComponent(this.adnId, this.mEtKey, this)

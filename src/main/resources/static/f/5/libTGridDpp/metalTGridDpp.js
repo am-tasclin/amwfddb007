@@ -20,7 +20,7 @@
  * aco -- Application Component Object
  */
 // import { mcd } from '/f/5/lib/MetaContentData.js'
-import { confDpp, confDppMedas } from '/f/5/lib/ConfDomPagePart.js'
+import { confDpp, confDppMedas, ppMedasKey } from '/f/5/lib/ConfDomPagePart.js'
 
 export const
     dppInteractivity = {    // dppIty -- DOM Page Part interactivity data and functions.
@@ -46,6 +46,7 @@ export const
          * 
          */
     }
+    , meMap = dppInteractivity.appComponents.meMap
 
 export const dppItyDevComponent = dev => dppInteractivity.appComponents.dev = dev
     , dppItyCtViewJson = () => {
@@ -76,46 +77,58 @@ const reViewConfDppEd = ppId => {
             dppInteractivityPpId(ppId)[im].epl2Data = dppInteractivity.epl2Data
             dppInteractivityPpId(ppId)[im].count++
         })
+
 export const reViewSortMCData2p = (ppId, medas) => {
     Okeys(dppInteractivityPpId(ppId).sortMcData)
-        .filter(im => im.split('_')[0] == ppId && im.split('_')[1] == medas)
+        .filter(im => im.split('_')[1] == ppId && im.split('_')[2] == medas)
         .forEach(im => dppInteractivityPpId(ppId).sortMcData[im].count++)
     reViewConfDppEd(ppId)
 }
 
 // mgd -- metalTGridDpp prefix
 export const mgdAdnMenu = {} // mgd for AdnMenu.js logic
-mgdAdnMenu.adnClick = (adnId, ppId, medas, isPl2) => {
-    const cgDppMedas = confDppMedas(ppId, medas, isPl2)
+mgdAdnMenu.adnClick = (adnId, ppId, medas, ppl2) => {
+    const cgDppMedas = confDppMedas(ppId, medas, ppl2)
     !cgDppMedas.openedId && (cgDppMedas.openedId = [])
     !cgDppMedas.openedId.includes(adnId)
         && cgDppMedas.openedId.push(adnId)
         || cgDppMedas.openedId.splice(cgDppMedas.openedId.indexOf(adnId), 1)
 
-    dppInteractivity.fn.reviewPpidMedas(ppId, medas, isPl2)
+    dppInteractivity.fn.reviewPpidMedas(ppId, medas, ppl2)
 }
 
 export const mgdSortMcData = {} // mgd for SortMCData.js logic
 
-mgdSortMcData.sortMcdIdClick = (ppId, medas, isPl2, mcdId) => {
-    const ppMedas = !isPl2 && confDpp.ppId[ppId].medas[medas]
-        || confDpp.ppId[ppId].medas[medas].ppl2
+mgdSortMcData.sortMcdIdClick = (ppId, medas, ppl2, mcdId) => {
+    const ppMedas = confDppMedas(ppId, medas, ppl2)
         , lToSort = ppMedas.l_mcdId
     ppMedas.l_mcdId = lToSort.splice(lToSort.indexOf(mcdId), 1).concat(lToSort)
 
-    dppInteractivity.fn.reviewPpidMedas(ppId, medas, isPl2)
+    dppInteractivity.fn.reviewPpidMedas(ppId, medas, ppl2)
+}
+
+export const reViewMeMcdPpMedasPl = (mcdId, ppMedasKey) => {
+    const x = Okeys(meMap[mcdId])
+        .filter(im2 => im2.includes(ppMedasKey))
+        .filter(im2 => im2.includes('mElement_'))
+    // console.log(x)
+    x.forEach(im2 => meMap[mcdId][im2].count++)
 }
 
 dppInteractivity.fn.reviewPpidMedas = (ppId, medas, isPl2) => {
-    const ppMedas = !isPl2 && confDpp.ppId[ppId].medas[medas]
-        || confDpp.ppId[ppId].medas[medas].ppl2
-        , meMap = dppInteractivity.appComponents.meMap
+
+    const ppMedas = confDppMedas(ppId, medas, isPl2)
+        // , meMap = dppInteractivity.appComponents.meMap
+        , ppMedas_Key = ppMedasKey(ppId, medas, isPl2)
+    //, keyPpMedasPl = ppId + '_' + medas + '_' + (isPl2 && 2 || 1)
 
     reViewSortMCData2p(ppId, medas)
-    Okeys(meMap).filter(im => ppMedas.l_mcdId.includes(im)).forEach(im => Okeys(meMap[im])
-        .filter(im2 => im2.includes(ppId + '_' + medas + '_' + (isPl2 && 2 || 1)))
-        .filter(im2 => im2.includes('mElement_'))
-        .forEach(im2 => meMap[im][im2].count++))
+    // reViewSortMCData2p(ppId, ppMedas_Key)
+    // const meMapIdList = Okeys(meMap).filter(im => ppMedas.l_mcdId.includes(im))
+    // const meMapIdList = ppMedas.l_mcdId
+    console.log(ppMedas_Key)
+    // meMapIdList.forEach(im => Okeys(meMap[im])
+    ppMedas.l_mcdId.forEach(mcdId => reViewMeMcdPpMedasPl(mcdId, ppMedas_Key))
 
     dppInteractivity.appComponents.ppId[ppId].tGridDpp.count++
     dppInteractivity.appComponents.dev.count++

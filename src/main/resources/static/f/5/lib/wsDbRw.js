@@ -21,6 +21,13 @@ export const
     getFfInteractivityComponent = n =>
         ffInteractivity.components[n]
 
+const reView = jsonList => jsonList.forEach(adnId => {
+    dppInteractivity.appComponents.meMap[adnId] &&
+        Okeys(dppInteractivity.appComponents.meMap[adnId])
+            .forEach(im => dppInteractivity.appComponents.meMap[adnId][im].count++)
+    dppInteractivity.appComponents.dev.count++
+})
+
 const readR1R2 = (uniqueMcdIdList, rName, fn) => {
     const refIds = uniqueMcdIdList.filter(adnId => mcd.eMap[adnId][rName])
         , rList = refIds.reduce((o, adnId) => pushListUnique(o, mcd.eMap[adnId][rName]), [])
@@ -36,20 +43,6 @@ const readR1R2 = (uniqueMcdIdList, rName, fn) => {
     'r2' == rName && fn && fn()
 }
 
-const reView = jsonList => jsonList.forEach(adnId => {
-    dppInteractivity.appComponents.meMap[adnId] &&
-        Okeys(dppInteractivity.appComponents.meMap[adnId])
-            .forEach(im => dppInteractivity.appComponents.meMap[adnId][im].count++)
-    dppInteractivity.appComponents.dev.count++
-})
-
-export const readDppFromList = (uniqueMcdIdList, fn) => readMcdIdListStr(uniqueMcdIdList).then(json => {
-    // console.log('← ', json, mcd, fn)
-    addToEMap(json.list)
-    reView(uniqueMcdIdList)
-    readR1R2(uniqueMcdIdList, 'r', fn)
-})
-
 export const readDppForParent = (parentId, fn) => {
     const sql = sql_vl_str.concat('WHERE parent = :parentId').replace(':parentId', parentId)
     executeSelectQuery(sql).then(json => {
@@ -59,19 +52,27 @@ export const readDppForParent = (parentId, fn) => {
     })
 }
 
-const sql_vl_str = 'SELECT doc_id, parent p, reference r, reference2 r2, value vl_str FROM doc \n\
-    LEFT JOIN string ON doc_id=string_id \n'
-
 export const readMcdIdListStr = uniqueMcdIdList => {
     const sql = sql_vl_str.concat('WHERE doc_id IN (:idList)').replace(':idList', uniqueMcdIdList.join(','))
     // console.log('→', sql)
     return executeSelectQuery(sql)
 }
 
+export const readDppFromList = (uniqueMcdIdList, fn) => {
+    return readMcdIdListStr(uniqueMcdIdList).then(json => {
+        // console.log('← ', json, mcd, fn)
+        addToEMap(json.list)
+        reView(uniqueMcdIdList)
+        readR1R2(uniqueMcdIdList, 'r', fn)
+    })
+}
+
+const sql_vl_str = 'SELECT doc_id, parent p, reference r, reference2 r2, value vl_str FROM doc \n\
+    LEFT JOIN string ON doc_id=string_id \n'
+
 const executeSelectQuery = sql => {
     wsDbRw.ws.send(JSON.stringify({ sql: sql, cmd: 'executeQuery' }))
-    return new Promise((thenFn, reject) => wsDbRw.ws
-        .onmessage = event => thenFn(JSON.parse(event.data)))
+    return new Promise((thenFn, reject) => wsDbRw.ws.onmessage = event => thenFn(JSON.parse(event.data)))
 }
 
 wsDbRw.fileFolderList = event => {

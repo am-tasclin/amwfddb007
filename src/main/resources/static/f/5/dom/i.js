@@ -24,7 +24,7 @@ import {
 
 metalFnConfPP.initPagePart(window.location.hash.substring(1), 1)
 const uniqueMcdIdList = confDppUniqueMcdId()
-console.log(uniqueMcdIdList, mcd)
+// console.log(uniqueMcdIdList, mcd)
 
 ws.onopen = event => readDppFromList(uniqueMcdIdList, ()=>{
     console.log('end init read')

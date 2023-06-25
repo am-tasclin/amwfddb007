@@ -18,6 +18,8 @@ export const confDppId = ppId => confDpp.ppId[ppId || 1]
 export const confDppMedasEpl2 = (ppId, medas, mcdId) =>
     confDppId(ppId).medas[medas].epl2.mcdId[mcdId]
 
+export const ppMedasKey = (ppId, medas, ppl2) => '_' + ppId + '_' + medas + '_' + (ppl2 == 2 && 2 || 1)
+
 export const pushListUnique = (lTo, vl) => !lTo.includes(vl) && lTo.push(vl) && lTo || lTo
 const addToUniqueList = (lFrom, lTo) => lFrom.reduce((lTo2, im) => pushListUnique(lTo2, im), lTo)
 export const confDppUniqueMcdId = () => {
@@ -30,13 +32,13 @@ export const confDppUniqueMcdId = () => {
     return uniqueMcdIdList
 }
 
-export const confDppMedas = (ppId, medas, isPpl2) => !isPpl2
+export const confDppMedas = (ppId, medas, ppl2) => ppl2 != 2
     && confDppId(ppId).medas[medas] || confDppId(ppId).medas[medas].ppl2
 
 // Config for Dpp to include and use in other grid.
-export const confDppMedasMcdId = (val, ppId, medas, isPpl2) => {
+export const confDppMedasMcdId = (val, ppId, medas, ppl2) => {
     const valList = val.replace(/\s+/g, '').split(',').filter(im => im)
-        , dppMedas = !isPpl2
+        , dppMedas = ppl2 != 2
             && confDpp.ppId[ppId].medas[medas]
             || confDpp.ppId[ppId].medas[medas].ppl2
             || (confDpp.ppId[ppId].medas[medas].ppl2 = { l_mcdId: [], mcdId: {} })

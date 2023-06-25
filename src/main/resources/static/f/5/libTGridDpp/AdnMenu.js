@@ -10,7 +10,7 @@ import AdnEnterData from '/f/5/libTGridDpp/AdnEnterData.js'
 import { mcd } from '/f/5/lib/MetaContentData.js'
 import { readDppForParent } from '/f/5/lib/wsDbRw.js'
 import {
-    dppInteractivity, setMeMapComponent, mgdAdnMenu
+    dppInteractivity, setMeMapComponent, mgdAdnMenu, reViewMeMcdPpMedasPl
 } from '/f/5/libTGridDpp/metalTGridDpp.js'
 
 export default {
@@ -19,7 +19,7 @@ export default {
     computed: {
         ppId() { return this.ppMedasKey.split('_')[1] },
         medas() { return this.ppMedasKey.split('_')[2] },
-        isPl2() { return this.ppMedasKey.split('_')[3] == 2 },
+        ppl2() { return this.ppMedasKey.split('_')[3] },
         adnDppKey() { return this.adnId + this.ppMedasKey },
         adnMenuKey() { return 'adnMenu_' + this.adnDppKey },
         // adnMenuKey() { return 'adnMenu_' + this.adnId + this.ppMedasKey },
@@ -28,11 +28,12 @@ export default {
     }, methods: {
         adnClick() {
             !mcd.parentChild[this.adnId] &&
-                readDppForParent(this.adnId, () => {
-                    mgdAdnMenu.adnClick(this.adnId, this.ppId, this.medas, this.isPl2)
-                })
+                readDppForParent(this.adnId, () =>
+                    mgdAdnMenu.adnClick(this.adnId, this.ppId, this.medas, this.ppl2))
             mcd.parentChild[this.adnId] &&
-                mgdAdnMenu.adnClick(this.adnId, this.ppId, this.medas, this.isPl2)
+                mgdAdnMenu.adnClick(this.adnId, this.ppId, this.medas, this.ppl2)
+            reViewMeMcdPpMedasPl(this.adnId, this.ppMedasKey)
+            console.log(this.ppMedasKey)
         }, sortUp() {
             console.log('fipiFn.sortUpDown(-1, this.adnId)')
         }, sortDown() {

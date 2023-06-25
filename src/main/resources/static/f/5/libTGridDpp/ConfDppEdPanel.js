@@ -48,9 +48,9 @@ export default {
             this.medasConfTypeName = dppInteractivity.medasConfTypeName = showMedasConfTypeName
         }, confJsonStr() {
             return minSpaceJson(confDppId(this.ppId))
-        }, medasMcdId(event, medas, isPpl2) {
+        }, medasMcdId(event, medas, ppl2) {
             console.log(this.ppId, medas, confDppId(this.ppId))
-            confDppMedasMcdId(event.target.value, this.ppId, medas, isPpl2)
+            confDppMedasMcdId(event.target.value, this.ppId, medas, ppl2)
         }, clickFixFly() {
             const dropDownOpenId = (!dppInteractivity.dropDownOpenId.includes('confDppEdPanel_fly_')
                 && 'confDppEdPanel_fly_' || 'confDppEdPanel_fixed_') + this.ppId
@@ -147,12 +147,12 @@ export default {
             <div class="w3-half w3-container">
                 <sub class="w3-right" v-if="isEpl2(medas)">epl2</sub>
                 &nbsp;
-                <input @keyup.enter="medasMcdId($event, medas, true)" v-if="!isEpl2(medas)"
+                <input @keyup.enter="medasMcdId($event, medas, 2)" v-if="!isEpl2(medas)"
                     :value="confDpp().medas[medas].ppl2 && confDpp().medas[medas].ppl2.l_mcdId.join(', ')"
                     class="w3-hover-shadow w3-small am-width-100pr">
                     <div v-if="confDpp().medas[medas].ppl2" class="w3-tiny">
-                        <SortMCData :ppId="ppId" :medas="medas" 
-                            :keysuffix="panelNameSuffix+'_ppl2'"/>
+                        <SortMCData :ppId="ppId" :medas="medas" ppl2="2"
+                            :keysuffix="panelNameSuffix"/>
                     </div>
                 <template v-if="isEpl2(medas)">
                     <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
