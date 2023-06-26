@@ -27,17 +27,6 @@ export default {
             .filter(im => confMedasEpl2.includes(im))
             .reduce((o, medas) => (o[medas] = Okeys(confDppId(this.ppId)
                 .medas[medas].epl2.mcdId)) && o, {})
-
-        /**
-         !dppInteractivity.epl2Data && confDppId(this.ppId).l_medas
-         .filter(medas => 'lr' != medas)
-            .reduce((o, medas) => (o[medas] = confDppId(this.ppId).medas[medas].epl2
-            && confDppId(this.ppId).medas[medas].epl2.l_mcdId || []
-            ) && o, dppInteractivity.epl2Data = {})
-            this.epl2Data = dppInteractivity.epl2Data
-            console.log(dppInteractivity.epl2Data)
-            */
-
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
         getConfMedasDd() { return confMedasDd },
@@ -47,7 +36,7 @@ export default {
         confTypeName(showMedasConfTypeName) {
             this.medasConfTypeName = dppInteractivity.medasConfTypeName = showMedasConfTypeName
         }, confJsonStr() {
-            return minSpaceJson(confDppId(this.ppId))
+            return minSpaceJson(this.confDpp())
         }, medasMcdId(event, medas, ppl2) {
             console.log(this.ppId, medas, confDppId(this.ppId))
             confDppMedasMcdId(event.target.value, this.ppId, medas, ppl2)
@@ -72,24 +61,43 @@ export default {
             mgdConfDppEdPanel.medasRemoveFromRemove(this.ppId, medas)
         }, medasAddRemove(medas) {
             mgdConfDppEdPanel.medasAddRemove(this.ppId, medas)
+        }, initUriLink() {
+            const dpp = this.confDpp()
+            return dpp.l_medas.reduce((r, medas) => r += medas
+                + (dpp.medas[medas] && (',' + dpp.medas[medas].l_mcdId) || '') + ';' +
+                (dpp.medas[medas].ppl2 && (medas + '_ppl2' + ','
+                    + dpp.medas[medas].ppl2.l_mcdId + ';') || '')
+                + (dpp.medas[medas].epl2 && (medas + '_epl2' + ','
+                    + Okeys(dpp.medas[medas].epl2.mcdId) + ';') || ''), '')
+        }, confJsonStr0() {
+            return JSON.stringify(this.confDpp())
         },
     }, template: `
 <div class="w3-row">
     <div class="w3-quarter w13-border-right w3-container">
-        <div class="w3-tiny w3-border-bottom">
+        <div class="w3-border-bottom">
             <span @click="confTypeName(showMedasConfTypeName)"
-                    class="w3-hover-shadow am-b"
+                    class="w3-tiny w3-hover-shadow am-b"
                     v-for="showMedasConfTypeName in ['URI','JSON']">
                 &nbsp; {{showMedasConfTypeName}},
             </span>
-            <sub class="w3-right">{{medasConfTypeName}}</sub>
-        </div>
+            <span class="w3-right w3-tiny">
+                <sup>{{medasConfTypeName}}</sup>
+            </span>
+            <div class="w3-right w3-small w3-opacity am-i">
+                <a :href="'#cj='+confJsonStr0()" v-if="'JSON'==medasConfTypeName">
+                    Full pagePart Config.
+                </a> <a :href="'#'+initUriLink()" v-else>
+                    Use for start init only.
+                </a>
+            </div>
+        </div>&nbsp;
         <div v-if="'JSON'==medasConfTypeName" class="w3-opacity w3-tiny"
                 style="white-space: pre-wrap; overflow: auto;" >
             {{confJsonStr()}}
             <div>&nbsp;</div>
         </div>
-        <template v-else>
+        <div v-else>
             <div v-for="medas in confDpp().l_medas" class="w3-opacity w3-tiny"
                     style="white-space: pre-wrap; overflow: auto;">
                 <b> {{medas}}</b>,
@@ -99,7 +107,7 @@ export default {
                     {{confDpp().medas[medas].ppl2.l_mcdId.join(', ')}};
                 </div>
             </div>
-        </template>
+        </div>
     </div>
     <div class="w3-threequarter">
         <div class="w3-row  w3-border-bottom">

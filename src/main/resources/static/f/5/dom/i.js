@@ -26,14 +26,14 @@ metalFnConfPP.initPagePart(window.location.hash.substring(1), 1)
 const uniqueMcdIdList = confDppUniqueMcdId()
 // console.log(uniqueMcdIdList, mcd)
 
-ws.onopen = event => readDppFromList(uniqueMcdIdList, ()=>{
+ws.onopen = event => readDppFromList(uniqueMcdIdList, () => {
     console.log('end init read')
 })
 
     ;
 // symulation mcDB Data, remove by work with real DB
 //const symulationMcd = 
-true && (() => {
+false && (() => {
     uniqueMcdIdList.forEach(mcdId => mcd.eMap[mcdId] = { doc_id: mcdId, vl_str: 'vlStringValue' })
 
     const testParentChild = [100, 1001, 1002, 1003, 1004]

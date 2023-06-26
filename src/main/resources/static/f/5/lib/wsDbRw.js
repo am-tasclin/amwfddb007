@@ -62,7 +62,7 @@ export const readMcdIdListStr = uniqueMcdIdList => {
 
 export const readDppFromList = (uniqueMcdIdList, fn) => {
     return readMcdIdListStr(uniqueMcdIdList).then(json => {
-        // console.log('← ', json, mcd, fn)
+        console.log('← ', json, mcd, fn)
         addToEMap(json.list)
         reView(uniqueMcdIdList)
         readR1R2(uniqueMcdIdList, 'r', fn)

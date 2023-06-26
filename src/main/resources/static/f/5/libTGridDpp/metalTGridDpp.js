@@ -49,23 +49,24 @@ export const
     , meMap = dppInteractivity.appComponents.meMap
 
 export const dppItyDevComponent = dev => dppInteractivity.appComponents.dev = dev
-    , dppItyCtViewJson = () => {
-        const cvj = {}
+export const dppItyCtViewJson = () => {
+    const cvj = {}
 
-        cvj.l_appComponents = Okeys(dppInteractivity.appComponents)
-        Okeys(dppInteractivity.appComponents.meMap).reduce((o, im) =>
-            (o[im] = Okeys(dppInteractivity.appComponents.meMap[im]))
-            && o, cvj.meMap = {})
-        dppInteractivity.appComponents.ppId &&
-            Okeys(dppInteractivity.appComponents.ppId).reduce((o, ppId) => {
-                o[ppId] = {}
-                o[ppId].l = Okeys(dppInteractivity.appComponents.ppId[ppId])
-                o[ppId].l_sortMCData = Okeys(dppInteractivity.appComponents
-                    .ppId[ppId].sortMcData)
-                return o
-            }, cvj.ppId = {})
-        return cvj
-    }
+    cvj.l_appComponents = Okeys(dppInteractivity.appComponents)
+
+    Okeys(dppInteractivity.appComponents.meMap).reduce((o, im) =>
+        (o[im] = Okeys(dppInteractivity.appComponents.meMap[im]))
+        && o, cvj.meMap = {})
+    dppInteractivity.appComponents.ppId &&
+        Okeys(dppInteractivity.appComponents.ppId).reduce((o, ppId) => {
+            o[ppId] = {}
+            o[ppId].l = Okeys(dppInteractivity.appComponents.ppId[ppId])
+            o[ppId].l_sortMCData = Okeys(dppInteractivity.appComponents
+                .ppId[ppId].sortMcData)
+            return o
+        }, cvj.ppId = {})
+    return cvj
+}
 
 export const Okeys = Object.keys
 const reViewConfDppEd = ppId => {
@@ -238,12 +239,17 @@ export const
     metalFnConfPP = {}     // METaL container to build confPP.
 
 metalFnConfPP.initPagePart = (rawPpStr, ppId) => {
-    console.log(rawPpStr, ppId)
+    initConfPP(ppId)
 
     !rawPpStr.includes('cj=') &&
         metalFnConfPP.initFromURI(rawPpStr, ppId)
     rawPpStr.includes('cj=') &&
         metalFnConfPP.initFromJson(rawPpStr.replace('cj=', ''), ppId)
+}
+
+metalFnConfPP.initFromJson = (jsonStr, ppId) => {
+    const json = JSON.parse(decodeURI(jsonStr))
+    confDpp.ppId[ppId] = json
 }
 
 const initConfPP = ppId => {
@@ -259,7 +265,7 @@ const initMedas = idList => idList.reduce((o, mcdId) =>
     o.l_mcdId.push(mcdId) && (o.mcdId[mcdId] = {}) && o, { l_mcdId: [], mcdId: {}, })
 
 metalFnConfPP.initFromURI = (rawPpStr, ppId) => {
-    initConfPP(ppId)
+    console.log(rawPpStr, ppId, confDpp)
     const rawPp = rawPpStr.split(';')
         , confPpId = (confDpp.ppId[ppId] = { l_medas: [], medas: {}, })
 
