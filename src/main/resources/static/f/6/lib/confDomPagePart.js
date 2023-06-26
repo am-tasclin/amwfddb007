@@ -10,13 +10,23 @@
  */
 export const confDpp = { ppId: {} }
 
+export const confDppId = ppId => confDpp.ppId[ppId || 1]
+export const confDppUniqueMcdId = () => {
+    const uniqueMcdIdList = []
+    Okeys(confDpp.ppId).find(ppId => confDppId(ppId).l_medas.find(medas => {
+        addToUniqueList(confDppId(ppId).medas[medas].l_mcdId, uniqueMcdIdList)
+        confDpp.ppId[ppId].medas[medas].ppl2
+            && addToUniqueList(confDppId(ppId).medas[medas].ppl2.l_mcdId, uniqueMcdIdList)
+    }))
+    return uniqueMcdIdList
+}
+const addToUniqueList = (lFrom, lTo) => lFrom.reduce((lTo2, im) => pushListUnique(lTo2, im), lTo)
+export const pushListUnique = (lTo, vl) => !lTo.includes(vl) && lTo.push(vl) && lTo || lTo
+
 export const cdppInitPagePart = (rawPpStr, ppId) => {
     confDpp.ppId[ppId] = {}
-
-    !rawPpStr.includes('cj=') &&
-        initFromURI(rawPpStr, ppId)
-    rawPpStr.includes('cj=') &&
-        metalFnConfPP.initFromJson(rawPpStr.replace('cj=', ''), ppId)
+    !rawPpStr.includes('cj=') && initFromURI(rawPpStr, ppId)
+    rawPpStr.includes('cj=') && metalFnConfPP.initFromJson(rawPpStr.replace('cj=', ''), ppId)
 }
 
 const initFromURI = (rawPpStr, ppId) => {
@@ -44,3 +54,5 @@ const initFromURI = (rawPpStr, ppId) => {
 
 const initMedas = idList => idList.reduce((o, mcdId) =>
     o.l_mcdId.push(mcdId) && (o.mcdId[mcdId] = {}) && o, { l_mcdId: [], mcdId: {}, })
+
+const Okeys = Object.keys

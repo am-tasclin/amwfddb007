@@ -290,4 +290,3 @@ metalFnConfPP.initFromURI = (rawPpStr, ppId) => {
 export const minSpaceJson = json => JSON.stringify(json, '', 2)
     .replace(/\s+]/g, ']').replace(/\s+}/g, '}')
     .replace(/\[\s+"/g, '\["').replace(/",\s+"/g, '", "')
-

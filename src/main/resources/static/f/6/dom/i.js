@@ -13,8 +13,22 @@
  *  └─ TGridDpp,    MElement
  */
 const { createApp } = Vue
-import {
-    cdppInitPagePart
-} from '/f/6/lib/ConfDomPagePart.js'
+import { cdppInitPagePart, confDppUniqueMcdId } from '/f/6/lib/confDomPagePart.js'
+import { ws, readDppFromList } from '/f/6/lib/wsDbRw.js'
+
 
 cdppInitPagePart(window.location.hash.substring(1), 1)
+const uniqueMcdIdList = confDppUniqueMcdId()
+console.log(uniqueMcdIdList)
+
+
+ws.onopen = event => readDppFromList(uniqueMcdIdList, () => {
+    console.log('end init read')
+})
+
+
+//dev part
+import DevConfDppIty from '/f/6/dev/lib/DevConfDppIty.js'
+const appDev = createApp({})
+appDev.component('t-dev-conf-dpp-ity', DevConfDppIty)
+appDev.mount('#dev')
