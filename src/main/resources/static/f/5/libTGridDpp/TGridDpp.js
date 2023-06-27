@@ -88,7 +88,7 @@ export default {
                     <div class="w3-half">
                         <MElement :adnId="mcdId"  :ppId="ppId" :medas="medas"/>
                     </div>
-                    <div class="w3-half w13-container">
+                    <div class="w3-half">
                         <Epl2 :ppId="ppId" :medas="medas" :mcdId="mcdId" />
                         <Epl2Sql v-if="'Sql'==confDppMedasEpl2(medas, mcdId).panelType"/>
                         <Epl2Json v-else />

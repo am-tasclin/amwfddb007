@@ -11,9 +11,13 @@
  */
 import { confDppId, confMedasDd } from '/f/6/lib/confDomPagePart.js'
 import { dppInteractivityPpId, addDppIdComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
+import MElement from '/f/6/libTGridDpp/MElement.js'
 
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
+    components: {
+        MElement,
+    },
     mounted() {
         addDppIdComponent(this.ppId, 'tGridDpp', this)
     }, methods: {
@@ -46,7 +50,9 @@ export default {
         </span>
     </div>
     <template v-if="!isMedasClosed(medas)">
-        {{medas}},
+        <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
+            <MElement :adnId="mcdId" :ppId="ppId" :medas="medas"/>
+        </template>
     </template>
 </template>
 `,
