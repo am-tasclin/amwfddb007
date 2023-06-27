@@ -6,8 +6,8 @@
  * 
  */
 import { minSpaceJson } from '/f/6/lib/algoritmed-commons.js'
-import { addDppItyComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { confDpp } from '/f/6/lib/confDomPagePart.js'
+import { addDppItyComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
 
 export default {
     data() { return { count: 0, } },
@@ -49,9 +49,6 @@ export const dppItyCtViewJson = () => {
 
     dppItyComponent.ppId && Okeys(dppItyComponent.ppId).reduce((cvjPpId, ppId) => {
         cvjPpId[ppId] = {}
-        console.log(ppId, dppItyComponent)
-        console.log(dppItyComponent.ppId[ppId])
-        console.log(cvjPpId[ppId])
         cvjPpId[ppId].l = Okeys(dppItyComponent.ppId[ppId])
         dppItyComponent.ppId[ppId].sortMcData &&
             (cvjPpId[ppId].l_sortMCData = Okeys(dppItyComponent.ppId[ppId].sortMcData))

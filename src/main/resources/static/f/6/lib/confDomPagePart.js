@@ -8,9 +8,22 @@
  * 
  * confDpp, cdpp -- Config JSON for MEDAS to initialise & include in application.
  */
+import { addToUniqueList } from '/f/6/lib/algoritmed-commons.js'
+
 export const confDpp = { ppId: {} }
 
 export const confDppId = ppId => confDpp.ppId[ppId || 1]
+export const confDppMedas = (ppId, medas, ppl2) => ppl2 != 2
+    && confDppId(ppId).medas[medas] || confDppId(ppId).medas[medas].ppl2
+
+export const openChildOnOff =  (adnId, ppId, medas, ppl2) => {
+    const cgDppMedas = confDppMedas(ppId, medas, ppl2)
+    !cgDppMedas.openedId && (cgDppMedas.openedId = [])
+    !cgDppMedas.openedId.includes(adnId)
+        && cgDppMedas.openedId.push(adnId)
+        || cgDppMedas.openedId.splice(cgDppMedas.openedId.indexOf(adnId), 1)
+}
+
 export const confDppUniqueMcdId = () => {
     const uniqueMcdIdList = []
     Okeys(confDpp.ppId).find(ppId => confDppId(ppId).l_medas.find(medas => {
@@ -20,8 +33,6 @@ export const confDppUniqueMcdId = () => {
     }))
     return uniqueMcdIdList
 }
-const addToUniqueList = (lFrom, lTo) => lFrom.reduce((lTo2, im) => pushListUnique(lTo2, im), lTo)
-export const pushListUnique = (lTo, vl) => !lTo.includes(vl) && lTo.push(vl) && lTo || lTo
 
 export const cdppInitPagePart = (rawPpStr, ppId) => {
     confDpp.ppId[ppId] = {}
@@ -30,7 +41,7 @@ export const cdppInitPagePart = (rawPpStr, ppId) => {
 }
 
 const initFromURI = (rawPpStr, ppId) => {
-    console.log(rawPpStr, ppId, confDpp)
+    // console.log(rawPpStr, ppId, confDpp)
     const rawPp = rawPpStr.split(';')
         , confPpId = (confDpp.ppId[ppId] = { l_medas: [], medas: {}, })
 

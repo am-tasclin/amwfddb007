@@ -30,16 +30,14 @@ export default {
             // return this.eMap().vlStr
             // return marked.parse(this.eMap().vlStr)
             return this.eMap().vl_str && marked.parseInline(this.eMap().vl_str)
-        },
-        eMap() { return mcd.eMap[this.adnId] || {} },
+        }, eMap() { return mcd.eMap[this.adnId] || {} },
         cmClick_TODO(e) { // https://codepen.io/SimpleSoftwareIO/pen/yNwYJb
             // <div class="w3-hover-shadow" @contextmenu="cmClick">
             console.log(this, this.$nextTick, e,)
             const cmId = 'contextMenu1_' + this.ppId
             console.log(dropDownOpenId(), dppInteractivityPpId(this.ppId).ctMu1)
             e.preventDefault()
-        },
-        parentChild() { return mcd.parentChild[this.adnId] },
+        }, parentChild() { return mcd.parentChild[this.adnId] },
         isOpened() {
             const pplMedas = confDppMedas(this.ppId, this.medas, this.ppl2)
             return pplMedas.openedId && pplMedas.openedId.includes(this.adnId)

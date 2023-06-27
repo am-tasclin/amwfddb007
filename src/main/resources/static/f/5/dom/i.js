@@ -29,7 +29,6 @@ const uniqueMcdIdList = confDppUniqueMcdId()
 ws.onopen = event => readDppFromList(uniqueMcdIdList, () => {
     console.log('end init read')
 })
-
     ;
 // symulation mcDB Data, remove by work with real DB
 //const symulationMcd = 

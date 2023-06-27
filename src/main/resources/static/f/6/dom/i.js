@@ -15,23 +15,27 @@
 const { createApp } = Vue
 import { cdppInitPagePart, confDppUniqueMcdId } from '/f/6/lib/confDomPagePart.js'
 import { ws, readDppFromList } from '/f/6/lib/wsDbRw.js'
+import { reViewMeMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 
 cdppInitPagePart(window.location.hash.substring(1), 1)
 const uniqueMcdIdList = confDppUniqueMcdId()
-console.log(uniqueMcdIdList)
+console.log(uniqueMcdIdList.join(','))
 
-ws.onopen = event => readDppFromList(uniqueMcdIdList, () => {
-    console.log('end init read')
-})
+ws.onopen = event => readDppFromList(uniqueMcdIdList, () =>
+    reViewMeMap(1, uniqueMcdIdList))
 
 // init App TgridDpp
 import TGridDpp from '/f/6/libTGridDpp/TGridDpp.js'
-const tMedasDpp = createApp({})
+import MElement from '/f/6/libTGridDpp/MElement.js'
+const tMedasDpp = createApp()
 tMedasDpp.component('t-grid-dpp', TGridDpp)
+tMedasDpp.component('t-m-element', MElement)
 tMedasDpp.mount('#tMedasDpp')
 
 //dev part
 import DevConfDppIty from '/f/6/dev/lib/DevConfDppIty.js'
-const appDev = createApp({})
+const appDev = createApp()
 appDev.component('t-dev-conf-dpp-ity', DevConfDppIty)
 appDev.mount('#dev')
+
+const Okeys = Object.keys

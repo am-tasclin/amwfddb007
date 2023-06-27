@@ -10,14 +10,12 @@
  *          └─ SortMCData        └─ AdnEnterData    └─ Epl2Json
  */
 import { confDppId, confMedasDd } from '/f/6/lib/confDomPagePart.js'
-import { dppInteractivityPpId, addDppIdComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
+import { addDppIdComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
 import MElement from '/f/6/libTGridDpp/MElement.js'
 
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
-    components: {
-        MElement,
-    },
+    components: { MElement, },
     mounted() {
         addDppIdComponent(this.ppId, 'tGridDpp', this)
     }, methods: {
@@ -26,7 +24,6 @@ export default {
         medasOnOffClick(medas) {
             const dpp = this.confDpp()
                 , medasClosed = dpp.medasClosed || (dpp.medasClosed = [])
-            console.log(medas, dpp)
             medasClosed.includes(medas)
                 && medasClosed.splice(medasClosed.indexOf(medas), 1)
                 || medasClosed.push(medas)
@@ -35,8 +32,7 @@ export default {
             return this.confDpp().medasClosed
                 && this.confDpp().medasClosed.includes(medas)
         }
-    },
-    template: `
+    }, template: `
 <div> <span class="w3-tiny am-b"> MEDAS dom page part </span> ➾
     <SortMedas :ppId="ppId"/>
     <ConfDppEd :ppId="ppId"/>
