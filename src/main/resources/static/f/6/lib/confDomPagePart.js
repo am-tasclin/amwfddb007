@@ -55,4 +55,19 @@ const initFromURI = (rawPpStr, ppId) => {
 const initMedas = idList => idList.reduce((o, mcdId) =>
     o.l_mcdId.push(mcdId) && (o.mcdId[mcdId] = {}) && o, { l_mcdId: [], mcdId: {}, })
 
+
+const confMedas = {
+    medas: {
+        lr: 'Left|Right ::mc', //mc: Midnight Commander
+        mcDd: 'Data Dictionary',
+        mcEt: 'Element',
+        mcPl: 'Profile',
+    }, panel2: {
+        epl2: ['mcEt', 'mcPl']
+    }
+}
+export const confMedasDd = confMedas.medas
+export const confMedasEpl2 = confMedas.panel2.epl2
+
+
 const Okeys = Object.keys

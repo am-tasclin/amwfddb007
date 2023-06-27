@@ -25,9 +25,7 @@ import org.springframework.web.reactive.socket.WebSocketHandler;
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @SpringBootApplication

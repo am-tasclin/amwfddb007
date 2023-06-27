@@ -5,9 +5,8 @@
  * Dpp -- DOM Page Part
  * 
  */
-import {
-    addDppItyComponent, minSpaceJson
-} from '/f/6/lib/algoritmed-commons.js'
+import { minSpaceJson } from '/f/6/lib/algoritmed-commons.js'
+import { addDppItyComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { confDpp } from '/f/6/lib/confDomPagePart.js'
 
 export default {
@@ -37,7 +36,7 @@ export default {
 `,
 }
 
-import { dppItyComponent } from '/f/6/lib/algoritmed-commons.js'
+import { dppItyComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
 
 export const dppItyCtViewJson = () => {
     const cvj = {}// Component View JSON
@@ -50,8 +49,12 @@ export const dppItyCtViewJson = () => {
 
     dppItyComponent.ppId && Okeys(dppItyComponent.ppId).reduce((cvjPpId, ppId) => {
         cvjPpId[ppId] = {}
+        console.log(ppId, dppItyComponent)
+        console.log(dppItyComponent.ppId[ppId])
+        console.log(cvjPpId[ppId])
         cvjPpId[ppId].l = Okeys(dppItyComponent.ppId[ppId])
-        cvjPpId[ppId].l_sortMCData = Okeys(dppItyComponent.ppId[ppId].sortMcData)
+        dppItyComponent.ppId[ppId].sortMcData &&
+            (cvjPpId[ppId].l_sortMCData = Okeys(dppItyComponent.ppId[ppId].sortMcData))
         return cvjPpId
     }, cvj.ppId = {})
     return cvj
