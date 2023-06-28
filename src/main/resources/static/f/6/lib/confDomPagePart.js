@@ -32,6 +32,21 @@ export const confDppUniqueMcdId = () => {
         confDpp.ppId[ppId].medas[medas].ppl2
             && addToUniqueList(confDppId(ppId).medas[medas].ppl2.l_mcdId, uniqueMcdIdList)
     }))
+    console.log(uniqueMcdIdList.join(','))
+
+    Okeys(confDpp.ppId).forEach(ppId => Okeys(confDpp.ppId[ppId].medas)
+        .forEach(medas => confDpp.ppId[ppId].medas[medas].openedId &&
+            addToUniqueList(confDpp.ppId[ppId].medas[medas].openedId, uniqueMcdIdList)
+        ))
+    console.log(uniqueMcdIdList.join(','))
+
+    const openedId = []
+    Okeys(confDpp.ppId).forEach(ppId => Okeys(confDpp.ppId[ppId].medas)
+        .forEach(medas => confDpp.ppId[ppId].medas[medas].openedId &&
+            addToUniqueList(confDpp.ppId[ppId].medas[medas].openedId, openedId)
+        ))
+    console.log(openedId.join(','))
+
     return uniqueMcdIdList
 }
 
@@ -83,6 +98,5 @@ const confMedas = {
 }
 export const confMedasDd = confMedas.medas
 export const confMedasEpl2 = confMedas.panel2.epl2
-
 
 const Okeys = Object.keys
