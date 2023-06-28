@@ -21,7 +21,7 @@ export const addToParentChild = jsonAdnList =>
 
 export const addToEMap = jsonAdnList => {
     jsonAdnList.forEach(adn => mcd.eMap[adn.doc_id] = adn)
-    console.log(mcd)
+    // console.log(mcd)
 }
 
 const Okeys = Object.keys

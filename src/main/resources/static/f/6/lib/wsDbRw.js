@@ -9,22 +9,28 @@ import { pushListUnique } from '/f/6/lib/algoritmed-commons.js'
 const uri_wsDbRw = "ws://" + window.location.host + "/dbRw"
 export const ws = new WebSocket(uri_wsDbRw)
 
-export const readDppForParent = (parentId, fn) => {
-    const sql = sql_vl_str.concat('WHERE parent = :parentId').replace(':parentId', parentId)
-    executeSelectQuery(sql).then(json => {
-        // console.log(parentId, json.list)
+export const readDppForParent = (parentIdl, fn) => {
+    const sql = sql_vl_str.concat('WHERE parent IN (:parentId)').replace(':parentId', parentIdl.join(','))
+    return executeSelectQuery(sql).then(json => {
+        // console.log(parentIdl, json.list)
         addToEMap(json.list)
         addToParentChild(json.list)
-        readR1R2(mcd.parentChild[parentId], 'r', fn)
+        const x = parentIdl.reduce((l, pId) => l.concat(mcd.parentChild[pId]), [])
+        readR1R2(x, 'r', fn)
     })
 }
 
-export const readDppFromList = (uniqueMcdIdList, fn) =>
-    readMcdIdListStr(uniqueMcdIdList).then(json => {
-        // console.log('← ', json, mcd, fn)
+export const readOpenedParent = (uniqueMcdId, fn) => {
+    const loId = uniqueMcdId.openedId.filter(id => !mcd.parentChild[id])
+        .reduce((l, id) => l.push(id) && l, [])
+    loId.length > 0 && readDppForParent(loId, fn)
+}
+
+export const readDppFromList = (uniqueMcdId, fn) => readMcdIdListStr
+    (uniqueMcdId.l).then(json => {
+        // console.log('← ', json, mcd)
         addToEMap(json.list)
-        // reView(uniqueMcdIdList)
-        readR1R2(uniqueMcdIdList, 'r', fn)
+        readR1R2(uniqueMcdId.l, 'r', fn)
     })
 
 const readR1R2 = (uniqueMcdIdList, rName, fn) => {

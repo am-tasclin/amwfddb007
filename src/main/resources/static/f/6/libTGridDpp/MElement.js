@@ -11,10 +11,7 @@
 import { mcd } from '/f/6/lib/MetaContentData.js'
 import { addMeMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { readDppForParent } from '/f/6/lib/wsDbRw.js'
-import { confDppMedas, openChildOnOff } from '/f/6/lib/confDomPagePart.js'
-
-export const ppMedasPpl2Key = (ppId, medas, ppl2) =>
-    '_' + ppId + '_' + medas + '_' + (ppl2 == 2 && 2 || 1)
+import { confDppMedas, openChildOnOff,ppMedasPpl2Key } from '/f/6/lib/confDomPagePart.js'
 
 const openChild_OnOff = ct => {
     openChildOnOff(ct.adnId, ct.ppId, ct.medas, ct.ppl2)
@@ -29,7 +26,7 @@ export default {
         mElementKey() { return 'mElement' + ppMedasPpl2Key(this.ppId, this.medas, this.ppl2) },
     }, methods: {
         adnClick() {
-            !mcd.parentChild[this.adnId] && readDppForParent(this.adnId, () =>
+            !mcd.parentChild[this.adnId] && readDppForParent([this.adnId], () =>
                 openChild_OnOff(this))
             mcd.parentChild[this.adnId] && openChild_OnOff(this)
         }, vlStr() {

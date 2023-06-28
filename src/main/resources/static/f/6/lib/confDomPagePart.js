@@ -25,29 +25,36 @@ export const openChildOnOff = (adnId, ppId, medas, ppl2) => {
     console.log(confDpp)
 }
 
+export const ppMedasPpl2Key = (ppId, medas, ppl2) =>
+    '_' + ppId + '_' + medas + '_' + (ppl2 || 1)
+// '_' + ppId + '_' + medas + '_' + (ppl2 == 2 && 2 || 1)
+
+export const forEachPpMedas = fn => Okeys(confDpp.ppId)
+    .forEach(ppId => Okeys(confDpp.ppId[ppId].medas)
+        .forEach(medas => fn(confDpp.ppId[ppId].medas[medas], ppId, medas)))
+
 export const confDppUniqueMcdId = () => {
-    const uniqueMcdIdList = []
+    const uniqueMcdId = { l: [], openedId: [] }
     Okeys(confDpp.ppId).find(ppId => confDppId(ppId).l_medas.find(medas => {
-        addToUniqueList(confDppId(ppId).medas[medas].l_mcdId, uniqueMcdIdList)
+        addToUniqueList(confDppId(ppId).medas[medas].l_mcdId, uniqueMcdId.l)
         confDpp.ppId[ppId].medas[medas].ppl2
-            && addToUniqueList(confDppId(ppId).medas[medas].ppl2.l_mcdId, uniqueMcdIdList)
+            && addToUniqueList(confDppId(ppId).medas[medas].ppl2.l_mcdId, uniqueMcdId.l)
     }))
-    console.log(uniqueMcdIdList.join(','))
+    console.log(uniqueMcdId.l.join(','))
 
     Okeys(confDpp.ppId).forEach(ppId => Okeys(confDpp.ppId[ppId].medas)
         .forEach(medas => confDpp.ppId[ppId].medas[medas].openedId &&
-            addToUniqueList(confDpp.ppId[ppId].medas[medas].openedId, uniqueMcdIdList)
+            addToUniqueList(confDpp.ppId[ppId].medas[medas].openedId, uniqueMcdId.l)
         ))
-    console.log(uniqueMcdIdList.join(','))
 
-    const openedId = []
+    console.log(uniqueMcdId.l.join(','))
+
     Okeys(confDpp.ppId).forEach(ppId => Okeys(confDpp.ppId[ppId].medas)
         .forEach(medas => confDpp.ppId[ppId].medas[medas].openedId &&
-            addToUniqueList(confDpp.ppId[ppId].medas[medas].openedId, openedId)
+            addToUniqueList(confDpp.ppId[ppId].medas[medas].openedId, uniqueMcdId.openedId)
         ))
-    console.log(openedId.join(','))
 
-    return uniqueMcdIdList
+    return uniqueMcdId
 }
 
 export const cdppInitPagePart = (rawPpStr, ppId) => {
