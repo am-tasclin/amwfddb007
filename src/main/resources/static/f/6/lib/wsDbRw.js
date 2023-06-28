@@ -12,7 +12,7 @@ export const ws = new WebSocket(uri_wsDbRw)
 export const readDppForParent = (parentId, fn) => {
     const sql = sql_vl_str.concat('WHERE parent = :parentId').replace(':parentId', parentId)
     executeSelectQuery(sql).then(json => {
-        console.log(parentId, json.list)
+        // console.log(parentId, json.list)
         addToEMap(json.list)
         addToParentChild(json.list)
         readR1R2(mcd.parentChild[parentId], 'r', fn)

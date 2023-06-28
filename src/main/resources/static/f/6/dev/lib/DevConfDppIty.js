@@ -20,7 +20,7 @@ export default {
         this.count++
     },
     template: `
-<p> 🚧:&nbsp; <span class="w3-small w3-opacity">dev cDppIty </span> </p>
+<p> 🚧:&nbsp; <button @click="count++" class="w3-btn w3-small w3-opacity">dev cDppIty </button> </p>
 <div class="w3-opacity w3-tiny w3-row" style="white-space: pre-wrap; overflow: auto;">
     <div class="w3-half">
         <div class="am-b w3-light-grey">DEV:: dppConf </div>

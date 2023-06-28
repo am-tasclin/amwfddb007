@@ -16,12 +16,13 @@ export const confDppId = ppId => confDpp.ppId[ppId || 1]
 export const confDppMedas = (ppId, medas, ppl2) => ppl2 != 2
     && confDppId(ppId).medas[medas] || confDppId(ppId).medas[medas].ppl2
 
-export const openChildOnOff =  (adnId, ppId, medas, ppl2) => {
+export const openChildOnOff = (adnId, ppId, medas, ppl2) => {
     const cgDppMedas = confDppMedas(ppId, medas, ppl2)
     !cgDppMedas.openedId && (cgDppMedas.openedId = [])
     !cgDppMedas.openedId.includes(adnId)
         && cgDppMedas.openedId.push(adnId)
         || cgDppMedas.openedId.splice(cgDppMedas.openedId.indexOf(adnId), 1)
+    console.log(confDpp)
 }
 
 export const confDppUniqueMcdId = () => {

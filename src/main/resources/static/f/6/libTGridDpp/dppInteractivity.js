@@ -32,12 +32,10 @@ const dppInteractivity = {    // dppIty -- DOM Page Part interactivity data and 
      * 
      */
 }
-export const reViewMeMap = (ppId, l) => {
-    l.filter(adnId => meMap[adnId])
-        .forEach(adnId => Okeys(meMap[adnId]).forEach(key =>
-            meMap[adnId][key].count++))
-    // dppInteractivity.appComponents.ppId[ppId].tGridDpp.count++
-}
+export const reViewMeMap = (ppId, l) => l.filter(adnId => meMap[adnId])
+    .forEach(adnId => Okeys(meMap[adnId])
+        .forEach(key => meMap[adnId][key].count++))
+
 export const meMap = dppInteractivity.appComponents.meMap
 export const addMeMap = (adnId, key, component) => {
     // console.log(adnId, key)

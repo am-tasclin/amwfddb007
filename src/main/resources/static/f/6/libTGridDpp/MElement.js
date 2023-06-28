@@ -25,13 +25,13 @@ export default {
     }, methods: {
         adnClick() {
             !mcd.parentChild[this.adnId] && readDppForParent(this.adnId, () => {
-                this.count++
                 openChildOnOff(this.adnId, this.ppId, this.medas, this.ppl2)
+                this.count++
             })
-            mcd.parentChild[this.adnId] &&
+            mcd.parentChild[this.adnId] && (() => {
                 openChildOnOff(this.adnId, this.ppId, this.medas, this.ppl2)
-            mcd.parentChild[this.adnId] &&
                 this.count++
+            })()
         }, vlStr() {
             return this.eMap().vl_str && marked.parseInline(this.eMap().vl_str)
             // return this.eMap().vlStr | return marked.parse(this.eMap().vlStr)
