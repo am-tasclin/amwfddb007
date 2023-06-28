@@ -24,11 +24,8 @@ export default {
         mElementKey() { return 'mElement' + ppMedasPpl2Key(this.ppId, this.medas, this.ppl2) },
     }, methods: {
         adnClick() {
-            console.log(this.adnId, mcd.eMap[this.adnId], mcd.parentChild)
             !mcd.parentChild[this.adnId] && readDppForParent(this.adnId, () => {
-                console.log(this.isOpened())
                 this.count++
-                console.log(this.isOpened())
                 openChildOnOff(this.adnId, this.ppId, this.medas, this.ppl2)
             })
             mcd.parentChild[this.adnId] &&

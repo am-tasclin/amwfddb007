@@ -41,6 +41,7 @@ const readR1R2 = (uniqueMcdIdList, rName, fn) => {
         'r2' == rName && fn && fn()
     })
     rList.length == 0 && 'r' == rName && readR1R2(uniqueMcdIdList, 'r2', fn)
+    rList.length == 0 && 'r2' == rName && fn && fn()
 }
 
 const readMcdIdListStr = uniqueMcdIdList => {
