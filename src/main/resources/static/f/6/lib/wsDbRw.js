@@ -10,7 +10,7 @@ const uri_wsDbRw = "ws://" + window.location.host + "/dbRw"
 export const ws = new WebSocket(uri_wsDbRw)
 
 export const readDppForParent = (parentIdl, fn) => {
-    const sql = sql_vl_str.concat('WHERE parent IN (:parentId)').replace(':parentId', parentIdl.join(','))
+    const sql = sql_vl_str_sort.replace(':parentId', parentIdl.join(','))
     return executeSelectQuery(sql).then(json => {
         // console.log(parentIdl, json.list)
         addToEMap(json.list)
@@ -55,6 +55,12 @@ const readMcdIdListStr = uniqueMcdIdList => {
     // console.log('→', sql)
     return executeSelectQuery(sql)
 }
+
+const sql_vl_str_sort = 'SELECT doc_id, parent p, reference r, reference2 r2, value vl_str, sort FROM doc \n\
+LEFT JOIN string ON doc_id=string_id \n\
+LEFT JOIN sort ON doc_id=sort_id \n\
+WHERE parent IN (:parentId) \n\
+ORDER BY sort'
 
 const sql_vl_str = 'SELECT doc_id, parent p, reference r, reference2 r2, value vl_str FROM doc \n\
     LEFT JOIN string ON doc_id=string_id \n'

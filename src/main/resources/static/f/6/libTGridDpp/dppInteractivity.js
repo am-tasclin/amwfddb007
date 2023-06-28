@@ -38,20 +38,9 @@ const dppInteractivity = {    // dppIty -- DOM Page Part interactivity data and 
      */
 }
 
-export const initReViewOpened = () => {
-    console.log(confDpp)
-    true && forEachPpMedas((ppMedas, ppId, medas) => {
-        // console.log(ppMedas, ppMedas.openedId, ppId, medas)
-        const ppMedasPl2_Key = ppMedasPpl2Key(ppId, medas)
-        console.log(111, ppMedasPl2_Key, meMap)
-        ppMedas.openedId && ppMedas.openedId
-            .filter(id => meMap[id]).forEach(id => {
-                console.log(id, Okeys(meMap[id]), mcd.parentChild[id])
-                console.log(id, meMap[id]['mElement' + ppMedasPl2_Key])
-                meMap[id]['mElement' + ppMedasPl2_Key].count++
-            })
-    })
-}
+export const initReViewOpened = () => forEachPpMedas((ppMedas, ppId, medas) =>
+    ppMedas.openedId && ppMedas.openedId.filter(id => meMap[id]).forEach(id =>
+        meMap[id]['mElement' + ppMedasPpl2Key(ppId, medas)].count++))
 
 export const reViewMeMap = l => l.filter(adnId => meMap[adnId])
     .forEach(adnId => Okeys(meMap[adnId])
