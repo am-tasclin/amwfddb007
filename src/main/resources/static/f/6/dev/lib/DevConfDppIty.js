@@ -14,16 +14,21 @@ export default {
     methods: {
         devText() { return minSpaceJson(confDpp) },
         dppItyCtViewJson() { return minSpaceJson(dppItyCtViewJson()) },
-    },
-    mounted() {
+        confJsonStr0(ppId) {
+            return JSON.stringify(confDpp.ppId[ppId])
+        }
+    }, mounted() {
+        console.log(123)
         addDppItyComponent('dev', this)
         this.count++
-    },
-    template: `
+    }, template: `
 <p> 🚧:&nbsp; <button @click="count++" class="w3-btn w3-small w3-opacity">dev cDppIty </button> </p>
 <div class="w3-opacity w3-tiny w3-row" style="white-space: pre-wrap; overflow: auto;">
     <div class="w3-half">
         <div class="am-b w3-light-grey">DEV:: dppConf </div>
+        <a :href="'#cj='+confJsonStr0(1)">
+                    Full pagePart Config.
+                </a>
         {{devText()}}
     </div>
     <div class="w3-half">
@@ -32,7 +37,7 @@ export default {
         </div>
         {{dppItyCtViewJson()}}
     </div>
-</div> <span class="w3-hide"> {{count}} </span>
+</div> <span class="w3-hide"> {{count}} </span> &nbsp;
 `,
 }
 

@@ -27,6 +27,7 @@ export default {
             .filter(im => confMedasEpl2.includes(im))
             .reduce((o, medas) => (o[medas] = Okeys(confDppId(this.ppId)
                 .medas[medas].epl2.mcdId)) && o, {})
+
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
         getConfMedasDd() { return confMedasDd },

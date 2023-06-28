@@ -38,8 +38,11 @@ export const confDppUniqueMcdId = () => {
 export const cdppInitPagePart = (rawPpStr, ppId) => {
     confDpp.ppId[ppId] = {}
     !rawPpStr.includes('cj=') && initFromURI(rawPpStr, ppId)
-    rawPpStr.includes('cj=') && metalFnConfPP.initFromJson(rawPpStr.replace('cj=', ''), ppId)
+    rawPpStr.includes('cj=') && initFromJson(rawPpStr.replace('cj=', ''), ppId)
 }
+
+const initFromJson = (jsonStr, ppId) =>
+    confDpp.ppId[ppId] = JSON.parse(decodeURI(jsonStr))
 
 const initFromURI = (rawPpStr, ppId) => {
     // console.log(rawPpStr, ppId, confDpp)

@@ -16,6 +16,11 @@ import { confDppMedas, openChildOnOff } from '/f/6/lib/confDomPagePart.js'
 export const ppMedasPpl2Key = (ppId, medas, ppl2) =>
     '_' + ppId + '_' + medas + '_' + (ppl2 == 2 && 2 || 1)
 
+const openChild_OnOff = ct => {
+    openChildOnOff(ct.adnId, ct.ppId, ct.medas, ct.ppl2)
+    ct.count++
+}
+
 export default {
     props: { adnId: Number, ppId: Number, medas: String, ppl2: Number, }, data() { return { count: 0, } },
     mounted() {
@@ -24,14 +29,9 @@ export default {
         mElementKey() { return 'mElement' + ppMedasPpl2Key(this.ppId, this.medas, this.ppl2) },
     }, methods: {
         adnClick() {
-            !mcd.parentChild[this.adnId] && readDppForParent(this.adnId, () => {
-                openChildOnOff(this.adnId, this.ppId, this.medas, this.ppl2)
-                this.count++
-            })
-            mcd.parentChild[this.adnId] && (() => {
-                openChildOnOff(this.adnId, this.ppId, this.medas, this.ppl2)
-                this.count++
-            })()
+            !mcd.parentChild[this.adnId] && readDppForParent(this.adnId, () =>
+                openChild_OnOff(this))
+            mcd.parentChild[this.adnId] && openChild_OnOff(this)
         }, vlStr() {
             return this.eMap().vl_str && marked.parseInline(this.eMap().vl_str)
             // return this.eMap().vlStr | return marked.parse(this.eMap().vlStr)
