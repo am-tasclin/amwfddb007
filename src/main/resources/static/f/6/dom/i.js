@@ -13,15 +13,9 @@
  *  └─ TGridDpp,    MElement
  */
 const { createApp } = Vue
-import {
-    cdppInitPagePart, confDppUniqueMcdId
-} from '/f/6/lib/confDomPagePart.js'
-import {
-    ws, readDppFromList, readOpenedParent
-} from '/f/6/lib/wsDbRw.js'
-import {
-    reViewMeMap, reViewMeMapOpened
-} from '/f/6/libTGridDpp/MElement.js'
+import { cdppInitPagePart, confDppUniqueMcdId } from '/f/6/lib/confDomPagePart.js'
+import { ws, readDppFromList, readOpenedParent } from '/f/6/lib/wsDbRw.js'
+import { reViewMeMap, reViewMeMapOpened } from '/f/6/libTGridDpp/MElement.js'
 
 cdppInitPagePart(window.location.hash.substring(1), 1)
 const uniqueMcdId = confDppUniqueMcdId()

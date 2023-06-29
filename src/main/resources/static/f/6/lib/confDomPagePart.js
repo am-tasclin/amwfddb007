@@ -43,17 +43,21 @@ export const confDppUniqueMcdId = () => {
     }))
     console.log(uniqueMcdId.l.join(','))
 
-    Okeys(confDpp.ppId).forEach(ppId => Okeys(confDpp.ppId[ppId].medas)
-        .forEach(medas => confDpp.ppId[ppId].medas[medas].openedId &&
+    Okeys(confDpp.ppId).forEach(ppId => Okeys(confDpp.ppId[ppId].medas).forEach(medas => {
+        confDpp.ppId[ppId].medas[medas].openedId &&
             addToUniqueList(confDpp.ppId[ppId].medas[medas].openedId, uniqueMcdId.l)
-        ))
+        confDpp.ppId[ppId].medas[medas].ppl2 && confDpp.ppId[ppId].medas[medas].ppl2.openedId &&
+            addToUniqueList(confDpp.ppId[ppId].medas[medas].ppl2.openedId, uniqueMcdId.l)
+    }))
 
     console.log(uniqueMcdId.l.join(','))
 
-    Okeys(confDpp.ppId).forEach(ppId => Okeys(confDpp.ppId[ppId].medas)
-        .forEach(medas => confDpp.ppId[ppId].medas[medas].openedId &&
+    Okeys(confDpp.ppId).forEach(ppId => Okeys(confDpp.ppId[ppId].medas).forEach(medas => {
+        confDpp.ppId[ppId].medas[medas].openedId &&
             addToUniqueList(confDpp.ppId[ppId].medas[medas].openedId, uniqueMcdId.openedId)
-        ))
+        confDpp.ppId[ppId].medas[medas].ppl2 && confDpp.ppId[ppId].medas[medas].ppl2.openedId &&
+            addToUniqueList(confDpp.ppId[ppId].medas[medas].ppl2.openedId, uniqueMcdId.openedId)
+    }))
 
     return uniqueMcdId
 }

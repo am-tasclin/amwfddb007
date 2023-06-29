@@ -11,13 +11,17 @@
 import { mcd } from '/f/6/lib/MetaContentData.js'
 import { meMap, addMeMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { readDppForParent } from '/f/6/lib/wsDbRw.js'
-import {
-    confDppMedas, openChildOnOff, ppMedasPpl2Key, forEachPpMedas
-} from '/f/6/lib/confDomPagePart.js'
+import { confDppMedas, openChildOnOff, ppMedasPpl2Key, forEachPpMedas }
+    from '/f/6/lib/confDomPagePart.js'
 
-export const reViewMeMapOpened = () => forEachPpMedas((ppMedas, ppId, medas) =>
+export const reViewMeMapOpened = () => forEachPpMedas((ppMedas, ppId, medas) => {
     ppMedas.openedId && ppMedas.openedId.filter(id => meMap[id]).forEach(id =>
-        meMap[id]['mElement' + ppMedasPpl2Key(ppId, medas)].count++))
+        meMap[id]['mElement' + ppMedasPpl2Key(ppId, medas)].count++)
+
+    ppMedas.ppl2 && ppMedas.ppl2.openedId && ppMedas.ppl2.openedId
+        .filter(id => meMap[id]).forEach(id =>
+            meMap[id]['mElement' + ppMedasPpl2Key(ppId, medas, 2)].count++)
+})
 
 export const reViewMeMap = l => l.filter(adnId => meMap[adnId])
     .forEach(adnId => Okeys(meMap[adnId])
