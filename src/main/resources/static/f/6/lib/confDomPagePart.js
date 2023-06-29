@@ -28,7 +28,6 @@ export const openChildOnOff = (adnId, ppId, medas, ppl2) => {
 
 export const ppMedasPpl2Key = (ppId, medas, ppl2) =>
     '_' + ppId + '_' + medas + '_' + (ppl2 || 1)
-// '_' + ppId + '_' + medas + '_' + (ppl2 == 2 && 2 || 1)
 
 export const forEachPpMedas = fn => Okeys(confDpp.ppId)
     .forEach(ppId => Okeys(confDpp.ppId[ppId].medas)
@@ -36,28 +35,19 @@ export const forEachPpMedas = fn => Okeys(confDpp.ppId)
 
 export const confDppUniqueMcdId = () => {
     const uniqueMcdId = { l: [], openedId: [] }
-    Okeys(confDpp.ppId).find(ppId => confDppId(ppId).l_medas.find(medas => {
-        addToUniqueList(confDppId(ppId).medas[medas].l_mcdId, uniqueMcdId.l)
-        confDpp.ppId[ppId].medas[medas].ppl2
-            && addToUniqueList(confDppId(ppId).medas[medas].ppl2.l_mcdId, uniqueMcdId.l)
-    }))
+
+    forEachPpMedas(ppMedas => {
+        addToUniqueList(ppMedas.l_mcdId, uniqueMcdId.l)
+        ppMedas.ppl2 && addToUniqueList(ppMedas.ppl2.l_mcdId, uniqueMcdId.l)
+    })
     console.log(uniqueMcdId.l.join(','))
 
-    Okeys(confDpp.ppId).forEach(ppId => Okeys(confDpp.ppId[ppId].medas).forEach(medas => {
-        confDpp.ppId[ppId].medas[medas].openedId &&
-            addToUniqueList(confDpp.ppId[ppId].medas[medas].openedId, uniqueMcdId.l)
-        confDpp.ppId[ppId].medas[medas].ppl2 && confDpp.ppId[ppId].medas[medas].ppl2.openedId &&
-            addToUniqueList(confDpp.ppId[ppId].medas[medas].ppl2.openedId, uniqueMcdId.l)
+    forEachPpMedas(ppMedas => [uniqueMcdId.l, uniqueMcdId.openedId].forEach(l => {
+        ppMedas.openedId && addToUniqueList(ppMedas.openedId, l)
+        ppMedas.ppl2 && ppMedas.ppl2.openedId && addToUniqueList(ppMedas.ppl2.openedId, l)
     }))
 
     console.log(uniqueMcdId.l.join(','))
-
-    Okeys(confDpp.ppId).forEach(ppId => Okeys(confDpp.ppId[ppId].medas).forEach(medas => {
-        confDpp.ppId[ppId].medas[medas].openedId &&
-            addToUniqueList(confDpp.ppId[ppId].medas[medas].openedId, uniqueMcdId.openedId)
-        confDpp.ppId[ppId].medas[medas].ppl2 && confDpp.ppId[ppId].medas[medas].ppl2.openedId &&
-            addToUniqueList(confDpp.ppId[ppId].medas[medas].ppl2.openedId, uniqueMcdId.openedId)
-    }))
 
     return uniqueMcdId
 }
