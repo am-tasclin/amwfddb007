@@ -22,7 +22,6 @@ export const reViewMeMapOpened = () => forEachPpMedas((ppMedas, ppId, medas) => 
     ppMedas.ppl2 && ppMedas.ppl2.openedId && ppMedas.ppl2.openedId
         .filter(id => meMap[id]).forEach(id =>
             meMap[id]['mElement' + ppMedasPpl2Key(ppId, medas, 2)].count++)
-
 })
 
 export const reViewMeMap = l => l.filter(adnId => meMap[adnId])

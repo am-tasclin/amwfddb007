@@ -31,8 +31,18 @@ const dppInteractivity = {    // dppIty -- DOM Page Part interactivity data and 
     /**
      * 
      */
+    openedDropDownId: '',
+    /**
+     * 
+     */
 }
 export const meMap = dppInteractivity.appComponents.meMap
+export const openedDropDownId = () => dppInteractivity.openedDropDownId
+export const setOpenedDropDownId = v =>
+    dppInteractivity.openedDropDownId == v
+    && delete dppInteractivity.openedDropDownId
+    || (dppInteractivity.openedDropDownId = v)
+
 
 export const addMeMap = (adnId, key, component) => {
     // console.log(adnId, key)

@@ -10,6 +10,7 @@
  *          └─ SortMCData        └─ AdnEnterData    └─ Epl2Json
  */
 import { confDppId, confMedasDd, confDppMedasEpl2 } from '/f/6/lib/confDomPagePart.js'
+import ConfDppEd from '/f/6/libTGridDpp/ConfDppEd.js'
 import MElement from '/f/6/libTGridDpp/MElement.js'
 import Epl2 from '/f/6/libTGridDpp/Epl2.js'
 import Epl2Sql from '/f/6/libTGridDpp/Epl2Sql.js'
@@ -23,7 +24,7 @@ export const reViewTGridDpp = ppId =>
 
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
-    components: { MElement, Epl2, Epl2Sql, Epl2Json },
+    components: { ConfDppEd, MElement, Epl2, Epl2Sql, Epl2Json, },
     mounted() {
         addDppIdComponent(this.ppId, 'tGridDpp', this)
     }, methods: {
