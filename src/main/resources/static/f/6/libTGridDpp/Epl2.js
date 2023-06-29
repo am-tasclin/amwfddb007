@@ -3,8 +3,9 @@
  * Algoritmed ©, EUPL-1.2 or later.
  * Epl2 ── 
  */
-import { confDppMedasEpl2 } from '/f/5/lib/ConfDomPagePart.js'
-import { dppInteractivityPpId } from '/f/5/libTGridDpp/metalTGridDpp.js'
+import { confDppMedasEpl2 } from '/f/6/lib/confDomPagePart.js'
+import { reViewTGridDpp } from '/f/6/libTGridDpp/TGridDpp.js'
+
 export default {
     data() {
         return {
@@ -15,10 +16,11 @@ export default {
     }, props: { ppId: Number, medas: String, mcdId: Number, },
     methods: {
         setEpl2Type(pt) {
+            console.log(pt)
             confDppMedasEpl2(this.ppId, this.medas, this.mcdId).panelType =
                 this.panelType = pt
-            dppInteractivityPpId(this.ppId).tGridDpp.count++
-        },
+            reViewTGridDpp(this.ppId)
+        }
     }, template: `
 <div class="w3-dropdown-hover w3-right" >
     <button class="w3-btn w3-padding-small w3-white w3-tiny am-b">

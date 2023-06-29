@@ -5,10 +5,6 @@
  * Dpp -- DOM Page Part
  * 
  */
-import {
-     forEachPpMedas, ppMedasPpl2Key
-} from '/f/6/lib/confDomPagePart.js'
-
 const dppInteractivity = {    // dppIty -- DOM Page Part interactivity data and functions.
     /**
      * 
@@ -36,16 +32,8 @@ const dppInteractivity = {    // dppIty -- DOM Page Part interactivity data and 
      * 
      */
 }
-
-export const initReViewOpened = () => forEachPpMedas((ppMedas, ppId, medas) =>
-    ppMedas.openedId && ppMedas.openedId.filter(id => meMap[id]).forEach(id =>
-        meMap[id]['mElement' + ppMedasPpl2Key(ppId, medas)].count++))
-
-export const reViewMeMap = l => l.filter(adnId => meMap[adnId])
-    .forEach(adnId => Okeys(meMap[adnId])
-        .forEach(key => meMap[adnId][key].count++))
-
 export const meMap = dppInteractivity.appComponents.meMap
+
 export const addMeMap = (adnId, key, component) => {
     // console.log(adnId, key)
     !dppInteractivity.appComponents.meMap[adnId]

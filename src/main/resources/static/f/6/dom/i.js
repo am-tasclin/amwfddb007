@@ -20,8 +20,8 @@ import {
     ws, readDppFromList, readOpenedParent
 } from '/f/6/lib/wsDbRw.js'
 import {
-    reViewMeMap, initReViewOpened
-} from '/f/6/libTGridDpp/dppInteractivity.js'
+    reViewMeMap, reViewMeMapOpened
+} from '/f/6/libTGridDpp/MElement.js'
 
 cdppInitPagePart(window.location.hash.substring(1), 1)
 const uniqueMcdId = confDppUniqueMcdId()
@@ -29,7 +29,7 @@ console.log(uniqueMcdId)
 
 ws.onopen = event => readDppFromList(uniqueMcdId, () => {
     reViewMeMap(uniqueMcdId.l)
-    readOpenedParent(uniqueMcdId, initReViewOpened)
+    readOpenedParent(uniqueMcdId, reViewMeMapOpened)
 })
 
 // init App TgridDpp

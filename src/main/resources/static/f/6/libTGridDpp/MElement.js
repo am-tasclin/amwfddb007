@@ -9,9 +9,19 @@
  *  └─ AdnMenu
  */
 import { mcd } from '/f/6/lib/MetaContentData.js'
-import { addMeMap } from '/f/6/libTGridDpp/dppInteractivity.js'
+import { meMap, addMeMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { readDppForParent } from '/f/6/lib/wsDbRw.js'
-import { confDppMedas, openChildOnOff,ppMedasPpl2Key } from '/f/6/lib/confDomPagePart.js'
+import {
+    confDppMedas, openChildOnOff, ppMedasPpl2Key, forEachPpMedas
+} from '/f/6/lib/confDomPagePart.js'
+
+export const reViewMeMapOpened = () => forEachPpMedas((ppMedas, ppId, medas) =>
+    ppMedas.openedId && ppMedas.openedId.filter(id => meMap[id]).forEach(id =>
+        meMap[id]['mElement' + ppMedasPpl2Key(ppId, medas)].count++))
+
+export const reViewMeMap = l => l.filter(adnId => meMap[adnId])
+    .forEach(adnId => Okeys(meMap[adnId])
+        .forEach(key => meMap[adnId][key].count++))
 
 const openChild_OnOff = ct => {
     openChildOnOff(ct.adnId, ct.ppId, ct.medas, ct.ppl2)
@@ -53,3 +63,5 @@ export default {
 </div>
 `,
 }
+
+const Okeys = Object.keys

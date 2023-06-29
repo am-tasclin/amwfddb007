@@ -11,8 +11,9 @@
 import { addToUniqueList } from '/f/6/lib/algoritmed-commons.js'
 
 export const confDpp = { ppId: {} }
-
 export const confDppId = ppId => confDpp.ppId[ppId || 1]
+export const confDppMedasEpl2 = (ppId, medas, mcdId) =>
+    confDppId(ppId).medas[medas].epl2.mcdId[mcdId]
 export const confDppMedas = (ppId, medas, ppl2) => ppl2 != 2
     && confDppId(ppId).medas[medas] || confDppId(ppId).medas[medas].ppl2
 

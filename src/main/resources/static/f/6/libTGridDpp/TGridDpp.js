@@ -9,18 +9,27 @@
  *      └─ ConfDppEdPanel    └─ AdnMenu             └─ Epl2Sql
  *          └─ SortMCData        └─ AdnEnterData    └─ Epl2Json
  */
-import { confDppId, confMedasDd } from '/f/6/lib/confDomPagePart.js'
-import { addDppIdComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
+import { confDppId, confMedasDd, confDppMedasEpl2 } from '/f/6/lib/confDomPagePart.js'
 import MElement from '/f/6/libTGridDpp/MElement.js'
+import Epl2 from '/f/6/libTGridDpp/Epl2.js'
+import Epl2Sql from '/f/6/libTGridDpp/Epl2Sql.js'
+import Epl2Json from '/f/6/libTGridDpp/Epl2Json.js'
+import {
+    addDppIdComponent, dppInteractivityPpId
+} from '/f/6/libTGridDpp/dppInteractivity.js'
+
+export const reViewTGridDpp = ppId =>
+    dppInteractivityPpId(ppId).tGridDpp.count++
 
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
-    components: { MElement, },
+    components: { MElement, Epl2, Epl2Sql, Epl2Json },
     mounted() {
         addDppIdComponent(this.ppId, 'tGridDpp', this)
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
         confMedasName(medas) { return confMedasDd[medas] },
+        confDppMedasEpl2(medas, mcdId) { return confDppMedasEpl2(this.ppId, medas, mcdId) },
         medasOnOffClick(medas) {
             const dpp = this.confDpp()
                 , medasClosed = dpp.medasClosed || (dpp.medasClosed = [])
@@ -66,7 +75,9 @@ export default {
                     <MElement :adnId="mcdId" :ppId="ppId" :medas="medas"/>
                 </div>
                 <div class="w3-half">
-                a1
+                    <Epl2 :ppId="ppId" :medas="medas" :mcdId="mcdId" />
+                    <Epl2Sql v-if="'Sql'==confDppMedasEpl2(medas, mcdId).panelType"/>
+                    <Epl2Json v-else />
                 </div>
             </div>
             <MElement v-else :adnId="mcdId" :ppId="ppId" :medas="medas"/>
