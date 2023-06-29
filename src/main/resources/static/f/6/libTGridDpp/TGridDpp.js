@@ -46,7 +46,19 @@ export default {
         </span>
     </div>
     <template v-if="!isMedasClosed(medas)">
-        <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
+        <div v-if="confDpp().medas[medas].ppl2" class="w3-row">
+            <div class="w3-half">
+            <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
+                <MElement :adnId="mcdId" :ppId="ppId" :medas="medas"/>
+            </template>
+            </div>
+            <div class="w3-half">
+                <template v-for="mcdId in confDpp().medas[medas].ppl2.l_mcdId">
+                    <MElement :adnId="mcdId" :ppId="ppId" :medas="medas" ppl2="2"/>
+                </template>
+            </div>
+        </div>
+        <template v-else v-for="mcdId in confDpp().medas[medas].l_mcdId">
             <MElement :adnId="mcdId" :ppId="ppId" :medas="medas"/>
         </template>
     </template>

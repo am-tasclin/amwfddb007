@@ -6,9 +6,8 @@
  * 
  */
 import {
-    confDpp, forEachPpMedas, ppMedasPpl2Key
+     forEachPpMedas, ppMedasPpl2Key
 } from '/f/6/lib/confDomPagePart.js'
-import { mcd } from '/f/6/lib/MetaContentData.js'
 
 const dppInteractivity = {    // dppIty -- DOM Page Part interactivity data and functions.
     /**
