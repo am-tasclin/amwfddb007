@@ -15,12 +15,14 @@ import { confDppMedas, openChildOnOff, ppMedasPpl2Key, forEachPpMedas }
     from '/f/6/lib/confDomPagePart.js'
 
 export const reViewMeMapOpened = () => forEachPpMedas((ppMedas, ppId, medas) => {
-    ppMedas.openedId && ppMedas.openedId.filter(id => meMap[id]).forEach(id =>
-        meMap[id]['mElement' + ppMedasPpl2Key(ppId, medas)].count++)
+    ppMedas.openedId && ppMedas.openedId
+        .filter(id => meMap[id] && meMap[id]['mElement' + ppMedasPpl2Key(ppId, medas)])
+        .forEach(id => meMap[id]['mElement' + ppMedasPpl2Key(ppId, medas)].count++)
 
     ppMedas.ppl2 && ppMedas.ppl2.openedId && ppMedas.ppl2.openedId
         .filter(id => meMap[id]).forEach(id =>
             meMap[id]['mElement' + ppMedasPpl2Key(ppId, medas, 2)].count++)
+
 })
 
 export const reViewMeMap = l => l.filter(adnId => meMap[adnId])

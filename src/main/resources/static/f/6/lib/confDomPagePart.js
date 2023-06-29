@@ -40,6 +40,7 @@ export const confDppUniqueMcdId = () => {
         addToUniqueList(ppMedas.l_mcdId, uniqueMcdId.l)
         ppMedas.ppl2 && addToUniqueList(ppMedas.ppl2.l_mcdId, uniqueMcdId.l)
     })
+
     console.log(uniqueMcdId.l.join(','))
 
     forEachPpMedas(ppMedas => [uniqueMcdId.l, uniqueMcdId.openedId].forEach(l => {
