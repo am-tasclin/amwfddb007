@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title id="headTitle">ddPersonal</title>
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<script src="/webjars/vue/3.3.4/dist/vue.global.prod.js" type="application/javascript"></script>
+
+<body class="w3-container">
+    <div class="am-max-width-1">
+        <h1 id="h1">{{h1}}</h1>
+        <div id="tGridTable1"></div>
+    </div>
+    <script src="i.js" type="module"></script>
+
+    <div id="testGridTable2">
+        TO TEST!
+        {{headKeysWithChild()}}
+        {{headKeysWithChild().length}}
+        <span v-if="headKeysWithChild().length">is more row</span>
+        <span v-if="!headKeysWithChild().length">is one row</span>
+        <table>
+            <caption class="w3-tiny am-i">Hi table!</caption>
+            <thead>
+                <tr class="w3-small">
+                    <th v-for="(v,k) in tableData().head" style="width: 4em;" :style="v.style" class="w3-border">
+                        {{v.alias}}
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+
+</body>
+
+</html>
