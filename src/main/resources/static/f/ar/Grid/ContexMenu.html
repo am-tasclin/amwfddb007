@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="uk-UA">
+<meta charset="utf-8" />
+<link rel="stylesheet" href="/webjars/font-awesome/5.15.2/css/all.min.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="shortcut icon" href="/f/img/algoritmed.ico" type="image/x-icon">
+<script src="/webjars/vue/3.2.47/dist/vue.global.prod.js" type="application/javascript"></script>
+<script src="lib-init.js" type="application/javascript"></script>
+<script src="/f/tese/01/lib.sql002.js" type="application/javascript"></script>
+<script src="/f/kassa2r/config.sql.js" type="application/javascript"></script>
+<script src="i.js" type="application/javascript"> </script>
+
+<style>
+
+#right-click-menu{
+    background: #FAFAFA;
+    border: 1px solid #BDBDBD;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+    display: block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 250px;
+    z-index: 999999;
+}
+
+#right-click-menu li {
+    border-bottom: 1px solid #E0E0E0;
+    margin: 0;
+    padding: 5px 35px;
+}
+
+#right-click-menu li:last-child {
+    border-bottom: none;
+}
+
+#right-click-menu li:hover {
+    background: #1E88E5;
+    color: #FAFAFA;
+}
+
+</style>
+
+
+<div id="demo" v-on="contextmenu: openMenu">
+    <h1 class="center">
+        Нажми праву кнопку
+   </h1>
+   <ul id="right-click-menu" tabindex="-1" v-el="right" v-if="viewMenu" v-on="blur: closeMenu"  v-style="top:top, left:left">
+       <li>Добавити</li>
+       <li>Видалити</li>
+   </ul>
+</div>

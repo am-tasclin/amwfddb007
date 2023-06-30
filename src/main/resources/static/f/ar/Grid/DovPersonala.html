@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title id="headTitle">4DOM:{{hash}}</title>
+<!-- <link rel="stylesheet" href="/webjars/font-awesome/6.2.1/css/all.min.css"> -->
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<script src="/webjars/vue/3.3.4/dist/vue.global.prod.js" type="application/javascript"></script>
+<!-- <script src="/home/generator/amwf004/src/main/resources/static/f/kassa3r/Grid/BibleotekaGrid.js" type="application/javascript"></script> -->
+<body class="w3-container width:300px overflow:auto">
+    
+    <div id="app1">
+
+        <p class="w3-tangerine w3-xxlarge">
+            Довідник персонала.
+        </p>
+        <table class="w3-row">
+            <tr>
+                <td rowspan="2" @click="sortP('id')"  width=60px  class="w3-small w3-border am-b  w3-center">NN</td>
+                <td rowspan="2" @click="sortP('datt')"  width=150px class="w3-small w3-border am-b  w3-center">Дата</td>        
+                <td colspan="3" @click="sortList(['name1,name2,name3'])" width=450px class="w3-big  w3-border am-b w3-center">FIO</td>
+                <td rowspan="2" @click="sortP('hobby')"  width=200px class="w3-small w3-border am-b  w3-center">Хобби</td>
+            </tr> 
+            <tr>
+                <td   id="nn7" @click="sortP(name1)" width=150px class=" w3-center w3-border">Імя</td>
+                <td   id="nn8" @click="sortP(name2)" width=150px class=" w3-center w3-border">Отчество</td>
+                <td   id="nn9" @click="sortP(name3)" width=150px class=" w3-center w3-border">Призвисько</td>
+            </tr> 
+            </table>
+            <input type="text"    v-model="p1"  class="w3-border" style="width: 60px;">
+            <input type="text"   id="lname"   class="w3-border" style="width: 150px;">
+            <input type="text"   id="lname"   class="w3-border" style="width: 150px;">
+            <input type="text"   id="lname1"  class="w3-border" style="width: 150px;">
+            <input type="text"   id="lfio"    class="w3-border" style="width: 150px;">
+            <input type="text"   id="ln"      class="w3-border" style="width: 200px;">
+
+            
+        <!--gt-haeder></gt-haeder-->
+
+             
+
+           <p>пошук {{ p1 }}</p>
+
+        <div style="width:870px; height:400px; overflow:auto;"> <!--Панель таблици данних -->
+            <div class="w3-row w3-border w3-hover-shadow"  v-for="row in data().table">
+                <!--div class="w3-col" style="width: 60px;">
+                    <div class="w3-dropdown-hover w3-white am-width-100pr">
+                        &nbsp;{{row.id}} &nbsp;
+                        <div class="w3-dropdown-content w3-bar-block w3-border">
+                            <a @click="AddString()" class="w3-bar-item w3-button">Добавити </a>
+                            <a @click="Read(row)"   class="w3-bar-item w3-button">Редагувати</a>
+                            <a @click="Del(row)"   class="w3-bar-item w3-button">В идалити</a>
+                        </div>
+                    </div>
+                </div-->
+
+                <div :style="{'width': data().colClassStylePole[cn].width}" 
+                    :class="data().colClassStylePole[cn].classpole" v-for="cn in data().colNames">
+              {{formatingpole(data().colClassStylePole[cn].formatpole, row[cn]) }}
+                </div>
+            </div>
+        </div>
+        <div class="w3-row w3-border w3-hover-shadow" style="width:870px; overflow:auto;" v-for="row in data().tablefooter">
+            <div :style="{'width': data().colClassStylePole[cn].width}" :class="data().footer1[cn].classpole"
+                v-for="cn in data().colNames">
+               {{agregatePole(data().footer1[cn].footer1, cn)}}
+            </div>
+        </div>
+
+    </div>    
+<div>
+
+
+</div>
+ 
+
+    <script src="BibleotekaGrid.js" type="module"></script>
+
+</body>
+
+</html>
