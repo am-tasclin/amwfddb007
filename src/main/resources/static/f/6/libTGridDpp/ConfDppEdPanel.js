@@ -28,7 +28,6 @@ export default {
             this.confDpp().ffDppEd =
                 this.confDpp().ffDppEd == 'fix' && 'fly' || 'fix'
             console.log(this.confDpp().ffDppEd)
-            // dppInteractivityPpId(this.ppId).tGridDpp.count++
             dppInteractivityPpId(this.ppId).confDppEd.count++
         }, confTypeName(showMedasConfTypeName) {
             this.medasConfTypeName = showMedasConfTypeName
@@ -41,9 +40,7 @@ export default {
                 + (dpp.medas[medas].epl2 && (medas + '_epl2' + ','
                     + Okeys(dpp.medas[medas].epl2.mcdId) + ';') || ''), '')
         },
-
-    },
-    template: `
+    }, template: `
 <div class="w3-row">
     <div class="w3-quarter w13-border-right w3-container">
         <div class="w3-border-bottom">

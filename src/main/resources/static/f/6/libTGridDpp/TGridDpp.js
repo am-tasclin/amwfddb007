@@ -9,22 +9,26 @@
  *      └─ ConfDppEdPanel    └─ AdnMenu             └─ Epl2Sql
  *          └─ SortMCData        └─ AdnEnterData    └─ Epl2Json
  */
-import { confDppId, confMedasDd, confDppMedasEpl2 } from '/f/6/lib/confDomPagePart.js'
+import { confDppId, confMedasDd, confDppMedasEpl2 }
+    from '/f/6/lib/confDomPagePart.js'
+import { addDppIdComponent, dppInteractivityPpId }
+    from '/f/6/libTGridDpp/dppInteractivity.js'
 import ConfDppEd from '/f/6/libTGridDpp/ConfDppEd.js'
 import MElement from '/f/6/libTGridDpp/MElement.js'
+import SortMCData from '/f/6/libTGridDpp/SortMCData.js'
 import Epl2 from '/f/6/libTGridDpp/Epl2.js'
 import Epl2Sql from '/f/6/libTGridDpp/Epl2Sql.js'
 import Epl2Json from '/f/6/libTGridDpp/Epl2Json.js'
-import {
-    addDppIdComponent, dppInteractivityPpId
-} from '/f/6/libTGridDpp/dppInteractivity.js'
 
 export const reViewTGridDpp = ppId =>
     dppInteractivityPpId(ppId).tGridDpp.count++
 
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
-    components: { ConfDppEd, MElement, Epl2, Epl2Sql, Epl2Json, },
+    components: {
+        ConfDppEd, MElement, Epl2, Epl2Sql, Epl2Json,
+        SortMCData
+    },
     mounted() {
         addDppIdComponent(this.ppId, 'tGridDpp', this)
     }, methods: {
@@ -55,6 +59,12 @@ export default {
         <span class="w3-tiny"> {{medas}}: </span>
         <span class="w3-hover-shadow w3-opacity am-u" @click="medasOnOffClick(medas)">
             {{confMedasName(medas)}}
+        </span>
+        <span class="w3-tiny w3-right"> ⁙
+            <SortMCData :ppId="ppId" :medas="medas" keysuffix="tGridDpp"/>
+        <template v-if="confDpp().medas[medas].ppl2"> |
+            <SortMCData :ppId="ppId" :medas="medas" ppl2="2" keysuffix="tGridDpp"/>
+        </template>
         </span>
     </div>
     <template v-if="!isMedasClosed(medas)">
