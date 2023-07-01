@@ -4,8 +4,7 @@
  * Epl2 ── 
  */
 import { confDppMedasEpl2 } from '/f/6/lib/confDomPagePart.js'
-import { reViewTGridDpp } from '/f/6/libTGridDpp/TGridDpp.js'
-
+import { dppInteractivityPpId } from '/f/6/libTGridDpp/dppInteractivity.js'
 export default {
     data() {
         return {
@@ -19,7 +18,7 @@ export default {
             console.log(pt)
             confDppMedasEpl2(this.ppId, this.medas, this.mcdId).panelType =
                 this.panelType = pt
-            reViewTGridDpp(this.ppId)
+            dppInteractivityPpId(this.ppId).tGridDpp.count++
         }
     }, template: `
 <div class="w3-dropdown-hover w3-right" >

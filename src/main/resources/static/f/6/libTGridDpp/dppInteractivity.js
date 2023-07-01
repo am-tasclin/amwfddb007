@@ -43,19 +43,19 @@ export const setOpenedDropDownId = v =>
     && delete dppInteractivity.openedDropDownId
     || (dppInteractivity.openedDropDownId = v)
 
-
-export const addMeMap = (adnId, key, component) => {
-    // console.log(adnId, key)
-    !dppInteractivity.appComponents.meMap[adnId]
-        && (dppInteractivity.appComponents.meMap[adnId] = {})
-    dppInteractivity.appComponents.meMap[adnId][key] = component
-}
+export const addMeMap = (adnId, key, component) =>
+    (dppInteractivity.appComponents.meMap[adnId]
+        || (dppInteractivity.appComponents.meMap[adnId] = {})) &&
+    (dppInteractivity.appComponents.meMap[adnId][key] = component)
 
 export const dppItyComponent = dppInteractivity.appComponents
 export const addDppItyComponent = (cName, component) => dppItyComponent[cName] = component
-export const addDppIdComponent = (ppId, cName, component) => dppInteractivityPpId(ppId)[cName] = component
-export const dppInteractivityPpId = ppId => {
-    !dppItyComponent.ppId[ppId] && (dppItyComponent.ppId[ppId] = {})
-    return dppItyComponent.ppId[ppId]
-}
-const Okeys = Object.keys
+
+export const dppInteractivityPpId = ppId =>
+    dppItyComponent.ppId[ppId] || (dppItyComponent.ppId[ppId] = {})
+export const addDppIdComponent = (ppId, cName, component) =>
+    dppInteractivityPpId(ppId)[cName] = component
+export const addDppIdComponentObj = (ppId, cName) =>
+    dppInteractivityPpId(ppId)[cName] || (dppInteractivityPpId(ppId)[cName] = {})
+
+// const Okeys = Object.keys

@@ -5,22 +5,30 @@
  *  ├─ TGridDpp
  *  ├─ ConfDppEdPanel
  */
-import { confDppId }
-    from '/f/6/lib/confDomPagePart.js'
+import { confDppMedas, ppMedasPpl2Key } from '/f/6/lib/confDomPagePart.js'
+import { addDppIdComponentObj, dppInteractivityPpId } from '/f/6/libTGridDpp/dppInteractivity.js'
+const Okeys = Object.keys
 export default {
     props: { ppId: Number, medas: String, ppl2: Number, keysuffix: String }, data() { return { count: 0 } },
-    methods: {
-        confPpMedas() {
-            // const ppMedas = !this.isPl2
-            const ppMedas = this.ppl2 == 2
-                && confDppId(this.ppId).medas[this.medas].ppl2
-                || confDppId(this.ppId).medas[this.medas]
-            return ppMedas
-        },sortMcdIdClick(mcdId) {
-            console.log(mcdId)
+    computed: {
+        ppMedasPpl2Key() { return ppMedasPpl2Key(this.ppId, this.medas, this.ppl2) }
+    }, mounted() {
+        const sortMCDataKey = ppMedasPpl2Key(this.ppId, this.medas, this.ppl2) + '_' + this.keysuffix
+        console.log(sortMCDataKey)
+        addDppIdComponentObj(this.ppId, 'sortMcData')[sortMCDataKey] = this
+    }, methods: {
+        confPpMedas() { return confDppMedas(this.ppId, this.medas, this.ppl2) },
+        sortMcdIdClick(mcdId) {
+            const pplMedas = confDppMedas(this.ppId, this.medas, this.ppl2)
+            pplMedas.l_mcdId = pplMedas.l_mcdId
+                .splice(pplMedas.l_mcdId.indexOf(mcdId), 1)
+                .concat(pplMedas.l_mcdId)
+            Okeys(dppInteractivityPpId(this.ppId).sortMcData)
+                .filter(k => k.includes(this.ppMedasPpl2Key))
+                .forEach(k => dppInteractivityPpId(this.ppId).sortMcData[k].count++)
+            dppInteractivityPpId(this.ppId).tGridDpp.count++
         }
-    },
-    template: `
+    }, template: `
 ⬍ <span v-for="mcdId in confPpMedas().l_mcdId"
     @click="sortMcdIdClick( mcdId)" class="w3-hover-shadow">
     {{mcdId}}, </span> <span class="w3-hide"> {{count}} </span>
