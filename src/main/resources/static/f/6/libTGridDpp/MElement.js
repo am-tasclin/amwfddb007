@@ -11,17 +11,16 @@
 import { mcd } from '/f/6/lib/MetaContentData.js'
 import { meMap, addMeMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { readDppForParent } from '/f/6/lib/wsDbRw.js'
-import { confDppMedas, openChildOnOff, ppMedasPpl2Key, forEachPpMedas }
+import { confDppMedas, openChildOnOff, ppIdMedasPpl2Key, forEachPpMedas }
     from '/f/6/lib/confDomPagePart.js'
 
 export const reViewMeMapOpened = () => forEachPpMedas((ppMedas, ppId, medas) => {
     ppMedas.openedId && ppMedas.openedId
-        .filter(id => meMap[id] && meMap[id]['mElement' + ppMedasPpl2Key(ppId, medas)])
-        .forEach(id => meMap[id]['mElement' + ppMedasPpl2Key(ppId, medas)].count++)
-
+        .filter(id => meMap[id] && meMap[id]['mElement' + ppIdMedasPpl2Key(ppId, medas)])
+        .forEach(id => meMap[id]['mElement' + ppIdMedasPpl2Key(ppId, medas)].count++)
     ppMedas.ppl2 && ppMedas.ppl2.openedId && ppMedas.ppl2.openedId
         .filter(id => meMap[id]).forEach(id =>
-            meMap[id]['mElement' + ppMedasPpl2Key(ppId, medas, 2)].count++)
+            meMap[id]['mElement' + ppIdMedasPpl2Key(ppId, medas, 2)].count++)
 })
 
 export const reViewMeMap = l => l.filter(adnId => meMap[adnId])
@@ -38,7 +37,7 @@ export default {
     mounted() {
         addMeMap(this.adnId, this.mElementKey, this)
     }, computed: {
-        mElementKey() { return 'mElement' + ppMedasPpl2Key(this.ppId, this.medas, this.ppl2) },
+        mElementKey() { return 'mElement' + ppIdMedasPpl2Key(this.ppId, this.medas, this.ppl2) },
     }, methods: {
         adnClick() {
             !mcd.parentChild[this.adnId] && readDppForParent([this.adnId], () =>

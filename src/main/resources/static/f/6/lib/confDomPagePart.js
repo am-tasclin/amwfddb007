@@ -26,7 +26,7 @@ export const openChildOnOff = (adnId, ppId, medas, ppl2) => {
     console.log(confDpp)
 }
 
-export const ppMedasPpl2Key = (ppId, medas, ppl2) =>
+export const ppIdMedasPpl2Key = (ppId, medas, ppl2) =>
     '_' + ppId + '_' + medas + '_' + (ppl2 || 1)
 
 export const forEachPpMedas = fn => Okeys(confDpp.ppId)

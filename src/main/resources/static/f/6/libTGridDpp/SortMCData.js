@@ -5,15 +5,15 @@
  *  ├─ TGridDpp
  *  ├─ ConfDppEdPanel
  */
-import { confDppMedas, ppMedasPpl2Key } from '/f/6/lib/confDomPagePart.js'
+import { confDppMedas, ppIdMedasPpl2Key } from '/f/6/lib/confDomPagePart.js'
 import { addDppIdComponentObj, dppInteractivityPpId } from '/f/6/libTGridDpp/dppInteractivity.js'
 const Okeys = Object.keys
 export default {
     props: { ppId: Number, medas: String, ppl2: Number, keysuffix: String }, data() { return { count: 0 } },
     computed: {
-        ppMedasPpl2Key() { return ppMedasPpl2Key(this.ppId, this.medas, this.ppl2) }
+        ppIdMedasPpl2Key() { return ppIdMedasPpl2Key(this.ppId, this.medas, this.ppl2) }
     }, mounted() {
-        const sortMCDataKey = ppMedasPpl2Key(this.ppId, this.medas, this.ppl2) + '_' + this.keysuffix
+        const sortMCDataKey = this.ppIdMedasPpl2Key + '_' + this.keysuffix
         console.log(sortMCDataKey)
         addDppIdComponentObj(this.ppId, 'sortMcData')[sortMCDataKey] = this
     }, methods: {
@@ -21,10 +21,9 @@ export default {
         sortMcdIdClick(mcdId) {
             const pplMedas = confDppMedas(this.ppId, this.medas, this.ppl2)
             pplMedas.l_mcdId = pplMedas.l_mcdId
-                .splice(pplMedas.l_mcdId.indexOf(mcdId), 1)
-                .concat(pplMedas.l_mcdId)
+                .splice(pplMedas.l_mcdId.indexOf(mcdId), 1).concat(pplMedas.l_mcdId)
             Okeys(dppInteractivityPpId(this.ppId).sortMcData)
-                .filter(k => k.includes(this.ppMedasPpl2Key))
+                .filter(k => k.includes(this.ppIdMedasPpl2Key))
                 .forEach(k => dppInteractivityPpId(this.ppId).sortMcData[k].count++)
             dppInteractivityPpId(this.ppId).tGridDpp.count++
         }

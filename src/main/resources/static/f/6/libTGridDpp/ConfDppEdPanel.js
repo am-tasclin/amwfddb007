@@ -11,10 +11,11 @@ import { confDppId } from '/f/6/lib/confDomPagePart.js'
 import { minSpaceJson } from '/f/6/lib/algoritmed-commons.js'
 import { dppInteractivityPpId, setOpenedDropDownId }
     from '/f/6/libTGridDpp/dppInteractivity.js'
+import SortMCData from '/f/6/libTGridDpp/SortMCData.js'
 const Okeys = Object.keys
 
 export default {
-    props: { ppId: Number, ff: String },
+    components: { SortMCData, }, props: { ppId: Number, ff: String },
     data() { return { medasConfTypeName: '', epl2Data: {}, count: 0, } },
     methods: {
         confDpp() { return confDppId(this.ppId) },
@@ -23,11 +24,9 @@ export default {
         closeDialog() {
             setOpenedDropDownId('confDppEd_')
             dppInteractivityPpId(this.ppId).confDppEd.count++
-        },
-        clickFixFly() {
-            this.confDpp().ffDppEd =
-                this.confDpp().ffDppEd == 'fix' && 'fly' || 'fix'
-            console.log(this.confDpp().ffDppEd)
+        }, clickFixFly() {
+            this.confDpp().ffDppEd = this.confDpp().ffDppEd == 'fix'
+                && 'fly' || 'fix'
             dppInteractivityPpId(this.ppId).confDppEd.count++
         }, confTypeName(showMedasConfTypeName) {
             this.medasConfTypeName = showMedasConfTypeName
@@ -83,11 +82,22 @@ export default {
                 a3
             </div>
             <div class="w3-half">
-                a4
+                <span class="w3-tiny am-b">panel2, right</span>
                 <span class="w3-right">
                     <button @click="clickFixFly" class="w3-btn">📌</button>
                     <button @click="closeDialog" class="w3-btn">❌</button>
                 </span>
+            </div>
+        </div>
+        <div v-for="medas in confDpp().l_medas" class="w3-row w3-border-bottom">
+            <div class="w3-half">
+                <span class="w3-opacity">{{medas}}</span>&nbsp;
+                <div class="w3-tiny">
+                    <button class="w3-btn w3-padding-small" @keyup.esc="closeDialog"> ᳑</button>
+                    <SortMCData :ppId="ppId" :medas="medas" keysuffix="panelNameSuffix"/>
+                </div>
+            </div>
+            <div class="w3-half">
             </div>
         </div>
     </div>
