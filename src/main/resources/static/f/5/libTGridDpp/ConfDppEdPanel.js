@@ -111,7 +111,7 @@ export default {
         </div>
     </div>
     <div class="w3-threequarter">
-        <div class="w3-row  w3-border-bottom">
+        <div class="w3-row w3-border-bottom">
             <div class="w3-half w3-container" title="MEtal DAta Structure" > 
                 <div class="w3-dropdown-hover">
                     <button class="w3-btn w3-padding-small w3-white w3-tiny am-b">

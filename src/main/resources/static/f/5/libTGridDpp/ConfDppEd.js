@@ -11,10 +11,8 @@
  */
 import ConfDppEdPanel from '/f/5/libTGridDpp/ConfDppEdPanel.js'
 import { confDppId } from '/f/5/lib/ConfDomPagePart.js'
-import {
-    dppInteractivityPpId, dppInteractivity,
-    dropDownOpenId
-} from '/f/5/libTGridDpp/metalTGridDpp.js'
+import { dppInteractivityPpId, dppInteractivity, dropDownOpenId }
+    from '/f/5/libTGridDpp/metalTGridDpp.js'
 
 export default {
     components: { ConfDppEdPanel, },

@@ -18,8 +18,8 @@ export default {
     template: `
 <thead v-if="headKeysWithChild().length" class="w3-small">
     <tr>
-        <th v-for="(v,k) in tableData().head" class="w3-border w3-hover-shadow" @click="headSortClick(k)"
-            :style="v.style" :colspan="childCount(v.child)"
+        <th v-for="(v,k) in tableData().head" class="w3-border w3-hover-shadow" 
+			@click="headSortClick(k)" :style="v.style" :colspan="childCount(v.child)"
             :rowspan="headKeysWithChild().includes(k)&&1||2">
             {{v.alias}}
         </th>

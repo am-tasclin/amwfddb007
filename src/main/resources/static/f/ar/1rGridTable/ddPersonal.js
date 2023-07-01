@@ -19,7 +19,6 @@ export default {
 }
 
 export const testData = {}
-
 testData.head = {
     id: { alias: 'NN' },
     dataX: { alias: 'Дата', },

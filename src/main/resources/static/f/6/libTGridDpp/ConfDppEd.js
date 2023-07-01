@@ -9,19 +9,24 @@
  *      └─ MCDataSort
  * 
  */
+import ConfDppEdPanel from '/f/6/libTGridDpp/ConfDppEdPanel.js'
 import { confDppId, } from '/f/6/lib/confDomPagePart.js'
 import { openedDropDownId, setOpenedDropDownId }
     from '/f/6/libTGridDpp/dppInteractivity.js'
+import { addDppIdComponent }
+    from '/f/6/libTGridDpp/dppInteractivity.js'
+
 export default {
+    components: { ConfDppEdPanel, },
     props: { ppId: Number }, data() { return { count: 0, } },
     mounted() {
-        this.confDpp().ffDppEd = 'fly' //fix||fly
+        // this.confDpp().ffDppEd = 'fly' //fix||fly
         console.log(123, this.confDpp())
-    },
-    methods: {
+        addDppIdComponent(this.ppId, 'confDppEd', this)
+    }, methods: {
         confDpp() { return confDppId(this.ppId) },
         openedDropDownId() { return openedDropDownId() },
-        isOpened(ff) { return 'confDppEd_'+ff == (openedDropDownId() + this.confDpp().ffDppEd) },
+        isOpened(ff) { return 'confDppEd_' + ff == (openedDropDownId() + this.confDpp().ffDppEd) },
         ppCmdEdOnOff() {
             setOpenedDropDownId('confDppEd_')
             console.log(openedDropDownId() + this.confDpp().ffDppEd)
@@ -36,14 +41,13 @@ export default {
         </button>
         <div  class="w3-card w3-dropdown-content" style="right: -1em; width: 52em;"
             :class="{'w3-show':isOpened('fly'), 'w3-hide':!isOpened('fly')}">
-        a1
+            <ConfDppEdPanel :ppId="ppId" ff="fly"/>
         </div>
     </span>
 </div> <span class="w13-hide">{{count}}</span>
 <div  class="w3-card"
     :class="{'w3-show':isOpened('fix'), 'w3-hide':!isOpened('fix')}">
-a1
+        <ConfDppEdPanel :ppId="ppId" ff="fix"/>
 </div> <div v-if="isOpened('fix')">&nbsp;</div>
-
 `,
 }
