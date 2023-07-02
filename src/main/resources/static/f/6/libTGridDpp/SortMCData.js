@@ -15,7 +15,7 @@ export default {
         ppIdMedasPpl2Key() { return ppIdMedasPpl2Key(this.ppId, this.medas, this.ppl2) }
     }, mounted() {
         const sortMCDataKey = this.ppIdMedasPpl2Key + '_' + this.keysuffix
-        console.log(sortMCDataKey)
+        // console.log(sortMCDataKey)
         addDppIdComponentObj(this.ppId, 'sortMcData')[sortMCDataKey] = this
     }, methods: {
         confPpMedas() { return confDppMedas(this.ppId, this.medas, this.ppl2) },

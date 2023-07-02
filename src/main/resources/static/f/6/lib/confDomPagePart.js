@@ -9,7 +9,8 @@
  * confDpp, cdpp -- Config JSON for MEDAS to initialise & include in application.
  */
 import { addToUniqueList } from '/f/6/lib/algoritmed-commons.js'
-
+import { setOpenedDropDownId }
+    from '/f/6/libTGridDpp/dppInteractivity.js'
 export const confDpp = { ppId: {} }
 export const confDppId = ppId => confDpp.ppId[ppId || 1]
 export const confDppMedasEpl2 = (ppId, medas, mcdId) =>
@@ -59,8 +60,11 @@ export const cdppInitPagePart = (rawPpStr, ppId) => {
     rawPpStr.includes('cj=') && initFromJson(rawPpStr.replace('cj=', ''), ppId)
 }
 
-const initFromJson = (jsonStr, ppId) =>
+const initFromJson = (jsonStr, ppId) => {
     confDpp.ppId[ppId] = JSON.parse(decodeURI(jsonStr))
+    console.log(123, confDpp.ppId[ppId].ffDppEd)
+    confDpp.ppId[ppId].ffDppEd && setOpenedDropDownId('confDppEd_')
+}
 
 const initFromURI = (rawPpStr, ppId) => {
     // console.log(rawPpStr, ppId, confDpp)
@@ -87,7 +91,6 @@ const initFromURI = (rawPpStr, ppId) => {
 
 const initMedas = idList => idList.reduce((o, mcdId) =>
     o.l_mcdId.push(mcdId) && (o.mcdId[mcdId] = {}) && o, { l_mcdId: [], mcdId: {}, })
-
 
 const confMedas = {
     medas: {

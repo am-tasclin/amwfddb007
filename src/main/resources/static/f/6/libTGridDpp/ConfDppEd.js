@@ -10,7 +10,7 @@
  * 
  */
 import ConfDppEdPanel from '/f/6/libTGridDpp/ConfDppEdPanel.js'
-import { confDppId, } from '/f/6/lib/confDomPagePart.js'
+import { confDppId } from '/f/6/lib/confDomPagePart.js'
 import { openedDropDownId, setOpenedDropDownId }
     from '/f/6/libTGridDpp/dppInteractivity.js'
 import { addDppIdComponent }
@@ -21,7 +21,6 @@ export default {
     props: { ppId: Number }, data() { return { count: 0, } },
     mounted() {
         // this.confDpp().ffDppEd = 'fly' //fix||fly
-        console.log(123, this.confDpp())
         addDppIdComponent(this.ppId, 'confDppEd', this)
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
