@@ -7,11 +7,17 @@
  */
 import { minSpaceJson } from '/f/6/lib/algoritmed-commons.js'
 import { confDpp } from '/f/6/lib/confDomPagePart.js'
-import { addDppItyComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
+import { addDppItyComponent, dppItyComponent }
+    from '/f/6/libTGridDpp/dppInteractivity.js'
 
 export default {
     data() { return { count: 0, } },
     methods: {
+        devCDppIty() {
+            this.count++
+            console.log(confDpp.ppId[1])
+            console.log(dppItyComponent)
+        },
         devText() { return minSpaceJson(confDpp) },
         dppItyCtViewJson() { return minSpaceJson(dppItyCtViewJson()) },
         confJsonStr0(ppId) {
@@ -21,13 +27,11 @@ export default {
         addDppItyComponent('dev', this)
         this.count++
     }, template: `
-<p> 🚧:&nbsp; <button @click="count++" class="w3-btn w3-small w3-opacity">dev cDppIty </button> </p>
+<p> 🚧:&nbsp; <button @click="devCDppIty" class="w3-btn w3-small w3-opacity">dev cDppIty </button> </p>
 <div class="w3-opacity w3-tiny w3-row" style="white-space: pre-wrap; overflow: auto;">
     <div class="w3-half">
         <div class="am-b w3-light-grey">DEV:: dppConf </div>
-        <a :href="'#cj='+confJsonStr0(1)">
-                    Full pagePart Config.
-                </a>
+        <a :href="'#cj='+confJsonStr0(1)"> Full pagePart Config. </a>
         {{devText()}}
     </div>
     <div class="w3-half">
@@ -39,8 +43,6 @@ export default {
 </div> <span class="w3-hide"> {{count}} </span> &nbsp;
 `,
 }
-
-import { dppItyComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
 
 export const dppItyCtViewJson = () => {
     const cvj = {}// Component View JSON

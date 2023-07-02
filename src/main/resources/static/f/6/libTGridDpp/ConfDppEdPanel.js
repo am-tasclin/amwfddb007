@@ -9,7 +9,7 @@
  */
 import { confDppId } from '/f/6/lib/confDomPagePart.js'
 import { minSpaceJson } from '/f/6/lib/algoritmed-commons.js'
-import { dppInteractivityPpId, setOpenedDropDownId }
+import { dppInteractivityPpId, setOpenedDropDownId, addDppIdComponentObj }
     from '/f/6/libTGridDpp/dppInteractivity.js'
 import SortMCData from '/f/6/libTGridDpp/SortMCData.js'
 const Okeys = Object.keys
@@ -17,7 +17,9 @@ const Okeys = Object.keys
 export default {
     components: { SortMCData, }, props: { ppId: Number, ff: String },
     data() { return { medasConfTypeName: '', epl2Data: {}, count: 0, } },
-    methods: {
+    mounted() {
+        addDppIdComponentObj(this.ppId, 'confDppEdPanel')[this.ff] = this
+    }, methods: {
         confDpp() { return confDppId(this.ppId) },
         confJsonStr0() { return JSON.stringify(this.confDpp()) },
         confJsonStr() { return minSpaceJson(this.confDpp()) },
@@ -94,7 +96,7 @@ export default {
                 <span class="w3-opacity">{{medas}}</span>&nbsp;
                 <div class="w3-tiny">
                     <button class="w3-btn w3-padding-small" @keyup.esc="closeDialog"> ᳑</button>
-                    <SortMCData :ppId="ppId" :medas="medas" keysuffix="panelNameSuffix"/>
+                    <SortMCData :ppId="ppId" :medas="medas" :keysuffix="'confDppEdPanel_'+ff"/>
                 </div>
             </div>
             <div class="w3-half">

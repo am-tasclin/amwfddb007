@@ -6,7 +6,8 @@
  *  ├─ ConfDppEdPanel
  */
 import { confDppMedas, ppIdMedasPpl2Key } from '/f/6/lib/confDomPagePart.js'
-import { addDppIdComponentObj, dppInteractivityPpId } from '/f/6/libTGridDpp/dppInteractivity.js'
+import { addDppIdComponentObj, dppInteractivityPpId }
+    from '/f/6/libTGridDpp/dppInteractivity.js'
 const Okeys = Object.keys
 export default {
     props: { ppId: Number, medas: String, ppl2: Number, keysuffix: String }, data() { return { count: 0 } },
