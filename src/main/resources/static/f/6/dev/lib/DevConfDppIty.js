@@ -10,17 +10,6 @@ import { confDpp } from '/f/6/lib/confDomPagePart.js'
 import { addDppItyComponent, dppItyComponent }
     from '/f/6/libTGridDpp/dppInteractivity.js'
 
-const linkConfDpp = confDpp => {
-    const linkConfDpp = Object.assign({}, confDpp)
-    console.log(linkConfDpp)
-    Okeys(linkConfDpp.ppId).forEach(ppId => {
-        console.log(Okeys(linkConfDpp.ppId[ppId]))
-        delete linkConfDpp.ppId[ppId].removeMedas
-    })
-
-    return linkConfDpp
-}
-
 export default {
     data() { return { count: 0, } },
     methods: {

@@ -62,7 +62,6 @@ export const cdppInitPagePart = (rawPpStr, ppId) => {
 
 const initFromJson = (jsonStr, ppId) => {
     confDpp.ppId[ppId] = JSON.parse(decodeURI(jsonStr))
-    console.log(123, confDpp.ppId[ppId].ffDppEd)
     confDpp.ppId[ppId].ffDppEd && setOpenedDropDownId('confDppEd_')
 }
 

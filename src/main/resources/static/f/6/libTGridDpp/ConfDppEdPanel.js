@@ -7,14 +7,31 @@
  * ConfDppEdPanel ── Edit dialog panel for config of Dpp 
  *  └─ SortMCData
  */
-import { confDppId, confMedasDd } from '/f/6/lib/confDomPagePart.js'
 import { minSpaceJson } from '/f/6/lib/algoritmed-commons.js'
+import { confDppId, confMedasDd, ppIdMedasPpl2Key }
+    from '/f/6/lib/confDomPagePart.js'
 import { dppInteractivityPpId, setOpenedDropDownId, addDppIdComponentObj }
     from '/f/6/libTGridDpp/dppInteractivity.js'
 import SortMCData from '/f/6/libTGridDpp/SortMCData.js'
+import { reViewSortMCData } from '/f/6/libTGridDpp/SortMCData.js'
 const Okeys = Object.keys
 
-const medasAddRemove = (ppId, medas) => {
+const confDppMedasMcdId = (val, ppId, medas, ppl2) => {
+    const valList = val.replace(/\s+/g, '').split(',').filter(im => im)
+        , dppMedas = ppl2 != 2
+            && confDppId(ppId).medas[medas]
+            || confDppId(ppId).medas[medas].ppl2
+            || (confDppId(ppId).medas[medas].ppl2 = { l_mcdId: [], mcdId: {} })
+    valList.filter(mcdId => !dppMedas.mcdId[mcdId])
+        .forEach(mcdId => dppMedas.mcdId[mcdId] = {})
+    dppMedas.l_mcdId = valList
+    reView(ppId)
+
+    reViewSortMCData(ppId, ppIdMedasPpl2Key(ppId, medas, ppl2))
+
+    // reViewSortMCData2p(ppId, medas)
+    // dppInteractivityPpId(ppId).tGridDpp.count++
+}, medasAddRemove = (ppId, medas) => {
     console.log(ppId, medas, dppInteractivityPpId(ppId))
     console.log(ppId, medas, dppInteractivityPpId(ppId).confDppEdPanel)
     confDppId(ppId).l_medas.includes(medas)
@@ -81,7 +98,10 @@ export default {
                     + dpp.medas[medas].ppl2.l_mcdId + ';') || '')
                 + (dpp.medas[medas].epl2 && (medas + '_epl2' + ','
                     + Okeys(dpp.medas[medas].epl2.mcdId) + ';') || ''), '')
-        },
+        }, medasMcdId(event, medas, ppl2) {
+            console.log(this.ppId, medas, confDppId(this.ppId))
+            confDppMedasMcdId(event.target.value, this.ppId, medas, ppl2)
+        }
     }, template: `
 <div class="w3-row">
     <div class="w3-quarter w13-border-right w3-container">
@@ -154,6 +174,9 @@ export default {
                         @click="medasRemoveFromRemove(medas)" >No</button>
                     ?
                 </span>
+                <input @keyup.enter="medasMcdId($event, medas)"
+                    :value="confDpp().medas[medas].l_mcdId.join(', ')"
+                    class="w3-hover-shadow w3-small am-width-100pr">
                 <div class="w3-tiny">
                     <button class="w3-btn w3-padding-small" @keyup.esc="closeDialog"> ᳑</button>
                     <SortMCData :ppId="ppId" :medas="medas" :keysuffix="'confDppEdPanel_'+ff"/>

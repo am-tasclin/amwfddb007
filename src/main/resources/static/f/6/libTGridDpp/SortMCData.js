@@ -9,6 +9,12 @@ import { confDppMedas, ppIdMedasPpl2Key } from '/f/6/lib/confDomPagePart.js'
 import { addDppIdComponentObj, dppInteractivityPpId }
     from '/f/6/libTGridDpp/dppInteractivity.js'
 const Okeys = Object.keys
+
+export const reViewSortMCData = (ppId, ppIdMedasPpl2Key) =>
+    Okeys(dppInteractivityPpId(ppId).sortMcData)
+        .filter(k => k.includes(ppIdMedasPpl2Key))
+        .forEach(k => dppInteractivityPpId(ppId).sortMcData[k].count++)
+
 export default {
     props: { ppId: Number, medas: String, ppl2: Number, keysuffix: String }, data() { return { count: 0 } },
     computed: {
@@ -23,9 +29,10 @@ export default {
             const pplMedas = confDppMedas(this.ppId, this.medas, this.ppl2)
             pplMedas.l_mcdId = pplMedas.l_mcdId
                 .splice(pplMedas.l_mcdId.indexOf(mcdId), 1).concat(pplMedas.l_mcdId)
-            Okeys(dppInteractivityPpId(this.ppId).sortMcData)
-                .filter(k => k.includes(this.ppIdMedasPpl2Key))
-                .forEach(k => dppInteractivityPpId(this.ppId).sortMcData[k].count++)
+
+            console.log(this.ppIdMedasPpl2Key)
+
+            reViewSortMCData(this.ppId, this.ppIdMedasPpl2Key)
             dppInteractivityPpId(this.ppId).tGridDpp.count++
         }
     }, template: `
