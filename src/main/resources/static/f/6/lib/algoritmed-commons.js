@@ -6,6 +6,9 @@
  * 
  */
 
+export const notExistList = (source, changeSource) => changeSource.reduce((l, im) =>
+    !source.includes(im) && pushListUnique(l, im) || l, [])
+
 export const addToUniqueList = (lFrom, lTo) => lFrom.reduce((lTo2, im) =>
     pushListUnique(lTo2, im), lTo)
 export const pushListUnique = (lTo, vl) =>

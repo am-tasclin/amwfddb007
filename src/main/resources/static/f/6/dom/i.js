@@ -21,7 +21,7 @@ cdppInitPagePart(window.location.hash.substring(1), 1)
 const uniqueMcdId = confDppUniqueMcdId()
 
 ws.onopen = event => uniqueMcdId.l.length &&
-    readDppFromList(uniqueMcdId, () => {
+    readDppFromList(uniqueMcdId.l, () => {
         reViewMeMap(uniqueMcdId.l)
         readOpenedParent(uniqueMcdId, reViewMeMapOpened)
     })

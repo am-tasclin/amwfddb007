@@ -26,11 +26,11 @@ export const readOpenedParent = (uniqueMcdId, fn) => {
     loId.length > 0 && readDppForParent(loId, fn)
 }
 
-export const readDppFromList = (uniqueMcdId, fn) => readMcdIdListStr
-    (uniqueMcdId.l).then(json => {
+export const readDppFromList = (uniqueMcdId_list, fn) => readMcdIdListStr
+    (uniqueMcdId_list).then(json => {
         // console.log('← ', json, mcd)
         addToEMap(json.list)
-        readR1R2(uniqueMcdId.l, 'r', fn)
+        readR1R2(uniqueMcdId_list, 'r', fn)
     })
 
 const readR1R2 = (uniqueMcdIdList, rName, fn) => {
