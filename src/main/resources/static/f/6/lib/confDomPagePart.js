@@ -1,6 +1,6 @@
 'use strict'
 /**
- * Algoritmed ©, EUPL-1.2 or later.
+ * Algoritmed ©, Licence EUPL-1.2 or later.
  * MCD, mcd -- Meta Content Data
  * MEDAS, medas -- MEtal DAta Structure. Build from MCD.
  * DOM -- Data & Ontology editor & Meta data modeler
@@ -9,8 +9,7 @@
  * confDpp, cdpp -- Config JSON for MEDAS to initialise & include in application.
  */
 import { addToUniqueList } from '/f/6/lib/algoritmed-commons.js'
-import { setOpenedDropDownId }
-    from '/f/6/libTGridDpp/dppInteractivity.js'
+import { setOpenedDropDownId } from '/f/6/libTGridDpp/dppInteractivity.js'
 export const confDpp = { ppId: {} }
 export const confDppId = ppId => confDpp.ppId[ppId || 1]
 export const confDppMedasEpl2 = (ppId, medas, mcdId) =>
@@ -48,6 +47,7 @@ export const confDppUniqueMcdId = () => {
         ppMedas.openedId && addToUniqueList(ppMedas.openedId, l)
         ppMedas.ppl2 && ppMedas.ppl2.openedId && addToUniqueList(ppMedas.ppl2.openedId, l)
     }))
+    uniqueMcdId.l = uniqueMcdId.l.filter(im => im)
 
     console.log(uniqueMcdId.l.join(','))
 

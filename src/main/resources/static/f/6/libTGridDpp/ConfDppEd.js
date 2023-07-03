@@ -1,6 +1,6 @@
 'use strict'
 /**
- * Algoritmed ©, EUPL-1.2 or later.
+ * Algoritmed ©, Licence EUPL-1.2 or later.
  * DOM -- Data & Ontology editor & Meta-data modeler
  * PP, pp -- Page Part. Block of MCD or MEDAS in Application Development Page.
  * 

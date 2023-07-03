@@ -1,6 +1,6 @@
 'use strict'
 /**
- * Algoritmed ©, EUPL-1.2 or later.
+ * Algoritmed ©, Licence EUPL-1.2 or later.
  * SortMCData ── 
  *  ├─ TGridDpp
  *  ├─ ConfDppEdPanel

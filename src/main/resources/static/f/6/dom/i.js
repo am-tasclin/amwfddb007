@@ -1,6 +1,6 @@
 'use strict'
 /**
- * Algoritmed ©, EUPL-1.2 or later.
+ * Algoritmed ©, Licence EUPL-1.2 or later.
  * MCD, mcd -- Meta Content Data
  * MEDAS, medas -- MEtal DAta Structure. Build from MCD.
  * DOM -- Data & Ontology editor & Meta-data modeler
@@ -20,11 +20,14 @@ import { reViewMeMap, reViewMeMapOpened } from '/f/6/libTGridDpp/MElement.js'
 cdppInitPagePart(window.location.hash.substring(1), 1)
 const uniqueMcdId = confDppUniqueMcdId()
 console.log(uniqueMcdId)
+console.log(uniqueMcdId.l)
+console.log(uniqueMcdId.l.length)
 
-ws.onopen = event => readDppFromList(uniqueMcdId, () => {
-    reViewMeMap(uniqueMcdId.l)
-    readOpenedParent(uniqueMcdId, reViewMeMapOpened)
-})
+ws.onopen = event => uniqueMcdId.l.length &&
+    readDppFromList(uniqueMcdId, () => {
+        reViewMeMap(uniqueMcdId.l)
+        readOpenedParent(uniqueMcdId, reViewMeMapOpened)
+    })
 
 // init App TgridDpp
 import TGridDpp from '/f/6/libTGridDpp/TGridDpp.js'

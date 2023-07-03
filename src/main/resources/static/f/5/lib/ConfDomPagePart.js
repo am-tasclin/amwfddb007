@@ -1,6 +1,6 @@
 'use strict'
 /**
- * Algoritmed ©, EUPL-1.2 or later.
+ * Algoritmed ©, Licence EUPL-1.2 or later.
  * MCD, mcd -- Meta Content Data
  * MEDAS, medas -- MEtal DAta Structure. Build from MCD.
  * DOM -- Data & Ontology editor & Meta data modeler

@@ -1,6 +1,6 @@
 'use strict'
 /**
- * Algoritmed ©, EUPL-1.2 or later.
+ * Algoritmed ©, Licence EUPL-1.2 or later.
  * Epl2 ── 
  */
 import { confDppMedasEpl2 } from '/f/6/lib/confDomPagePart.js'
