@@ -10,20 +10,37 @@ import { confDpp } from '/f/6/lib/confDomPagePart.js'
 import { addDppItyComponent, dppItyComponent }
     from '/f/6/libTGridDpp/dppInteractivity.js'
 
+const linkConfDpp = confDpp => {
+    const linkConfDpp = Object.assign({}, confDpp)
+    console.log(linkConfDpp)
+    Okeys(linkConfDpp.ppId).forEach(ppId => {
+        console.log(Okeys(linkConfDpp.ppId[ppId]))
+        delete linkConfDpp.ppId[ppId].removeMedas
+    })
+
+    return linkConfDpp
+}
+
 export default {
     data() { return { count: 0, } },
     methods: {
         devCDppIty() {
+            Okeys(confDpp.ppId).forEach(ppId =>
+                delete confDpp.ppId[ppId].removeMedas)
             this.count++
             console.log(confDpp.ppId[1])
             console.log(dppItyComponent)
         },
-        devText() { return minSpaceJson(confDpp) },
+        devText() {
+            return minSpaceJson(confDpp)
+        },
         dppItyCtViewJson() { return minSpaceJson(dppItyCtViewJson()) },
         confJsonStr0(ppId) {
             return JSON.stringify(confDpp.ppId[ppId])
         }
     }, mounted() {
+        console.log(confDpp)
+
         addDppItyComponent('dev', this)
         this.count++
     }, template: `

@@ -20,7 +20,9 @@ export default {
     components: { ConfDppEdPanel, },
     props: { ppId: Number }, data() { return { count: 0, } },
     mounted() {
-        // this.confDpp().ffDppEd = 'fly' //fix||fly
+        console.log(this.confDpp(), this.confDpp().ffDppEd,)
+        !this.confDpp().ffDppEd &&
+            (this.confDpp().ffDppEd = 'fly') //fix||fly
         addDppIdComponent(this.ppId, 'confDppEd', this)
     }, methods: {
         confDpp() { return confDppId(this.ppId) },

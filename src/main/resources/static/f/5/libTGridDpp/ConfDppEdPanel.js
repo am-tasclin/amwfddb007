@@ -7,13 +7,12 @@
  * ConfDppEdPanel ── Edit dialog panel for config of Dpp 
  *  └─ SortMCData
  */
-
 import SortMCData from '/f/5/libTGridDpp/SortMCData.js'
-import { confDppId, confDppMedasMcdId, confMedasDd, confMedasEpl2, } from '/f/5/lib/ConfDomPagePart.js'
-import {
-    dppInteractivityPpId,
-    dppInteractivity, mgdConfDppEdPanel, minSpaceJson, Okeys
-} from '/f/5/libTGridDpp/metalTGridDpp.js'
+import { confDppId, confDppMedasMcdId, confMedasDd, confMedasEpl2 }
+    from '/f/5/lib/ConfDomPagePart.js'
+import { dppInteractivityPpId, dppInteractivity, mgdConfDppEdPanel, minSpaceJson }
+    from '/f/5/libTGridDpp/metalTGridDpp.js'
+const Okeys = Object.keys
 
 export default {
     components: { SortMCData, }, props: { ppId: Number, ff: String },

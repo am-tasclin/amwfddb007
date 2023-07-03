@@ -20,7 +20,7 @@
  * aco -- Application Component Object
  */
 // import { mcd } from '/f/5/lib/MetaContentData.js'
-import { confDpp, confDppMedas, ppMedasKey } from '/f/5/lib/ConfDomPagePart.js'
+import { confDpp, confDppId, confDppMedas, ppMedasKey } from '/f/5/lib/ConfDomPagePart.js'
 
 export const
     dppInteractivity = {    // dppIty -- DOM Page Part interactivity data and functions.
