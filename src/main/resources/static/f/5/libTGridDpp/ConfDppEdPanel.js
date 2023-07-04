@@ -44,7 +44,6 @@ export default {
             const dropDownOpenId = (!dppInteractivity.dropDownOpenId.includes('confDppEdPanel_fly_')
                 && 'confDppEdPanel_fly_' || 'confDppEdPanel_fixed_') + this.ppId
             dppInteractivity.clickDropDownOpenId(dropDownOpenId, this.ppId)
-            // this.count++
             Object.keys(dppInteractivityPpId(this.ppId)).filter(k => k.includes('ppConfEd_'))
                 .forEach(k => dppInteractivityPpId(this.ppId)[k]
                     .medasConfTypeName = dppInteractivity.medasConfTypeName)

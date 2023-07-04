@@ -8,7 +8,8 @@
  *  └─ SortMCData
  */
 import { minSpaceJson, notExistList } from '/f/6/lib/algoritmed-commons.js'
-import { confDppId, confMedasDd, ppIdMedasPpl2Key } from '/f/6/lib/confDomPagePart.js'
+import { confDppId, confDppMedas, confMedasDd, confMedasEpl2, ppIdMedasPpl2Key }
+    from '/f/6/lib/confDomPagePart.js'
 import { meMap, dppInteractivityPpId, setOpenedDropDownId, addDppIdComponentObj }
     from '/f/6/libTGridDpp/dppInteractivity.js'
 import SortMCData from '/f/6/libTGridDpp/SortMCData.js'
@@ -67,6 +68,8 @@ export default {
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
         getConfMedasDd() { return confMedasDd },
+        confPpMedas1p(medas) { return confDppMedas(this.ppId, medas) },
+        isEpl2(medas) { return confMedasEpl2.includes(medas) },
         confJsonStr0() { return JSON.stringify(this.confDpp()) },
         confJsonStr() { return minSpaceJson(this.confDpp()) },
         medasAddRemove(medas) { medasAddRemove(this.ppId, medas) },
@@ -103,6 +106,8 @@ export default {
                 listToRead.filter(mcdId => mml.includes(mcdId)).forEach(mcdId =>
                     Okeys(meMap[mcdId]).forEach(k => meMap[mcdId][k].count++))
             })
+        }, addPpl2(medas) {
+            console.log(medas)
         }
     }, template: `
 <div class="w3-row">
@@ -157,11 +162,11 @@ export default {
                 </div>
             </div>
             <div class="w3-half">
-                <span class="w3-tiny am-b">panel2, right</span>
                 <span class="w3-right">
                     <button @click="clickFixFly" class="w3-btn">📌</button>
                     <button @click="closeDialog" class="w3-btn">❌</button>
                 </span>
+                <div class="w3-tiny w3-center am-b">panel2, right</div>
             </div>
         </div>
         <div v-for="medas in confDpp().l_medas" class="w3-row w3-border-bottom">
@@ -184,8 +189,24 @@ export default {
                     <SortMCData :ppId="ppId" :medas="medas" :keysuffix="'confDppEdPanel_'+ff"/>
                 </div>
             </div>
-            <div class="w3-half">
-            a1
+            <div class="w3-half w3-container">
+                <template v-if="isEpl2(medas)">
+                	<sub class="w3-right">epl2</sub>
+a221 epl2
+                </template>
+                <template v-else>
+                    <button v-if="!confPpMedas1p(medas).ppl2" class="w3-btn w3-right w3-small" 
+                    	@click="addPpl2(medas)" > add panel2 </button>
+                    <div v-else>&nbsp;
+                        <input @keyup.enter="editMedasMcdId($event, medas, 2)" v-if="!isEpl2(medas)"
+                            :value="confDpp().medas[medas].ppl2 && confDpp().medas[medas].ppl2.l_mcdId.join(', ')"
+                            class="w3-hover-shadow w3-small am-width-100pr">
+                            <div v-if="confDpp().medas[medas].ppl2" class="w3-tiny">
+                                <SortMCData :ppId="ppId" :medas="medas" ppl2="2"
+                                    :keysuffix="panelNameSuffix"/>
+                            </div>
+                    </div>
+                </template>
             </div>
         </div>
     </div>

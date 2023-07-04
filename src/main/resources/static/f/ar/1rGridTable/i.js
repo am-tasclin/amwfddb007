@@ -16,6 +16,7 @@ const tGridTable1 = createApp({
 </table>
 `,
 })
+
 tGridTable1.mount('#tGridTable1')
 
 import { testData } from './ddPersonal.js'
