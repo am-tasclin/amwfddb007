@@ -66,18 +66,13 @@ export default {
     mounted() {
         addDppIdComponentObj(this.ppId, 'confDppEdPanel')[this.ff] = this
         this.confDpp().l_medas.filter(medas => confMedasEpl2.includes(medas))
-            .forEach(medas => this.epl2Data[medas] = confDppMedas(this.ppId, medas).epl2.l_mcdId)
-        console.log(this.epl2Data)
+            .forEach(medas => this.epl2Data[medas] = Okeys(confDppMedas(this.ppId, medas).epl2.mcdId))
     }, methods: {
         inputEpl2(medas, mcdId) {
-            // this.count++
-            const epl2Ids = confDppMedas(this.ppId, medas).epl2.l_mcdId
-            !epl2Ids.includes(mcdId) && epl2Ids.push(mcdId)
-                || epl2Ids.splice(epl2Ids.indexOf(mcdId), 1)
-            console.log(medas, mcdId, epl2Ids)
-        }, epl2Click(medas, mcdId) {
-            // reViewEdPanel_Grid(this.ppId)
-            // console.log(this.ff, medas, mcdId, this.epl2Data[medas], this.epl2Data)
+            const epl2McdId = confDppMedas(this.ppId, medas).epl2.mcdId
+            !Okeys(epl2McdId).includes(mcdId) && (epl2McdId[mcdId] = {})
+                || delete epl2McdId[mcdId]
+            dppInteractivityPpId(this.ppId).tGridDpp.count++
         },
         confDpp() { return confDppId(this.ppId) },
         getConfMedasDd() { return confMedasDd },
