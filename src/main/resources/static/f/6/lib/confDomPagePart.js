@@ -61,8 +61,21 @@ export const cdppInitPagePart = (rawPpStr, ppId) => {
 }
 
 const initFromJson = (jsonStr, ppId) => {
-    confDpp.ppId[ppId] = JSON.parse(decodeURI(jsonStr))
-    confDpp.ppId[ppId].ffDppEd && setOpenedDropDownId('confDppEd_')
+    const confDomPpId = confDpp.ppId[ppId] = JSON.parse(decodeURI(jsonStr))
+    confDomPpId.ffDppEd && setOpenedDropDownId('confDppEd_')
+    console.log(confDomPpId, )
+
+    confDomPpId.l_medas.filter(medas => confMedasEpl2.includes(medas))
+        .filter(medas => !confDomPpId.medas[medas].epl2)
+        .forEach(medas => confDomPpId.medas[medas].epl2 = { mcdId: {}, l_mcdId: [] })
+
+    confDpp.ppId[ppId].l_medas
+        .filter(medas => confDomPpId.medas[medas].epl2)
+        .filter(medas => !confDomPpId.medas[medas].epl2.l_mcdId)
+        .filter(medas => Okeys(confDomPpId.medas[medas].epl2.mcdId).length)
+        .forEach(medas => confDomPpId.medas[medas].epl2.l_mcdId
+            = Okeys(confDomPpId.medas[medas].epl2.mcdId))
+
 }
 
 const initFromURI = (rawPpStr, ppId) => {
@@ -85,7 +98,7 @@ const initFromURI = (rawPpStr, ppId) => {
         .filter(im => 'epl2' == im.split(',')[0].split('_')[1])
         .forEach(im => im.split(',').slice(1).reduce((o, mcdId) =>
             (o.mcdId[mcdId] = {}) && o, confPpId.medas[im.split(',')[0].split('_')[0]]
-                .epl2 = { mcdId: {} }))
+                .epl2 = { mcdId: {}, l_mcdId: [] }))
 }
 
 const initMedas = idList => idList.reduce((o, mcdId) =>

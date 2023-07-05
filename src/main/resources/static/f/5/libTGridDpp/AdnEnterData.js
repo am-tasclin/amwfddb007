@@ -7,9 +7,8 @@
  * 
  */
 import { mcd } from '/f/5/lib/MetaContentData.js'
-import {
-    dppInteractivity, setMeMapComponent
-} from '/f/5/libTGridDpp/metalTGridDpp.js'
+import { dppInteractivity, setMeMapComponent }
+    from '/f/5/libTGridDpp/metalTGridDpp.js'
 
 export default {
     props: { adnId: Number, ppMedasKey: String, editDataKey: String },

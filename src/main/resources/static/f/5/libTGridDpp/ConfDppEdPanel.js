@@ -26,13 +26,14 @@ export default {
             .filter(im => confMedasEpl2.includes(im))
             .reduce((o, medas) => (o[medas] = Okeys(confDppId(this.ppId)
                 .medas[medas].epl2.mcdId)) && o, {})
+        console.log(dppInteractivity.epl2Data)
 
     }, methods: {
         confDpp() { return confDppId(this.ppId) },
         getConfMedasDd() { return confMedasDd },
         isEpl2(medas) { return confMedasEpl2.includes(medas) },
         epl2Click(medas, mcdId) { mgdConfDppEdPanel.epl2Click(this.ppId, medas, mcdId) },
-        epl2Data(medas) { return dppInteractivity.epl2Data[medas] },
+        // epl2Data(medas) { return dppInteractivity.epl2Data[medas] },
         confTypeName(showMedasConfTypeName) {
             this.medasConfTypeName = dppInteractivity.medasConfTypeName = showMedasConfTypeName
         }, confJsonStr() {

@@ -29,7 +29,7 @@ const confDppMedasMcdId = (val, ppId, medas, ppl2) => {
         .forEach(mcdId => dppMedas.mcdId[mcdId] = {})
     dppMedas.l_mcdId = valList
 
-    reView(ppId)
+    reViewEdPanel_Grid(ppId)
     reViewSortMCData(ppId, ppIdMedasPpl2Key(ppId, medas, ppl2))
     return valList
 }, medasAddRemove = (ppId, medas) => {
@@ -45,7 +45,7 @@ const confDppMedasMcdId = (val, ppId, medas, ppl2) => {
         && confDppId(ppId).l_medas.push(medas)
         && (confDppId(ppId).medas[medas] = { l_mcdId: [], mcdId: {} })
 
-    reView(ppId)
+    reViewEdPanel_Grid(ppId)
 
 }, medasRemoveFromConfDpp = (ppId, medas) => {
     confDppId(ppId).removeMedas
@@ -54,18 +54,31 @@ const confDppMedasMcdId = (val, ppId, medas, ppl2) => {
         .splice(confDppId(ppId).l_medas.indexOf(medas), 1)
     delete confDppId(ppId).medas[medas]
 
-    reView(ppId)
+    reViewEdPanel_Grid(ppId)
 
-}, reView = ppId => dppInteractivityPpId(ppId).tGridDpp.count++ &&
+}, reViewEdPanel_Grid = ppId => dppInteractivityPpId(ppId).tGridDpp.count++ &&
     Okeys(dppInteractivityPpId(ppId).confDppEdPanel).forEach(ff =>
         dppInteractivityPpId(ppId).confDppEdPanel[ff].count++)
 
 export default {
     components: { SortMCData, }, props: { ppId: Number, ff: String },
-    data() { return { medasConfTypeName: '', epl2Data: {}, count: 0, } },
+    data() { return { medasConfTypeName: '', count: 0, epl2Data: {} } },
     mounted() {
         addDppIdComponentObj(this.ppId, 'confDppEdPanel')[this.ff] = this
+        this.confDpp().l_medas.filter(medas => confMedasEpl2.includes(medas))
+            .forEach(medas => this.epl2Data[medas] = confDppMedas(this.ppId, medas).epl2.l_mcdId)
+        console.log(this.epl2Data)
     }, methods: {
+        inputEpl2(medas, mcdId) {
+            // this.count++
+            const epl2Ids = confDppMedas(this.ppId, medas).epl2.l_mcdId
+            !epl2Ids.includes(mcdId) && epl2Ids.push(mcdId)
+                || epl2Ids.splice(epl2Ids.indexOf(mcdId), 1)
+            console.log(medas, mcdId, epl2Ids)
+        }, epl2Click(medas, mcdId) {
+            // reViewEdPanel_Grid(this.ppId)
+            // console.log(this.ff, medas, mcdId, this.epl2Data[medas], this.epl2Data)
+        },
         confDpp() { return confDppId(this.ppId) },
         getConfMedasDd() { return confMedasDd },
         confPpMedas1p(medas) { return confDppMedas(this.ppId, medas) },
@@ -77,7 +90,7 @@ export default {
         medasRemoveFromRemove(medas) {
             this.confDpp().removeMedas
                 .splice(this.confDpp().removeMedas.indexOf(medas), 1)
-            reView(this.ppId)
+            reViewEdPanel_Grid(this.ppId)
         }, isMedasToRemove(medas) {
             return this.confDpp().removeMedas && this.confDpp().removeMedas.includes(medas)
         }, closeDialog() {
@@ -107,8 +120,10 @@ export default {
                     Okeys(meMap[mcdId]).forEach(k => meMap[mcdId][k].count++))
             })
         }, addPpl2(medas) {
-            console.log(medas)
-        }
+            console.log(medas, confDppMedas(this.ppId, medas))
+            confDppMedas(this.ppId, medas).ppl2 = { mcdId: {}, l_mcdId: [] }
+            reViewEdPanel_Grid(this.ppId)
+        },
     }, template: `
 <div class="w3-row">
     <div class="w3-quarter w13-border-right w3-container">
@@ -192,7 +207,13 @@ export default {
             <div class="w3-half w3-container">
                 <template v-if="isEpl2(medas)">
                 	<sub class="w3-right">epl2</sub>
-a221 epl2
+
+                    <template v-for="mcdId in confDpp().medas[medas].l_mcdId">
+                        <label><input :value="mcdId" v-model="epl2Data[medas]" 
+                        @click="inputEpl2(medas,mcdId)" type="checkbox"
+                             />&nbsp;{{mcdId}}</label>,
+                    </template>
+
                 </template>
                 <template v-else>
                     <button v-if="!confPpMedas1p(medas).ppl2" class="w3-btn w3-right w3-small" 
