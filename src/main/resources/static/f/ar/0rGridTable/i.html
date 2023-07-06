@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title id="headTitle">ddPersonal</title>
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<script src="/webjars/vue/3.3.4/dist/vue.global.prod.js" type="application/javascript"></script>
+
+<body class="w3-container">
+    <div class="am-max-width-1">
+        <h1 id="h1">{{h1}}</h1>
+        <div id="tGridTable1"></div>
+    </div>
+    <script src="i.js" type="module"></script>
+
+    <div id="testGridTable2">
+        TO TEST!
+        {{headKeysWithChild()}}
+        {{headKeysWithChild().length}}
+        <span v-if="headKeysWithChild().length">is more row</span>
+        <span v-if="!headKeysWithChild().length">is one row</span>
+        <table>
+            <caption class="w3-tiny am-i">Hi table!</caption>
+            <thead v-if="headKeysWithChild().length" class="w3-small">
+                <tr>
+                    <th v-for="(v,k) in tableData().head" class="w3-border w3-hover-shadow" @click="headSortClick(k)"
+                        :style="v.style" :colspan="childCount(v.child)"
+                        :rowspan="headKeysWithChild().includes(k)&&1||2">
+                        {{v.alias}}
+                    </th>
+                </tr>
+                <template v-for="k1 in headKeysWithChild()">
+                    <tr>
+                        <th v-for="(v,k) in tableData().head[k1].child" class="w3-border w3-hover-shadow"
+                            :style="v.style" @click="headSortClick2(k1,k)">
+                            {{v.alias}}
+                        </th>
+                    </tr>
+                </template>
+            </thead>
+            <thead v-else class="w3-small">
+                <tr>
+                    <th v-for="(v,k) in tableData().head" style="width: 4em;" :style="v.style" @click="headSortClick(k)"
+                        class="w3-hover-shadow w3-border">
+                        {{v.alias}}
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+
+</body>
+
+</html>
