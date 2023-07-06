@@ -45,7 +45,7 @@ export default {
             <ConfDppEdPanel :ppId="ppId" ff="fly"/>
         </div>
     </span>
-</div> <span class="w13-hide">{{count}}</span>
+</div> <span class="w3-hide">{{count}}</span>
 <div  class="w3-card"
     :class="{'w3-show':isOpened('fix'), 'w3-hide':!isOpened('fix')}">
         <ConfDppEdPanel :ppId="ppId" ff="fix"/>

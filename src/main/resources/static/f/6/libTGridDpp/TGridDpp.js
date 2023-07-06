@@ -15,6 +15,7 @@ import { addDppIdComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
 import ConfDppEd from '/f/6/libTGridDpp/ConfDppEd.js'
 import MElement from '/f/6/libTGridDpp/MElement.js'
 import SortMCData from '/f/6/libTGridDpp/SortMCData.js'
+import SortMedas from '/f/6/libTGridDpp/SortMedas.js'
 import Epl2 from '/f/6/libTGridDpp/Epl2.js'
 import Epl2Sql from '/f/6/libTGridDpp/Epl2Sql.js'
 import Epl2Json from '/f/6/libTGridDpp/Epl2Json.js'
@@ -23,7 +24,7 @@ export default {
     props: { ppId: Number }, data() { return { count: 0 } },
     components: {
         ConfDppEd, MElement, Epl2, Epl2Sql, Epl2Json,
-        SortMCData
+        SortMCData, SortMedas
     }, mounted() {
         addDppIdComponent(this.ppId, 'tGridDpp', this)
     }, methods: {
