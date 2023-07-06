@@ -28,7 +28,7 @@ export const readOpenedParent = (uniqueMcdId, fn) => {
 
 export const readDppFromList = (uniqueMcdId_list, fn) =>
     readMcdIdListStr(uniqueMcdId_list).then(json => {
-        // console.log('← ', json, mcd)
+        console.log('← ', json, mcd)
         addToEMap(json.list)
         readR1R2(uniqueMcdId_list, 'r', fn)
     })
