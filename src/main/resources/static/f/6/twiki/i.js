@@ -13,16 +13,15 @@ createApp({
     template: `<TWiki :pageId="pageId"/>`, components: { TWiki },
 }).mount('#tWiki')
 
-import { ws, readDppFromList, readOpenedParent } from '/f/6/lib/wsDbRw.js'
-import { readDocAndParentList } from '/f/6/lib/wsDbRw.js'
+import { ws, readDocAndParentList } from '/f/6/lib/wsDbRw.js'
 import { meMap } from '/f/6/libTGridDpp/dppInteractivity.js'
-ws.onopen = event => pageId && (() => {
-    readDppFromList([pageId], () => {
-        console.log('Hi tWiki World!', event)
+import { mcd } from '/f/6/lib/MetaContentData.js'
+ws.onopen = event => pageId && readDocAndParentList(
+    { doc_id: [pageId], parent: [pageId] }, () => {
         meMap[pageId].tWiki.count++
+        readDocAndParentList({ doc_id: [], parent: mcd.parentChild[pageId] }, () => {
+            console.log(mcd, mcd.parentChild[pageId])
+            meMap[pageId].tWiki.count++
+        })
     })
-    readDocAndParentList({ d: [pageId], p: [pageId] }, () => {
-        console.log(123)
-    })
-})()
 

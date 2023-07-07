@@ -4,13 +4,13 @@
  * 
  */
 import { mcd, addToEMap, addToParentChild } from '/f/6/lib/MetaContentData.js'
-import { pushListUnique } from '/f/6/lib/algoritmed-commons.js'
+import { pushListUnique, addToUniqueList } from '/f/6/lib/algoritmed-commons.js'
 
 const uri_wsDbRw = "ws://" + window.location.host + "/dbRw"
 export const ws = new WebSocket(uri_wsDbRw)
 
 export const readDppForParent = (parentIdl, fn) => {
-    const sql = sql_vl_str_sort.replace(':parentId', parentIdl.join(','))
+    const sql = sql_vl_str_WHERE_parent_sort.replace(':parentId', parentIdl.join(','))
     return executeSelectQuery(sql).then(json => {
         // console.log(parentIdl, json.list)
         addToEMap(json.list)
@@ -27,7 +27,19 @@ export const readOpenedParent = (uniqueMcdId_openedId, fn) => {
 }
 
 export const readDocAndParentList = (dpList, fn) => {
-    console.log(dpList)
+    let where = ''
+    dpList.doc_id.length && (where += 'doc_id IN (' + dpList.doc_id.join(',') + ')')
+    dpList.doc_id.length && dpList.parent.length && (where += ' OR ')
+    dpList.parent.length && (where += 'parent IN (' + dpList.parent.join(',') + ')')
+    const sql = sql_vl_str_WHERE_sort.replace(':where', where)
+    return executeSelectQuery(sql).then(json => {
+        // console.log(dpList, json.list)
+        addToEMap(json.list)
+        addToParentChild(json.list)
+        const toRrExtencon = addToUniqueList((dpList.doc_id).concat(dpList.parent)
+            .concat(dpList.parent.reduce((l, i) => l.concat(mcd.parentChild[i]), [])), [])
+        readR1R2(toRrExtencon, 'r', fn)
+    })
 }
 
 export const readDppFromList = (uniqueMcdId_list, fn) =>
@@ -60,14 +72,18 @@ const readMcdIdListStr = uniqueMcdIdList => {
     return executeSelectQuery(sql)
 }
 
-const sql_vl_str_sort = 'SELECT doc_id, parent p, reference r, reference2 r2, value vl_str, sort FROM doc \n\
-LEFT JOIN string ON doc_id=string_id \n\
-LEFT JOIN sort ON doc_id=sort_id \n\
-WHERE parent IN (:parentId) \n\
+const sql_vl_str = 'SELECT doc_id, parent p, reference r, reference2 r2, value vl_str FROM doc \n\
+LEFT JOIN string ON doc_id=string_id \n'
+
+const sql_vl_str_WHERE_sort = sql_vl_str.replace('vl_str FROM', 'vl_str, sort FROM') + 'LEFT JOIN sort ON doc_id=sort_id \n\
+WHERE :where \n\
 ORDER BY sort'
 
-const sql_vl_str = 'SELECT doc_id, parent p, reference r, reference2 r2, value vl_str FROM doc \n\
-    LEFT JOIN string ON doc_id=string_id \n'
+const sql_vl_str_WHERE_parent_sort = sql_vl_str_WHERE_sort.replace(':where', 'parent IN (:parentId)')
+
+// const sql_vl_str_sort1 = sql_vl_str + 'LEFT JOIN sort ON doc_id=sort_id \n\
+// WHERE parent IN (:parentId) \n\
+// ORDER BY sort'
 
 const executeSelectQuery = sql => {
     ws.send(JSON.stringify({ sql: sql, cmd: 'executeQuery' }))
