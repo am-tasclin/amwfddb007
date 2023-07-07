@@ -6,6 +6,12 @@
 const gridTableData = {}
 export const setH1 = h1 => gridTableData.h1 = h1
 export const setHead = head => gridTableData.head = head
+export const setBody = body => gridTableData.body = body
+export const setBodyColumns = bodyColumns => gridTableData.bodyColumns = bodyColumns
+
+export const getHead = () => gridTableData.head
+export const getBody = () => gridTableData.body
+export const getBodyColumns = () => gridTableData.bodyColumns
 
 export const headKeysWithChild = headObj =>
     /**

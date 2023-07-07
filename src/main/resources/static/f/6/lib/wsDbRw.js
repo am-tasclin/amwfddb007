@@ -20,10 +20,14 @@ export const readDppForParent = (parentIdl, fn) => {
     })
 }
 
-export const readOpenedParent = (uniqueMcdId, fn) => {
-    const loId = uniqueMcdId.openedId.filter(id => !mcd.parentChild[id])
+export const readOpenedParent = (uniqueMcdId_openedId, fn) => {
+    const loId = uniqueMcdId_openedId.filter(id => !mcd.parentChild[id])
         .reduce((l, id) => l.push(id) && l, [])
     loId.length > 0 && readDppForParent(loId, fn)
+}
+
+export const readDocAndParentList = (dpList, fn) => {
+    console.log(dpList)
 }
 
 export const readDppFromList = (uniqueMcdId_list, fn) =>

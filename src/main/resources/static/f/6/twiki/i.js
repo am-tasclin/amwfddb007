@@ -14,8 +14,15 @@ createApp({
 }).mount('#tWiki')
 
 import { ws, readDppFromList, readOpenedParent } from '/f/6/lib/wsDbRw.js'
+import { readDocAndParentList } from '/f/6/lib/wsDbRw.js'
 import { meMap } from '/f/6/libTGridDpp/dppInteractivity.js'
-ws.onopen = event => pageId && readDppFromList([pageId], () => {
-    console.log('Hi tWiki World!', event)
-    meMap[pageId].tWiki.count++
-})
+ws.onopen = event => pageId && (() => {
+    readDppFromList([pageId], () => {
+        console.log('Hi tWiki World!', event)
+        meMap[pageId].tWiki.count++
+    })
+    readDocAndParentList({ d: [pageId], p: [pageId] }, () => {
+        console.log(123)
+    })
+})()
+

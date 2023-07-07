@@ -9,4 +9,3 @@ export const headKeysWithChild = headObj =>
     Okeys(headObj).reduce((l, k) => headObj[k].child && l.push(k) && l  || l  , [])
 
 const Okeys = Object.keys
-

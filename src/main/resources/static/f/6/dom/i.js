@@ -23,7 +23,7 @@ const uniqueMcdId = confDppUniqueMcdId()
 ws.onopen = event => uniqueMcdId.l.length &&
     readDppFromList(uniqueMcdId.l, () => {
         reViewMeMap(uniqueMcdId.l)
-        readOpenedParent(uniqueMcdId, reViewMeMapOpened)
+        readOpenedParent(uniqueMcdId.openedId, reViewMeMapOpened)
     })
 
 // init App TgridDpp
