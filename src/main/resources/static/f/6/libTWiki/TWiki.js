@@ -4,7 +4,7 @@
  * 
  */
 import { mcd } from '/f/6/lib/MetaContentData.js'
-import { meMap, addMeMap } from '/f/6/libTGridDpp/dppInteractivity.js'
+import { addMeMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 
 export default {
     props: { pageId: Number }, data() { return { count: 0, } },
