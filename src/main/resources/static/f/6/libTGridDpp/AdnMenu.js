@@ -1,5 +1,8 @@
 'use strict'
-import { meMap, setOpenedDropDownId, getOpenedDropDownId, dppInteractivityPpId }
+import {
+    meMap, setOpenedDropDownId, getOpenedDropDownId, dppInteractivityPpId,
+    closeEdAdnDialog
+}
     from '/f/6/libTGridDpp/dppInteractivity.js'
 import { adnPpIdMedasPpl2Key, mElementKey } from '/f/6/libTGridDpp/MElement.js'
 
@@ -15,7 +18,11 @@ export default {
         }, setAdnDialogWindow(editType) {
             'confDppEd_' == getOpenedDropDownId() &&
                 dppInteractivityPpId(this.ppIdMedasPpl2Key.split('_')[1])['confDppEd'].count++
+            getOpenedDropDownId() && getOpenedDropDownId().includes('edAdn_') &&
+                closeEdAdnDialog(getOpenedDropDownId().split('_')[2])
+
             setOpenedDropDownId(editType + adnPpIdMedasPpl2Key(this.adnId, this.ppIdMedasPpl2Key))
+
             editType.includes('_fly') && this.count++
             editType.includes('_fix') && meMap[this.adnId][mElementKey(this.ppIdMedasPpl2Key)].count++
         }, isFlyAdnDialogWindow() {

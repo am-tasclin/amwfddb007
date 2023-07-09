@@ -10,9 +10,11 @@
  * 
  */
 import ConfDppEdPanel from '/f/6/libTGridDpp/ConfDppEdPanel.js'
+// import { closeEdAdnDialog } from '/f/6/libTGridDpp/AdnMenu.js'
 import { confDppId } from '/f/6/lib/confDomPagePart.js'
-import { meMap, getOpenedDropDownId, setOpenedDropDownId, addDppIdComponent }
+import { getOpenedDropDownId, setOpenedDropDownId, addDppIdComponent, closeEdAdnDialog }
     from '/f/6/libTGridDpp/dppInteractivity.js'
+
 
 export default {
     components: { ConfDppEdPanel, },
@@ -27,9 +29,8 @@ export default {
         isOpened(ff) { return 'confDppEd_' + ff == (getOpenedDropDownId() + this.confDpp().ffDppEd) },
         openedDropDownId() { return getOpenedDropDownId() },
         ppCmdEdOnOff() {
-            getOpenedDropDownId().includes('edAdn_') &&
-                Okeys(meMap[getOpenedDropDownId().split('_')[2]]).filter(k => k.includes('mElement'))
-                    .forEach(k => meMap[getOpenedDropDownId().split('_')[2]][k].count++)
+            getOpenedDropDownId() && getOpenedDropDownId().includes('edAdn_') &&
+                closeEdAdnDialog(getOpenedDropDownId().split('_')[2])
             setOpenedDropDownId('confDppEd_')
             console.log(getOpenedDropDownId() + this.confDpp().ffDppEd)
             this.count++
@@ -54,4 +55,5 @@ export default {
 </div> <div v-if="isOpened('fix')">&nbsp;</div>
 `,
 }
+
 const Okeys = Object.keys

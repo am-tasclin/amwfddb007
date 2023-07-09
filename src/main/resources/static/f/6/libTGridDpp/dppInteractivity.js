@@ -36,8 +36,11 @@ const dppInteractivity = {    // dppIty -- DOM Page Part interactivity data and 
      * 
      */
 }
-
 export const meMap = dppInteractivity.appComponents.meMap
+
+export const closeEdAdnDialog = adnId => Okeys(meMap[adnId]).filter(k => k.includes('mElement'))
+    .forEach(k => meMap[adnId][k].count++)
+
 export const getOpenedDropDownId = () => dppInteractivity.openedDropDownId
 export const setOpenedDropDownId = v =>
     dppInteractivity.openedDropDownId == v
@@ -59,4 +62,4 @@ export const addDppIdComponent = (ppId, cName, component) =>
 export const addDppIdComponentObj = (ppId, cName) =>
     dppInteractivityPpId(ppId)[cName] || (dppInteractivityPpId(ppId)[cName] = {})
 
-// const Okeys = Object.keys
+const Okeys = Object.keys
