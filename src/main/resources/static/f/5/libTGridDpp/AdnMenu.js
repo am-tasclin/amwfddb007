@@ -46,6 +46,7 @@ export default {
             console.log('123')
         }, setAdnDialogWindow(type, editType) {
             const dropDownOpenId = type + '_' + editType + '_' + this.adnId + this.ppMedasKey
+            console.log(dropDownOpenId)
             dppInteractivity.clickDropDownOpenId(dropDownOpenId, this.ppId)
             this.count++
         }, isFixedAdnDialogWindow() {
