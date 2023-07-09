@@ -20,6 +20,9 @@ import Epl2 from '/f/6/libTGridDpp/Epl2.js'
 import Epl2Sql from '/f/6/libTGridDpp/Epl2Sql.js'
 import Epl2Json from '/f/6/libTGridDpp/Epl2Json.js'
 
+import { confDppMedas, confMedasEpl2 }
+    from '/f/6/lib/confDomPagePart.js'
+
 export default {
     props: { ppId: Number }, data() { return { count: 0 } },
     components: {

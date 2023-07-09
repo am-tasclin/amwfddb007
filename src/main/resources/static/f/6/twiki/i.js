@@ -8,10 +8,33 @@ const pageId = window.location.hash.substring(1).split(',')[1]
 console.log(pageId)
 
 import TWiki from '/f/6/libTWiki/TWiki.js'
-createApp({
+const tWiki = createApp({
     data() { return { count: 0, pageId: pageId } },
     template: `<TWiki :pageId="pageId"/>`, components: { TWiki },
-}).mount('#tWiki')
+})
+import MElement from '/f/6/libTGridDpp/MElement.js'
+tWiki.component('t-m-element', MElement)
+tWiki.mount('#tWiki')
+
+import { l_domType, cdppInitPagePart, confDppUniqueMcdId } from '/f/6/lib/confDomPagePart.js'
+const initDom = () => {
+    console.log(l_domType, Okeys(mcd.eMap))
+    Okeys(mcd.eMap).filter(i => l_domType.includes(mcd.eMap[i].r)
+    ).forEach(i => {
+        console.log(i, mcd.eMap[i].vl_str)
+        cdppInitPagePart(mcd.eMap[i].vl_str, i)
+    })
+    const uniqueMcdId = confDppUniqueMcdId()
+    uniqueMcdId.l.length && readDom(uniqueMcdId)
+}
+
+import { readDppFromList, readOpenedParent } from '/f/6/lib/wsDbRw.js'
+import { reViewMeMap, reViewMeMapOpened } from '/f/6/libTGridDpp/MElement.js'
+const readDom = (uniqueMcdId) => readDppFromList(uniqueMcdId.l, () => {
+    reViewMeMap(uniqueMcdId.l)
+    readOpenedParent(uniqueMcdId.openedId, reViewMeMapOpened)
+    !uniqueMcdId.openedId.length && reViewMeMapOpened()
+})
 
 import { ws, readDocAndParentList } from '/f/6/lib/wsDbRw.js'
 import { meMap } from '/f/6/libTGridDpp/dppInteractivity.js'
@@ -22,6 +45,8 @@ ws.onopen = event => pageId && readDocAndParentList(
         readDocAndParentList({ doc_id: [], parent: mcd.parentChild[pageId] }, () => {
             console.log(mcd, mcd.parentChild[pageId])
             meMap[pageId].tWiki.count++
+            initDom()
         })
     })
 
+const Okeys = Object.keys

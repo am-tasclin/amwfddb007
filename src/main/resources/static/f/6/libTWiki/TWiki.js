@@ -5,12 +5,16 @@
  */
 import { mcd } from '/f/6/lib/MetaContentData.js'
 import { addMeMap } from '/f/6/libTGridDpp/dppInteractivity.js'
+import { l_domType } from '/f/6/lib/confDomPagePart.js'
+import TGridDpp from '/f/6/libTGridDpp/TGridDpp.js'
 
 export default {
     props: { pageId: Number }, data() { return { count: 0, } },
+    components: { TGridDpp },
     methods: {
         eMap(adnId) { return mcd.eMap[adnId] || {} },
         parentChild(adnId) { return mcd.parentChild[adnId] || [] },
+        l_domType() { return l_domType },
     }, mounted() {
         addMeMap(this.pageId, 'tWiki', this)
     }, template: `
@@ -22,7 +26,12 @@ export default {
     <template v-for="adnId2 in parentChild(adnId)">
         <p v-if="'p'==eMap(adnId2).r_vl_str">
             {{eMap(adnId2).vl_str}} </p>
+        
+        <TGridDpp :ppId="eMap(adnId2).doc_id" v-else-if="l_domType().includes(eMap(adnId2).r)" />
+        
         <div v-else class="w3-tiny">
+            {{l_domType()}}
+            {{l_domType().includes(eMap(adnId2).r)}}
             {{eMap(adnId2)}}
         </div>
     </template>

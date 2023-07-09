@@ -65,7 +65,9 @@ export default {
     data() { return { medasConfTypeName: '', count: 0, epl2Data: {} } },
     mounted() {
         addDppIdComponentObj(this.ppId, 'confDppEdPanel')[this.ff] = this
-        this.confDpp().l_medas.filter(medas => confMedasEpl2.includes(medas))
+        this.confDpp().l_medas
+            .filter(medas => confMedasEpl2.includes(medas))
+            .filter(medas => confDppMedas(this.ppId, medas).epl2)
             .forEach(medas => this.epl2Data[medas] = Okeys(confDppMedas(this.ppId, medas).epl2.mcdId))
     }, methods: {
         inputEpl2(medas, mcdId) {

@@ -10,6 +10,9 @@
  */
 import { addToUniqueList } from '/f/6/lib/algoritmed-commons.js'
 import { setOpenedDropDownId } from '/f/6/libTGridDpp/dppInteractivity.js'
+
+export const l_domType = [376618, 376631]
+
 export const confDpp = { ppId: {} }
 export const confDppId = ppId => confDpp.ppId[ppId || 1]
 export const confDppMedasEpl2 = (ppId, medas, mcdId) =>

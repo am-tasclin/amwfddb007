@@ -8,6 +8,7 @@
  * MElement ── MCD Element view and edit. Manage ADN data to DOM structure
  *  └─ AdnMenu
  */
+import AdnMenu from '/f/6/libTGridDpp/AdnMenu.js'
 import { mcd } from '/f/6/lib/MetaContentData.js'
 import { meMap, addMeMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { readDppForParent } from '/f/6/lib/wsDbRw.js'
@@ -34,12 +35,14 @@ const openChild_OnOff = ct => {
 
 export default {
     props: { adnId: Number, ppId: Number, medas: String, ppl2: Number, }, data() { return { count: 0, } },
+    components: { AdnMenu, },
     mounted() {
         addMeMap(this.adnId, this.mElementKey, this)
     }, computed: {
         mElementKey() { return 'mElement' + ppIdMedasPpl2Key(this.ppId, this.medas, this.ppl2) },
     }, methods: {
         adnClick() {
+            console.log(this.adnId, mcd.parentChild[this.adnId])
             !mcd.parentChild[this.adnId] && readDppForParent([this.adnId], () =>
                 openChild_OnOff(this))
             mcd.parentChild[this.adnId] && openChild_OnOff(this)
@@ -54,7 +57,10 @@ export default {
         }
     }, template: `
 <div class="w3-hover-shadow">
-    <span class="w3-small w3-hover-shadow" @click="adnClick"> {{adnId}} &nbsp;</span>
+    <span class="w3-dropdown-hover w3-white">
+        <span class="w3-small w3-hover-shadow" @click="adnClick"> {{adnId}} &nbsp;</span>
+        <AdnMenu :adnId="adnId" />
+    </span>
     <span v-html="vlStr()" />
     <span class="w3-small" v-if="eMap().r_vl_str"> ::{{eMap().r_vl_str}}</span>
     <span v-if="eMap().r2_vl_str"> :{{eMap().r2_vl_str}}</span>
