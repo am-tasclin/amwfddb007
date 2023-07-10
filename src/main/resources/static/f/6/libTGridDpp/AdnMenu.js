@@ -40,9 +40,7 @@ export default {
         <button class="w3-btn am-b" @click="setAdnDialogWindow('edAdn_fix')">✐</button>
         <button class="w3-btn am-b" @click="setAdnDialogWindow('edAdn_fly')">✎</button>
         <div class="w3-dropdown-content w3-card-4 w3-leftbar" v-if="isFlyAdnDialogWindow()" >
-            a1
             <EdAdnData :adnId="adnId"/>
-            a22
         </div>
     </div>
 <div> <span class="w3-hide">{{count}}</span>
