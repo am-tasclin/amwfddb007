@@ -9,6 +9,8 @@
  *  └─ AdnMenu
  */
 import AdnMenu from '/f/6/libTGridDpp/AdnMenu.js'
+import EdAdnData from '/f/6/libTGridDpp/EdAdnData.js'
+
 import { mcd } from '/f/6/lib/MetaContentData.js'
 import { meMap, addMeMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { readDppForParent } from '/f/6/lib/wsDbRw.js'
@@ -39,7 +41,7 @@ export const mElementKey = ppIdMedasPpl2Key => 'mElement' + ppIdMedasPpl2Key
 
 export default {
     props: { adnId: Number, ppId: Number, medas: String, ppl2: Number, }, data() { return { count: 0, } },
-    components: { AdnMenu, },
+    components: { AdnMenu, EdAdnData, },
     mounted() {
         addMeMap(this.adnId, this.mElementKey, this)
     }, computed: {
@@ -77,6 +79,8 @@ export default {
 
 <div class=" w3-card-4 w3-leftbar" v-if="isFixAdnDialogWindow()" >
     a2
+    <EdAdnData :adnId="adnId"/>
+
 </div>
 
 <div v-if="isOpened()" class="w3-container w3-border-left">
