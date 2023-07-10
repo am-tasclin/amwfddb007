@@ -1,17 +1,16 @@
 'use strict'
 import EdAdnData from '/f/6/libTGridDpp/EdAdnData.js'
 import {
-    meMap, setOpenedDropDownId, getOpenedDropDownId, dppInteractivityPpId,
-    closeEdAdnDialog
-}
-    from '/f/6/libTGridDpp/dppInteractivity.js'
+    meMap, addMeMap, setOpenedDropDownId, getOpenedDropDownId,
+    dppInteractivityPpId, closeEdAdnDialog
+} from '/f/6/libTGridDpp/dppInteractivity.js'
 import { adnPpIdMedasPpl2Key, mElementKey } from '/f/6/libTGridDpp/MElement.js'
 
 export default {
     props: { adnId: Number, ppIdMedasPpl2Key: String, }, data() { return { count: 0 } },
     components: { EdAdnData },
     mounted() {
-        // console.log(this.ppIdMedasPpl2Key, this.adnId)
+        addMeMap(this.adnId, 'adnMenu' + this.ppIdMedasPpl2Key, this)
     }, methods: {
         sortUp() {
             console.log('fipiFn.sortUpDown(-1, this.adnId)')
@@ -40,7 +39,7 @@ export default {
         <button class="w3-btn am-b" @click="setAdnDialogWindow('edAdn_fix')">✐</button>
         <button class="w3-btn am-b" @click="setAdnDialogWindow('edAdn_fly')">✎</button>
         <div class="w3-dropdown-content w3-card-4 w3-leftbar" v-if="isFlyAdnDialogWindow()" >
-            <EdAdnData :adnId="adnId"/>
+            <EdAdnData :adnId="adnId" :ppIdMedasPpl2Key="ppIdMedasPpl2Key"/>
         </div>
     </div>
 <div> <span class="w3-hide">{{count}}</span>

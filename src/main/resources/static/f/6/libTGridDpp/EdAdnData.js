@@ -11,12 +11,15 @@ import { meMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { setOpenedDropDownId } from '/f/6/libTGridDpp/dppInteractivity.js'
 
 export default {
-    props: { adnId: Number },
+    props: { adnId: Number, ppIdMedasPpl2Key: String },
     data() { return { count: 0, vl_str: mcd.eMap[this.adnId].vl_str } },
-    methods: {
+    mounted() {
+        console.log(this.ppIdMedasPpl2Key)
+    }, methods: {
         closeEdit() {
             setOpenedDropDownId('finitaLaCommedia')
-            Okeys(meMap[this.adnId]).filter(k => k.includes('mElement_'))
+            Okeys(meMap[this.adnId]).filter(k => k.includes('mElement_')
+                || k.includes('adnMenu_'))
                 .forEach(k => meMap[this.adnId][k].count++)
         }
     }, template: `

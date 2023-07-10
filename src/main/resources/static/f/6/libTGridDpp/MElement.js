@@ -78,7 +78,7 @@ export default {
 </div> <span class="w3-hide"> {{count}} </span>
 
 <div class=" w3-card-4 w3-leftbar" v-if="isFixAdnDialogWindow()" >
-    <EdAdnData :adnId="adnId"/>
+    <EdAdnData :adnId="adnId" :ppIdMedasPpl2Key="ppIdMedasPpl2Key"/>
 </div>
 
 <div v-if="isOpened()" class="w3-container w3-border-left">
