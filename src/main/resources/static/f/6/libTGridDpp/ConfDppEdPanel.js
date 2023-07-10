@@ -92,7 +92,6 @@ export default {
             return this.confDpp().removeMedas && this.confDpp().removeMedas.includes(medas)
         }, closeDialog() {
             setOpenedDropDownId('confDppEd_')
-            delete this.confDpp().ffDppEd
             dppInteractivityPpId(this.ppId).confDppEd.count++
         }, clickFixFly() {
             this.confDpp().ffDppEd = this.confDpp().ffDppEd == 'fix'
