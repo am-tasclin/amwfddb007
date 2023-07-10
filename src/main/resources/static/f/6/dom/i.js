@@ -28,16 +28,18 @@ ws.onopen = event => uniqueMcdId.l.length &&
 
 // init App TgridDpp
 import TGridDpp from '/f/6/libTGridDpp/TGridDpp.js'
+const tMedasDpp = createApp({ template: `<TGridDpp ppId="1" />`, components: { TGridDpp }, })
 import MElement from '/f/6/libTGridDpp/MElement.js'
-const tMedasDpp = createApp()
-tMedasDpp.component('t-grid-dpp', TGridDpp)
 tMedasDpp.component('t-m-element', MElement)
 tMedasDpp.mount('#tMedasDpp')
 
+import DbMessagePool from '/f/6/lib/DbMessagePool.js'
+createApp({ template: `<DbMessagePool/>`, components: { DbMessagePool }, })
+    .mount('#dbMessagePool')
+
 //dev part
 import DevConfDppIty from '/f/6/dev/lib/DevConfDppIty.js'
-const appDev = createApp()
-appDev.component('t-dev-conf-dpp-ity', DevConfDppIty)
-appDev.mount('#dev')
+createApp({ template: `<DevConfDppIty />`, components: { DevConfDppIty }, })
+    .mount('#dev')
 
 const Okeys = Object.keys

@@ -77,10 +77,10 @@ export default {
     <span v-if="eMap().r2_vl_str"> :{{eMap().r2_vl_str}}</span>
 </div> <span class="w3-hide"> {{count}} </span>
 
-<div class=" w3-card-4 w3-leftbar" v-if="isFixAdnDialogWindow()" >
+<div class="w3-card-4 w3-leftbar" v-if="isFixAdnDialogWindow()" 
+        style="margin-bottom:7px;" >
     <EdAdnData :adnId="adnId" :ppIdMedasPpl2Key="ppIdMedasPpl2Key"/>
 </div>
-
 <div v-if="isOpened()" class="w3-container w3-border-left">
     <template v-for="adnId2 in parentChild()" >
         <t-m-element :adnId="adnId2" :ppId="ppId" :medas="medas" :ppl2="ppl2" />
