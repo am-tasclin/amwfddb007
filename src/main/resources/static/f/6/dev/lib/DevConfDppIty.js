@@ -28,8 +28,6 @@ export default {
             return JSON.stringify(confDpp.ppId[ppId])
         }
     }, mounted() {
-        console.log(confDpp)
-
         addDppItyComponent('dev', this)
         this.count++
     }, template: `

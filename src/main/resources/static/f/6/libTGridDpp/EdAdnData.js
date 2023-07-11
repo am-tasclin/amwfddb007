@@ -9,9 +9,17 @@
 import { mcd } from '/f/6/lib/MetaContentData.js'
 import { meMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { setOpenedDropDownId } from '/f/6/libTGridDpp/dppInteractivity.js'
+import { getDbMessagePoolCt, dbMessagePool } from '/f/6/lib/DbMessagePool.js'
 
-const enterData = (adnId, vl_str) => {
-    console.log(adnId, vl_str,)
+const enterVlStrData = (adnId, vl_str) => {
+    const countCurrentPool = getDbMessagePoolCt().countCurrentPool
+        , dbMessage = {
+            sqlCmd: 'updateString', adnId: adnId, string: vl_str
+            , countCurrentPool: countCurrentPool
+        }
+    dbMessagePool[countCurrentPool] = dbMessage
+    console.log(adnId, vl_str, countCurrentPool, dbMessage, dbMessagePool)
+    getDbMessagePoolCt().countCurrentPool++
 }
 
 export default {
@@ -21,9 +29,9 @@ export default {
         console.log(this.ppIdMedasPpl2Key)
     }, methods: {
         enterData() {
-            console.log(this.vl_str, this.adnId, mcd.eMap[this.adnId].vl_str)
+            console.log(this.adnId, this.vl_str != mcd.eMap[this.adnId].vl_str)
             this.vl_str != mcd.eMap[this.adnId].vl_str &&
-                enterData(this.adnId, this.vl_str)
+                enterVlStrData(this.adnId, this.vl_str)
         }, closeEdit() {
             setOpenedDropDownId('finitaLaCommedia')
             Okeys(meMap[this.adnId]).filter(k => k.includes('mElement_')
@@ -44,4 +52,5 @@ export default {
 </div> <span class="w3-hide"> {{count}} </span>
 `,
 }
+
 const Okeys = Object.keys

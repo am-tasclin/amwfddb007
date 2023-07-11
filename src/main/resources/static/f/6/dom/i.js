@@ -34,12 +34,12 @@ tMedasDpp.component('t-m-element', MElement)
 tMedasDpp.mount('#tMedasDpp')
 
 import DbMessagePool from '/f/6/lib/DbMessagePool.js'
-createApp({ template: `<DbMessagePool/>`, components: { DbMessagePool }, })
-    .mount('#dbMessagePool')
+createApp({ template: `<DbMessagePool/>`, components: { DbMessagePool }, }
+).mount('#dbMessagePool')
 
 //dev part
 import DevConfDppIty from '/f/6/dev/lib/DevConfDppIty.js'
-createApp({ template: `<DevConfDppIty />`, components: { DevConfDppIty }, })
-    .mount('#dev')
+createApp({ template: `<DevConfDppIty />`, components: { DevConfDppIty }, }
+).mount('#dev')
 
 const Okeys = Object.keys
