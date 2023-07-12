@@ -1,11 +1,12 @@
 'use strict'
 // import ddPersonal from '../ddPersonal.js'
-import { getHead, headKeysWithChild } from './libGridTable.js'
+import { getHead, headKeysWithChild, getBodyColumns } from './libGridTable.js'
 const Okeys = Object.keys
 
 export default {
     methods: {
         head() { return getHead() },
+        keys() { return getBodyColumns() },
         headKeysWithChild() { return headKeysWithChild(getHead()) },
         h11eadKeysWithChild() { return getHead() && headKeysWithChild(getHead()) || [] },
         headSortClick(k) {
@@ -39,6 +40,13 @@ export default {
         <th v-for="(v,k) in head()" style="width: 4em;" :style="v.style" @click="headSortClick(k)"
             class="w3-hover-shadow w3-border">
             {{v.alias}}
+        </th>
+    </tr>
+</thead>
+<thead>
+    <tr class="w3-small">
+        <th v-for="(v) in keys()" class="w3-hover-border-red w3-border">
+        {{v}}
         </th>
     </tr>
 </thead>

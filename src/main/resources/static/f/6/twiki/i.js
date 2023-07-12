@@ -5,10 +5,6 @@
  */
 const { createApp } = Vue
 const pageId = window.location.hash.substring(1).split(',')[1]
-console.log(pageId, 123)
-import moment from '/webjars/moment/2.29.4/dist/moment.js'
-console.log(moment().format(), 123)
-console.log(moment())
 
 import TWiki from '/f/6/libTWiki/TWiki.js'
 const tWiki = createApp({

@@ -5,24 +5,24 @@ export default {
     h1: setH1('Довідник персонала'),
     head: setHead({
         id: { alias: '№№', style: 'width: 3em;' },
-        dataX: { alias: 'Дата', style: 'width: 6em;' },
-        pip: {
+        dataX: {
+            alias: 'Дата', style: 'width: 9em;'
+            , dataInFormat: 'DD.MM.YYYY', dataOutFormat: 'YYYY MMM DD'
+        }, pip: {
             alias: 'ПІП',
             child: {
                 firstName: { alias: "Ім'я", style: 'width: 6em;' },
                 fatherName: { alias: 'По Батькові' },
                 familyName: { alias: 'Прізвище' },
             }
-        },
-        money: {
+        }, money: {
             alias: 'грн',
             filter: 'summa',
             child: {
                 price: { alias: "ціна", style: 'width:5em;', filter: 'price,summa' },
                 summa: { alias: "сума", style: 'width:5em;', filter: 'summa' }
             }
-        },
-        hobby: { alias: 'Хобби', style: 'width: 10em;' },
+        }, hobby: { alias: 'Хобби', style: 'width: 10em;' },
     }),
     bodyColumns: setBodyColumns(['id', 'dataX', 'firstName', 'fatherName', 'familyName', 'price', 'summa', 'hobby',]),
     body: setBody([
