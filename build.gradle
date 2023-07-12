@@ -22,7 +22,8 @@ dependencies {
 	implementation 'org.webjars.npm:marked:4.3.0'
 	// implementation 'org.webjars.npm:vue:3.2.47'
 	implementation 'org.webjars.npm:vue:3.3.4'
-	implementation 'org.webjars:momentjs:2.29.4'
+	implementation 'org.webjars.npm:moment:2.29.4'
+
 
 
 	// implementation 'org.webjars:stomp-websocket:2.3.4'
