@@ -4,9 +4,12 @@
  * 
  */
 import { dppItyComponent, addDppItyComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
-export const getDbMessagePoolCt = () => dppItyComponent.dbMessagePool
 
 export const dbMessagePool = {}
+export const addDbMessageToPool = dbMessage =>
+    (dbMessagePool[dbMessage.countCurrentPool = dppItyComponent.dbMessagePool.countCurrentPool
+    ] = dbMessage)
+    && dppItyComponent.dbMessagePool.countCurrentPool++
 
 export default {
     data() { return { countCurrentPool: 0, countDbSaved: 0, } },
@@ -29,7 +32,6 @@ export default {
             <span>
             :{{k}}
         </div>
-        a13
     </div>
 </span>
 `,

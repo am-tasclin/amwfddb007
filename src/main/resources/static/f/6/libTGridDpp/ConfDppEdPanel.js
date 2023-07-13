@@ -64,7 +64,6 @@ export default {
     computed: {
         isDomPage() { return window.location.pathname.split('/').includes('dom') }
     }, mounted() {
-        console.log(123, window.location.pathname.split('/'), this.isDomPage)
         addDppIdComponentObj(this.ppId, 'confDppEdPanel')[this.ff] = this
         this.confDpp().l_medas
             .filter(medas => confMedasEpl2.includes(medas))

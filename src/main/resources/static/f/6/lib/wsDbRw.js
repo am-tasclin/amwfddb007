@@ -101,15 +101,27 @@ export const execute_SQL_API = sqlApi => {
     return new Promise((thenFn, reject) => ws.onmessage = event => thenFn(JSON.parse(event.data)))
 }
 
-import { getDbMessagePoolCt, dbMessagePool } from '/f/6/lib/DbMessagePool.js'
+import { addDbMessageToPool, dbMessagePool } from '/f/6/lib/DbMessagePool.js'
 /**
  * Update string content
  * @param {*} dbMessage 
  */
 export const wsUpdateString = dbMessage => {
-    dbMessagePool[dbMessage.countCurrentPool = getDbMessagePoolCt().countCurrentPool] = dbMessage
     dbMessage.cmd = 'updateString'
-    getDbMessagePoolCt().countCurrentPool++
+    addDbMessageToPool(dbMessage)
+    return execute_SQL_API(dbMessage)
+}
+
+export const wsInsertAdnChild = dbMessage => {
+    dbMessage.cmd = 'insertAdnChild'
+    addDbMessageToPool(dbMessage)
+    console.log(dbMessage)
+    return execute_SQL_API(dbMessage)
+}
+
+export const wsDeleteAdn1 = dbMessage => {
+    dbMessage.cmd = 'deleteAdn1'
+    addDbMessageToPool(dbMessage)
     console.log(dbMessage)
     return execute_SQL_API(dbMessage)
 }

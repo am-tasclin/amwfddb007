@@ -139,8 +139,7 @@ public class DbSqlClient {
     public void deleteAdn1(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
         logger.info("sql01 -125-" + mapIn);
         Mono<Doc> x = sqlTemplate.delete(new Doc(Long.parseLong(mapIn.get("adnId").toString())));
-        CompletableFuture<Doc> y = x.toFuture();
-        // mapIn.put("deleted", y.get());
+        mapIn.put("deleted", x.toFuture().get());
     }
 
     public void insertAdnChild(Map<String, Object> mapIn)
