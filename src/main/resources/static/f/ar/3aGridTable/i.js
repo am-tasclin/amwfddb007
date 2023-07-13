@@ -13,11 +13,11 @@ createApp({
     components: { THead, TBody, TFood, TFoodAll },
     template: `
 <table>
-    <caption>Довідник!</caption>
+    <caption>Дов ідн ик!</caption>
     <THead />
     <TBody/>
-    <TFood/>
     <TFoodAll/>
+    <TFood/>
 </table>
 `,
 }).mount('#tGridTable1')

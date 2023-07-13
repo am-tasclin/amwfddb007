@@ -8,11 +8,11 @@ export default {
     },
     template: `
 <food>
-    <tr class="w3-tiny w3-yellow">
-        <th v-for="c in keysf()">
+    <tr class="w3-tiny">
+        <th v-for="c in keysf()" :class=food()[c].classpole>
         {{c}}
         </th>
     </tr>
-</food>
+</foog>
 `,
 }

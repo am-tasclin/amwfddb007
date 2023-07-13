@@ -15,7 +15,7 @@ export const setBodyColumns = bodyColumns => gridTableData.bodyColumns = bodyCol
 export const setFoodColumns = foodColumns => gridTableData.foodColumns = foodColumns
 export const setFoodColumnsAll = foodColumnsAll => gridTableData.foodColumnsAll = foodColumnsAll
 // export const setlocalperem = localperem => gridTableData.localperem = localperem
-export const setbodyStylePole = bodyStylePole => gridTableData.bodyStylePole = bodyStylePole
+export const setBodyStylePole = bodyStylePole => gridTableData.bodyStylePole = bodyStylePole
 
 export const getHead = () => gridTableData.head
 export const getBody = () => gridTableData.body
@@ -25,7 +25,7 @@ export const getFoodColumns = () => gridTableData.foodColumns
 export const getFoodAll = () => gridTableData.foodAll
 export const getFoodColumnsAll = () => gridTableData.foodColumnsAll
 // export const getlocalperem = () => gridTableData.localperem
- export const getbodyStylePole =() => gridTableData.bodyStylePole
+ export const getBodyStylePole =() => gridTableData.bodyStylePole
 
 export const headKeysWithChild = headObj =>
     /**
