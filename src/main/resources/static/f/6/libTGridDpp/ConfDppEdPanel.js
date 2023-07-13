@@ -7,17 +7,15 @@
  * ConfDppEdPanel ── Edit dialog panel for config of Dpp 
  *  └─ SortMCData
  */
-import { minSpaceJson, notExistList } from '/f/6/lib/algoritmed-commons.js'
-import { confDppId, confDppMedas, confMedasDd, confMedasEpl2, ppIdMedasPpl2Key }
-    from '/f/6/lib/confDomPagePart.js'
-import { meMap, dppInteractivityPpId, setOpenedDropDownId, addDppIdComponentObj }
-    from '/f/6/libTGridDpp/dppInteractivity.js'
 import SortMCData from '/f/6/libTGridDpp/SortMCData.js'
 import { reViewSortMCData } from '/f/6/libTGridDpp/SortMCData.js'
 import { mcd } from '/f/6/lib/MetaContentData.js'
-import { readDppFromList } from '/f/6/lib/wsDbRw.js'
-
-const Okeys = Object.keys
+import { minSpaceJson, notExistList } from '/f/6/lib/algoritmed-commons.js'
+import { confDppId, confDppMedas, confMedasDd, confMedasEpl2, ppIdMedasPpl2Key } from
+    '/f/6/lib/confDomPagePart.js'
+import { readDppFromList, wsUpdateString } from '/f/6/lib/wsDbRw.js'
+import { meMap, dppInteractivityPpId, setOpenedDropDownId, addDppIdComponentObj } from
+    '/f/6/libTGridDpp/dppInteractivity.js'
 
 const confDppMedasMcdId = (val, ppId, medas, ppl2) => {
     const valList = val.replace(/\s+/g, '').split(',').filter(im => im)
@@ -63,13 +61,24 @@ const confDppMedasMcdId = (val, ppId, medas, ppl2) => {
 export default {
     components: { SortMCData, }, props: { ppId: Number, ff: String },
     data() { return { medasConfTypeName: '', count: 0, epl2Data: {} } },
-    mounted() {
+    computed: {
+        isDomPage() { return window.location.pathname.split('/').includes('dom') }
+    }, mounted() {
+        console.log(123, window.location.pathname.split('/'), this.isDomPage)
         addDppIdComponentObj(this.ppId, 'confDppEdPanel')[this.ff] = this
         this.confDpp().l_medas
             .filter(medas => confMedasEpl2.includes(medas))
             .filter(medas => confDppMedas(this.ppId, medas).epl2)
             .forEach(medas => this.epl2Data[medas] = Okeys(confDppMedas(this.ppId, medas).epl2.mcdId))
     }, methods: {
+        sendDbConfDpp() {
+            wsUpdateString({
+                adnId: this.ppId,
+                string: this.initUriLink(),
+            }).then(json => {
+                console.log(json)
+            })
+        },
         inputEpl2(medas, mcdId) {
             const epl2McdId = confDppMedas(this.ppId, medas).epl2.mcdId
             !Okeys(epl2McdId).includes(mcdId) && (epl2McdId[mcdId] = {})
@@ -158,28 +167,26 @@ export default {
         </div>
     </div>
     <div class="w3-threequarter">
-        <div class="w3-row w3-border-bottom">
-            <div class="w3-half w3-container" title="MEtal DAta Structure">
-                <div class="w3-dropdown-hover">
-                    <button class="w3-btn w3-padding-small w3-white w3-tiny am-b">
-                        medas</button>
-                    <div class="w3-dropdown-content w3-bar-block w3-border"
-                            style="width:20em;">
-                        <a class="w3-bar-item w3-button"
-                            @click="medasAddRemove(medas)"
-                                v-for="(v,medas) in getConfMedasDd()">
-                            <span class="w3-tiny">{{medas}}: &nbsp;</span>{{v}} </a>
-                    </div>
-                </div>
+        <span class="w3-dropdown-hover">
+            <button class="w3-btn w3-padding-small w3-white w3-tiny am-b"
+                    title="MEtal DAta Structure" >
+                medas</button>
+            <div class="w3-dropdown-content w3-bar-block w3-border"
+                    style="width:20em;">
+                <a class="w3-bar-item w3-button"
+                    @click="medasAddRemove(medas)"
+                        v-for="(v,medas) in getConfMedasDd()">
+                    <span class="w3-tiny">{{medas}}: &nbsp;</span>{{v}} </a>
             </div>
-            <div class="w3-half">
-                <span class="w3-right">
-                    <button @click="clickFixFly" class="w3-btn">📌</button>
-                    <button @click="closeDialog" class="w3-btn">❌</button>
-                </span>
-                <div class="w3-tiny w3-center am-b">panel2, right</div>
-            </div>
-        </div>
+        </span> &nbsp;
+        <button v-if="!isDomPage" @click="sendDbConfDpp"
+                class="w3-btn w3-padding-small w3-tiny am-b w3-border-bottom" >
+            send DB - відправити БД </button>
+        <span class="w3-right">
+            <span class="w3-tiny w3-center am-b w3-border-bottom">panel2, right</span>
+            <button @click="clickFixFly" class="w3-btn">📌</button>
+            <button @click="closeDialog" class="w3-btn">❌</button>
+        </span>
         <div v-for="medas in confDpp().l_medas" class="w3-row w3-border-bottom">
             <div class="w3-half">
                 <span class="w3-opacity">{{medas}}</span>&nbsp;
@@ -230,3 +237,5 @@ export default {
 </div> <span class="w3-hide">{{count}}</span>
 `,
 }
+
+const Okeys = Object.keys

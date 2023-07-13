@@ -100,3 +100,16 @@ export const execute_SQL_API = sqlApi => {
     ws.send(JSON.stringify(sqlApi))
     return new Promise((thenFn, reject) => ws.onmessage = event => thenFn(JSON.parse(event.data)))
 }
+
+import { getDbMessagePoolCt, dbMessagePool } from '/f/6/lib/DbMessagePool.js'
+/**
+ * Update string content
+ * @param {*} dbMessage 
+ */
+export const wsUpdateString = dbMessage => {
+    dbMessagePool[dbMessage.countCurrentPool = getDbMessagePoolCt().countCurrentPool] = dbMessage
+    dbMessage.cmd = 'updateString'
+    getDbMessagePoolCt().countCurrentPool++
+    console.log(dbMessage)
+    return execute_SQL_API(dbMessage)
+}
