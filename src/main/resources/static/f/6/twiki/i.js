@@ -17,6 +17,13 @@ import MElement from '/f/6/libTGridDpp/MElement.js'
 tWiki.component('t-m-element', MElement)
 tWiki.mount('#tWiki')
 
+import DbMessagePool from '/f/6/lib/DbMessagePool.js'
+createApp({ template: `<DbMessagePool/>`, components: { DbMessagePool }, }
+).mount('#dbMessagePool')
+
+/**
+ * Ws DB init the page
+ */
 import { l_domType, cdppInitPagePart, confDppUniqueMcdId } from '/f/6/lib/confDomPagePart.js'
 const initDom = () => {
     console.log(l_domType, Okeys(mcd.eMap))
@@ -37,9 +44,7 @@ const readDom = (uniqueMcdId) => readDppFromList(uniqueMcdId.l, () => {
     !uniqueMcdId.openedId.length && reViewMeMapOpened()
 })
 
-/**
- * DB
- */
+
 import { ws, readDocAndParentList } from '/f/6/lib/wsDbRw.js'
 import { meMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { mcd } from '/f/6/lib/MetaContentData.js'
