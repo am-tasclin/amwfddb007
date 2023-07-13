@@ -84,8 +84,19 @@ const sql_vl_str_WHERE_parent_sort = sql_vl_str_WHERE_sort.replace(':where', 'pa
 // const sql_vl_str_sort1 = sql_vl_str + 'LEFT JOIN sort ON doc_id=sort_id \n\
 // WHERE parent IN (:parentId) \n\
 // ORDER BY sort'
+/**
+ * Execute SQL SELECT query
+ * @param {*} sql 
+ * @returns results row list
+ */
+const executeSelectQuery = sql => execute_SQL_API({ sql: sql, cmd: 'executeQuery' })
 
-const executeSelectQuery = sql => {
-    ws.send(JSON.stringify({ sql: sql, cmd: 'executeQuery' }))
+/**
+ * Execute some SQL with WebSocket API from REST /dbRw
+ * @param {*} sqlApi 
+ * @returns result
+ */
+export const execute_SQL_API = sqlApi => {
+    ws.send(JSON.stringify(sqlApi))
     return new Promise((thenFn, reject) => ws.onmessage = event => thenFn(JSON.parse(event.data)))
 }

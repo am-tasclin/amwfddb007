@@ -10,17 +10,24 @@ import { mcd } from '/f/6/lib/MetaContentData.js'
 import { meMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { setOpenedDropDownId } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { getDbMessagePoolCt, dbMessagePool } from '/f/6/lib/DbMessagePool.js'
+import { execute_SQL_API } from '/f/6/lib/wsDbRw.js'
 
 const enterVlStrData = (adnId, vl_str) => {
     const countCurrentPool = getDbMessagePoolCt().countCurrentPool
         , dbMessage = {
-            sqlCmd: 'updateString', adnId: adnId, string: vl_str
+            cmd: 'updateString', adnId: adnId, string: vl_str
             , countCurrentPool: countCurrentPool
         }
     dbMessagePool[countCurrentPool] = dbMessage
-    console.log(adnId, vl_str, countCurrentPool, dbMessage, dbMessagePool)
     getDbMessagePoolCt().countCurrentPool++
+    execute_SQL_API(dbMessage).then(json => json.rowsUpdated == 1 &&
+        (mcd.eMap[adnId].vl_str = vl_str) &&
+        reView_mElement(adnId))
 }
+
+const reView_mElement = adnId => Okeys(meMap[adnId])
+    .filter(k => k.includes('mElement_') || k.includes('adnMenu_'))
+    .forEach(k => meMap[adnId][k].count++)
 
 export default {
     props: { adnId: Number, ppIdMedasPpl2Key: String },
@@ -34,9 +41,10 @@ export default {
                 enterVlStrData(this.adnId, this.vl_str)
         }, closeEdit() {
             setOpenedDropDownId('finitaLaCommedia')
-            Okeys(meMap[this.adnId]).filter(k => k.includes('mElement_')
-                || k.includes('adnMenu_'))
-                .forEach(k => meMap[this.adnId][k].count++)
+            reView_mElement(this.adnId)
+            // Okeys(meMap[this.adnId]).filter(k => k.includes('mElement_')
+            //     || k.includes('adnMenu_'))
+            //     .forEach(k => meMap[this.adnId][k].count++)
         }
     }, template: `
 <div class="w3-container" style="padding-bottom:2px;">

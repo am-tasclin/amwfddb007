@@ -2,6 +2,8 @@
 /**
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
+ * twiki - Wiki page pattern
+ * 
  */
 const { createApp } = Vue
 const pageId = window.location.hash.substring(1).split(',')[1]
@@ -35,6 +37,9 @@ const readDom = (uniqueMcdId) => readDppFromList(uniqueMcdId.l, () => {
     !uniqueMcdId.openedId.length && reViewMeMapOpened()
 })
 
+/**
+ * DB
+ */
 import { ws, readDocAndParentList } from '/f/6/lib/wsDbRw.js'
 import { meMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { mcd } from '/f/6/lib/MetaContentData.js'
