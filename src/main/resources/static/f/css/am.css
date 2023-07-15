@@ -22,12 +22,19 @@ a.am-el {
 span.am-rx {position: relative; margin: 0 3px;}
 span.am-rx span {position: absolute; left: 8px; bottom: 1px;}
 
-table.am-amk025-table tr td{
-	vertical-align: top;
+table.am-hf-sticky01 thead tr th {
+    position: sticky;
+    top: 0;
 }
-table.am-amk025-table {
-	border-collapse: collapse;
-	width: 100%;
+table.am-hf-sticky01 thead,
+table.am-hf-sticky01 tfoot {
+  position: sticky;
+}
+table.am-hf-sticky01 thead {
+  inset-block-start: 0; /* "top" */
+}
+table.am-hf-sticky01 tfoot {
+  inset-block-end: 0; /* "bottom" */
 }
 
 ol {
