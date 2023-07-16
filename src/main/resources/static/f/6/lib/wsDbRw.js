@@ -134,6 +134,5 @@ const execute_SqlChange_API = dbApiMessage => {
 export const wsDeleteAdn1 = dbMessage => {
     dbMessage.cmd = 'deleteAdn1'
     addDbMessageToPool(dbMessage)
-    console.log(dbMessage)
     return execute_SQL_API(dbMessage)
 }

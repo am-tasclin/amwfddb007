@@ -16,8 +16,9 @@ const dbSendChildSort = parentChild => wsSave1ParentSort({
 }).then(json => {
     mcd.parentChild[json.adnId] = json.l
     json.insertList.forEach(i => mcd.eMap[i].sort = json.l.indexOf(i) + 1)
-    Okeys(meMap[json.adnId]).filter(k => k.includes('mElement'))
-        .forEach(k => meMap[json.adnId][k].count++)
+    setOpenedDropDownId('finitaLaCommedia')
+    json.l.forEach(i => Okeys(meMap[i]).filter(k => k.includes('mElement'))
+        .forEach(k => meMap[json.adnId][k].count++))
 })
 
 
@@ -34,6 +35,7 @@ export default {
                 mcd.parentChild[p].splice(mcd.parentChild[p].indexOf(this.adnId), 1)
                 Okeys(meMap[p]).filter(k => k.includes('mElement'))
                     .forEach(k => meMap[p][k].count++)
+                setOpenedDropDownId('finitaLaCommedia')
             })())
         }, insertAdnChild() {
             wsInsertAdnChild({ parent: this.adnId }).then(json => json.d && (() => {
@@ -43,16 +45,30 @@ export default {
                     .forEach(k => meMap[this.adnId][k].count++)
             })())
         }, sortFirst() {
-            const parentChild = [this.adnId].concat(
-                mcd.parentChild[mcd.eMap[this.adnId].p].filter(i => i != this.adnId))
-            dbSendChildSort(parentChild)
+            const newParentChild = [this.adnId].concat(mcd.parentChild[mcd.eMap[this.adnId].p].filter(i => i != this.adnId))
+            dbSendChildSort(newParentChild)
         }, sortEnd() {
-            console.log(this.adnId)
+            const newParentChild = mcd.parentChild[mcd.eMap[this.adnId].p].filter(i => i != this.adnId).concat([this.adnId])
+            console.log(this.adnId, newParentChild)
+            dbSendChildSort(newParentChild)
         }, sortUp() {
-            console.log('fipiFn.sortUpDown(-1, this.adnId)')
+            const newParentChild = mcd.parentChild[mcd.eMap[this.adnId].p]
+            this.adnId == newParentChild[0] && this.sortEnd() || (() => {
+                const indexOf = newParentChild.indexOf(this.adnId)
+                newParentChild.splice(indexOf, 1)
+                newParentChild.splice(indexOf - 1, 0, this.adnId)
+                dbSendChildSort(newParentChild)
+            })()
         }, sortDown() {
-            console.log('123', this.ppIdMedasPpl2Key)
+            const newParentChild = mcd.parentChild[mcd.eMap[this.adnId].p]
+            this.adnId == newParentChild[newParentChild.length - 1] && this.sortFirst() || (() => {
+                const indexOf = newParentChild.indexOf(this.adnId)
+                newParentChild.splice(indexOf, 1)
+                newParentChild.splice(indexOf + 1, 0, this.adnId)
+                dbSendChildSort(newParentChild)
+            })()
         }, setAdnDialogWindow(editType) {
+            console.log(123, this.adnId, editType, getOpenedDropDownId())
             'confDppEd_' == getOpenedDropDownId() &&
                 dppInteractivityPpId(this.ppIdMedasPpl2Key.split('_')[1])['confDppEd'].count++
             getOpenedDropDownId() && getOpenedDropDownId().includes('edAdn_') &&
@@ -60,8 +76,7 @@ export default {
 
             setOpenedDropDownId(editType + adnPpIdMedasPpl2Key(this.adnId, this.ppIdMedasPpl2Key))
 
-            // editType.includes('_fly') && 
-            this.count++
+            editType.includes('_fly') && this.count++
             editType.includes('_fix') && meMap[this.adnId][mElementKey(this.ppIdMedasPpl2Key)].count++
         }, isFlyAdnDialogWindow() {
             return ('edAdn_fly' + adnPpIdMedasPpl2Key(this.adnId, this.ppIdMedasPpl2Key)) == getOpenedDropDownId()
