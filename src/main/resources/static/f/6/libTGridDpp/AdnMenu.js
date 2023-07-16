@@ -3,13 +3,26 @@ import EdAdnData from '/f/6/libTGridDpp/EdAdnData.js'
 import { mcd } from '/f/6/lib/MetaContentData.js'
 import {
     meMap, addMeMap, setOpenedDropDownId, getOpenedDropDownId,
-    dppInteractivityPpId, closeEdAdnDialog
+    dppInteractivityPpId, closeEdAdnDialog,
 } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { adnPpIdMedasPpl2Key, mElementKey } from '/f/6/libTGridDpp/MElement.js'
-import { wsInsertAdnChild, wsDeleteAdn1 } from '/f/6/lib/wsDbRw.js'
+import { wsInsertAdnChild, wsDeleteAdn1, wsSave1ParentSort } from '/f/6/lib/wsDbRw.js'
+
+const dbSendChildSort = parentChild => wsSave1ParentSort({
+    insertList: parentChild.filter(i => !mcd.eMap[i].sort)
+        .reduce((l, i) => l.push(i) && l, []),
+    l: parentChild,
+    adnId: mcd.eMap[parentChild[0]].p,
+}).then(json => {
+    mcd.parentChild[json.adnId] = json.l
+    json.insertList.forEach(i => mcd.eMap[i].sort = json.l.indexOf(i) + 1)
+    Okeys(meMap[json.adnId]).filter(k => k.includes('mElement'))
+        .forEach(k => meMap[json.adnId][k].count++)
+})
+
 
 export default {
-    props: { adnId: Number, ppIdMedasPpl2Key: String, }, data() { return { count: 0 } },
+    props: { adnId: Number, ppIdMedasPpl2Key: String, }, data() { return { count: 0, } },
     components: { EdAdnData },
     mounted() {
         addMeMap(this.adnId, 'adnMenu' + this.ppIdMedasPpl2Key, this)
@@ -29,6 +42,12 @@ export default {
                 Okeys(meMap[this.adnId]).filter(k => k.includes('mElement'))
                     .forEach(k => meMap[this.adnId][k].count++)
             })())
+        }, sortFirst() {
+            const parentChild = [this.adnId].concat(
+                mcd.parentChild[mcd.eMap[this.adnId].p].filter(i => i != this.adnId))
+            dbSendChildSort(parentChild)
+        }, sortEnd() {
+            console.log(this.adnId)
         }, sortUp() {
             console.log('fipiFn.sortUpDown(-1, this.adnId)')
         }, sortDown() {
@@ -52,12 +71,15 @@ export default {
     style="width:18em;">
     <button class="w3-btn" @click="sortUp">⬆</button>
     <button class="w3-btn" @click="sortDown">⬇</button>
-    ｜
-    <button class="w3-btn am-b" @click="insertAdnChild" title="addChild - додати дитину">＋</button>
-    <button class="w3-btn am-b" @click="deleteAdn">－</button>
+    <button class="w3-btn" @click="sortFirst" title="toFirst">⮸</button>
+    <button class="w3-btn" @click="sortEnd" style="transform: rotate(180deg);"
+        title="toEnd">⮸</button>
     <div class="w3-border-top">
         <button class="w3-btn am-b" @click="setAdnDialogWindow('edAdn_fix')">✐</button>
         <button class="w3-btn am-b" @click="setAdnDialogWindow('edAdn_fly')">✎</button>
+        ｜
+        <button class="w3-btn am-b" @click="insertAdnChild" title="addChild - додати дитину">＋</button>
+        <button class="w3-btn am-b" @click="deleteAdn">－</button>
         <div class="w3-dropdown-content w3-card-4 w3-leftbar" v-if="isFlyAdnDialogWindow()" >
             <EdAdnData :adnId="adnId" :ppIdMedasPpl2Key="ppIdMedasPpl2Key"/>
         </div>

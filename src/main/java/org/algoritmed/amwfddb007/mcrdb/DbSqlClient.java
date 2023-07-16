@@ -111,7 +111,7 @@ public class DbSqlClient {
         List<Integer> l = (List) mapIn.get("l");
         List<Integer> insertList = (List) mapIn.get("insertList");
         List<Integer> lUpdate = l.stream()
-                .filter((adnId) -> !insertList.contains(adnId))
+                .filter(adnId -> !insertList.contains(adnId))
                 .collect(Collectors.toList());
         for (Integer adnId : insertList) {
             int sort = sortFrom1(l, adnId);

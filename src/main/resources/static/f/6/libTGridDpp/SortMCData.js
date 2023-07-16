@@ -36,7 +36,7 @@ export default {
             dppInteractivityPpId(this.ppId).tGridDpp.count++
         }
     }, template: `
-⬍ <span v-for="mcdId in confPpMedas().l_mcdId"
+⮸ <span v-for="mcdId in confPpMedas().l_mcdId"
     @click="sortMcdIdClick( mcdId)" class="w3-hover-shadow">
     {{mcdId}}, </span> <span class="w3-hide"> {{count}} </span>
 `,

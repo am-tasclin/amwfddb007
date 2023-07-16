@@ -119,6 +119,18 @@ export const wsInsertAdnChild = dbMessage => {
     return execute_SQL_API(dbMessage)
 }
 
+export const wsInsertString = dbMessage =>
+    (dbMessage.cmd = 'insertString') && execute_SqlChange_API(dbMessage)
+
+export const wsSave1ParentSort = dbMessage =>
+    (dbMessage.cmd = 'save1ParentSort') && execute_SqlChange_API(dbMessage)
+
+const execute_SqlChange_API = dbApiMessage => {
+    addDbMessageToPool(dbApiMessage)
+    console.log(dbApiMessage)
+    return execute_SQL_API(dbApiMessage)
+}
+
 export const wsDeleteAdn1 = dbMessage => {
     dbMessage.cmd = 'deleteAdn1'
     addDbMessageToPool(dbMessage)

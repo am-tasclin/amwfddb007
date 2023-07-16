@@ -9,9 +9,8 @@ import TBody from './libGridTable/TBody.js'
 createApp({
     components: { THead, TBody },
     template: `
-    a1
 <div style="max-height:33em; overflow: auto;">
-    <table class="am-hf-sticky01">
+    <table class="am-hf-sticky01" >
         <caption>Hi table!</caption>
         <THead />
         <TBody />
@@ -25,5 +24,4 @@ createApp({
 </div>&nbsp;
 `,
 }).mount('#tGridTable1')
-/* <table s1tyle="table-layout: fixed;"> 
-*/
+

@@ -9,13 +9,21 @@
 import { mcd } from '/f/6/lib/MetaContentData.js'
 import { meMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { setOpenedDropDownId } from '/f/6/libTGridDpp/dppInteractivity.js'
-import { wsUpdateString } from '/f/6/lib/wsDbRw.js'
+import { wsUpdateString, wsInsertString } from '/f/6/lib/wsDbRw.js'
 
 const enterVlStrData = (adnId, vl_str) => {
-    wsUpdateString({ adnId: adnId, string: vl_str, })
-        .then(json => json.rowsUpdated == 1 &&
-            (mcd.eMap[adnId].vl_str = vl_str) &&
-            reView_mElement(adnId))
+    const sendNewStringContent = { adnId: adnId, string: vl_str, }
+    console.log(sendNewStringContent)
+    !mcd.eMap[adnId].vl_str && wsInsertString(sendNewStringContent
+    ).then(json => json.inserted &&
+        (mcd.eMap[adnId].vl_str = json.inserted.value) &&
+        reView_mElement(json.adnId)
+    )
+    mcd.eMap[adnId].vl_str && wsUpdateString(sendNewStringContent
+    ).then(json => json.rowsUpdated == 1 &&
+        (mcd.eMap[adnId].vl_str = json.vl_str) &&
+        reView_mElement(json.adnId)
+    )
 }
 
 const reView_mElement = adnId => Okeys(meMap[adnId])
@@ -26,7 +34,7 @@ export default {
     props: { adnId: Number, ppIdMedasPpl2Key: String },
     data() { return { count: 0, vl_str: mcd.eMap[this.adnId].vl_str } },
     mounted() {
-        console.log(this.ppIdMedasPpl2Key)
+        console.log(this.ppIdMedasPpl2Key, this.adnId, mcd.eMap[this.adnId])
     }, methods: {
         enterData() {
             console.log(this.adnId, this.vl_str != mcd.eMap[this.adnId].vl_str)
