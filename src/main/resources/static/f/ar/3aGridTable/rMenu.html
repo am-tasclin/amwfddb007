@@ -1,0 +1,74 @@
+/// https://codepen.io/SitePoint/pen/MYLoWY
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title id="headTitle">ddPersonal</title>
+<link rel="stylesheet" href="/f/css/w3am.css">
+<link rel="stylesheet" href="/f/ar/3aGridTable/rMenu.css">
+<link rel="stylesheet" href="/f/ar/3aGridTable/rMenu.js">
+<script src="/webjars/vue/3.3.4/dist/vue.global.prod.js" type="application/javascript"></script>
+
+<!--///https://coderlessons.com/articles/veb-razrabotka-articles/sozdanie-polzovatelskogo-kontekstnogo-meniu-pravoi-knopkoi-myshi-s-pomoshchiu-javascript -->
+
+<body>
+    <header class=" primary-header">
+        <div class="container">
+            <h1 class="primary-header__title">
+                My Tasks App <small>using custom context menus</small>
+            </h1>
+        </div>
+    </header>
+    <main class="content">
+        <div class="container">
+            <ul class="tasks">
+                <li class="task" data-id="3">
+                    <div class="task__content">
+                        Go To Grocery
+                    </div>
+                    <div class="task__actions">
+                        <i class="fa fa-eye"></i>
+                        <i class="fa fa-edit"></i>
+                        <i class="fa fa-times"></i>
+                    </div>
+                </li>
+                <li class="task" data-id="2">
+                    <div class="task__content">
+                        Type Some Code
+                    </div>
+                    <div class="task__actions">
+                        <i class="fa fa-eye"></i>
+                        <i class="fa fa-edit"></i>
+                        <i class="fa fa-times"></i>
+                    </div>
+                </li>
+                <li class="task" data-id="1">
+                    <div class="task__content">
+                        Build An App
+                    </div>
+                    <div class="task__actions">
+                        <i class="fa fa-eye"></i>
+                        <i class="fa fa-edit"></i>
+                        <i class="fa fa-times"></i>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </main>
+    <footer class="primary-footer">
+        <div class="container">
+            <small>&copy; 2015 Context Menu Madness! Demo by Nick Salloum. <a
+                    href="building-custom-context-menu-javascript" target="_blank">See article </a></small>
+        </div>
+    </footer>
+
+    <nav class="context-menu">
+        <ul class="context-menu__items">
+            <li class="context-menu__item"> <a href="#" class="context-menu__link"> <i class="fa fa-eye"></i> View Task
+                </a> </li>
+            <li class="context-menu__item"> <a href="#" class="context-menu__link"> <i class="fa fa-edit"></i> Edit Task
+                </a> </li>
+            <li class="context-menu__item"> <a href="#" class="context-menu__link"> <i class="fa fa-times"></i> Delete
+                    Task </a> </li>
+        </ul>
+    </nav>
+</body>

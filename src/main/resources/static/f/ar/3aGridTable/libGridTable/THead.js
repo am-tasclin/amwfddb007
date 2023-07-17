@@ -2,6 +2,8 @@
 // import ddPersonal from '../ddPersonal.js'
 import { getBodyColumns, getHead, headKeysWithChild} from './libGridTable.js'
 const Okeys = Object.keys
+document.oncontextmenu = function() {return false;};
+
 
 export default {
     data(){
