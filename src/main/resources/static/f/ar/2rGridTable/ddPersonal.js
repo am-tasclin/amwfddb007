@@ -7,7 +7,7 @@ export default {
         id: { alias: '№№', style: 'width: 3em;' },
         dataX: {
             alias: 'Дата', style: 'width: 9em;'
-            , dataInFormat: 'DD.MM.YYYY', dataOutFormat: 'YYYY MMM DD'
+            , dataInFormat: 'DD.MM.YY', dataOutFormat: 'YYYY MMM DD'
         }, pip: {
             alias: 'ПІП',
             child: {

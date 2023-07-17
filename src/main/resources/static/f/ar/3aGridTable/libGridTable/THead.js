@@ -4,23 +4,20 @@ import { getBodyColumns, getHead, headKeysWithChild} from './libGridTable.js'
 const Okeys = Object.keys
 
 export default {
+    data(){
+        return {
+            message: ''
+          }
+    },
     methods: {
-        head() { return getHead() },
-        pol() { return getBodyColumns() },
-
-
-        headKeysWithChild() { return headKeysWithChild(getHead()) },
+        head()                { return getHead() },
+        pol()                 { return getBodyColumns() },
+        headKeysWithChild()   { return headKeysWithChild(getHead()) },
         h11eadKeysWithChild() { return getHead() && headKeysWithChild(getHead()) || [] },
-
-        headSortClick(k) {
-          
-        },
-
-
+        headSortClick(k)      { console.log(' sss ', k) },
         headSortClick2(k1, k) {
             console.log(k1, getHead()[k1])
-            console.log(k1, k, getHead()[k1].child[k])
-        },
+            console.log(k1, k, getHead()[k1].child[k])  },
         childCount(o) { return !o && 1 || Okeys(o).length }
     },
     template: `
@@ -58,12 +55,13 @@ export default {
     </tr>
 </thead>
  
-    <tr>
+     <!--tr>
         <th v-for="(v) in pol()" 
-            class="w3-hover-shadow w3-border w3-red">
-           {{v}}
+            class="w3-hover-shadow w3-border w3-red"
+            style="width: 4em;" >
+              <input v-model="message"  />
         </th>
-    </tr>
-
+    <tr-->
+    
 `,
 }

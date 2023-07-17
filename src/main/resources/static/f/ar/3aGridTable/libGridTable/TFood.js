@@ -10,7 +10,7 @@ export default {
             switch (c) {
                 case "count":
                     console.log(' Count ', p)
-                    return 'count('+p+')'
+                    return 'c('+p+')'
                     break;
                 case "max":
                     console.log(' Max ', p)
@@ -29,13 +29,15 @@ export default {
         }
     },
     template: `
-
+ 
     <tr class="w3-tiny">
-        <th v-for="c in keysf()" :class=food()[c].classpole>
+        <th v-for="c in keysf()" 
+        :width="food()[c].width" 
+        :class=food()[c].classpole>
             {{formatingpole(food()[c].formatpole,c)}}
         </th>
     </tr>
-
+ 
 
 
 `,
