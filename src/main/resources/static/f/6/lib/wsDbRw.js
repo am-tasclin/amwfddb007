@@ -3,11 +3,17 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { mcd, addToEMap, addToParentChild } from '/f/6/lib/MetaContentData.js'
+import { mcd } from '/f/6/lib/MetaContentData.js'
 import { pushListUnique, addToUniqueList } from '/f/6/lib/algoritmed-commons.js'
 
 const uri_wsDbRw = "ws://" + window.location.host + "/dbRw"
 export const ws = new WebSocket(uri_wsDbRw)
+
+export const addToParentChild = jsonAdnList =>
+    jsonAdnList.forEach(adn => (mcd.parentChild[adn.p] || (mcd.parentChild[adn.p] = [])).push(adn.doc_id))
+
+export const addToEMap = jsonAdnList =>
+    jsonAdnList.forEach(adn => mcd.eMap[adn.doc_id] = adn)
 
 export const readDppForParent = (parentIdl, fn) => {
     const sql = sql_vl_str_WHERE_parent_sort.replace(':parentId', parentIdl.join(','))
@@ -26,12 +32,32 @@ export const readOpenedParent = (uniqueMcdId_openedId, fn) => {
     loId.length > 0 && readDppForParent(loId, fn)
 }
 
-export const readDocAndParentList = (dpList, fn) => {
+/**
+ * 
+ * @param {*} dpList 
+ * @param {*} fn 
+ * @returns 
+ */
+export const readFilesAndFolders = (dpList, fn) => executeSelectQuery(
+    select_InDocOrParent(dpList)
+).then(json => {
+    mcd.fileList = json.list.filter(o => o.r == 376600) //isFile (H1)
+        .reduce((l, o) => l.push(o.doc_id) && l, [])
+    addToEMap(json.list)
+    fn(json)
+})
+
+const select_InDocOrParent = dpList => {
     let where = ''
     dpList.doc_id.length && (where += 'doc_id IN (' + dpList.doc_id.join(',') + ')')
     dpList.doc_id.length && dpList.parent.length && (where += ' OR ')
     dpList.parent.length && (where += 'parent IN (' + dpList.parent.join(',') + ')')
-    const sql = sql_vl_str_WHERE_sort.replace(':where', where)
+    return sql_vl_str_WHERE_sort.replace(':where', where)
+}
+
+export const readDocAndParentList = (dpList, fn) => {
+    const sql = select_InDocOrParent(dpList)
+    console.log(sql)
     return executeSelectQuery(sql).then(json => {
         // console.log(dpList, json.list)
         addToEMap(json.list)
@@ -77,7 +103,8 @@ LEFT JOIN string ON doc_id=string_id \n'
 
 const sql_vl_str_WHERE_sort = sql_vl_str.replace('vl_str FROM', 'vl_str, sort FROM') + 'LEFT JOIN sort ON doc_id=sort_id \n\
 WHERE :where \n\
-ORDER BY sort'
+ORDER BY parent, sort'
+// ORDER BY sort'
 
 const sql_vl_str_WHERE_parent_sort = sql_vl_str_WHERE_sort.replace(':where', 'parent IN (:parentId)')
 

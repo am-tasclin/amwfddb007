@@ -6,6 +6,7 @@ export default {
     mounted() {
         dbMpView.ff = this
         console.log(dbMpView)
+        console.log(this.ffh())
     },
     methods: {
         eMap(adnId, ne) { return dbMpData.eMap && dbMpData.eMap[adnId] && dbMpData.eMap[adnId][ne] },
@@ -17,7 +18,7 @@ export default {
     <input class="w3-border"/>
     <button class="w3-btn w3-padding-small w3-ripple">🔍</button>
 </div>
-
+{{ffh()}}
 <table>
     <thead>
         <tr class="w3-tiny am-b">

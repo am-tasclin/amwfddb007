@@ -16,12 +16,9 @@ export const mcd = { // Container for Meta Content Data from DB
      */
 }
 
-export const addToParentChild = jsonAdnList =>
-    jsonAdnList.forEach(adn => (mcd.parentChild[adn.p] || (mcd.parentChild[adn.p] = [])).push(adn.doc_id))
-
-export const addToEMap = jsonAdnList => {
-    jsonAdnList.forEach(adn => mcd.eMap[adn.doc_id] = adn)
-    // console.log(mcd)
-}
-
-const Okeys = Object.keys
+/**
+ * 
+ * @param {*} andId 
+ * @returns 
+ */
+export const adnFromMap = adnId => mcd.eMap && mcd.eMap[adnId] || {}
