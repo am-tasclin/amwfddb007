@@ -44,7 +44,6 @@ const readDom = (uniqueMcdId) => readDppFromList(uniqueMcdId.l, () => {
     !uniqueMcdId.openedId.length && reViewMeMapOpened()
 })
 
-
 import { ws, readDocAndParentList } from '/f/6/lib/wsDbRw.js'
 import { meMap } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { mcd } from '/f/6/lib/MetaContentData.js'

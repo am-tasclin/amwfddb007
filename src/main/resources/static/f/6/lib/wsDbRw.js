@@ -101,7 +101,7 @@ export const execute_SQL_API = sqlApi => {
     return new Promise((thenFn, reject) => ws.onmessage = event => thenFn(JSON.parse(event.data)))
 }
 
-import { addDbMessageToPool, dbMessagePool } from '/f/6/lib/DbMessagePool.js'
+import { addDbMessageToPool } from '/f/6/lib/DbMessagePool.js'
 /**
  * Update string content
  * @param {*} dbMessage 
