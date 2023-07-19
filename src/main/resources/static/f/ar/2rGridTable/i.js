@@ -6,9 +6,18 @@ console.log(ddPersonal)
 
 import THead from './libGridTable/THead.js'
 import TBody from './libGridTable/TBody.js'
+import { getBodyColumns, getHeadKeyObject } from './libGridTable/libGridTable.js'
+
+console.log('id', getHeadKeyObject('id'))
+
+console.log('firstName', getHeadKeyObject('firstName'))
+
 createApp({
     components: { THead, TBody },
-    template: `
+    methods: {
+        keys() { return getBodyColumns() },
+        columnConf(cName) { return getHeadKeyObject(cName) },
+    }, template: `
 <div style="max-height:33em; overflow: auto;">
     <table class="am-hf-sticky01" >
         <caption>Hi table!</caption>
@@ -22,6 +31,13 @@ createApp({
         </tfoot>
     </table>
 </div>&nbsp;
+{{keys()}}
+<div class="w3-border-top">
+    id = {{columnConf('id')}}
+</div>
+<div class="w3-border-top">
+firstName = {{columnConf('firstName')}}
+</div>
 `,
 }).mount('#tGridTable1')
 

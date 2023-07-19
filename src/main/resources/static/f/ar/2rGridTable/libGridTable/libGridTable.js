@@ -13,6 +13,20 @@ export const getHead = () => gridTableData.head
 export const getBody = () => gridTableData.body
 export const getBodyColumns = () => gridTableData.bodyColumns
 
+/**
+ * Find config object on fitst or second level
+ * @param {*} key 
+ * @returns 
+ */
+export const getHeadKeyObject = key => {
+    const key1Name = Okeys(gridTableData.head)
+        .find(key1Name => gridTableData.head[key1Name].child
+            && gridTableData.head[key1Name].child[key])
+    return key1Name &&
+        gridTableData.head[key1Name].child[key]
+        || gridTableData.head[key]
+}
+
 export const headKeysWithChild = headObj =>
     /**
      * A list of object keys with the second level of depth. 
