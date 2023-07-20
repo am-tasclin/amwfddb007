@@ -116,7 +116,7 @@ const sql_vl_str_WHERE_parent_sort = sql_vl_str_WHERE_sort.replace(':where', 'pa
  * @param {*} sql 
  * @returns results row list
  */
-const executeSelectQuery = sql => execute_SQL_API({ sql: sql, cmd: 'executeQuery' })
+export const executeSelectQuery = sql => execute_SQL_API({ sql: sql, cmd: 'executeQuery' })
 
 /**
  * Execute some SQL with WebSocket API from REST /dbRw
