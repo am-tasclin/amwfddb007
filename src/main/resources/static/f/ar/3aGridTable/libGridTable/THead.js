@@ -1,8 +1,8 @@
 'use strict'
 // import ddPersonal from '../ddPersonal.js'
-import { getBodyColumns, getHead, headKeysWithChild} from './libGridTable.js'
+import { getColumns, getHead, headKeysWithChild} from './libGridTable.js'
 const Okeys = Object.keys
-document.oncontextmenu = function() {return false;};
+
 
 
 export default {
@@ -11,9 +11,10 @@ export default {
             message: ''
           }
     },
+    
     methods: {
         head()                { return getHead() },
-        pol()                 { return getBodyColumns() },
+        colums()              { return getColumns() },
         headKeysWithChild()   { return headKeysWithChild(getHead()) },
         h11eadKeysWithChild() { return getHead() && headKeysWithChild(getHead()) || [] },
         headSortClick(k)      { console.log(' sss ', k) },
@@ -26,44 +27,46 @@ export default {
 <thead v-if="headKeysWithChild().length" class="w3-small">
     <tr>
         <th v-for="(v,k) in head()" 
-        :class="v.classpole" 
+        :class="v.classHead" 
 		@click="headSortClick(k)" 
         :style="v.style" 
         :colspan="childCount(v.child)"
         :rowspan="headKeysWithChild().includes(k)&&1||2">
-            {{v.alias}}
+           {{v.alias}}
         </th>
     </tr>
     <tr>
-        <template v-for="k1 in headKeysWithChild()">
-            <th v-for="(v,k) in head()[k1].child" 
-            class="w3-yellow w3-center"
+    <template v-for="k1 in headKeysWithChild()">
+        <th v-for="(v,k) in head()[k1].child" 
+            :class="v.classHead"
             :style="v.style" 
             @click="headSortClick2(k1,k)">
-                {{v.alias}}
-            </th>
-        </template>
-    </tr>
+            {{v.alias}}
+        </th>
+    </template>
+</tr>
+
+
+    <!--tr>
+       <th v-for="v in colums()" 
+           class="w3-hover-shadow w3-border w3-red" >
+             <input class="am-width-100pr"
+             v-model="message"  />
+       </th>
+   <tr-->
+
 </thead>
 <thead v-else class="w3-small">
     <tr>
         <th v-for="(v,k) in head()" 
-        style="width: 4em;" 
-        :style="v.style" 
-        @click="headSortClick(k)"
-        class="w3-hover-shadow w3-border">
-            {{v.alias}}
+            style="width: 4em;" 
+            :style="v.style" 
+            @click="headSortClick(k)"
+            class="w3-red w3-hover-shadow w3-border">
+               {{v.alias}}
         </th>
     </tr>
 </thead>
- 
-     <!--tr>
-        <th v-for="(v) in pol()" 
-            class="w3-hover-shadow w3-border w3-red"
-            style="width: 4em;" >
-              <input v-model="message"  />
-        </th>
-    <tr-->
-    
+  
 `,
 }

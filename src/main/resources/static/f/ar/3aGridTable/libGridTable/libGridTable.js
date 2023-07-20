@@ -9,23 +9,23 @@ export const setH1 = h1 => gridTableData.h1 = h1
 
 export const setHead = head => gridTableData.head = head
 export const setBody = body => gridTableData.body = body
-export const setFood = food => gridTableData.food = food
-export const setFoodAll = foodAll => gridTableData.foodAll = foodAll
-export const setBodyColumns = bodyColumns => gridTableData.bodyColumns = bodyColumns
-export const setFoodColumns = foodColumns => gridTableData.foodColumns = foodColumns
-export const setFoodColumnsAll = foodColumnsAll => gridTableData.foodColumnsAll = foodColumnsAll
-// export const setlocalperem = localperem => gridTableData.localperem = localperem
-export const setBodyStylePole = bodyStylePole => gridTableData.bodyStylePole = bodyStylePole
+export const setColumns = columns => gridTableData.columns = columns
 
 export const getHead = () => gridTableData.head
 export const getBody = () => gridTableData.body
-export const getBodyColumns = () => gridTableData.bodyColumns
-export const getFood = () => gridTableData.food
-export const getFoodColumns = () => gridTableData.foodColumns
-export const getFoodAll = () => gridTableData.foodAll
-export const getFoodColumnsAll = () => gridTableData.foodColumnsAll
-// export const getlocalperem = () => gridTableData.localperem
- export const getBodyStylePole =() => gridTableData.bodyStylePole
+export const getColumns = () => gridTableData.columns
+
+
+export const getHeadKeyObject = key => {
+    const key1Name = Okeys(gridTableData.head)
+        .find(key1Name => gridTableData.head[key1Name].child
+            && gridTableData.head[key1Name].child[key])
+            
+    return key1Name &&
+        gridTableData.head[key1Name].child[key]
+        || gridTableData.head[key]
+}
+
 
 export const headKeysWithChild = headObj =>
     /**

@@ -34,6 +34,7 @@ table.am-hf-sticky01 thead {
   inset-block-start: 0; /* "top" */
 }
 table.am-hf-sticky01 tfoot {
+  inset-block-start: 0; /* "top" */
   inset-block-end: 0; /* "bottom" */
 }
 

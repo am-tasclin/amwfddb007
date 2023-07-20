@@ -1,10 +1,10 @@
 'use strict'
-import { getFoodAll, getFoodColumnsAll } from './libGridTable.js'
+import { getHead, getColumns } from './libGridTable.js'
 
 export default {
     methods: {
-        keysf() { return getFoodColumnsAll() },
-        food()  { return getFoodAll() },
+        keysf() { return getColumns() },
+        food()  { return getHead() },
         formatingFild(c, p) {
             console.log('-- ', c)
             switch (c) {
@@ -31,8 +31,8 @@ export default {
     template: `
     
     <tr class="w3-tiny">
-        <th v-for="c in keysf()" :class=food()[c].classpole>
-            {{formatingFild(food()[c].formatpole,c)}}
+        <th v-for="c in keysf()" :class=food()[c].classFoodAll>
+            {{formatingFild(food()[c].formatFoodAll,c)}}
         </th>
     </tr>
      
