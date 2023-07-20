@@ -18,8 +18,10 @@ export default {
         h11eadKeysWithChild() { return getHead() && headKeysWithChild(getHead()) || [] },
 
         formatingFild(cellValue, cn) {
-                
+            console.log(' --- ', cellValue)    
+            console.log(' /// ', getHeadKeyObject(cellValue)) 
             cellValue = getHeadKeyObject(cellValue).formatBody
+
 
                  switch (cellValue.substr(0, 5)) {
                     case "dat_1":
@@ -44,7 +46,8 @@ export default {
                 @click="rClick(c)" >
 
             <!-- {{formatingFild(styleP()[c].formaBody,r[c])}} --> 
-            {{formatingFild(c,r[c])}}
+            {{formatingFild(c,r[c])}} 
+        
             
             </td>
     </tbody>        

@@ -8,11 +8,21 @@ import TBody from './libGridTable/TBody.js'
 import TFoot from './libGridTable/TFoot.js'
 import {getHeadKeyObject } from './libGridTable/libGridTable.js'
 
-console.log(' fffff ', 44)
 
-console.log('id', getHeadKeyObject('id'))
 
-console.log('firstName', getHeadKeyObject('firstName'))
+// console.log('dnom', getHeadKeyObject('dnom'))
+// console.log('dateprov', getHeadKeyObject('dateprov'))
+// console.log('sumaprov', getHeadKeyObject('sumaprov'))
+// console.log('nameval', getHeadKeyObject('nameval'))
+// console.log('sumaprov', getHeadKeyObject('sumaprov'))
+// console.log('snal', getHeadKeyObject('snal'))
+// console.log('namekassop', getHeadKeyObject('namekassop'))
+// console.log('namecontr', getHeadKeyObject('namecontr'))
+// console.log('iddoc', getHeadKeyObject('iddoc'))
+// console.log('nameoperator', getHeadKeyObject('nameoperator'))
+
+
+
 
 
 createApp({

@@ -3,96 +3,112 @@ import { setH1, setHead, setColumns, setBody, } from './libGridTable/libGridTabl
 
 export default {
     h1: setH1('Довідник персонала'),
+
+    columns: setColumns([
+        'idnom', 
+        'dateprov',
+        'sumaprov', 
+         'nameval', 
+         'snal',
+         'namekassop', 
+         'namecontr', 
+         'iddoc', 
+         'nameoperator', 
+    ]),
+
+
     head: setHead({
-        id: {
-            alias: '№№', style: 'width: 40px;',filter: 'id',
+        idnom: {
+            alias: '№№', style: 'width: 50px;', filter: 'dnom',
             classHead: 'w3-blue w3-center', classBody: 'w3-blue w3-center', classFooter: 'w3-border  w3-indigo', classFooterAll: 'w3-border  w3-indigo',
             formatBody: "id", formatFood: "count", formatFoodAll: "count"
         },
 
-        dataX: {
-            alias: 'Дата', style: 'width: 40px;',filter: 'id',
+        dateprov: {
+            alias: 'Дата', style: 'width: 40px;', filter: 'dateprov',
             classHead: 'w3-blue w3-center', classBody: 'w3-blue w3-center', classFooter: 'w3-border  w3-red', classFooterAll: 'w3-border  w3-indigo',
             formatBody: "dat_1", formatFoot: "count", formatFootAll: "count"
         },
 
-        pip: {
-            alias: 'ПІП',
+        money: {
+            alias: 'Грн',
             classHead: 'w3-border w3-hover-shadow w3-blue       w3-center',
             child: {
-                firstName: {
-                    alias: "Ім'я", style: 'width: 150px;',filter: '',
+                sumaprov: {
+                    alias: "сума", style: 'width: 50px;', filter: 'sumaprov',
                     classHead: 'w3-blue w3-center', classBody: 'w3-blue w3-center', classFooter: 'w3-border  w3-indigo', classFooterAll: 'w3-border  w3-indigo',
-                    formatBody: "str_1 0,5", formatFood: "", formatFoodAll: "",
+                    formatBody: "", formatFood: "", formatFoodAll: "",
                 },
-                fatherName: {
-                    alias: 'По Батькові', style: 'width: 150px;',filter: '',
+                nameval: {
+                    alias: 'вадита', style: 'width: 50px;', filter: 'nameval',
                     classHead: 'w3-red w3-center', classBody: 'w3-blue w3-center', classFooter: 'w3-border  w3-indigo', classFooterAll: 'w3-border  w3-indigo',
-                    formatBody: "str_1 0,4", formatFood: "", formatFoodAll: ""
+                    formatBody: "", formatFood: "", formatFoodAll: ""
                 },
-                familyName: {
-                    alias: 'Прізвище', style: 'width: 150px;',filter: '',
+                snal: {
+                    alias: 'нал/безнал', style: 'width: 50px;', filter: 'snal',
                     classHead: 'w3-blue w3-center', classBody: 'w3-blue w3-center', classFooter: 'w3-border  w3-indigo', classFooterAll: 'w3-border  w3-indigo',
-                    formatBody: "str_1 0,3", formatFood: "", formatFoodAll: ""
+                    formatBody: "", formatFood: "", formatFoodAll: ""
                 },
             }
         },
-        money: {
-            alias: 'грн',
-            filter: 'summa',
+        namekassop: {
+            alias: 'Касова опер-я', style: 'width: 40px;', filter: 'id',
+            classHead: 'w3-blue w3-center', classBody: 'w3-blue w3-center', classFooter: 'w3-border  w3-red', classFooterAll: 'w3-border  w3-indigo',
+            formatBody: "", formatFoot: "", formatFootAll: ""
+        },
+
+        contragent: {
+            alias: 'Контрагент',
+            filter: '',
             classHead: 'w3-border w3-hover-shadow w3-blue w3-center',
             child: {
-                price: {
-                    alias: "ціна", style: 'width:50px;', filter: 'price,summa',
+                namecontr: {
+                    alias: "наименование", style: 'width:50px;', filter: 'namecontr',
                     classHead: 'w3-blue w3-center', classBody: 'w3-blue w3-center', classFooter: 'w3-border  w3-indigo', classFooterAll: 'w3-border  w3-indigo',
                     formatBody: "", formatFood: "max", formatFood: ""
                 },
-                summa: {
-                    alias: "сума", style: 'width:100px;', filter: 'summa,price',
+                iddoc: {
+                    alias: "№док", style: 'width:100px;', filter: 'iddoc',
                     classHead: 'w3-blue w3-center', classBody: 'w3-blue w3-center', classFooter: 'w3-border  w3-indigo', classFooterAll: 'w3-border  w3-indigo',
-                    formatBody: "", formatFood: "sum", formatFoodAll: "sum"
+                    formatBody: "", formatFood: "", formatFoodAll: ""
                 }
             }
         },
-        hobby: {
-            alias: 'Хобби', style: 'width: 200px;',
+        nameoperator: {
+            alias: 'Операция', style: 'width: 200px;',filter: 'nameoperator',
             classHead: 'w3-blue w3-center', classBody: 'w3-blue w3-center', classFooter: 'w3-border  w3-indigo', classFooterAll: 'w3-border  w3-indigo',
-            formatBody: "id", formatFood: "sum", formatFoodAll: ""
+            formatBody: "", formatFood: "", formatFoodAll: ""
         },
+
+
     }),
 
-    columns: setColumns(['id', 'dataX', 'firstName', 'fatherName', 'familyName', 'price', 'summa', 'hobby',]),
 
-    body: setBody([
-        { id: 1, dataX: "2023-07-05",                     firstName: "Jon", fatherName: "Jon", familyName: "Jon", hobby: "run", price: "3", summa: "9" },
-        { id: 2, dataX: "2023-07-14",                     firstName: "Jen", fatherName: "Jon", familyName: "Jon", hobby: "sleep", price: "3", summa: "9" },
-        { id: 3, dataX: "2023-07-14",                     firstName: "Олег", fatherName: "Jon", familyName: "Jon", hobby: "122 sleep", price: "3", summa: "9" },
-        { id: 4, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Таня", fatherName: "Jon", familyName: "Jon", hobby: "sleep85855", price: "3", summa: "9" },
-        { id: 5, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Аполінарій", fatherName: "Jon", familyName: "Jon", hobby: "sleвфівep", price: "3", summa: "9" },
-        { id: 6, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Генадій ", fatherName: "Петвич", familyName: "Ив", hobby: "ічвав2sleep", price: "3", summa: "9" },
-        { id: 7, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Светлана", fatherName: "Михайловна", familyName: "_ ", hobby: "sle ep", price: "3", summa: "9" },
-        { id: 8, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Jon2", fatherName: "Jon", familyName: "run", hobby: "sle ep", price: "3", summa: "9" },
-        { id: 9, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Jen3", fatherName: "Jon", familyName: "sle", hobby: "sle ep", price: "3", summa: "9" },
-        { id: 10, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Олег", fatherName: "Jon", familyName: "122", hobby: "sle ep", price: "3", summa: "9" },
-        { id: 11, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Таня", fatherName: "Jon", familyName: "sl", hobby: "sle ep", price: "3", summa: "9" },
-        { id: 12, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Ай", fatherName: "Jon", familyName: "sl", hobby: "sle ep", price: "3", summa: "9" },
-        { id: 13, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Генадій ", fatherName: "Петрович", familyName: "Ива", hobby: "ічвав2sleep", price: "3", summa: "9" },
-        { id: 14, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Света", fatherName: "Михайловна", familyName: "_ ", hobby: "sle ep", price: "3", summa: "9" },
-        { id: 15, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Таня", fatherName: "Jon", familyName: "Jon", hobby: "sleep85855", price: "3", summa: "9" },
-        { id: 16, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Аполінарій", fatherName: "Jon", familyName: "Jon", hobby: "sleвфівep", price: "3", summa: "9" },
-        { id: 17, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Генадій ", fatherName: "Петрович", familyName: "Иван", hobby: "ічвав2sleep", price: "3", summa: "9" },
-        { id: 18, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Светлана", fatherName: "Михайловна", familyName: "_ ", hobby: "sleep", price: "3", summa: "9" },
-        { id: 19, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Jon", fatherName: "Jon", familyName: "Jon", hobby: "run", price: "3", summa: "9" },
-        { id: 20, dataX: "2023-07-14T13:55:45+03:00 Jon", firstName: "Jen", fatherName: "Jon", familyName: "Jon", hobby: "sleep", price: "3", summa: "9" },
-        { id: 21, dataX: "2023-07-14T13:55:45+03:00	Jon", firstName: "Олег", fatherName: "Jon", familyName: "Jon", hobby: "122", price: "3", summa: "9" },
-    ]),
-
-
-    //  localperem: setLocalPerem(['order by id desc', 'ggggg']),
+    body: setBody([    
+    {idnom:   122,dateprov:"2022-01-10",             sumaprov:"   155.0",nameval:"$      ",snal:"нал   ",namekassop:"Еллектричество  ",iddoc:"1253", namecontr:"dsd                  ",nameoperator:"Сидоренко "}      ,
+    {idnom:   123,dateprov:"2022-01-10 00:00:00.000",sumaprov:"   155.0",nameval:"$      ",snal:"нал   ",namekassop:"Еллектричество  ",iddoc:"8520", namecontr:"dsd                  ",nameoperator:"Таланенко И.В"}      ,
+    {idnom:   126,dateprov:"2022-01-10 00:00:00.000",sumaprov:"   250.0",nameval:"$      ",snal:"Безнал",namekassop:"Физиопроцедуры  ",iddoc:"3156", namecontr:"dsd                  ",nameoperator:"            "}      ,
+    {idnom:   129,dateprov:"2022-01-10 00:00:00.000",sumaprov:"   250.0",nameval:"$      ",snal:"нал   ",namekassop:"Физиопроцедуры  ",iddoc:"2456", namecontr:"dsd                  ",nameoperator:"            "}      ,
+    {idnom:   132,dateprov:"2022-01-10 00:00:00.000",sumaprov:"   250.0",nameval:"грн    ",snal:"нал   ",namekassop:"Физиопроцедуры  ",iddoc:"2864", namecontr:"dsd                  ",nameoperator:"Сидоренко    "}      ,
+    {idnom:   133,dateprov:"2022-01-10 00:00:00.000",sumaprov:"   250.0",nameval:"грн    ",snal:"нал   ",namekassop:"Физиопроцедуры  ",iddoc:"1594", namecontr:"dsd                  ",nameoperator:"Сидоренко    "}      ,
+    {idnom:   134,dateprov:"2022-01-10 00:00:00.000",sumaprov:"   250.0",nameval:"$      ",snal:"нал   ",namekassop:"Физиопроцедуры  ",iddoc:"6431", namecontr:"dsd                  ",nameoperator:"            "}      ,
+    {idnom:   114,dateprov:"2022-01-10 00:00:00.000",sumaprov:"   155.0",nameval:"грн    ",snal:"Безнал",namekassop:"undefined       ",iddoc:"8319", namecontr:"dsd                  ",nameoperator:"            "}      ,
+    {idnom:   125,dateprov:"2022-01-10 00:00:00.000",sumaprov:"   155.0",nameval:"грн    ",snal:"нал   ",namekassop:"Еллектричество  ",iddoc:"4567", namecontr:"dsd                  ",nameoperator:"Таланенко И.В"}      ,
+    {idnom:   128,dateprov:"2022-01-10 00:00:00.000",sumaprov:"   250.0",nameval:"$      ",snal:"нал   ",namekassop:"Физиопроцедуры  ",iddoc:"85236",namecontr:"dsd                  ",nameoperator:"            "}      ,
+    {idnom:   130,dateprov:"2022-01-10 00:00:00.000",sumaprov:"   250.0",nameval:"грн    ",snal:"нал   ",namekassop:"Физиопроцедуры  ",iddoc:"125",  namecontr:"dsd                  ",nameoperator:"            "}      ,
+    {idnom:   131,dateprov:"2022-01-10 00:00:00.000",sumaprov:"   250.0",nameval:"грн    ",snal:"нал   ",namekassop:"Физиопроцедуры  ",iddoc:"57489",namecontr:"dsd                  ",nameoperator:"            "}     , 
+    {idnom:   135,dateprov:"2022-01-25 00:00:00.000",sumaprov:"   155.0",nameval:"$      ",snal:"      ",namekassop:"Закупка лекарств",iddoc:"2678", namecontr:"dsd                  ",nameoperator:"            "}      ,
+    {idnom:   136,dateprov:"2022-01-25 00:00:00.000",sumaprov:"   155.0",nameval:"$      ",snal:"      ",namekassop:"Закупка лекарств",iddoc:"7416", namecontr:"dsd                  ",nameoperator:"            "}      ,
+    {idnom:   137,dateprov:"2022-01-25 00:00:00.000",sumaprov:"   155.0",nameval:"$      ",snal:"      ",namekassop:"Закупка лекарств",iddoc:"8524", namecontr:"dsd                  ",nameoperator:"Сидоренко   "},      
+    {idnom:   138,dateprov:"2022-01-25 00:00:00.000",sumaprov:"   155.0",nameval:"$      ",snal:"      ",namekassop:"Закупка лекарств",iddoc:"5248", namecontr:"dsd                  ",nameoperator:"Сидоренко   "},      
+    {idnom:   139,dateprov:"2022-01-25 00:00:00.000",sumaprov:"   155.0",nameval:"$      ",snal:"      ",namekassop:"Закупка лекарств",iddoc:"8524", namecontr:"dsd                  ",nameoperator:"Сидоренко   "},      
+    ]),     
+        
+    // localperem: setLocalPerem(['order by id desc', 'ggggg']),
 
 }
 
 export const Perem = {}
 Perem.head = {
-   
+
 }
