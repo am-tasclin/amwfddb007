@@ -39,7 +39,6 @@ export default {
             <td colspan=2 style="padding-top: 1em;">
                 <span class="w3-tiny am-i"> {{adn(adn(adnId).p).vl_str}}</span>
                 <span class="w3-tiny w3-right">📁&nbsp;{{adn(adnId).p}}</span>
-
             </td>
         </tr>
         <tr class="w3-hover-shadow">

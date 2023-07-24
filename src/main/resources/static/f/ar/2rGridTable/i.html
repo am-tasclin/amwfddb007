@@ -13,15 +13,14 @@
         <div id="tGridTable1"></div>
         <div style="height:2em;" class="w3-border">dsds</div>
     </div>
-
     Table kassa.entry simple demo
     <div id="tDbTable02">
         {{count}}
         <table class="w3-small">
-            <!-- <tr class="w3-tiny">
+            <tr class="w3-tiny">
                 <th v-for="c in colList()"> {{c}} </th>
-            </tr> -->
-            <tr v-for="r in list()" >
+            </tr>
+            <tr v-for="r in list()">
                 <td class="w3-border-bottom w3-border-left" v-for="c in colList()"> {{r[c]}} </td>
             </tr>
         </table>
