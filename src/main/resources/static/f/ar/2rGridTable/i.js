@@ -7,7 +7,9 @@ const page = {}// This page object
 ws.onopen = event => executeSelectQuery(
     'SELECT * FROM kassa.entry'
 ).then(json => {
-    console.log(json, page)
+    console.log('jj ', json)
+    console.log('pp ',  page)
+
     page.list = json.list
     page.tDbTable02.count++
 })
@@ -16,14 +18,17 @@ createApp({
     data() { return { count: 0 } },
     mounted() {
         page.tDbTable02 = this
-    }, methods: {
+    }, 
+    methods: {
         colList() { return page.list && Object.keys(page.list[0] || []) },
         list() { return page.list }
     }
 }).mount('#tDbTable02')
 
+
+
 import ddPersonal from './ddPersonal.js'
-console.log(ddPersonal)
+console.log('   ffff ',ddPersonal)
 import THead from './libGridTable/THead.js'
 import TBody from './libGridTable/TBody.js'
 import { getBodyColumns, getHeadKeyObject } from './libGridTable/libGridTable.js'

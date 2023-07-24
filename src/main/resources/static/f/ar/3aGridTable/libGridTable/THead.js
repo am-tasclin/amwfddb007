@@ -47,13 +47,13 @@ export default {
 </tr>
 
 
-    <!--tr>
+    <tr>
        <th v-for="v in colums()" 
            class="w3-hover-shadow w3-border w3-red" >
              <input class="am-width-100pr"
              v-model="message"  />
        </th>
-   <tr-->
+   </tr>
 
 </thead>
 <thead v-else class="w3-small">

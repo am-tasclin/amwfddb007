@@ -5,16 +5,19 @@
  */
 const gridTableData = {}
 
+gridTableData.component = {}
+export const getGridComponent = () => gridTableData.component
+export const getZapros = () => gridTableData.zapros
 export const setH1 = h1 => gridTableData.h1 = h1
 
 export const setHead = head => gridTableData.head = head
 export const setBody = body => gridTableData.body = body
 export const setColumns = columns => gridTableData.columns = columns
+export const setZapros = zapros => gridTableData.zapros = zapros
 
 export const getHead = () => gridTableData.head
 export const getBody = () => gridTableData.body
 export const getColumns = () => gridTableData.columns
-
 
 export const getHeadKeyObject = key => {
     const key1Name = Okeys(gridTableData.head)

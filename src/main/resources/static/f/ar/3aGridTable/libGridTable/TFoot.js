@@ -1,23 +1,30 @@
 'use strict'
-import { getHead, getColumns, headKeysWithChild, getHeadKeyObject } from './libGridTable.js'
+import { getHead, getColumns, headKeysWithChild, getHeadKeyObject,  getBody } from './libGridTable.js'
+import { executeSelectQuery } from '/f/6/lib/wsDbRw.js'
+
 
 export default {
     methods: {
         keysf() { return getColumns() },
         food() { return getHead() },
+        body() { return getBody() },
+
         headKeysWithChild() { return headKeysWithChild(getHead()) },
         styleFooter(c) {
-            console.log('style ', getHeadKeyObject(c).classFooter)
+          //  console.log('style ', getHeadKeyObject(c).classFooter)
             return getHeadKeyObject(c).classFooter
         },
 
         formatingFild(c, p) {
-            console.log('c ', c)
-            p = getHeadKeyObject(c).formatFoot
-            console.log('p ', p)
+             p = getHeadKeyObject(c).formatFoot
+ 
             switch (p) {
                 case "count":
-                    console.log(' Count ', c)
+                    console.log(' hhhh ' ,this.body())
+                  
+
+
+                    
                     return 'c(' + c + ')'
                     break;
                 case "max":
