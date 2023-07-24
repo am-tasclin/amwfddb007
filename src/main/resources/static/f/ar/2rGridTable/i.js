@@ -25,8 +25,6 @@ createApp({
     }
 }).mount('#tDbTable02')
 
-
-
 import ddPersonal from './ddPersonal.js'
 console.log('   ffff ',ddPersonal)
 import THead from './libGridTable/THead.js'
