@@ -68,13 +68,14 @@ export default {
                 dbSendChildSort(newParentChild)
             })()
         }, setAdnDialogWindow(editType) {
-            console.log(123, this.adnId, editType, getOpenedDropDownId())
+            console.log(this.adnId, editType, getOpenedDropDownId())
             'confDppEd_' == getOpenedDropDownId() &&
                 dppInteractivityPpId(this.ppIdMedasPpl2Key.split('_')[1])['confDppEd'].count++
             getOpenedDropDownId() && getOpenedDropDownId().includes('edAdn_') &&
                 closeEdAdnDialog(getOpenedDropDownId().split('_')[2])
 
             setOpenedDropDownId(editType + adnPpIdMedasPpl2Key(this.adnId, this.ppIdMedasPpl2Key))
+            console.log(getOpenedDropDownId())
 
             editType.includes('_fly') && this.count++
             editType.includes('_fix') && meMap[this.adnId][mElementKey(this.ppIdMedasPpl2Key)].count++
