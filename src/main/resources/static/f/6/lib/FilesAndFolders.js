@@ -17,12 +17,8 @@ export default {
         fafHeadView() { return ['doc_id', 'vl_str'] },
         fileList() { return mcd.fileList },
         adn(adnId) { return adnFromMap(adnId) },
-        setFolderId(folderId) {
-            this.checkFolderId = folderId
-        },
-        isFirstInFolder(adnId, i) {
-            return adnFromMap(adnId).p != adnFromMap(mcd.fileList[i - 1]).p
-        },
+        setFolderId(folderId) { this.checkFolderId = folderId },
+        isFirstInFolder(adnId, i) { return adnFromMap(adnId).p != adnFromMap(mcd.fileList[i - 1]).p },
         openDpDn() { return getOpenedDropDownId() },
         newDoc() {
             setOpenedDropDownId('faf_new')
@@ -30,7 +26,7 @@ export default {
             this.count++
         },
         sendNewDoc() {
-            console.log(this.newDocName)
+            console.log(this.newDocName, this.checkFolderId)
         }
     }, template: `&nbsp;
 <div class="w3-center">
@@ -54,7 +50,7 @@ export default {
                 {{adn(folderId).vl_str}}
             </div>
 
-            <div class="w3-tiny"> Name new document/page </div>
+            <div class="w3-tiny w3-border-top"> Name new document/page </div>
             <div> Назва нового документу/сторінки </div>
             <input v-model="newDocName" class="w3-border" />
             <div>

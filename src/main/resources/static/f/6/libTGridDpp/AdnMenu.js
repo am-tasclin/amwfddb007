@@ -21,7 +21,6 @@ const dbSendChildSort = parentChild => wsSave1ParentSort({
         .forEach(k => meMap[json.adnId][k].count++))
 })
 
-
 export default {
     props: { adnId: Number, ppIdMedasPpl2Key: String, }, data() { return { count: 0, } },
     components: { EdAdnData },
