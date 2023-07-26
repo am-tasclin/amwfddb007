@@ -10,7 +10,7 @@ createApp(
     { template: `<FilesAndFolders />`, components: { FilesAndFolders }, }
 ).mount('#tFilesAndFolders')
 
-const h1ParentList = [376598, 376778]
+const h1ParentList = [376598, 376778] // folder IDs
 console.log(h1ParentList)
 import { mcd } from '/f/6/lib/MetaContentData.js'
 import { ws, readFilesAndFolders } from '/f/6/lib/wsDbRw.js'
@@ -20,6 +20,7 @@ ws.onopen = event => readFilesAndFolders(
     { doc_id: h1ParentList, parent: h1ParentList }
     , json => {
         mcd.fafList = json.list
+        mcd.folderIdList = h1ParentList
         console.log(mcd)
         dppItyComponent.faf.count++
     })

@@ -8,14 +8,18 @@ import { addDppItyComponent, setOpenedDropDownId, getOpenedDropDownId }
     from '/f/6/libTGridDpp/dppInteractivity.js'
 
 export default {
-    data() { return { count: 0, newDocName:''} },
+    data() { return { count: 0, newDocName: '', checkFolderId: 0 } },
     mounted() {
         addDppItyComponent('faf', this)
     }, methods: {
         fafList() { return mcd.fafList },
+        folderIdList() { return mcd.folderIdList },
         fafHeadView() { return ['doc_id', 'vl_str'] },
         fileList() { return mcd.fileList },
         adn(adnId) { return adnFromMap(adnId) },
+        setFolderId(folderId) {
+            this.checkFolderId = folderId
+        },
         isFirstInFolder(adnId, i) {
             return adnFromMap(adnId).p != adnFromMap(mcd.fileList[i - 1]).p
         },
@@ -25,7 +29,7 @@ export default {
             console.log(getOpenedDropDownId())
             this.count++
         },
-        sendNewDoc(){
+        sendNewDoc() {
             console.log(this.newDocName)
         }
     }, template: `&nbsp;
@@ -42,6 +46,14 @@ export default {
         <div class="w3-dropdown-content w3-card-4 w3-leftbar w3-container" 
         :class="{'w3-show':'faf_new'==openDpDn(), 'w3-hide':'faf_new'!=openDpDn()}" >
             <button @click="newDoc" class="w3-btn w3-right w3-padding-small w13-opacity"> ✖ </button>
+            <div> 📁 </div>
+            <div @click="setFolderId(folderId)" class="w3-small w3-hover-shadow" v-for="folderId in folderIdList()"
+            :class="{'w3-green':checkFolderId==folderId}"
+            >
+                <span class="w3-tiny"> {{folderId}} <span>
+                {{adn(folderId).vl_str}}
+            </div>
+
             <div class="w3-tiny"> Name new document/page </div>
             <div> Назва нового документу/сторінки </div>
             <input v-model="newDocName" class="w3-border" />
@@ -55,13 +67,19 @@ export default {
         <tr class="w3-tiny am-b">
             <th class="w3-light-gray w3-border-bottom" v-for="ch in fafHeadView()">
                 {{ch}}
+                <span class="w3-right" v-if="ch=='vl_str' && checkFolderId">
+                    {{checkFolderId}}
+                </span>
             </th>
         </tr>
     </thead>
     <tbody>
         <template v-for="(adnId, i) in fileList()" >
         <tr v-if="isFirstInFolder(adnId, i)">
-            <td colspan=2 style="padding-top: 1em;">
+            <td @click="setFolderId(adn(adnId).p)" class="w3-hover-shadow" colspan=2 style="padding-top: 1em;"
+            :class="{'w3-border-green w3-border':checkFolderId==adn(adnId).p}"
+            >
+            {{checkFolderId==adn(adnId).p}}
                 <span class="w3-tiny am-i"> {{adn(adn(adnId).p).vl_str}}</span>
                 <span class="w3-tiny w3-right">📁&nbsp;{{adn(adnId).p}}</span>
             </td>
