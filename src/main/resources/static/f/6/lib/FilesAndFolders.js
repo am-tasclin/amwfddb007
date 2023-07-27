@@ -6,6 +6,9 @@
 import { mcd, adnFromMap } from '/f/6/lib/MetaContentData.js'
 import { addDppItyComponent, setOpenedDropDownId, getOpenedDropDownId }
     from '/f/6/libTGridDpp/dppInteractivity.js'
+import { wsInsertAdnString } from '/f/6/lib/wsDbRw.js'
+
+const h1 = 376600
 
 export default {
     data() { return { count: 0, newDocName: '', checkFolderId: 0 } },
@@ -17,19 +20,22 @@ export default {
         fafHeadView() { return ['doc_id', 'vl_str'] },
         fileList() { return mcd.fileList },
         adn(adnId) { return adnFromMap(adnId) },
-        clickDoc(adnId){
+        clickDoc(adnId) {
             console.log(adnId, this.adn(adnId))
         },
         setFolderId(folderId) { this.checkFolderId = folderId },
         isFirstInFolder(adnId, i) { return adnFromMap(adnId).p != adnFromMap(mcd.fileList[i - 1]).p },
         openDpDn() { return getOpenedDropDownId() },
-        newDoc() {
+        onOffNewDoc() {
             setOpenedDropDownId('faf_new')
             console.log(getOpenedDropDownId())
             this.count++
         },
         sendNewDoc() {
             console.log(this.newDocName, this.checkFolderId)
+            wsInsertAdnString({ parent: this.checkFolderId, r: h1 }).then(json => {
+                console.log(json)
+            })
         }
     }, template: `&nbsp;
 <div class="w3-center">
@@ -40,11 +46,11 @@ export default {
         <input class="w3-border" />
         <button class="w3-btn w3-padding-small w3-ripple">🔍</button>&nbsp;
         <span class="w3-small w3-right"> new doc/site - новий документ/сторінка 
-            <button @click="newDoc" class="w3-border">&nbsp;🗎&nbsp;</button>
+            <button @click="onOffNewDoc" class="w3-border">&nbsp;🗎&nbsp;</button>
         </span>
         <div class="w3-dropdown-content w3-card-4 w3-leftbar w3-container" 
         :class="{'w3-show':'faf_new'==openDpDn(), 'w3-hide':'faf_new'!=openDpDn()}" >
-            <button @click="newDoc" class="w3-btn w3-right w3-padding-small w13-opacity"> ✖ </button>
+            <button @click="onOffNewDoc" class="w3-btn w3-right w3-padding-small w13-opacity"> ✖ </button>
             <div> 📁 </div>
             <div @click="setFolderId(folderId)" class="w3-small w3-hover-shadow" v-for="folderId in folderIdList()"
             :class="{'w3-green':checkFolderId==folderId}"

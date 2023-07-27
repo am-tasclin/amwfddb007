@@ -142,6 +142,10 @@ public class DbSqlClient {
         mapIn.put("deleted", x.toFuture().get());
     }
 
+    public void insertAdnString(Map<String, Object> mapIn) {
+        logger.info("-146- mapIn=\n "+mapIn);
+    }
+
     public void insertAdnChild(Map<String, Object> mapIn)
             throws InterruptedException, ExecutionException, JsonProcessingException {
         Doc newDoc = new Doc(nextDbId());

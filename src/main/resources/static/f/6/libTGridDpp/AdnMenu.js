@@ -119,19 +119,17 @@ export default {
     </div>
     <div class="w3-rest w3-border-left ">
         &nbsp;𝑟¹
-        <button @click="copyR()" class="w3-btn w3-padding-small w3-small" title="copy R1">⧉</button>
-        <button @click="setR()" class="w3-btn w3-padding-small w3-small" title="set R1">⧠</button>
+        <button @click="copyR()" class="w3-btn w3-padding-small " title="copy R1">⧉</button>
+        <button @click="setR()" class="w3-btn w3-padding-small " title="set R1">⧠</button>
         <span class="w3-tiny am-i">{{adn().r}} ::{{adn().r_vl_str}}</span>
         <div>&nbsp;𝑟²
-            <button @click="copyR2()" class="w3-btn w3-padding-small w3-small" title="copy R2">⧉</button>
-            <button @click="setR2()" class="w3-btn w3-padding-small w3-small" title="set R2">⧠</button>
+            <button @click="copyR2()" class="w3-btn w3-padding-small " title="copy R2">⧉</button>
+            <button @click="setR2()" class="w3-btn w3-padding-small " title="set R2">⧠</button>
             <span class="w3-tiny">{{adn().r2}} :{{adn().r2_vl_str}}</span>
         </div>
         &nbsp;
         <button class="w3-btn am-b" @click="pasteChild()" title="paste inner - вставити як внутрішній">+₊⧠</button>
-        <div>&nbsp;<div>
-    </div>
-
+        <div>&nbsp;</div>
     </div>
 <div> <span class="w3-hide">{{count}}</span>
 `,

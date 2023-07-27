@@ -138,13 +138,15 @@ export const wsUpdateString = dbMessage => {
     addDbMessageToPool(dbMessage)
     return execute_SQL_API(dbMessage)
 }
+export const wsInsertAdnString = dbMessage =>
+    (dbMessage.cmd = 'insertAdnString') && execute_SqlChange_API(dbMessage)
 
-export const wsInsertAdnChild = dbMessage => {
-    dbMessage.cmd = 'insertAdnChild'
-    addDbMessageToPool(dbMessage)
-    console.log(dbMessage)
-    return execute_SQL_API(dbMessage)
-}
+export const wsInsertAdnChild = dbMessage =>
+    (dbMessage.cmd = 'insertAdnChild') && execute_SqlChange_API(dbMessage)
+// addDbMessageToPool(dbMessage)
+// console.log(dbMessage)
+// return execute_SQL_API(dbMessage)
+
 
 export const wsInsertString = dbMessage =>
     (dbMessage.cmd = 'insertString') && execute_SqlChange_API(dbMessage)
