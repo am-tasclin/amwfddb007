@@ -17,6 +17,9 @@ export default {
         fafHeadView() { return ['doc_id', 'vl_str'] },
         fileList() { return mcd.fileList },
         adn(adnId) { return adnFromMap(adnId) },
+        clickDoc(adnId){
+            console.log(adnId, this.adn(adnId))
+        },
         setFolderId(folderId) { this.checkFolderId = folderId },
         isFirstInFolder(adnId, i) { return adnFromMap(adnId).p != adnFromMap(mcd.fileList[i - 1]).p },
         openDpDn() { return getOpenedDropDownId() },
@@ -80,7 +83,7 @@ export default {
                 <span class="w3-tiny w3-right">📁&nbsp;{{adn(adnId).p}}</span>
             </td>
         </tr>
-        <tr class="w3-hover-shadow">
+        <tr @click="clickDoc(adnId)" class="w3-hover-shadow">
             <td class="w3-small">
                 <a :href="'/f/6/twiki/i.html#page,'+adn(adnId).doc_id">{{adn(adnId).doc_id}}</a>
             </td>

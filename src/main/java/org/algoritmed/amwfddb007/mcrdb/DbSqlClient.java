@@ -144,18 +144,17 @@ public class DbSqlClient {
 
     public void insertAdnChild(Map<String, Object> mapIn)
             throws InterruptedException, ExecutionException, JsonProcessingException {
-        Doc d = new Doc(nextDbId());
-        d.setParent(Long.parseLong(mapIn.get("parent").toString()));
-        sqlTemplate.insert(d).toFuture().get();
-        mapIn.put("d", d);
+        Doc newDoc = new Doc(nextDbId());
+        newDoc.setParent(Long.parseLong(mapIn.get("parent").toString()));
+        sqlTemplate.insert(newDoc).toFuture().get();
+        mapIn.put("d", newDoc);
     }
 
-    public void insertString(Map mapIn) throws InterruptedException, ExecutionException {
-        StringContent stringContent = sqlTemplate.insert(
-                new StringContent(
-                        Long.parseLong(mapIn.get("adnId").toString()), mapIn.get("string")))
+    public void insertString(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
+        long adnId = Long.parseLong(mapIn.get("adnId").toString());
+        StringContent insertedString = sqlTemplate.insert(new StringContent(adnId, mapIn.get("string")))
                 .toFuture().get();
-        mapIn.put("inserted", stringContent);
+        mapIn.put("inserted", insertedString);
     }
 
     public void updateString(Map mapIn) throws InterruptedException, ExecutionException {

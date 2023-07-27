@@ -50,6 +50,18 @@ export default {
             const newParentChild = mcd.parentChild[mcd.eMap[this.adnId].p].filter(i => i != this.adnId).concat([this.adnId])
             console.log(this.adnId, newParentChild)
             dbSendChildSort(newParentChild)
+        },
+        adn() { return mcd.eMap[this.adnId] || {} },
+        setCut() {
+            console.log(123)
+        }, copyR2() {
+            console.log(123)
+        }, copyR() {
+            console.log(123, this.adn())
+        }, setCopy() {
+            console.log(123)
+        }, pasteAdnSibling() {
+            console.log(123)
         }, sortUp() {
             const newParentChild = mcd.parentChild[mcd.eMap[this.adnId].p]
             this.adnId == newParentChild[0] && this.sortEnd() || (() => {
@@ -83,21 +95,41 @@ export default {
         },
     }, template: `
 <div class="w3-dropdown-content w3-border w3-hover-shadow" 
-    style="width:18em;">
+    style="width:20em;">
     <button class="w3-btn" @click="sortUp">⬆</button>
     <button class="w3-btn" @click="sortDown">⬇</button>
-    <button class="w3-btn" @click="sortFirst" title="toFirst">⮸</button>
+    <button class="w3-btn w3-border-left" @click="sortFirst" title="toFirst">⮸</button>
     <button class="w3-btn" @click="sortEnd" style="transform: rotate(180deg);"
         title="toEnd">⮸</button>
     <div class="w3-border-top">
         <button class="w3-btn am-b" @click="setAdnDialogWindow('edAdn_fix')">✐</button>
         <button class="w3-btn am-b" @click="setAdnDialogWindow('edAdn_fly')">✎</button>
-        ｜
+        <span class="w3-border-left">&nbsp;</span>
         <button class="w3-btn am-b" @click="insertAdnChild" title="addChild - додати дитину">＋</button>
         <button class="w3-btn am-b" @click="deleteAdn">－</button>
         <div class="w3-dropdown-content w3-card-4 w3-leftbar" v-if="isFlyAdnDialogWindow()" >
             <EdAdnData :adnId="adnId" :ppIdMedasPpl2Key="ppIdMedasPpl2Key"/>
         </div>
+    </div>
+    <div class="w3-border-top w3-row">
+    <div class="w3-col" style="width:3em">
+        <button class="w3-btn am-b" @click="setCopy()" title="copy - копіювати">⧉</button>
+        <button class="w3-btn am-b" @click="setCut()" title="cut - вирізати">✀</button>
+        <button class="w3-btn am-b" @click="pasteAdnSibling()" title="paste sibling - вставити як побратима">⧠</button>
+    </div>
+    <div class="w3-rest w3-border-left w3-small">
+        &nbsp;r1
+        <button @click="copyR()" class="w3-btn" title="copy R1">⧉</button>
+        <button @click="setR()" class="w3-btn" title="set R1">⧠</button>
+        <span class="w3-tiny">{{adn().r}} {{adn().r_vl_str}}</span>
+        <div>&nbsp;r2
+            <button @click="copyR2()" class="w3-btn" title="copy R2">⧉</button>
+            <button @click="setR2()" class="w3-btn" title="set R2">⧠</button>
+            <span class="w3-tiny">{{adn().r2}} {{adn().r2_vl_str}}</span>
+        </div>
+        <button class="w3-btn am-b" @click="pasteChild()" title="paste inner - вставити як внутрішній">+₊⧠</button>
+    </div>
+
     </div>
 <div> <span class="w3-hide">{{count}}</span>
 `,
