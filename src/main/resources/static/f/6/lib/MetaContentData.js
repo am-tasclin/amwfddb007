@@ -22,3 +22,4 @@ export const mcd = { // Container for Meta Content Data from DB
  * @returns 
  */
 export const adnFromMap = adnId => mcd.eMap && mcd.eMap[adnId] || {}
+export const setToEMap = adn => mcd.eMap[adn.doc_id] = adn

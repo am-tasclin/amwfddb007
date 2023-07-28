@@ -3,7 +3,7 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { mcd, adnFromMap } from '/f/6/lib/MetaContentData.js'
+import { mcd, setToEMap, adnFromMap } from '/f/6/lib/MetaContentData.js'
 import { addDppItyComponent, setOpenedDropDownId, getOpenedDropDownId }
     from '/f/6/libTGridDpp/dppInteractivity.js'
 import { wsInsertAdnString } from '/f/6/lib/wsDbRw.js'
@@ -11,7 +11,7 @@ import { wsInsertAdnString } from '/f/6/lib/wsDbRw.js'
 const h1 = 376600
 
 export default {
-    data() { return { count: 0, newDocName: '', checkFolderId: 0 } },
+    data() { return { count: 0, newDocName: '', checkedFolderId: 0 } },
     mounted() {
         addDppItyComponent('faf', this)
     }, methods: {
@@ -23,18 +23,29 @@ export default {
         clickDoc(adnId) {
             console.log(adnId, this.adn(adnId))
         },
-        setFolderId(folderId) { this.checkFolderId = folderId },
+        setFolderId(folderId) { this.checkedFolderId = folderId },
         isFirstInFolder(adnId, i) { return adnFromMap(adnId).p != adnFromMap(mcd.fileList[i - 1]).p },
         openDpDn() { return getOpenedDropDownId() },
         onOffNewDoc() {
             setOpenedDropDownId('faf_new')
-            console.log(getOpenedDropDownId())
+            !this.checkedFolderId && (this.checkedFolderId = mcd.folderIdList[0])
+            console.log(getOpenedDropDownId(), this.checkedFolderId, mcd.folderIdList)
             this.count++
         },
         sendNewDoc() {
-            console.log(this.newDocName, this.checkFolderId)
-            wsInsertAdnString({ parent: this.checkFolderId, r: h1 }).then(json => {
+            console.log(this.newDocName, this.checkedFolderId)
+            wsInsertAdnString({
+                parent: this.checkedFolderId, r: h1, string: this.newDocName
+            }).then(json => {
                 console.log(json)
+                console.log(mcd.fileList)
+                console.log(adnFromMap(mcd.fileList[0]))
+                const newFile = json.d
+                newFile.vl_str = json.string
+                console.log(newFile)
+                setToEMap(newFile)
+                mcd.fileList.unshift(newFile.doc_id)
+                this.count++
             })
         }
     }, template: `&nbsp;
@@ -53,7 +64,7 @@ export default {
             <button @click="onOffNewDoc" class="w3-btn w3-right w3-padding-small w13-opacity"> ✖ </button>
             <div> 📁 </div>
             <div @click="setFolderId(folderId)" class="w3-small w3-hover-shadow" v-for="folderId in folderIdList()"
-            :class="{'w3-green':checkFolderId==folderId}"
+            :class="{'w3-green':checkedFolderId==folderId}"
             >
                 <span class="w3-tiny"> {{folderId}} <span>
                 {{adn(folderId).vl_str}}
@@ -72,8 +83,8 @@ export default {
         <tr class="w3-tiny am-b">
             <th class="w3-light-gray w3-border-bottom" v-for="ch in fafHeadView()">
                 {{ch}}
-                <span class="w3-right" v-if="ch=='vl_str' && checkFolderId">
-                    {{checkFolderId}}
+                <span class="w3-right" v-if="ch=='vl_str' && checkedFolderId">
+                    {{checkedFolderId}}
                 </span>
             </th>
         </tr>
@@ -82,9 +93,9 @@ export default {
         <template v-for="(adnId, i) in fileList()" >
         <tr v-if="isFirstInFolder(adnId, i)">
             <td @click="setFolderId(adn(adnId).p)" class="w3-hover-shadow" colspan=2 style="padding-top: 1em;"
-            :class="{'w3-border-green w3-border':checkFolderId==adn(adnId).p}"
+            :class="{'w3-border-green w3-border':checkedFolderId==adn(adnId).p}"
             >
-            {{checkFolderId==adn(adnId).p}}
+            {{checkedFolderId==adn(adnId).p}}
                 <span class="w3-tiny am-i"> {{adn(adn(adnId).p).vl_str}}</span>
                 <span class="w3-tiny w3-right">📁&nbsp;{{adn(adnId).p}}</span>
             </td>

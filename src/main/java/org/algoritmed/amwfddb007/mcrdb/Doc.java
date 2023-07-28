@@ -1,5 +1,7 @@
 package org.algoritmed.amwfddb007.mcrdb;
 
+import java.util.Map;
+
 import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,6 +13,7 @@ public class Doc {
     private Long parent;
     private Long reference;
     private Long reference2;
+
     public Long getDoc_id() {
         return doc_id;
     }
@@ -18,7 +21,6 @@ public class Doc {
     public void setDoc_id(Long doc_id) {
         this.doc_id = doc_id;
     }
-
 
     public Long getReference2() {
         return reference2;
@@ -54,6 +56,16 @@ public class Doc {
             e.printStackTrace();
         }
         return s;
+    }
+
+    public Doc(Long nextDnId, Map<String, Object> mapIn) {
+        this.doc_id=nextDnId;
+        if (mapIn.containsKey("parent"))
+            this.parent = Long.parseLong(mapIn.get("parent").toString());
+        if (mapIn.containsKey("r"))
+            this.reference = Long.parseLong(mapIn.get("r").toString());
+        if (mapIn.containsKey("r2"))
+            this.reference2 = Long.parseLong(mapIn.get("r2").toString());
     }
 
     public Doc(Long doc_id) {

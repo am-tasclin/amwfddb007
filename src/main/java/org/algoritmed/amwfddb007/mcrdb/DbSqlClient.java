@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.data.relational.core.query.Criteria;
 import org.springframework.data.relational.core.query.Query;
@@ -142,20 +143,27 @@ public class DbSqlClient {
         mapIn.put("deleted", x.toFuture().get());
     }
 
-    public void insertAdnString(Map<String, Object> mapIn) {
-        logger.info("-146- mapIn=\n "+mapIn);
+    public void insertAdnString(Map<String, Object> mapIn)
+            throws JsonProcessingException, InterruptedException, ExecutionException {
+        logger.info("-146- mapIn=\n " + mapIn);
+        insertAdnChild(mapIn);
+        insertString(((Doc) mapIn.get("d")).getDoc_id(), mapIn);
     }
 
     public void insertAdnChild(Map<String, Object> mapIn)
             throws InterruptedException, ExecutionException, JsonProcessingException {
-        Doc newDoc = new Doc(nextDbId());
-        newDoc.setParent(Long.parseLong(mapIn.get("parent").toString()));
+        Doc newDoc = new Doc(nextDbId(), mapIn);
         sqlTemplate.insert(newDoc).toFuture().get();
         mapIn.put("d", newDoc);
     }
 
     public void insertString(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
         long adnId = Long.parseLong(mapIn.get("adnId").toString());
+        insertString(adnId, mapIn);
+    }
+
+    private void insertString(long adnId, Map<String, Object> mapIn)
+            throws DataAccessException, InterruptedException, ExecutionException {
         StringContent insertedString = sqlTemplate.insert(new StringContent(adnId, mapIn.get("string")))
                 .toFuture().get();
         mapIn.put("inserted", insertedString);

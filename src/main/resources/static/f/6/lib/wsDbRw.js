@@ -3,7 +3,7 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { mcd } from '/f/6/lib/MetaContentData.js'
+import { mcd, setToEMap } from '/f/6/lib/MetaContentData.js'
 import { pushListUnique, addToUniqueList } from '/f/6/lib/algoritmed-commons.js'
 
 const uri_wsDbRw = "ws://" + window.location.host + "/dbRw"
@@ -12,8 +12,7 @@ export const ws = new WebSocket(uri_wsDbRw)
 export const addToParentChild = jsonAdnList =>
     jsonAdnList.forEach(adn => (mcd.parentChild[adn.p] || (mcd.parentChild[adn.p] = [])).push(adn.doc_id))
 
-export const addToEMap = jsonAdnList =>
-    jsonAdnList.forEach(adn => mcd.eMap[adn.doc_id] = adn)
+export const addToEMap = jsonAdnList => jsonAdnList.forEach(adn => setToEMap(adn))
 
 export const readDppForParent = (parentIdl, fn) => {
     const sql = sql_vl_str_WHERE_parent_sort.replace(':parentId', parentIdl.join(','))
@@ -22,6 +21,7 @@ export const readDppForParent = (parentIdl, fn) => {
         addToEMap(json.list)
         addToParentChild(json.list)
         const x = parentIdl.reduce((l, pId) => l.concat(mcd.parentChild[pId]), [])
+        console.log(x)
         readR1R2(x, 'r', fn)
     })
 }
@@ -56,27 +56,31 @@ const select_InDocOrParent = dpList => {
 }
 
 export const readDocAndParentList = (dpList, fn) => {
+    console.log(dpList)
     const sql = select_InDocOrParent(dpList)
     console.log(sql)
     return executeSelectQuery(sql).then(json => {
-        // console.log(dpList, json.list)
+        console.log(dpList, json.list)
         addToEMap(json.list)
         addToParentChild(json.list)
-        const toRrExtencon = addToUniqueList((dpList.doc_id).concat(dpList.parent)
-            .concat(dpList.parent.reduce((l, i) => l.concat(mcd.parentChild[i]), [])), [])
+        const toRrExtencon = addToUniqueList(dpList.doc_id.concat(dpList.parent)
+            .concat(dpList.parent.filter(i => mcd.parentChild[i]).reduce((l, i) => l.concat(mcd.parentChild[i]), [])), [])
+        console.log(toRrExtencon)
         readR1R2(toRrExtencon, 'r', fn)
     })
 }
 
-export const readDppFromList = (uniqueMcdId_list, fn) =>
+export const readDppFromList = (uniqueMcdId_list, fn) => {
+    console.log(uniqueMcdId_list)
     readMcdIdListStr(uniqueMcdId_list).then(json => {
         console.log('← ', json, mcd)
         addToEMap(json.list)
         readR1R2(uniqueMcdId_list, 'r', fn)
     })
+}
 
 const readR1R2 = (uniqueMcdIdList, rName, fn) => {
-    // console.log(uniqueMcdIdList, rName, mcd.eMap)
+    console.log(uniqueMcdIdList, rName, mcd.eMap)
     const refIds = uniqueMcdIdList.filter(adnId => mcd.eMap[adnId][rName])
         , rList = refIds.reduce((o, adnId) => pushListUnique(o, mcd.eMap[adnId][rName]), [])
     rList.length > 0 && readMcdIdListStr(rList).then(json => {

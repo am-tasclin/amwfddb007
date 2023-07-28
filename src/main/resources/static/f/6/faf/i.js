@@ -6,12 +6,15 @@
 const { createApp } = Vue
 import FilesAndFolders from '/f/6/lib/FilesAndFolders.js'
 
-createApp(
-    { template: `<FilesAndFolders />`, components: { FilesAndFolders }, }
-).mount('#tFilesAndFolders')
-
 const h1ParentList = [376598, 376778] // folder IDs
 console.log(h1ParentList)
+createApp({ template: `<FilesAndFolders />`, components: { FilesAndFolders }, }
+).mount('#tFilesAndFolders')
+
+import DbMessagePool from '/f/6/lib/DbMessagePool.js'
+createApp({ template: `<DbMessagePool/>`, components: { DbMessagePool }, }
+).mount('#dbMessagePool')
+
 import { mcd } from '/f/6/lib/MetaContentData.js'
 import { ws, readFilesAndFolders } from '/f/6/lib/wsDbRw.js'
 import { dppItyComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
