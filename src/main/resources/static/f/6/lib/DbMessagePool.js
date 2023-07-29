@@ -5,7 +5,10 @@
  */
 import { dppItyComponent, addDppItyComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
 
-export const dbMessagePool = {}
+const dbMessagePool = {}
+export const getMessagePollCopyId = () => dbMessagePool.copyId
+export const setMessagePollCopyId = copyId =>
+    dbMessagePool.copyId = copyId
 export const addDbMessageToPool = dbMessage =>
     (dbMessagePool[dbMessage.countCurrentPool = dppItyComponent.dbMessagePool.countCurrentPool
     ] = dbMessage)

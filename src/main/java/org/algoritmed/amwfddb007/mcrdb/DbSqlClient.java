@@ -169,6 +169,14 @@ public class DbSqlClient {
         mapIn.put("inserted", insertedString);
     }
 
+    public void updateR1(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
+        logger.info("-173- mapIn=\n " + mapIn);
+        CompletableFuture<Long> docUpdated = sqlTemplate.update(Doc.class).matching(Query.query(Criteria.where("doc_id")
+                .is(mapIn.get("adnId"))))
+                .apply(Update.update("reference", mapIn.get("r"))).toFuture();
+        mapIn.put("docUpdateR1", docUpdated.get());
+    }
+
     public void updateString(Map mapIn) throws InterruptedException, ExecutionException {
         CompletableFuture<Long> rowsUpdated = sqlTemplate.update(StringContent.class)
                 .matching(Query.query(Criteria.where("string_id")

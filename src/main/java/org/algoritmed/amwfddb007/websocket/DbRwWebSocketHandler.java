@@ -25,7 +25,8 @@ public class DbRwWebSocketHandler extends SimpleWebSocketHandler implements WebS
             Map<String, Object> mapIn = null;
             try {
                 mapIn = objectMapper.readValue(sqlSelectJson, Map.class);
-                logger.info("-28-" + incrementAndGet + ": " + mapIn.get("cmd"));
+                logger.info("-28-\n" + incrementAndGet + ": " + mapIn.get("cmd"));
+                logger.info("-29-\n" + dbSqlClient.getClass().getMethods());
                 switch (mapIn.get("cmd").toString()) {
                     case "insertAdnChild":
                         logger.info("-31-\n" + mapIn);
@@ -48,6 +49,9 @@ public class DbRwWebSocketHandler extends SimpleWebSocketHandler implements WebS
                         break;
                     case "insertAdnString":
                         dbSqlClient.insertAdnString(mapIn);
+                        break;
+                    case "updateR1":
+                        dbSqlClient.updateR1(mapIn);
                         break;
                     case "executeQuery":
                         dbSqlClient.executeQuery(mapIn);

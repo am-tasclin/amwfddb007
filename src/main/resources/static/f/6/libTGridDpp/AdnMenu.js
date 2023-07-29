@@ -1,12 +1,13 @@
 'use strict'
 import EdAdnData from '/f/6/libTGridDpp/EdAdnData.js'
-import { mcd } from '/f/6/lib/MetaContentData.js'
+import { mcd, unshiftParentChild } from '/f/6/lib/MetaContentData.js'
 import {
     meMap, addMeMap, setOpenedDropDownId, getOpenedDropDownId,
     dppInteractivityPpId, closeEdAdnDialog,
 } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { adnPpIdMedasPpl2Key, mElementKey } from '/f/6/libTGridDpp/MElement.js'
-import { wsInsertAdnChild, wsDeleteAdn1, wsSave1ParentSort } from '/f/6/lib/wsDbRw.js'
+import { wsInsertAdnChild, wsUpdateR1, wsDeleteAdn1, wsSave1ParentSort } from '/f/6/lib/wsDbRw.js'
+import { setMessagePollCopyId, getMessagePollCopyId } from '/f/6/lib/DbMessagePool.js'
 
 const dbSendChildSort = parentChild => wsSave1ParentSort({
     insertList: parentChild.filter(i => !mcd.eMap[i].sort)
@@ -37,12 +38,14 @@ export default {
                 setOpenedDropDownId('finitaLaCommedia')
             })())
         }, insertAdnChild() {
-            wsInsertAdnChild({ parent: this.adnId }).then(json => json.d && (() => {
+            const x = wsInsertAdnChild({ parent: this.adnId }).then(json => json.d && (() => {
                 mcd.eMap[json.d.doc_id] = { doc_id: json.d.doc_id, p: json.d.parent }
-                mcd.parentChild[this.adnId].push(json.d.doc_id)
+                // mcd.parentChild[this.adnId].push(json.d.doc_id)
+                unshiftParentChild(this.adnId, json.d.doc_id)
                 Okeys(meMap[this.adnId]).filter(k => k.includes('mElement'))
                     .forEach(k => meMap[this.adnId][k].count++)
             })())
+            console.log(x)
         }, sortFirst() {
             const newParentChild = [this.adnId].concat(mcd.parentChild[mcd.eMap[this.adnId].p].filter(i => i != this.adnId))
             dbSendChildSort(newParentChild)
@@ -52,14 +55,25 @@ export default {
             dbSendChildSort(newParentChild)
         },
         adn() { return mcd.eMap[this.adnId] || {} },
-        setCut() {
+        setR() {
+            console.log(getMessagePollCopyId(), this.adnId)
+            wsUpdateR1({ adnId: this.adnId, r: getMessagePollCopyId() }).then(json => {
+                console.log(json)
+            })
+        }, setCut() {
             console.log(123)
         }, copyR2() {
             console.log(123)
+            setMessagePollCopyId(this.adn().r2)
+            console.log(123, dbMessagePool)
         }, copyR() {
             console.log(123, this.adn())
-        }, setCopy() {
-            console.log(123)
+            setMessagePollCopyId(this.adn().r)
+            console.log(123, dbMessagePool)
+
+        }, copyId() {
+            setMessagePollCopyId(this.adnId)
+            console.log(123, dbMessagePool)
         }, pasteAdnSibling() {
             console.log(123)
         }, sortUp() {
@@ -113,7 +127,7 @@ export default {
     </div>
     <div class="w3-border-top w3-row">
     <div class="w3-col" style="width:3em">
-        <button class="w3-btn am-b" @click="setCopy()" title="copy - копіювати">⧉</button>
+        <button class="w3-btn am-b" @click="copyId()" title="copy - копіювати">⧉</button>
         <button class="w3-btn am-b" @click="setCut()" title="cut - вирізати">✀</button>
         <button class="w3-btn am-b" @click="pasteAdnSibling()" title="paste sibling - вставити як побратима">⧠</button>
     </div>

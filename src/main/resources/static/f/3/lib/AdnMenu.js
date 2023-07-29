@@ -58,7 +58,6 @@ fipiFn.getDbSave = blockName => {
         !pd.dbSave[blockName] && (pd.dbSave[blockName] = [])
 }
 
-
 export default {
     props: { adnId: Number, ppId: Number, pp: String, fipId: Number, lrPl2: Boolean },
     data() { return { count: 0 } },

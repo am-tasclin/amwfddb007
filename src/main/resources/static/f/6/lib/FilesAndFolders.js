@@ -8,7 +8,7 @@ import { addDppItyComponent, setOpenedDropDownId, getOpenedDropDownId }
     from '/f/6/libTGridDpp/dppInteractivity.js'
 import { wsInsertAdnString } from '/f/6/lib/wsDbRw.js'
 
-const h1 = 376600
+const wikiDoc = { r1_h1: 376600, r2_STUB: 376614 }
 
 export default {
     data() { return { count: 0, newDocName: '', checkedFolderId: 0 } },
@@ -33,9 +33,11 @@ export default {
             this.count++
         },
         sendNewDoc() {
-            console.log(this.newDocName, this.checkedFolderId)
+            console.log({
+                parent: this.checkedFolderId, r: wikiDoc.r1_h1, r2: wikiDoc.r2_STUB, string: this.newDocName
+            })
             wsInsertAdnString({
-                parent: this.checkedFolderId, r: h1, string: this.newDocName
+                parent: this.checkedFolderId, r: wikiDoc.r1_h1, r2: wikiDoc.r2_STUB, string: this.newDocName
             }).then(json => {
                 console.log(json)
                 console.log(mcd.fileList)
@@ -74,7 +76,8 @@ export default {
             <div> Назва нового документу/сторінки </div>
             <input v-model="newDocName" class="w3-border" />
             <div>
-                <button @click="sendNewDoc" class="w3-border w3-small" > send DB / відправити БД </button>
+                <button @click="sendNewDoc" @keyup.esc="onOffNewDoc"
+                class="w3-border w3-small" > send DB / відправити БД </button>
             </div>
         </div>
     </caption>

@@ -20,9 +20,9 @@ export const readDppForParent = (parentIdl, fn) => {
         // console.log(parentIdl, json.list)
         addToEMap(json.list)
         addToParentChild(json.list)
-        const x = parentIdl.reduce((l, pId) => l.concat(mcd.parentChild[pId]), [])
-        console.log(x)
-        readR1R2(x, 'r', fn)
+        const listR1R2 = parentIdl.reduce((l, pId) => l.concat(mcd.parentChild[pId]), [])
+        // console.log(listR1R2)
+        readR1R2(listR1R2, 'r', fn)
     })
 }
 
@@ -71,16 +71,14 @@ export const readDocAndParentList = (dpList, fn) => {
 }
 
 export const readDppFromList = (uniqueMcdId_list, fn) => {
-    console.log(uniqueMcdId_list)
     readMcdIdListStr(uniqueMcdId_list).then(json => {
-        console.log('← ', json, mcd)
+        // console.log('← ', json, mcd)
         addToEMap(json.list)
         readR1R2(uniqueMcdId_list, 'r', fn)
     })
 }
 
 const readR1R2 = (uniqueMcdIdList, rName, fn) => {
-    console.log(uniqueMcdIdList, rName, mcd.eMap)
     const refIds = uniqueMcdIdList.filter(adnId => mcd.eMap[adnId][rName])
         , rList = refIds.reduce((o, adnId) => pushListUnique(o, mcd.eMap[adnId][rName]), [])
     rList.length > 0 && readMcdIdListStr(rList).then(json => {
@@ -137,20 +135,20 @@ import { addDbMessageToPool } from '/f/6/lib/DbMessagePool.js'
  * Update string content
  * @param {*} dbMessage 
  */
-export const wsUpdateString = dbMessage => {
-    dbMessage.cmd = 'updateString'
-    addDbMessageToPool(dbMessage)
-    return execute_SQL_API(dbMessage)
-}
+export const wsUpdateString = dbMessage =>
+    (dbMessage.cmd = 'updateString') && execute_SqlChange_API(dbMessage)
+// dbMessage.cmd = 'updateString'
+// addDbMessageToPool(dbMessage)
+// return execute_SQL_API(dbMessage)
+
+export const wsUpdateR1 = dbMessage =>
+    (dbMessage.cmd = 'updateR1') && execute_SqlChange_API(dbMessage)
+
 export const wsInsertAdnString = dbMessage =>
     (dbMessage.cmd = 'insertAdnString') && execute_SqlChange_API(dbMessage)
 
 export const wsInsertAdnChild = dbMessage =>
     (dbMessage.cmd = 'insertAdnChild') && execute_SqlChange_API(dbMessage)
-// addDbMessageToPool(dbMessage)
-// console.log(dbMessage)
-// return execute_SQL_API(dbMessage)
-
 
 export const wsInsertString = dbMessage =>
     (dbMessage.cmd = 'insertString') && execute_SqlChange_API(dbMessage)

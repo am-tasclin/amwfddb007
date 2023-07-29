@@ -50,11 +50,13 @@ import { mcd } from '/f/6/lib/MetaContentData.js'
 ws.onopen = event => pageId && readDocAndParentList(
     { doc_id: [pageId], parent: [pageId] }, () => {
         meMap[pageId].tWiki.count++
-        readDocAndParentList({ doc_id: [], parent: mcd.parentChild[pageId] }, () => {
-            console.log(mcd, mcd.parentChild[pageId])
-            meMap[pageId].tWiki.count++
-            initDom()
-        })
+        console.log('read 2')
+        mcd.parentChild[pageId] &&
+            readDocAndParentList({ doc_id: [], parent: mcd.parentChild[pageId] }, () => {
+                console.log(mcd, mcd.parentChild[pageId])
+                meMap[pageId].tWiki.count++
+                initDom()
+            })
     })
 
 const Okeys = Object.keys
