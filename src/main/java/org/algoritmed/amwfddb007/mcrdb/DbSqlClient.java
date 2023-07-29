@@ -178,7 +178,7 @@ public class DbSqlClient {
     }
 
     public void updateR2(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
-        logger.info("-173- mapIn=\n " + mapIn);
+        logger.info("-181- mapIn=\n " + mapIn);
         CompletableFuture<Long> docUpdated = sqlTemplate.update(Doc.class).matching(Query.query(Criteria.where("doc_id")
                 .is(mapIn.get("adnId"))))
                 .apply(Update.update("reference2", mapIn.get("r2"))).toFuture();

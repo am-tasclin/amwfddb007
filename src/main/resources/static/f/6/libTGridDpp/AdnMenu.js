@@ -65,25 +65,28 @@ export default {
         }, setR2() {
             console.log(getMessagePollCopyId(), this.adnId)
             wsUpdateR2({ adnId: this.adnId, r2: getMessagePollCopyId() }).then(json => {
-                console.log(json)
+                this.adn().r2 = json.r2
+                this.adn().r2_vl_str = mcd.eMap[getMessagePollCopyIdOwner()].r2_vl_str
+                Okeys(meMap[this.adnId]).forEach(k => meMap[this.adnId][k].count++)
             })
         }, copyR2() {
-            console.log(123)
             setMessagePollCopyId(this.adn().r2, this.adnId)
             console.log(123, getMessagePollCopyId())
-
         }, copyR() {
-            console.log(this.adn().r, this.adn())
             setMessagePollCopyId(this.adn().r, this.adnId)
             console.log(123, getMessagePollCopyId())
         }, delR1() {
             wsUpdateR1({ adnId: this.adnId, r: null }).then(json => {
-                delete this.adn().r 
+                delete this.adn().r
                 delete this.adn().r_vl_str
                 Okeys(meMap[this.adnId]).forEach(k => meMap[this.adnId][k].count++)
             })
         }, delR2() {
-            console.log(123)
+            wsUpdateR1({ adnId: this.adnId, r2: null }).then(json => {
+                delete this.adn().r2
+                delete this.adn().r2_vl_str
+                Okeys(meMap[this.adnId]).forEach(k => meMap[this.adnId][k].count++)
+            })
         }, cutId() {
             console.log(123)
         }, copyId() {
