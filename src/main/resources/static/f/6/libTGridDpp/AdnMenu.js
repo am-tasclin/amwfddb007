@@ -57,7 +57,6 @@ export default {
         },
         adn() { return mcd.eMap[this.adnId] || {} },
         setR() {
-            console.log(getMessagePollCopyId(), this.adnId)
             wsUpdateR1({ adnId: this.adnId, r: getMessagePollCopyId() }).then(json => {
                 this.adn().r = json.r
                 this.adn().r_vl_str = mcd.eMap[getMessagePollCopyIdOwner()].r_vl_str
@@ -78,7 +77,11 @@ export default {
             setMessagePollCopyId(this.adn().r, this.adnId)
             console.log(123, getMessagePollCopyId())
         }, delR1() {
-            console.log(123)
+            wsUpdateR1({ adnId: this.adnId, r: null }).then(json => {
+                delete this.adn().r 
+                delete this.adn().r_vl_str
+                Okeys(meMap[this.adnId]).forEach(k => meMap[this.adnId][k].count++)
+            })
         }, delR2() {
             console.log(123)
         }, cutId() {
