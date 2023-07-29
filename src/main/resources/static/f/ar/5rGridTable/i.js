@@ -1,8 +1,8 @@
 'use strict'
 const { createApp } = Vue
-import { makeGridTable } from './libGridTable/libGridTable.js'
+import { makerGridTable } from './libGridTable/libGridTable.js'
 
-const gridKassaEntry = makeGridTable('kassaEntry')
+const gridKassaEntry = makerGridTable('kassaEntry')
     , kassaEntry01SelectMaker = gridKassaEntry.initSelectMaker('ksEy01', 'kassa.entry')
 const selectKassaEntry = kassaEntry01SelectMaker.get()
 console.log(selectKassaEntry)

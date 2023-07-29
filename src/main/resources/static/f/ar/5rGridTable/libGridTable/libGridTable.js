@@ -24,22 +24,22 @@ export const gridTable = tableName => gridTableContainer[tableName]
  * @param {*} tableName 
  * @returns 
  */
-export const makeGridTable = tableName => {
-    const mGridTable = gridTable(tableName)
+export const makerGridTable = tableName => {
+    const mGridTableData = gridTable(tableName)
     return {
-        get() { return mGridTable },
+        get() { return mGridTableData },
         setTableBody(tableBody) {
-            mGridTable.tableBody = tableBody
-            !mGridTable.bodyColumns && this.setBodyColumns(Object.keys(tableBody[0]))
+            mGridTableData.tableBody = tableBody
+            !mGridTableData.bodyColumns && this.setBodyColumns(Object.keys(tableBody[0]))
             console.log(gridTableContainer)
         },
-        setBodyColumns(bodyColumns) { mGridTable.bodyColumns = bodyColumns },
+        setBodyColumns(bodyColumns) { mGridTableData.bodyColumns = bodyColumns },
         initSelectMaker(key, sqlTableName) {
-            const selectMakerContainer = mGridTable.smc || (mGridTable.smc = {})
+            const selectMakerContainer = mGridTableData.smc || (mGridTableData.smc = {})
                 , makeSelectForKey = selectMakerContainer[key] || (selectMakerContainer[key] = {})
             return SqlSelectMaker(makeSelectForKey, sqlTableName)
         },
-        showGtData(){return mGridTable}
+        showGtData(){return mGridTableData}
     }
 }
 
