@@ -25,3 +25,7 @@ export const adnFromMap = adnId => mcd.eMap && mcd.eMap[adnId] || {}
 export const setToEMap = adn => mcd.eMap[adn.doc_id] = adn
 export const unshiftParentChild = (parentId, newAdnId) =>
     (mcd.parentChild[parentId] || (mcd.parentChild[parentId] = [])).unshift(newAdnId)
+    && mcd.parentChild[parentId]
+export const pushParentChild = (parentId, newAdnId) =>
+    (mcd.parentChild[parentId] || (mcd.parentChild[parentId] = [])).push(newAdnId)
+    && mcd.parentChild[parentId]

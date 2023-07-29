@@ -1,6 +1,6 @@
 'use strict'
 import EdAdnData from '/f/6/libTGridDpp/EdAdnData.js'
-import { mcd, unshiftParentChild } from '/f/6/lib/MetaContentData.js'
+import { mcd, pushParentChild, unshiftParentChild } from '/f/6/lib/MetaContentData.js'
 import {
     meMap, addMeMap, setOpenedDropDownId, getOpenedDropDownId,
     dppInteractivityPpId, closeEdAdnDialog,
@@ -39,14 +39,19 @@ export default {
                 setOpenedDropDownId('finitaLaCommedia')
             })())
         }, insertAdnChild() {
-            const x = wsInsertAdnChild({ parent: this.adnId }).then(json => json.d && (() => {
-                mcd.eMap[json.d.doc_id] = { doc_id: json.d.doc_id, p: json.d.parent }
-                // mcd.parentChild[this.adnId].push(json.d.doc_id)
-                unshiftParentChild(this.adnId, json.d.doc_id)
-                Okeys(meMap[this.adnId]).filter(k => k.includes('mElement'))
+            wsInsertAdnChild({ parent: this.adnId }).then(json => json.d && (() => {
+                console.log(json.d.doc_id)
+                mcd.eMap[json.d.doc_id] = { doc_id: json.d.doc_id, p: json.d.parent, v_str: 'new string' }
+                console.log(mcd)
+                
+                const ptChilds = pushParentChild(this.adnId, json.d.doc_id)
+                // const ptChilds = unshiftParentChild(this.adnId, json.d.doc_id) // not work? not in meMap?
+                console.log(ptChilds)
+                console.log(meMap[this.adnId])
+                Okeys(meMap[this.adnId])//.filter(k => k.includes('mElement'))
                     .forEach(k => meMap[this.adnId][k].count++)
+                console.log(json.d.doc_id, meMap[json.d.doc_id])
             })())
-            console.log(x)
         }, sortFirst() {
             const newParentChild = [this.adnId].concat(mcd.parentChild[mcd.eMap[this.adnId].p].filter(i => i != this.adnId))
             dbSendChildSort(newParentChild)
@@ -60,7 +65,11 @@ export default {
             wsUpdateR1({ adnId: this.adnId, r: getMessagePollCopyId() }).then(json => {
                 this.adn().r = json.r
                 this.adn().r_vl_str = mcd.eMap[getMessagePollCopyIdOwner()].r_vl_str
-                Okeys(meMap[this.adnId]).forEach(k => meMap[this.adnId][k].count++)
+                console.log(this.adnId, meMap[this.adnId])
+                Okeys(meMap[this.adnId]).forEach(k => {
+                    console.log(k, meMap[this.adnId][k])
+                    meMap[this.adnId][k].count++
+                })
             })
         }, setR2() {
             console.log(getMessagePollCopyId(), this.adnId)
