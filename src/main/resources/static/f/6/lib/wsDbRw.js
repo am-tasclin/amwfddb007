@@ -144,6 +144,11 @@ export const wsUpdateString = dbMessage =>
 export const wsUpdateR1 = dbMessage =>
     (dbMessage.cmd = 'updateR1') && execute_SqlChange_API(dbMessage)
 
+export const wsUpdateR2 = dbMessage =>
+    (dbMessage.cmd = 'updateR2') && execute_SqlChange_API(dbMessage)
+
+
+
 export const wsInsertAdnString = dbMessage =>
     (dbMessage.cmd = 'insertAdnString') && execute_SqlChange_API(dbMessage)
 

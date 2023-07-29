@@ -53,6 +53,9 @@ public class DbRwWebSocketHandler extends SimpleWebSocketHandler implements WebS
                     case "updateR1":
                         dbSqlClient.updateR1(mapIn);
                         break;
+                    case "updateR2":
+                        dbSqlClient.updateR2(mapIn);
+                        break;
                     case "executeQuery":
                         dbSqlClient.executeQuery(mapIn);
                         break;

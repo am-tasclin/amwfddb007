@@ -7,8 +7,12 @@ import { dppItyComponent, addDppItyComponent } from '/f/6/libTGridDpp/dppInterac
 
 const dbMessagePool = {}
 export const getMessagePollCopyId = () => dbMessagePool.copyId
-export const setMessagePollCopyId = copyId =>
+export const getMessagePollCopyIdOwner = () => dbMessagePool.copyIdOwner
+export const setMessagePollCopyId = (copyId, copyIdOwner) => {
     dbMessagePool.copyId = copyId
+    dbMessagePool.copyIdOwner = copyIdOwner || copyId
+}
+
 export const addDbMessageToPool = dbMessage =>
     (dbMessagePool[dbMessage.countCurrentPool = dppItyComponent.dbMessagePool.countCurrentPool
     ] = dbMessage)

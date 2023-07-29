@@ -67,7 +67,7 @@ export default {
 
         }
     }, template: `
-<div class="w3-hover-shadow">
+<div class="w3-hover-shadow" :reView="count"> {{count}}
     <span class="w3-dropdown-hover w3-white">
         <span class="w3-small w3-hover-shadow" @click="adnClick"> {{adnId}} &nbsp;</span>
         <AdnMenu :adnId="adnId" :ppIdMedasPpl2Key="ppIdMedasPpl2Key"/>
@@ -75,7 +75,7 @@ export default {
     <span v-html="vlStr()" />
     <span class="w3-small" v-if="eMap().r_vl_str"> ::{{eMap().r_vl_str}}</span>
     <span v-if="eMap().r2_vl_str"> :{{eMap().r2_vl_str}}</span>
-</div> <span class="w3-hide"> {{count}} </span>
+</div>
 
 <div class="w3-card-4 w3-leftbar" v-if="isFixAdnDialogWindow()" 
         style="margin-bottom:7px;" >

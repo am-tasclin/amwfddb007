@@ -6,8 +6,9 @@ import {
     dppInteractivityPpId, closeEdAdnDialog,
 } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { adnPpIdMedasPpl2Key, mElementKey } from '/f/6/libTGridDpp/MElement.js'
-import { wsInsertAdnChild, wsUpdateR1, wsDeleteAdn1, wsSave1ParentSort } from '/f/6/lib/wsDbRw.js'
-import { setMessagePollCopyId, getMessagePollCopyId } from '/f/6/lib/DbMessagePool.js'
+import { wsInsertAdnChild, wsUpdateR1, wsUpdateR2, wsDeleteAdn1, wsSave1ParentSort } from '/f/6/lib/wsDbRw.js'
+import { setMessagePollCopyId, getMessagePollCopyId, getMessagePollCopyIdOwner } from
+    '/f/6/lib/DbMessagePool.js'
 
 const dbSendChildSort = parentChild => wsSave1ParentSort({
     insertList: parentChild.filter(i => !mcd.eMap[i].sort)
@@ -58,22 +59,33 @@ export default {
         setR() {
             console.log(getMessagePollCopyId(), this.adnId)
             wsUpdateR1({ adnId: this.adnId, r: getMessagePollCopyId() }).then(json => {
+                this.adn().r = json.r
+                this.adn().r_vl_str = mcd.eMap[getMessagePollCopyIdOwner()].r_vl_str
+                Okeys(meMap[this.adnId]).forEach(k => meMap[this.adnId][k].count++)
+            })
+        }, setR2() {
+            console.log(getMessagePollCopyId(), this.adnId)
+            wsUpdateR2({ adnId: this.adnId, r2: getMessagePollCopyId() }).then(json => {
                 console.log(json)
             })
-        }, setCut() {
-            console.log(123)
         }, copyR2() {
             console.log(123)
-            setMessagePollCopyId(this.adn().r2)
-            console.log(123, dbMessagePool)
-        }, copyR() {
-            console.log(123, this.adn())
-            setMessagePollCopyId(this.adn().r)
-            console.log(123, dbMessagePool)
+            setMessagePollCopyId(this.adn().r2, this.adnId)
+            console.log(123, getMessagePollCopyId())
 
+        }, copyR() {
+            console.log(this.adn().r, this.adn())
+            setMessagePollCopyId(this.adn().r, this.adnId)
+            console.log(123, getMessagePollCopyId())
+        }, delR1() {
+            console.log(123)
+        }, delR2() {
+            console.log(123)
+        }, cutId() {
+            console.log(123)
         }, copyId() {
             setMessagePollCopyId(this.adnId)
-            console.log(123, dbMessagePool)
+            console.log(123, getMessagePollCopyId())
         }, pasteAdnSibling() {
             console.log(123)
         }, sortUp() {
@@ -104,48 +116,51 @@ export default {
 
             editType.includes('_fly') && this.count++
             editType.includes('_fix') && meMap[this.adnId][mElementKey(this.ppIdMedasPpl2Key)].count++
+
         }, isFlyAdnDialogWindow() {
             return ('edAdn_fly' + adnPpIdMedasPpl2Key(this.adnId, this.ppIdMedasPpl2Key)) == getOpenedDropDownId()
         },
     }, template: `
 <div class="w3-dropdown-content w3-border w3-hover-shadow" 
-    style="width:20em;">
-    <button class="w3-btn" @click="sortUp">⬆</button>
-    <button class="w3-btn" @click="sortDown">⬇</button>
-    <button class="w3-btn w3-border-left" @click="sortFirst" title="toFirst">⮸</button>
-    <button class="w3-btn" @click="sortEnd" style="transform: rotate(180deg);"
+    :reView="count" style="width:20em;">
+    <button @click="sortUp" class="w3-btn">⬆</button>
+    <button @click="sortDown" class="w3-btn">⬇</button>
+    <button @click="sortFirst" class="w3-btn w3-border-left" title="toFirst">⮸</button>
+    <button @click="sortEnd" class="w3-btn" style="transform: rotate(180deg);"
         title="toEnd">⮸</button>
     <div class="w3-border-top">
-        <button class="w3-btn am-b" @click="setAdnDialogWindow('edAdn_fix')">✐</button>
-        <button class="w3-btn am-b" @click="setAdnDialogWindow('edAdn_fly')">✎</button>
+        <button @click="setAdnDialogWindow('edAdn_fix')" class="w3-btn am-b">✐</button>
+        <button @click="setAdnDialogWindow('edAdn_fly')" class="w3-btn am-b">✎</button>
         <span class="w3-border-left">&nbsp;</span>
-        <button class="w3-btn am-b" @click="insertAdnChild" title="addChild - додати дитину">＋</button>
-        <button class="w3-btn am-b" @click="deleteAdn">－</button>
+        <button @click="insertAdnChild" class="w3-btn am-b" title="addChild - додати дитину">＋</button>
+        <button @click="deleteAdn" class="w3-btn am-b" >－</button>
         <div class="w3-dropdown-content w3-card-4 w3-leftbar" v-if="isFlyAdnDialogWindow()" >
             <EdAdnData :adnId="adnId" :ppIdMedasPpl2Key="ppIdMedasPpl2Key"/>
         </div>
     </div>
     <div class="w3-border-top w3-row">
     <div class="w3-col" style="width:3em">
-        <button class="w3-btn am-b" @click="copyId()" title="copy - копіювати">⧉</button>
-        <button class="w3-btn am-b" @click="setCut()" title="cut - вирізати">✀</button>
-        <button class="w3-btn am-b" @click="pasteAdnSibling()" title="paste sibling - вставити як побратима">⧠</button>
+        <button @click="copyId" class="w3-btn am-b" title="copy - копіювати">⧉</button>
+        <button @click="cutId" class="w3-btn am-b" title="cut - вирізати">✀</button>
+        <button @click="pasteAdnSibling" class="w3-btn am-b" title="paste sibling - вставити як побратима">⧠</button>
     </div>
     <div class="w3-rest w3-border-left ">
         &nbsp;𝑟¹
-        <button @click="copyR()" class="w3-btn w3-padding-small " title="copy R1">⧉</button>
-        <button @click="setR()" class="w3-btn w3-padding-small " title="set R1">⧠</button>
+        <span @click="delR1" class="w3-hover-shadow" v-if="adn().r">-</span>
+        <button @click="copyR" class="w3-btn w3-padding-small " title="copy R1">⧉</button>
+        <button @click="setR" class="w3-btn w3-padding-small " title="set R1">⧠</button>
         <span class="w3-tiny am-i">{{adn().r}} ::{{adn().r_vl_str}}</span>
         <div>&nbsp;𝑟²
-            <button @click="copyR2()" class="w3-btn w3-padding-small " title="copy R2">⧉</button>
-            <button @click="setR2()" class="w3-btn w3-padding-small " title="set R2">⧠</button>
+            <span @click="delR2" class="w3-hover-shadow" v-if="adn().r2">-</span>
+            <button @click="copyR2" class="w3-btn w3-padding-small" title="copy R2">⧉</button>
+            <button @click="setR2" class="w3-btn w3-padding-small" title="set R2">⧠</button>
             <span class="w3-tiny">{{adn().r2}} :{{adn().r2_vl_str}}</span>
         </div>
         &nbsp;
-        <button class="w3-btn am-b" @click="pasteChild()" title="paste inner - вставити як внутрішній">+₊⧠</button>
+        <button @click="pasteChild" class="w3-btn am-b" title="paste inner - вставити як внутрішній">+₊⧠</button>
         <div>&nbsp;</div>
     </div>
-<div> <span class="w3-hide">{{count}}</span>
+<div>
 `,
 }
 const Okeys = Object.keys
