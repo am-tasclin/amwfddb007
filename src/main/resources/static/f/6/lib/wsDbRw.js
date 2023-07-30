@@ -17,12 +17,14 @@ export const addToEMap = jsonAdnList => jsonAdnList.forEach(adn => setToEMap(adn
 export const readDppForParent = (parentIdl, fn) => {
     const sql = sql_vl_str_WHERE_parent_sort.replace(':parentId', parentIdl.join(','))
     return executeSelectQuery(sql).then(json => {
-        // console.log(parentIdl, json.list)
         addToEMap(json.list)
         addToParentChild(json.list)
-        const listR1R2 = parentIdl.reduce((l, pId) => l.concat(mcd.parentChild[pId]), [])
-        // console.log(listR1R2)
-        readR1R2(listR1R2, 'r', fn)
+        json.list.length && (() => {
+            const listR1R2 = parentIdl.reduce((l, pId) => l.concat(mcd.parentChild[pId]), [])
+            // console.log(listR1R2)
+            readR1R2(listR1R2, 'r', fn)
+        })()
+        !json.list.length && fn && fn()
     })
 }
 
