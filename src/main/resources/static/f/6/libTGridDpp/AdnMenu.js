@@ -26,11 +26,10 @@ const dbSendInsertAdnChild = adnJson => wsInsertAdnChild(adnJson)
     .then(json => json.d && (() => {
         const newAdn = mcd.eMap[json.d.doc_id] = { doc_id: json.d.doc_id, p: json.d.parent, }
             , sourceAdn = mcd.eMap[json.sourceAdnId]
-        console.log(newAdn, sourceAdn)
         json.d.r && (newAdn.r = json.d.r)
         json.d.r2 && (newAdn.r2 = json.d.r2)
-        sourceAdn && sourceAdn.r_vl_str && (newAdn.r_vl_str = sourceAdn.r_vl_str )
-        sourceAdn && sourceAdn.r2_vl_str && (newAdn.r2_vl_str = sourceAdn.r2_vl_str )
+        sourceAdn && sourceAdn.r_vl_str && (newAdn.r_vl_str = sourceAdn.r_vl_str)
+        sourceAdn && sourceAdn.r2_vl_str && (newAdn.r2_vl_str = sourceAdn.r2_vl_str)
         pushParentChild(json.d.parent, json.d.doc_id)
         Okeys(meMap[json.d.parent]).forEach(k => meMap[json.d.parent][k].count++)
     })())
@@ -50,15 +49,6 @@ export default {
                     .forEach(k => meMap[p][k].count++)
                 setOpenedDropDownId('finitaLaCommedia')
             })())
-        }, insertAdnChild() {
-            dbSendInsertAdnChild({ parent: this.adnId })
-            // wsInsertAdnChild({ parent: this.adnId }).then(json => json.d && (() => {
-            //     mcd.eMap[json.d.doc_id] = { doc_id: json.d.doc_id, p: json.d.parent, }
-            //     json.d.r && (mcd.eMap[json.d.doc_id].r = json.d.r)
-            //     json.d.r2 && (mcd.eMap[json.d.doc_id].r2 = json.d.r2)
-            //     pushParentChild(this.adnId, json.d.doc_id)
-            //     Okeys(meMap[this.adnId]).forEach(k => meMap[this.adnId][k].count++)
-            // })())
         }, sortFirst() {
             const newParentChild = [this.adnId].concat(mcd.parentChild[mcd.eMap[this.adnId].p].filter(i => i != this.adnId))
             dbSendChildSort(newParentChild)
@@ -110,13 +100,12 @@ export default {
             console.log(123, getMessagePollCopyId())
         }, pasteAdnSibling() {
             const sourceAdn = mcd.eMap[getMessagePollCopyId()]
-                , adnJson = {
-                    parent: this.adn().p, r: sourceAdn.r, r2: sourceAdn.r2
-                    , sourceAdnId: sourceAdn.doc_id
-                }
-            console.log(123, adnJson)
-            dbSendInsertAdnChild(adnJson)
-
+            dbSendInsertAdnChild({
+                parent: this.adn().p, r: sourceAdn.r, r2: sourceAdn.r2
+                , sourceAdnId: sourceAdn.doc_id
+            })
+        }, insertAdnChild() {
+            dbSendInsertAdnChild({ parent: this.adnId })
         }, sortUp() {
             const newParentChild = mcd.parentChild[mcd.eMap[this.adnId].p]
             this.adnId == newParentChild[0] && this.sortEnd() || (() => {
