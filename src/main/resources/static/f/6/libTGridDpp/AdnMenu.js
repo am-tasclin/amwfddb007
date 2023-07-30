@@ -171,9 +171,11 @@ export default {
             <button @click="setR2" class="w3-btn w3-padding-small" title="set R2">⧠</button>
             <span class="w3-tiny">{{adn().r2}} :{{adn().r2_vl_str}}</span>
         </div>
-        &nbsp;
-        <button @click="pasteChild" class="w3-btn am-b" title="paste inner - вставити як внутрішній">+₊⧠</button>
-        <div>&nbsp;</div>
+        <div>&nbsp;</div>&nbsp;
+        <span class="w3-hover-shadow w3-small">&nbsp;1&nbsp;</span>
+        <span class="w3-hover-shadow w3-small w3-border-left">&nbsp;2&nbsp;</span>
+        <span class="w3-right"> &nbsp; &nbsp; </span>
+        <button @click="pasteChild" class="w3-btn am-b w3-right" title="paste inner - вставити як внутрішній">+₊⧠</button>
     </div>
 <div>
 `,
