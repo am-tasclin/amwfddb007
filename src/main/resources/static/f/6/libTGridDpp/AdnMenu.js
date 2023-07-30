@@ -1,6 +1,6 @@
 'use strict'
 import EdAdnData from '/f/6/libTGridDpp/EdAdnData.js'
-import { mcd, pushParentChild, unshiftParentChild } from '/f/6/lib/MetaContentData.js'
+import { mcd, pushParentChild } from '/f/6/lib/MetaContentData.js'
 import {
     meMap, addMeMap, setOpenedDropDownId, getOpenedDropDownId,
     dppInteractivityPpId, closeEdAdnDialog,
@@ -22,6 +22,18 @@ const dbSendChildSort = parentChild => wsSave1ParentSort({
     json.l.forEach(i => Okeys(meMap[i]).filter(k => k.includes('mElement'))
         .forEach(k => meMap[json.adnId][k].count++))
 })
+const dbSendInsertAdnChild = adnJson => wsInsertAdnChild(adnJson)
+    .then(json => json.d && (() => {
+        const newAdn = mcd.eMap[json.d.doc_id] = { doc_id: json.d.doc_id, p: json.d.parent, }
+            , sourceAdn = mcd.eMap[json.sourceAdnId]
+        console.log(newAdn, sourceAdn)
+        json.d.r && (newAdn.r = json.d.r)
+        json.d.r2 && (newAdn.r2 = json.d.r2)
+        sourceAdn && sourceAdn.r_vl_str && (newAdn.r_vl_str = sourceAdn.r_vl_str )
+        sourceAdn && sourceAdn.r2_vl_str && (newAdn.r2_vl_str = sourceAdn.r2_vl_str )
+        pushParentChild(json.d.parent, json.d.doc_id)
+        Okeys(meMap[json.d.parent]).forEach(k => meMap[json.d.parent][k].count++)
+    })())
 
 export default {
     props: { adnId: Number, ppIdMedasPpl2Key: String, }, data() { return { count: 0, } },
@@ -39,19 +51,14 @@ export default {
                 setOpenedDropDownId('finitaLaCommedia')
             })())
         }, insertAdnChild() {
-            wsInsertAdnChild({ parent: this.adnId }).then(json => json.d && (() => {
-                console.log(json.d.doc_id)
-                mcd.eMap[json.d.doc_id] = { doc_id: json.d.doc_id, p: json.d.parent, v_str: 'new string' }
-                console.log(mcd)
-                
-                const ptChilds = pushParentChild(this.adnId, json.d.doc_id)
-                // const ptChilds = unshiftParentChild(this.adnId, json.d.doc_id) // not work? not in meMap?
-                console.log(ptChilds)
-                console.log(meMap[this.adnId])
-                Okeys(meMap[this.adnId])//.filter(k => k.includes('mElement'))
-                    .forEach(k => meMap[this.adnId][k].count++)
-                console.log(json.d.doc_id, meMap[json.d.doc_id])
-            })())
+            dbSendInsertAdnChild({ parent: this.adnId })
+            // wsInsertAdnChild({ parent: this.adnId }).then(json => json.d && (() => {
+            //     mcd.eMap[json.d.doc_id] = { doc_id: json.d.doc_id, p: json.d.parent, }
+            //     json.d.r && (mcd.eMap[json.d.doc_id].r = json.d.r)
+            //     json.d.r2 && (mcd.eMap[json.d.doc_id].r2 = json.d.r2)
+            //     pushParentChild(this.adnId, json.d.doc_id)
+            //     Okeys(meMap[this.adnId]).forEach(k => meMap[this.adnId][k].count++)
+            // })())
         }, sortFirst() {
             const newParentChild = [this.adnId].concat(mcd.parentChild[mcd.eMap[this.adnId].p].filter(i => i != this.adnId))
             dbSendChildSort(newParentChild)
@@ -102,7 +109,14 @@ export default {
             setMessagePollCopyId(this.adnId)
             console.log(123, getMessagePollCopyId())
         }, pasteAdnSibling() {
-            console.log(123)
+            const sourceAdn = mcd.eMap[getMessagePollCopyId()]
+                , adnJson = {
+                    parent: this.adn().p, r: sourceAdn.r, r2: sourceAdn.r2
+                    , sourceAdnId: sourceAdn.doc_id
+                }
+            console.log(123, adnJson)
+            dbSendInsertAdnChild(adnJson)
+
         }, sortUp() {
             const newParentChild = mcd.parentChild[mcd.eMap[this.adnId].p]
             this.adnId == newParentChild[0] && this.sortEnd() || (() => {
