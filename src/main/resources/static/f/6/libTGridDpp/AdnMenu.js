@@ -146,6 +146,7 @@ export default {
     <button @click="sortFirst" class="w3-btn w3-border-left" title="toFirst">⮸</button>
     <button @click="sortEnd" class="w3-btn" style="transform: rotate(180deg);"
         title="toEnd">⮸</button>
+    <span class="w3-right w3-tiny"> p: {{adn().p}} </span>
     <div class="w3-border-top">
         <button @click="setAdnDialogWindow('edAdn_fix')" class="w3-btn am-b">✐</button>
         <button @click="setAdnDialogWindow('edAdn_fly')" class="w3-btn am-b">✎</button>

@@ -127,7 +127,9 @@ export default {
             console.log(medas, confDppMedas(this.ppId, medas))
             confDppMedas(this.ppId, medas).ppl2 = { mcdId: {}, l_mcdId: [] }
             reViewEdPanel_Grid(this.ppId)
-        },
+        },reload(){
+            window.location.href = '#'+this.confJsonStr0()
+        }
     }, template: `
 <div class="w3-row">
     <div class="w3-quarter w13-border-right w3-container">
@@ -141,7 +143,9 @@ export default {
                 <sup>{{medasConfTypeName}}</sup>
             </span>
             <div class="w3-right w3-small w3-opacity am-i">
-                <a :href="'#cj='+confJsonStr0()" v-if="'JSON'==medasConfTypeName">
+                <a :href="'#cj='+confJsonStr0()" 
+                @click="reload"
+                v-if="'JSON'==medasConfTypeName">
                     Full pagePart Config.
                 </a> <a :href="'#'+initUriLink()" v-else>
                     Use for start init only.
