@@ -20,9 +20,10 @@ const dbSendChildSort = parentChild => wsSave1ParentSort({
     mcd.parentChild[json.adnId] = json.l
     json.insertList.forEach(i => mcd.eMap[i].sort = json.l.indexOf(i) + 1)
     setOpenedDropDownId('finitaLaCommedia')
-    json.l.forEach(i => Okeys(meMap[i]).filter(k => k.includes('mElement'))
-        .forEach(k => meMap[json.adnId][k].count++))
+    Okeys(meMap[json.adnId]).forEach(k => meMap[json.adnId][k].count++)
+    json.l.forEach(i => Okeys(meMap[i]).forEach(k => meMap[json.adnId][k].count++))
 })
+
 const dbSendInsertAdnChild = adnJson => wsInsertAdnChild(adnJson)
     .then(json => json.d && (() => {
         const newAdn = mcd.eMap[json.d.doc_id] = { doc_id: json.d.doc_id, p: json.d.parent, }
@@ -48,8 +49,8 @@ export default {
                 const p = mcd.eMap[this.adnId].p
                 delete meMap[this.adnId]
                 mcd.parentChild[p].splice(mcd.parentChild[p].indexOf(this.adnId), 1)
-                Okeys(meMap[p]).filter(k => k.includes('mElement'))
-                    .forEach(k => meMap[p][k].count++)
+                // .filter(k => k.includes('mElement'))
+                Okeys(meMap[p]).forEach(k => meMap[p][k].count++)
                 setOpenedDropDownId('finitaLaCommedia')
             })())
         }, sortFirst() {
@@ -66,10 +67,7 @@ export default {
                 this.adn().r = json.r
                 this.adn().r_vl_str = mcd.eMap[getMessagePollCopyIdOwner()].r_vl_str
                 console.log(this.adnId, meMap[this.adnId])
-                Okeys(meMap[this.adnId]).forEach(k => {
-                    console.log(k, meMap[this.adnId][k])
-                    meMap[this.adnId][k].count++
-                })
+                Okeys(meMap[this.adnId]).forEach(k => meMap[this.adnId][k].count++)
             })
         }, setR2() {
             console.log(getMessagePollCopyId(), this.adnId)

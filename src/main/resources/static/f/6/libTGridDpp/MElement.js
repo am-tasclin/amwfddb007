@@ -67,7 +67,7 @@ export default {
 
         }
     }, template: `
-<div class="w3-hover-shadow" :reView="count"> {{count}}
+<div class="w3-hover-shadow" :review="count">
     <span class="w3-dropdown-hover w3-white">
         <span class="w3-small w3-hover-shadow" @click="adnClick"> {{adnId}} &nbsp;</span>
         <AdnMenu :adnId="adnId" :ppIdMedasPpl2Key="ppIdMedasPpl2Key"/>
