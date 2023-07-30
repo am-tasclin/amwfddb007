@@ -60,7 +60,6 @@ public class Doc {
 
     public Doc(Long nextDnId, Map<String, Object> mapIn) {
         this(nextDnId);
-        // this.doc_id=nextDnId;
         if (mapIn.containsKey("parent"))
             this.parent = Long.parseLong(mapIn.get("parent").toString());
         if (mapIn.containsKey("r"))

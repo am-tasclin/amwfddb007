@@ -6,7 +6,8 @@ import {
     dppInteractivityPpId, closeEdAdnDialog,
 } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { adnPpIdMedasPpl2Key, mElementKey } from '/f/6/libTGridDpp/MElement.js'
-import { wsInsertAdnChild, wsUpdateR1, wsUpdateR2, wsDeleteAdn1, wsSave1ParentSort } from '/f/6/lib/wsDbRw.js'
+import { wsInsertAdnChild, wsUpdateR1, wsUpdateR2, wsDeleteAdn1, wsSave1ParentSort } from
+    '/f/6/lib/wsDbRw.js'
 import { setMessagePollCopyId, getMessagePollCopyId, getMessagePollCopyIdOwner } from
     '/f/6/lib/DbMessagePool.js'
 
@@ -26,8 +27,10 @@ const dbSendInsertAdnChild = adnJson => wsInsertAdnChild(adnJson)
     .then(json => json.d && (() => {
         const newAdn = mcd.eMap[json.d.doc_id] = { doc_id: json.d.doc_id, p: json.d.parent, }
             , sourceAdn = mcd.eMap[json.sourceAdnId]
-        json.d.r && (newAdn.r = json.d.r)
-        json.d.r2 && (newAdn.r2 = json.d.r2)
+        console.log(newAdn)
+        console.log(json)
+        json.r && (newAdn.r = json.r)
+        json.r2 && (newAdn.r2 = json.r2)
         sourceAdn && sourceAdn.r_vl_str && (newAdn.r_vl_str = sourceAdn.r_vl_str)
         sourceAdn && sourceAdn.r2_vl_str && (newAdn.r2_vl_str = sourceAdn.r2_vl_str)
         pushParentChild(json.d.parent, json.d.doc_id)
@@ -88,7 +91,7 @@ export default {
                 Okeys(meMap[this.adnId]).forEach(k => meMap[this.adnId][k].count++)
             })
         }, delR2() {
-            wsUpdateR1({ adnId: this.adnId, r2: null }).then(json => {
+            wsUpdateR2({ adnId: this.adnId, r2: null }).then(json => {
                 delete this.adn().r2
                 delete this.adn().r2_vl_str
                 Okeys(meMap[this.adnId]).forEach(k => meMap[this.adnId][k].count++)
@@ -139,8 +142,7 @@ export default {
             return ('edAdn_fly' + adnPpIdMedasPpl2Key(this.adnId, this.ppIdMedasPpl2Key)) == getOpenedDropDownId()
         },
     }, template: `
-<div class="w3-dropdown-content w3-border w3-hover-shadow" 
-    :reView="count" style="width:20em;">
+<div :review="count" class="w3-dropdown-content w3-border w3-hover-shadow" style="width:20em;">
     <button @click="sortUp" class="w3-btn">⬆</button>
     <button @click="sortDown" class="w3-btn">⬇</button>
     <button @click="sortFirst" class="w3-btn w3-border-left" title="toFirst">⮸</button>
@@ -180,6 +182,7 @@ export default {
         <span class="w3-right"> &nbsp; &nbsp; </span>
         <button @click="pasteChild" class="w3-btn am-b w3-right" title="paste inner - вставити як внутрішній">+₊⧠</button>
     </div>
+    <div class="w3-tiny"> {{adn()}} </div>
 <div>
 `,
 }
