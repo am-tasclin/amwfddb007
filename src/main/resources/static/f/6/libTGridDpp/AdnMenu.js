@@ -141,11 +141,11 @@ export default {
         },
     }, template: `
 <div :review="count" class="w3-dropdown-content w3-border w3-hover-shadow" style="width:20em;">
-    <button @click="sortUp" class="w3-btn">⬆</button>
-    <button @click="sortDown" class="w3-btn">⬇</button>
+    <button @click="sortUp" class="w3-btn" titlw="up">⬆</button>
+    <button @click="sortDown" class="w3-btn" title="down">⬇</button>
     <button @click="sortFirst" class="w3-btn w3-border-left" title="toFirst">⮸</button>
     <button @click="sortEnd" class="w3-btn" style="transform: rotate(180deg);"
-        title="toEnd">⮸</button>
+        title="toLast">⮸</button>
     <span class="w3-right w3-tiny"> p: {{adn().p}} </span>
     <div class="w3-border-top">
         <button @click="setAdnDialogWindow('edAdn_fix')" class="w3-btn am-b">✐</button>
@@ -181,7 +181,6 @@ export default {
         <span class="w3-right"> &nbsp; &nbsp; </span>
         <button @click="pasteChild" class="w3-btn am-b w3-right" title="paste inner - вставити як внутрішній">+₊⧠</button>
     </div>
-    <div class="w3-tiny"> {{adn()}} </div>
 <div>
 `,
 }

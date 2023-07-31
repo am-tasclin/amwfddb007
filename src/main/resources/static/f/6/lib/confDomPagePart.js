@@ -38,6 +38,7 @@ export const forEachPpMedas = fn => Okeys(confDpp.ppId)
 
 export const confDppUniqueMcdId = () => {
     const uniqueMcdId = { l: [], openedId: [] }
+    console.log(confDpp)
 
     forEachPpMedas(ppMedas => {
         addToUniqueList(ppMedas.l_mcdId, uniqueMcdId.l)

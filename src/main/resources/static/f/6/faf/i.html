@@ -26,6 +26,15 @@
     </div>
     <div id="tFilesAndFolders" class="w13-border-bottom am-max-width-1"></div>
     <script src="i.js" type="module"></script>
+    <div id="forContextMenu">
+        In the <span class="am-i" @click="clickTest"> future</span>,
+        we will develop a <span class="am-b" @contextmenu="rightClickTest">context</span> menu.
+        <div>
+            У <span class="am-i" @click="clickTest">майбутньому</span> розробити
+            <span class="am-b" @contextmenu="rightClickTest">контекстне</span>
+            меню.
+        </div>
+    </div>
     <div>
         The infinite sum
         <math display="inline">

@@ -15,6 +15,23 @@ import DbMessagePool from '/f/6/lib/DbMessagePool.js'
 createApp({ template: `<DbMessagePool/>`, components: { DbMessagePool }, }
 ).mount('#dbMessagePool')
 
+createApp({
+    methods: {
+        clickTest() { console.log(123) }, // @click=
+        rightClickTest() { console.log(123) }, // @contextmenu=
+    }
+}).mount('#forContextMenu')
+/**
+basic example
+https://codepen.io/SimpleSoftwareIO/pen/yNwYJb
+
+to education
+https://codesandbox.io/embed/p99q98n6xm
+https://medium.com/@akumaisaacakuma/how-to-create-custom-context-menu-in-vue-970e67059532
+
+ */
+
+
 import { mcd } from '/f/6/lib/MetaContentData.js'
 import { ws, readFilesAndFolders } from '/f/6/lib/wsDbRw.js'
 import { dppItyComponent } from '/f/6/libTGridDpp/dppInteractivity.js'
