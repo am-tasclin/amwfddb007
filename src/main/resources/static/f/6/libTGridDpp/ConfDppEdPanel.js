@@ -143,11 +143,11 @@ export default {
                 <sup>{{medasConfTypeName}}</sup>
             </span>
             <div class="w3-right w3-small w3-opacity am-i">
-                <a :href="'#cj='+confJsonStr0()" 
-                @click="reload"
+                <div class="w3-right" style="transform: scale(-1, 1);">↸</div>
+                <a :href="'/f/6/dom/i.html#cj='+confJsonStr0()" 
                 v-if="'JSON'==medasConfTypeName">
                     Full pagePart Config.
-                </a> <a :href="'#'+initUriLink()" v-else>
+                </a> <a :href="'/f/6/dom/i.html#'+initUriLink()" v-else>
                     Use for start init only.
                 </a>
             </div>
