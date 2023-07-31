@@ -25,6 +25,10 @@ createApp({
 basic example
 https://codepen.io/SimpleSoftwareIO/pen/yNwYJb
 
+is interesting
+https://codepen.io/yordangeorgiev/pen/GzWJzd
+https://stackoverflow.com/questions/36622923/vue-js-right-click-event-directive
+
 to education
 https://codesandbox.io/embed/p99q98n6xm
 https://medium.com/@akumaisaacakuma/how-to-create-custom-context-menu-in-vue-970e67059532
