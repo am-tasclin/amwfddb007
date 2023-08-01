@@ -6,7 +6,7 @@ import {
     dppInteractivityPpId, closeEdAdnDialog,
 } from '/f/6/libTGridDpp/dppInteractivity.js'
 import { adnPpIdMedasPpl2Key, mElementKey } from '/f/6/libTGridDpp/MElement.js'
-import { wsInsertAdnChild, wsUpdateR1, wsUpdateR2, wsDeleteAdn1, wsSave1ParentSort } from
+import { dbSendInsertAdn, wsInsertAdn, wsUpdateR1, wsUpdateR2, wsDeleteAdn1, wsSave1ParentSort } from
     '/f/6/lib/wsDbRw.js'
 import { setMessagePollCopyId, getMessagePollCopyId, getMessagePollCopyIdOwner } from
     '/f/6/lib/DbMessagePool.js'
@@ -23,20 +23,6 @@ const dbSendChildSort = parentChild => wsSave1ParentSort({
     Okeys(meMap[json.adnId]).forEach(k => meMap[json.adnId][k].count++)
     json.l.forEach(i => Okeys(meMap[i]).forEach(k => meMap[json.adnId][k].count++))
 })
-
-const dbSendInsertAdnChild = adnJson => wsInsertAdnChild(adnJson)
-    .then(json => json.d && (() => {
-        const newAdn = mcd.eMap[json.d.doc_id] = { doc_id: json.d.doc_id, p: json.d.parent, }
-            , sourceAdn = mcd.eMap[json.sourceAdnId]
-        console.log(newAdn)
-        console.log(json)
-        json.r && (newAdn.r = json.r)
-        json.r2 && (newAdn.r2 = json.r2)
-        sourceAdn && sourceAdn.r_vl_str && (newAdn.r_vl_str = sourceAdn.r_vl_str)
-        sourceAdn && sourceAdn.r2_vl_str && (newAdn.r2_vl_str = sourceAdn.r2_vl_str)
-        pushParentChild(json.d.parent, json.d.doc_id)
-        Okeys(meMap[json.d.parent]).forEach(k => meMap[json.d.parent][k].count++)
-    })())
 
 export default {
     props: { adnId: Number, ppIdMedasPpl2Key: String, }, data() { return { count: 0, } },
@@ -99,14 +85,22 @@ export default {
         }, copyId() {
             setMessagePollCopyId(this.adnId)
             console.log(123, getMessagePollCopyId())
+        }, pasteAdnChild() {
+            console.log(123, 123)
+            const sourceAdn = mcd.eMap[getMessagePollCopyId()]
+            console.log(123, 123)
+            dbSendInsertAdn({
+                parent: this.adnId, r: sourceAdn.r, r2: sourceAdn.r2
+                , sourceAdnId: sourceAdn.doc_id
+            })
         }, pasteAdnSibling() {
             const sourceAdn = mcd.eMap[getMessagePollCopyId()]
-            dbSendInsertAdnChild({
+            dbSendInsertAdn({
                 parent: this.adn().p, r: sourceAdn.r, r2: sourceAdn.r2
                 , sourceAdnId: sourceAdn.doc_id
             })
         }, insertAdnChild() {
-            dbSendInsertAdnChild({ parent: this.adnId })
+            dbSendInsertAdn({ parent: this.adnId })
         }, sortUp() {
             const newParentChild = mcd.parentChild[mcd.eMap[this.adnId].p]
             this.adnId == newParentChild[0] && this.sortEnd() || (() => {
@@ -179,7 +173,7 @@ export default {
         <span class="w3-hover-shadow w3-small">&nbsp;1&nbsp;</span>
         <span class="w3-hover-shadow w3-small w3-border-left">&nbsp;2&nbsp;</span>
         <span class="w3-right"> &nbsp; &nbsp; </span>
-        <button @click="pasteChild" class="w3-btn am-b w3-right" title="paste inner - вставити як внутрішній">+₊⧠</button>
+        <button @click="pasteAdnChild" class="w3-btn am-b w3-right" title="paste inner - вставити як внутрішній">+₊⧠</button>
     </div>
 <div>
 `,

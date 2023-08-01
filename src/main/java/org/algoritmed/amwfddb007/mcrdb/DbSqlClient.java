@@ -150,7 +150,16 @@ public class DbSqlClient {
         insertString(((Doc) mapIn.get("d")).getDoc_id(), mapIn);
     }
 
-    public void insertAdnChild(Map<String, Object> mapIn)
+    public void insertAdn(Map<String, Object> mapIn)
+            throws InterruptedException, ExecutionException, JsonProcessingException {
+        logger.info("-155-\n" + mapIn);
+        Doc newDoc = new Doc(nextDbId(), mapIn);
+        logger.info("-157-\n" + newDoc);
+        sqlTemplate.insert(newDoc).toFuture().get();
+        mapIn.put("d", newDoc);
+    }
+
+    public void insertAdnChild(Map<String, Object> mapIn) // DEPRICATED TO DELETE
             throws InterruptedException, ExecutionException, JsonProcessingException {
         Doc newDoc = new Doc(nextDbId(), mapIn);
         sqlTemplate.insert(newDoc).toFuture().get();

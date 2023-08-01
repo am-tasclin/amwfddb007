@@ -25,12 +25,17 @@ public class DbRwWebSocketHandler extends SimpleWebSocketHandler implements WebS
             Map<String, Object> mapIn = null;
             try {
                 mapIn = objectMapper.readValue(sqlSelectJson, Map.class);
+                mapIn.put("incrementAndGet", incrementAndGet);
                 logger.info("-28-\n" + incrementAndGet + ": " + mapIn.get("cmd"));
                 logger.info("-29-\n" + dbSqlClient.getClass().getMethods());
                 switch (mapIn.get("cmd").toString()) {
                     case "insertAdnChild":
-                        logger.info("-31-\n" + mapIn);
+                        logger.info("-33-\n" + mapIn); // DEPRICATED TO DELETE
                         dbSqlClient.insertAdnChild(mapIn);
+                        break;
+                    case "insertAdn":
+                        logger.info("-37-\n" + mapIn);
+                        dbSqlClient.insertAdn(mapIn);
                         break;
                     case "deleteAdn1":
                         dbSqlClient.deleteAdn1(mapIn);
@@ -60,7 +65,7 @@ public class DbRwWebSocketHandler extends SimpleWebSocketHandler implements WebS
                         dbSqlClient.executeQuery(mapIn);
                         break;
                 }
-                logger.info("-40-" + incrementAndGet + ":--\n" + mapIn);
+                logger.info("-68-" + incrementAndGet + ":--\n" + mapIn);
                 String jsonStr = objectMapper.writeValueAsString(mapIn);
                 m = session.textMessage(jsonStr);
             } catch (JsonProcessingException | InterruptedException | ExecutionException e) {

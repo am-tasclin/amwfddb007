@@ -132,6 +132,32 @@ export const execute_SQL_API = sqlApi => {
     return new Promise((thenFn, reject) => ws.onmessage = event => thenFn(JSON.parse(event.data)))
 }
 
+export const dbSendInsertAdn = dbMessage => {
+    dbMessage.cmd = 'insertAdn'
+    addDbMessageToPool(dbMessage)
+    console.log(dbMessage, 123)
+    ws.send(JSON.stringify(dbMessage))
+    return new Promise((thenFn, reject) => ws.onmessage = event => thenFn(JSON.parse(event.data)))
+        .then(json => {
+            console.log(json)
+        })
+}
+
+export const dbSendInsertAdn_STOP1 = adnJson => wsInsertAdn(adnJson)
+    .then(json => json.d && (() => {
+        console.log(123, json)
+        const newAdn = mcd.eMap[json.d.doc_id] = { doc_id: json.d.doc_id, p: json.d.parent, }
+            , sourceAdn = mcd.eMap[json.sourceAdnId]
+        console.log(newAdn)
+        console.log(json)
+        json.r && (newAdn.r = json.r)
+        json.r2 && (newAdn.r2 = json.r2)
+        sourceAdn && sourceAdn.r_vl_str && (newAdn.r_vl_str = sourceAdn.r_vl_str)
+        sourceAdn && sourceAdn.r2_vl_str && (newAdn.r2_vl_str = sourceAdn.r2_vl_str)
+        pushParentChild(json.d.parent, json.d.doc_id)
+        Okeys(meMap[json.d.parent]).forEach(k => meMap[json.d.parent][k].count++)
+    })())
+
 import { addDbMessageToPool } from '/f/6/lib/DbMessagePool.js'
 /**
  * Update string content
@@ -152,8 +178,8 @@ export const wsUpdateR2 = dbMessage =>
 export const wsInsertAdnString = dbMessage =>
     (dbMessage.cmd = 'insertAdnString') && execute_SqlChange_API(dbMessage)
 
-export const wsInsertAdnChild = dbMessage =>
-    (dbMessage.cmd = 'insertAdnChild') && execute_SqlChange_API(dbMessage)
+export const wsInsertAdn = dbMessage =>
+    (dbMessage.cmd = 'insertAdn') && execute_SqlChange_API(dbMessage)
 
 export const wsInsertString = dbMessage =>
     (dbMessage.cmd = 'insertString') && execute_SqlChange_API(dbMessage)
