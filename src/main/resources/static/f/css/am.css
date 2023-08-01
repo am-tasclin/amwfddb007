@@ -19,6 +19,8 @@ a.am-el {
 .am-width-100pr{width: 100%;}
 .am-max-width-1{max-width: 70em;}
 
+ul.am-rw-arrow li::marker {content: '→ ';}
+
 span.am-rx {position: relative; margin: 0 3px;}
 span.am-rx span {position: absolute; left: 8px; bottom: 1px;}
 
@@ -38,13 +40,13 @@ table.am-hf-sticky01 tfoot {
   inset-block-end: 0; /* "bottom" */
 }
 
-ol {
+ool {
 	counter-reset: section; /*Создает новый счетчик для каждого 
                                       тега <ol>*/
 	list-style-type: none;
 }
 
-li::before {
+lli::before {
 	counter-increment: section; /*Инкрементировуется только счетчик 
                                      текущего уровня вложенности*/
 	content: counters(section, ".") " "; /*Добавляем значения всех уровней 
