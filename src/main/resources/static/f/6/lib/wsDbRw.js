@@ -3,7 +3,7 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { mcd, setToEMap } from '/f/6/lib/MetaContentData.js'
+import { mcd, setToEMap, } from '/f/6/lib/MetaContentData.js'
 import { pushListUnique, addToUniqueList } from '/f/6/lib/algoritmed-commons.js'
 
 const uri_wsDbRw = "ws://" + window.location.host + "/dbRw"
@@ -81,6 +81,7 @@ export const readDppFromList = (uniqueMcdId_list, fn) => {
 }
 
 const readR1R2 = (uniqueMcdIdList, rName, fn) => {
+    console.log(uniqueMcdIdList, rName)
     const refIds = uniqueMcdIdList.filter(adnId => mcd.eMap[adnId][rName])
         , rList = refIds.reduce((o, adnId) => pushListUnique(o, mcd.eMap[adnId][rName]), [])
     rList.length > 0 && readMcdIdListStr(rList).then(json => {
@@ -132,7 +133,7 @@ export const execute_SQL_API = sqlApi => {
     return new Promise((thenFn, reject) => ws.onmessage = event => thenFn(JSON.parse(event.data)))
 }
 
-export const dbSendInsertAdn = dbMessage => {
+export const dbSendInsertAdn2 = dbMessage => {
     dbMessage.cmd = 'insertAdn'
     addDbMessageToPool(dbMessage)
     console.log(dbMessage, 123)
@@ -143,7 +144,9 @@ export const dbSendInsertAdn = dbMessage => {
         })
 }
 
-export const dbSendInsertAdn_STOP1 = adnJson => wsInsertAdn(adnJson)
+import { pushParentChild } from '/f/6/lib/MetaContentData.js'
+import { meMap } from '/f/6/libTGridDpp/dppInteractivity.js'
+export const dbSendInsertAdn = adnJson => wsInsertAdn(adnJson)
     .then(json => json.d && (() => {
         console.log(123, json)
         const newAdn = mcd.eMap[json.d.doc_id] = { doc_id: json.d.doc_id, p: json.d.parent, }
@@ -198,3 +201,5 @@ export const wsDeleteAdn1 = dbMessage => {
     addDbMessageToPool(dbMessage)
     return execute_SQL_API(dbMessage)
 }
+
+const Okeys = Object.keys

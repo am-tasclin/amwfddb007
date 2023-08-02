@@ -39,7 +39,7 @@ export const makerGridTable = tableName => {
                 , makeSelectForKey = selectMakerContainer[key] || (selectMakerContainer[key] = {})
             return SqlSelectMaker(makeSelectForKey, sqlTableName)
         },
-        showGtData(){return mGridTableData}
+        showGtData() { return mGridTableData }
     }
 }
 
@@ -53,7 +53,10 @@ export const makerGridTable = tableName => {
 const SqlSelectMaker = (smContainer, sqlTableName) => {
     return {
         sqlTableName: sqlTableName,
-        setFrom(from) { smContainer.from = from },
+        setFrom(from) {
+            smContainer.from = from
+            return this
+        },
         getFrom() { return smContainer.from || sqlTableName },
         initColumns(columns) {
             smContainer.columns = columns

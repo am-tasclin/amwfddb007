@@ -1,6 +1,6 @@
 'use strict'
 import EdAdnData from '/f/6/libTGridDpp/EdAdnData.js'
-import { mcd, pushParentChild } from '/f/6/lib/MetaContentData.js'
+import { mcd } from '/f/6/lib/MetaContentData.js'
 import {
     meMap, addMeMap, setOpenedDropDownId, getOpenedDropDownId,
     dppInteractivityPpId, closeEdAdnDialog,

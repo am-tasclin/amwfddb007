@@ -66,6 +66,7 @@ export const cdppInitPagePart = (rawPpStr, ppId) => {
 
 const initFromJson = (jsonStr, ppId) => {
     const confDomPpId = confDpp.ppId[ppId] = JSON.parse(decodeURI(jsonStr))
+    console.log(confDomPpId)
     // confDomPpId.ffDppEd && setOpenedDropDownId('confDppEd_')
 
     confDomPpId.l_medas.filter(medas => confMedasEpl2.includes(medas))

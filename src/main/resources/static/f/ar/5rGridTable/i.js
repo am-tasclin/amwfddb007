@@ -17,7 +17,6 @@ ws.onopen = event =>
         gridKassaEntry.get().tBody.count++
     })
 
-
 import TBody from './libGridTable/TBody.js'
 createApp({
     components: { TBody },
