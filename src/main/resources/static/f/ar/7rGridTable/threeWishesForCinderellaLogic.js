@@ -5,10 +5,24 @@
  */
 export const tableList = ['entry1mat', 'ddmaterial', 'entry1']
 
+import { ws, executeSelectQuery } from '/f/6/lib/wsDbRw.js'
+export const reReadEntry1Mat = () => {
+    console.log(123)
+}
+export const initLogic = () => ws.onopen = event =>
+    executeSelectQuery(select01Entry1mat
+    ).then(json => gridEntry1mat.setTableBody(json.list)
+        .get().tBody.count++
+    ).then(() => executeSelectQuery(select01DdMaterial
+    ).then(json => gridDdMaterial.setTableBody(json.list)
+        .get().tBody.count++
+    ).then(() => executeSelectQuery(select01Entry1
+    ).then(json => gridEntry1.setTableBody(json.list)
+        .get().tBody.count++
+    )))
+
 import { makerGridTable } from
     '../5rGridTable/libGridTable/libGridTable.js'
-import { ws, executeSelectQuery } from '/f/6/lib/wsDbRw.js'
-
 const gridEntry1mat = makerGridTable('entry1mat')
     , select01Entry1matMaker = gridEntry1mat.initSelectMaker('select01', 'kassa.entry1mat')
     , select01Entry1mat = select01Entry1matMaker.setFrom('(\n\
@@ -25,27 +39,17 @@ SELECT e1m.*, m.naim_mat \n\
     , select01Entry1Maker = gridEntry1.initSelectMaker('select01', 'kassa.entry1')
     , select01Entry1 = select01Entry1Maker.get()
 
-console.log(12, select01DdMaterial)
+console.log(select01Entry1mat)
+console.log(select01DdMaterial)
+console.log(select01Entry1)
 
-export const initLogic = () => ws.onopen = event =>
-    executeSelectQuery(select01Entry1mat
-    ).then(json => {
-        gridEntry1mat.setTableBody(json.list)
-        gridEntry1mat.get().tBody.count++
-    }).then(() => {
-        console.log(123, select01DdMaterial)
-        executeSelectQuery(select01DdMaterial
-        ).then(json => {
-            console.log(json)
-            gridDdMaterial.setTableBody(json.list)
-            gridDdMaterial.get().tBody.count++
-        }).then(() => {
-            console.log(123, select01Entry1)
-            executeSelectQuery(select01Entry1
-            ).then(json => {
-                console.log(json)
-                gridEntry1.setTableBody(json.list)
-                gridEntry1.get().tBody.count++
-            })
-        })
-    })
+import { TBodyFnInitializer } from
+    '../5rGridTable/libGridTable/libGridTable.js'
+
+TBodyFnInitializer.initTable({
+    entry1mat: ['id_doc', 'id_mat'],
+    ddmaterial: ['id_mat'],
+    entry1: ['id_doc'],
+}, {
+    entry1mat: 20, entry1: 14
+})

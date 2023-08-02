@@ -5,6 +5,7 @@
  */
 
 const gridTableContainer = {}
+console.log(gridTableContainer)
 /**
  * key:value -- all structuren for one or more accounting tables
  */
@@ -31,7 +32,7 @@ export const makerGridTable = tableName => {
         setTableBody(tableBody) {
             mGridTableData.tableBody = tableBody
             !mGridTableData.bodyColumns && this.setBodyColumns(Object.keys(tableBody[0]))
-            console.log(gridTableContainer)
+            return this
         },
         setBodyColumns(bodyColumns) { mGridTableData.bodyColumns = bodyColumns },
         initSelectMaker(key, sqlTableName) {
@@ -68,4 +69,34 @@ const SqlSelectMaker = (smContainer, sqlTableName) => {
                 .concat(' FROM ').concat(this.getFrom())
         },
     }
+}
+
+/**
+ * Build list of selectedIds
+ * @param {*} idList 
+ * @param {*} r 
+ * @returns 
+ */
+const tableRowSelectedIds = (idList, r) => idList.reduce(
+    (o, idColName) => (o[idColName] = r[idColName]) && o, {})
+
+/**
+ * 
+ */
+export const TBodyFn = {
+    isSelectedRow: (tagName, r) => gridTable(tagName).tableIds.reduce((tf, colIdName) =>
+        tf && r[colIdName] == gridTable(tagName).rowSelectedIds[colIdName], true),
+    selectRow: (tagName, r) => gridTable(tagName).rowSelectedIds = !TBodyFn.isSelectedRow(tagName, r)
+        && tableRowSelectedIds(gridTable(tagName).tableIds, r) || {},
+}
+
+/**
+ * 
+ */
+export const TBodyFnInitializer = {
+    initTable: (tableIds, tableHeightEm) => Object.keys(gridTableContainer).forEach(tagName => {
+        gridTableContainer[tagName].tableIds = tableIds[tagName]
+        gridTableContainer[tagName].rowSelectedIds = {}
+        gridTableContainer[tagName].tableHeightEm = tableHeightEm[tagName]
+    }),
 }

@@ -5,14 +5,24 @@
  * TableAgGrid: Table Accounting Grid (tag)
  * 
  */
+import { gridTable, } from
+    '/f/ar/5rGridTable/libGridTable/libGridTable.js'
+
 import TBody from './TBody.js'
 export default {
-    props:{tagName: String },
-    components:{TBody},
-    template: `
-<table class="am-hf-sticky01">
-    <caption class="w3-tiny am-i">Hi table! {{tagName}}</caption>
-    <TBody :tagName="tagName" />
-</table>&nbsp;
+    props: { tagName: String },
+    components: { TBody },
+    methods: {
+        tableStyle() {
+            return gridTable(this.tagName).tableHeightEm
+                && 'max-height:' + gridTable(this.tagName).tableHeightEm + 'em; overflow: auto;' || ''
+        }
+    }, template: `
+<div :style="tableStyle()">
+    <table class="am-hf-sticky01">
+        <caption class="w3-tiny am-i">Hi table! {{tagName}}</caption>
+        <TBody :tagName="tagName" />
+    </table>&nbsp;
+</div>
 `,
 }

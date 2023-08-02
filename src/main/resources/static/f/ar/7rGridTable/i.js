@@ -4,20 +4,16 @@
  * 
  */
 const { createApp } = Vue
-import { tableList, initLogic } from './threeWishesForCinderellaLogic.js'
+import { initLogic, tableList, } from './threeWishesForCinderellaLogic.js'
+console.log(tableList,)
 initLogic()
 
 import TableAgGrid from './libGridTable/TableAgGrid.js'
-console.log(123, tableList, )
 createApp({
-    components: {
-        TableAgGrid,
-    }, methods: {
-        tableList() { return tableList }
-    }, template: `
-<div>
-    <TableAgGrid :tagName="tableList()[0]"/>
-</div>
+    components: { TableAgGrid, },
+    methods: { tableList() { return tableList } },
+    template: `
+<div><TableAgGrid :tagName="tableList()[0]"/></div>&nbsp;
 <div class="w3-row">
     <div class="w3-quarter">
         <TableAgGrid :tagName="tableList()[1]"/>
