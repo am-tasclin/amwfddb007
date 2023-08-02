@@ -5,22 +5,6 @@
  */
 export const tableList = ['entry1mat', 'ddmaterial', 'entry1']
 
-import { ws, executeSelectQuery } from '/f/6/lib/wsDbRw.js'
-export const reReadEntry1Mat = () => {
-    console.log(123)
-}
-export const initLogic = () => ws.onopen = event =>
-    executeSelectQuery(select01Entry1mat
-    ).then(json => gridEntry1mat.setTableBody(json.list)
-        .get().tBody.count++
-    ).then(() => executeSelectQuery(select01DdMaterial
-    ).then(json => gridDdMaterial.setTableBody(json.list)
-        .get().tBody.count++
-    ).then(() => executeSelectQuery(select01Entry1
-    ).then(json => gridEntry1.setTableBody(json.list)
-        .get().tBody.count++
-    )))
-
 import { makerGridTable } from
     '../5rGridTable/libGridTable/libGridTable.js'
 const gridEntry1mat = makerGridTable('entry1mat')
@@ -53,3 +37,37 @@ TBodyFnInitializer.initTable({
 }, {
     entry1mat: 20, entry1: 14
 })
+
+import { ws, executeSelectQuery } from '/f/6/lib/wsDbRw.js'
+
+export const initLogic = () => ws.onopen = event =>
+    executeSelectQuery(select01Entry1mat
+    ).then(json => gridEntry1mat.setTableBody(json.list)
+        .get().tBody.count++
+    ).then(() => executeSelectQuery(select01DdMaterial
+    ).then(json => gridDdMaterial.setTableBody(json.list)
+        .get().tBody.count++
+    ).then(() => executeSelectQuery(select01Entry1
+    ).then(json => gridEntry1.setTableBody(json.list)
+        .get().tBody.count++
+    )))
+
+
+import { TBodyFn, gridTable } from
+    '/f/ar/5rGridTable/libGridTable/libGridTable.js'
+
+TBodyFn.selectRowReadDbFn = tagName => {
+    const sqlEntry1mat = select01Entry1matMaker.setWhere(['entry1', 'ddmaterial']
+        .filter(tagName2 => Okeys(gridTable(tagName2).rowSelectedIds).length > 0)
+        .reduce((s, tagName2) => {
+            s && (s += ' AND ')
+            s += Object.entries(gridTable(tagName2).rowSelectedIds)[0].join('=')
+            return s
+        }, '')).get()
+    // console.log(sqlEntry1mat)
+    executeSelectQuery(sqlEntry1mat).then(json => {
+        gridEntry1mat.setTableBody(json.list)
+            .get().tBody.count++
+    })
+}
+const Okeys = Object.keys

@@ -58,15 +58,21 @@ const SqlSelectMaker = (smContainer, sqlTableName) => {
             smContainer.from = from
             return this
         },
-        getFrom() { return smContainer.from || sqlTableName },
+        getFrom: () => smContainer.from || sqlTableName,
         initColumns(columns) {
             smContainer.columns = columns
             return this
         },
-        getColumns() { return smContainer.columns || ' * ' },
+        getColumns: () => smContainer.columns || ' * ',
+        setWhere(where) {
+            smContainer.where = where
+            return this
+        },
         get() {
-            return 'SELECT '.concat(this.getColumns())
+            let sql = 'SELECT '.concat(this.getColumns())
                 .concat(' FROM ').concat(this.getFrom())
+            smContainer.where && (sql += ' WHERE ' + smContainer.where)
+            return sql
         },
     }
 }
@@ -86,8 +92,11 @@ const tableRowSelectedIds = (idList, r) => idList.reduce(
 export const TBodyFn = {
     isSelectedRow: (tagName, r) => gridTable(tagName).tableIds.reduce((tf, colIdName) =>
         tf && r[colIdName] == gridTable(tagName).rowSelectedIds[colIdName], true),
-    selectRow: (tagName, r) => gridTable(tagName).rowSelectedIds = !TBodyFn.isSelectedRow(tagName, r)
-        && tableRowSelectedIds(gridTable(tagName).tableIds, r) || {},
+    selectRow: (tagName, r) => {
+        gridTable(tagName).rowSelectedIds = !TBodyFn.isSelectedRow(tagName, r)
+            && tableRowSelectedIds(gridTable(tagName).tableIds, r) || {}
+        TBodyFn.selectRowReadDbFn && TBodyFn.selectRowReadDbFn(tagName)
+    },
 }
 
 /**

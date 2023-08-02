@@ -15,7 +15,7 @@ export default {
     methods: {
         tableStyle() {
             return gridTable(this.tagName).tableHeightEm
-                && 'max-height:' + gridTable(this.tagName).tableHeightEm + 'em; overflow: auto;' || ''
+                && 'height:' + gridTable(this.tagName).tableHeightEm + 'em; overflow: auto;' || ''
         }
     }, template: `
 <div :style="tableStyle()">

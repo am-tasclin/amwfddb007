@@ -15,7 +15,6 @@ export default {
         isSelectedRow(r) {
             return TBodyFn.isSelectedRow(this.tagName, r)
         }, selectRow(r) {
-            console.log(gridTable(this.tagName).tableIds)
             TBodyFn.selectRow(this.tagName, r)
             this.count++
         },
