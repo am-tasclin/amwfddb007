@@ -55,7 +55,7 @@ export const initLogic = () => ws.onopen = event =>
 import { TBodyFn, gridTable } from
     '/f/ar/5rGridTable/libGridTable/libGridTable.js'
 
-TBodyFn.selectRowReadDbFn = tagName => {
+TBodyFn.selectRowReadDbFn = tagName => ['entry1', 'ddmaterial'].indexOf(tagName) >= 0 && (() => {
     const sqlEntry1mat = select01Entry1matMaker.setWhere(['entry1', 'ddmaterial']
         .filter(tagName2 => Okeys(gridTable(tagName2).rowSelectedIds).length > 0)
         .reduce((s, tagName2) => {
@@ -63,9 +63,9 @@ TBodyFn.selectRowReadDbFn = tagName => {
             s += Object.entries(gridTable(tagName2).rowSelectedIds)[0].join('=')
             return s
         }, '')).get()
-    // console.log(sqlEntry1mat)
+    console.log(sqlEntry1mat)
     executeSelectQuery(sqlEntry1mat).then(json =>
         gridEntry1mat.setTableBody(json.list)
             .get().tBody.count++)
-}
+})()
 const Okeys = Object.keys
