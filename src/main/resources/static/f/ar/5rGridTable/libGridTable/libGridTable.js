@@ -26,21 +26,18 @@ export const gridTable = tableName => gridTableContainer[tableName]
  * @returns 
  */
 export const makerGridTable = tableName => {
-    const mGridTableData = gridTable(tableName)
     return {
-        get() { return mGridTableData },
+        get: () => gridTable(tableName),
+        setBodyColumns: bodyColumns => gridTable(tableName).bodyColumns = bodyColumns,
         setTableBody(tableBody) {
-            mGridTableData.tableBody = tableBody
-            !mGridTableData.bodyColumns && this.setBodyColumns(Object.keys(tableBody[0]))
+            this.get().tableBody = tableBody
+            !this.get().bodyColumns && this.setBodyColumns(Object.keys(tableBody[0]))
             return this
-        },
-        setBodyColumns(bodyColumns) { mGridTableData.bodyColumns = bodyColumns },
-        initSelectMaker(key, sqlTableName) {
-            const selectMakerContainer = mGridTableData.smc || (mGridTableData.smc = {})
+        }, initSelectMaker(key, sqlTableName) {
+            const selectMakerContainer = this.get().smc || (this.get().smc = {})
                 , makeSelectForKey = selectMakerContainer[key] || (selectMakerContainer[key] = {})
             return SqlSelectMaker(makeSelectForKey, sqlTableName)
         },
-        showGtData() { return mGridTableData }
     }
 }
 
@@ -53,22 +50,19 @@ export const makerGridTable = tableName => {
  */
 const SqlSelectMaker = (smContainer, sqlTableName) => {
     return {
+        getColumns: () => smContainer.columns || ' * ',
+        getFrom: () => smContainer.from || sqlTableName,
         sqlTableName: sqlTableName,
         setFrom(from) {
             smContainer.from = from
             return this
-        },
-        getFrom: () => smContainer.from || sqlTableName,
-        initColumns(columns) {
+        }, initColumns(columns) {
             smContainer.columns = columns
             return this
-        },
-        getColumns: () => smContainer.columns || ' * ',
-        setWhere(where) {
+        }, setWhere(where) {
             smContainer.where = where
             return this
-        },
-        get() {
+        }, get() {
             let sql = 'SELECT '.concat(this.getColumns())
                 .concat(' FROM ').concat(this.getFrom())
             smContainer.where && (sql += ' WHERE ' + smContainer.where)

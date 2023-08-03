@@ -40,8 +40,8 @@ export default {
 </tbody>
 <tfoot class="w3-white">
     <tr >
-        <th class="w3-tiny am-b w3-border-top" colspan=12>
-            <div class="w3-right">
+        <th class="w3-border-top" colspan=12>
+            <div class="w3-right am-i w3-tiny w3-opacity" style="font-weight: normal;">
                 {{tagName}}
                 ‧ h:{{tableHeightEm()}}
                 ‧ l:{{body() && body().length}}

@@ -52,7 +52,6 @@ export const initLogic = () => ws.onopen = event =>
         .get().tBody.count++
     )))
 
-
 import { TBodyFn, gridTable } from
     '/f/ar/5rGridTable/libGridTable/libGridTable.js'
 
@@ -65,9 +64,8 @@ TBodyFn.selectRowReadDbFn = tagName => {
             return s
         }, '')).get()
     // console.log(sqlEntry1mat)
-    executeSelectQuery(sqlEntry1mat).then(json => {
+    executeSelectQuery(sqlEntry1mat).then(json =>
         gridEntry1mat.setTableBody(json.list)
-            .get().tBody.count++
-    })
+            .get().tBody.count++)
 }
 const Okeys = Object.keys
