@@ -98,8 +98,8 @@ export const TBodyFn = {
  */
 export const TBodyFnInitializer = {
     initTable: (tableIds, tableHeightEm) => Object.keys(gridTableContainer).forEach(tagName => {
-        gridTableContainer[tagName].tableIds = tableIds[tagName]
-        gridTableContainer[tagName].rowSelectedIds = {}
-        gridTableContainer[tagName].tableHeightEm = tableHeightEm[tagName]
+        gridTable(tagName).tableIds = tableIds[tagName]
+        gridTable(tagName).rowSelectedIds = {}
+        gridTable(tagName).tableHeightEm = tableHeightEm[tagName]
     }),
 }

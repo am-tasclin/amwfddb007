@@ -32,9 +32,9 @@ export const setToEMap = adn => mcData.eMap[adn.doc_id] = adn
  * @param {*} jsonAdnList 
  * @returns 
  */
-export const addToEMap = jsonAdnList => jsonAdnList.forEach(adn => {
+export const initNewMc = jsonAdnList => jsonAdnList.forEach(adn => {
     setToEMap(adn)
-    domComponent.mElement[adn.doc_id].count++
+    domComponent.mcElement[adn.doc_id].count++
 })
 
 /**

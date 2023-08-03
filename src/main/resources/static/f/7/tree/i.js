@@ -14,17 +14,17 @@ ws.onopen = event =>
     readAdnByIds(uniqueIdsForDbRead)
 
 const { createApp } = Vue
-import MElement from
-    '/f/7/libDomGrid/MElement.js'
+import McElement from
+    '/f/7/libDomGrid/McElement.js'
 createApp({
-    components: { MElement },
+    components: { McElement },
     methods: {
         confTree(){return confTree()},
         u_l() { return uniqueIdsForDbRead },
     }, template: `
 a1:{{u_l()}}
 <div v-for="adnId in confTree()[0]">
-    <MElement :adnId="adnId"/>
+    <McElement :adnId="adnId"/>
 </div>
 `,
 }).mount('#treeDom')

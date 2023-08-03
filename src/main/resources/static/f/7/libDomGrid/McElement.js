@@ -5,17 +5,19 @@
  */
 import { mcData, domComponent } from
     '/f/7/libDomGrid/libDomGrid.js'
+import { readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
 
 export default {
     props: { adnId: Number, }, data() { return { count: 0, } },
     mounted() {
-        (domComponent.mElement || (domComponent.mElement = {}))[this.adnId] = this
+        (domComponent.mcElement || (domComponent.mcElement = {}))[this.adnId] = this
     }, methods: {
         eMap() { return mcData.eMap[this.adnId] || {} },
         vlStr() {
             return this.eMap().vl_str && marked.parseInline(this.eMap().vl_str)
         }, click() {
             console.log(this.adnId)
+            readAdnByParentIds([this.adnId])
         }
     }, template: `
 <div @click="click" class="w3-hover-shadow" :review="count">
