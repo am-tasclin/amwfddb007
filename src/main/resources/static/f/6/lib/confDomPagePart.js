@@ -9,7 +9,7 @@
  * confDpp, cdpp -- Config JSON for MEDAS to initialise & include in application.
  */
 import { addToUniqueList } from '/f/6/lib/algoritmed-commons.js'
-import { setOpenedDropDownId } from '/f/6/libTGridDpp/dppInteractivity.js'
+// import { setOpenedDropDownId } from '/f/6/libTGridDpp/dppInteractivity.js'
 
 export const l_domType = [376618, 376631]
 
