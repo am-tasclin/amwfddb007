@@ -116,6 +116,7 @@ const sql_vl_str_WHERE_parent_sort = sql_vl_str_WHERE_sort.replace(':where', 'pa
 // const sql_vl_str_sort1 = sql_vl_str + 'LEFT JOIN sort ON doc_id=sort_id \n\
 // WHERE parent IN (:parentId) \n\
 // ORDER BY sort'
+
 /**
  * Execute SQL SELECT query
  * @param {*} sql 

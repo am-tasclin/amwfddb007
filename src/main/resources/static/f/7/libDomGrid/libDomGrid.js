@@ -4,11 +4,38 @@
  * 
  */
 
-const domContainer = { conf: {}, data: { eMap: {}, parentChilds: {} }, component: {} }
+const domContainer = { conf: {}, mcData: { eMap: {}, parentChilds: {} }, component: {} }
 console.log(domContainer)
 /**
  * 
  */
+
+/**
+ * 
+ */
+export const mcData = domContainer.mcData
+
+/**
+ * 
+ */
+export const domComponent = domContainer.component
+
+/**
+ * 
+ * @param {*} adn 
+ * @returns 
+ */
+export const setToEMap = adn => mcData.eMap[adn.doc_id] = adn
+
+/**
+ * 
+ * @param {*} jsonAdnList 
+ * @returns 
+ */
+export const addToEMap = jsonAdnList => jsonAdnList.forEach(adn => {
+    setToEMap(adn)
+    domComponent.mElement[adn.doc_id].count++
+})
 
 /**
  * 
@@ -20,12 +47,25 @@ export const uniqueIdPageRead = () => Okeys(domContainer.conf.tree)
 
 /**
  * 
+ * @returns 
+ */
+export const confTree = () => domContainer.conf.tree
+
+/**
+ * 
  * @param {*} rawConfStr 
  */
 export const initDomConfLogic = (rawConfStr) => {
     !rawConfStr.includes('cj=') && initUriDomConf(rawConfStr)
 }
 
+/**
+ * Primary initialization from simple URI syntax
+ * Первинна ініціалізація з простого синтаксису URI
+ * 
+ * @param {*} rawUriDomConf 
+ * @param {*} ppId 
+ */
 const initUriDomConf = (rawUriDomConf, ppId) => {
     const uriDomConf_l = rawUriDomConf.split(',')
     !ppId && (ppId = 0)
