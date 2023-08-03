@@ -21,7 +21,7 @@ export default {
         }
     }, template: `
 <div @click="click" class="w3-hover-shadow" :review="count">
-    {{adnId}} 
+    <span class="w3-small"> {{adnId}} &nbsp;</span>
     <span v-html="vlStr()" />
 </div>
 `,
