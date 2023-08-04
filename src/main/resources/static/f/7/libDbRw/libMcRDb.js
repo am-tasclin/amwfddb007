@@ -20,11 +20,11 @@ import { addNewMc, addToParentChild } from '/f/7/libDomGrid/libDomGrid.js'
  */
 export const readAdnByParentIds = parentId_list => {
     const sql = selectDocVlStrByParentIds.replace(':idList', parentId_list.join(','))
-    console.log(sql, parentId_list)
+    // console.log(sql, parentId_list)
     return executeSelectQuery(sql).then(json => {
         addNewMc(json.list)
         const pl = addToParentChild(json.list)
-        console.log(pl, json.list,)
+        // console.log(pl, json.list,)
     })
 }
 

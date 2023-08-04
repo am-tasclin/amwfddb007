@@ -7,6 +7,8 @@
 const domContainer = { conf: {}, mcData: { eMap: {}, parentChilds: {} }, component: {} }
 console.log(domContainer)
 /**
+ * Container of data and structures for build and use the DOM Grid
+ * Контейнер даних і структур для створення та використання DOM Grid
  * 
  */
 
@@ -19,6 +21,46 @@ export const mcData = domContainer.mcData
  * 
  */
 export const domComponent = domContainer.component
+
+/**
+ * 
+ */
+export const domConf = domContainer.conf
+
+/**
+ * 
+ * @param {*} pathStr 
+ * @returns 
+ */
+export const elDomConf = pathStr =>
+    pathStr.split(',').reduce((o, k) => o[k], domContainer.conf)
+
+/**
+ * 
+ * @param {*} path 
+ * @param {*} treeRootId 
+ * @param {*} adnId 
+ */
+export const isTreeOpenedChild = (path, treeRootId, adnId) => {
+    const treeConf = elDomConf(path)
+    return treeConf.openedId &&
+        treeConf.openedId[treeRootId].includes(adnId)
+}
+
+/**
+ * 
+ * @param {*} path 
+ * @param {*} treeRootId 
+ * @param {*} adnId 
+ * @returns 
+ */
+export const treeOpenedChildOnOff = (treeConf, treeRootId, adnId) => {
+    const openedId = (treeConf.openedId || (treeConf.openedId = {}))[treeRootId]
+        || (treeConf.openedId[treeRootId] = [])
+    !openedId.includes(adnId) && openedId.push(adnId)
+        || (treeConf.openedId[treeRootId] = openedId.filter(i => i !== adnId))
+    return treeConf.openedId[treeRootId]
+}
 
 /**
  * 
@@ -61,11 +103,11 @@ export const addToParentChild = adnList => adnList.reduce((pl, adn) =>
  * @returns 
  */
 export const uniqueIdPageRead = () => Okeys(domContainer.conf.tree)
-    .reduce((l, im) => domContainer.conf.tree[im].filter(im2 => !l.includes(im2))
+    .reduce((l, im) => domContainer.conf.tree[im].rootList.filter(im2 => !l.includes(im2))
         .reduce((l, im2) => l.push(im2) && l, l) && l, [])
 
 /**
- * 
+ * Short to tree configuration
  * @returns 
  */
 export const confTree = () => domContainer.conf.tree
@@ -91,6 +133,7 @@ const initUriDomConf = (rawUriDomConf, ppId) => {
     // console.log(123, rawUriDomConf, uriDomConf_l, ppId)
     'tree' == uriDomConf_l[0] && ((
         domContainer.conf.tree || (domContainer.conf.tree = {})
-    )[ppId] = uriDomConf_l.slice(1))
+    )[ppId] = { rootList: uriDomConf_l.slice(1) })
 }
+
 const Okeys = Object.keys
