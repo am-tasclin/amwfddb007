@@ -29,13 +29,32 @@ export const setToEMap = adn => mcData.eMap[adn.doc_id] = adn
 
 /**
  * 
- * @param {*} jsonAdnList 
+ * @param {*} adnList 
  * @returns 
  */
-export const initNewMc = jsonAdnList => jsonAdnList.forEach(adn => {
+export const initNewMc = adnList => adnList.forEach(adn => {
     setToEMap(adn)
     domComponent.mcElement[adn.doc_id].count++
 })
+
+/**
+ * 
+ * @param {*} adnList 
+ * @returns 
+ */
+export const addNewMc = adnList => adnList
+    .forEach(adn => setToEMap(adn))
+
+/**
+ * 
+ * @param {*} adnList 
+ * @returns 
+ */
+export const addToParentChild = adnList => adnList.reduce((pl, adn) =>
+    !(mcData.parentChilds[adn.p] || (mcData.parentChilds[adn.p] = [])
+    ).includes(adn.p) &&
+    (mcData.parentChilds[adn.p].push(adn.doc_id) && pl.push(adn.p))
+    && pl || pl, [])
 
 /**
  * 

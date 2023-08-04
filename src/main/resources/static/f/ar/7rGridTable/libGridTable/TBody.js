@@ -9,9 +9,8 @@ import { gridTable, TBodyFn } from
 export default {
     data() { return { count: 0, } },
     props: { tagName: String },
-    mounted() {
-        gridTable(this.tagName).tBody = this
-    }, methods: {
+    mounted() { gridTable(this.tagName).tBody = this },
+    methods: {
         isSelectedRow(r) {
             return TBodyFn.isSelectedRow(this.tagName, r)
         }, selectRow(r) {

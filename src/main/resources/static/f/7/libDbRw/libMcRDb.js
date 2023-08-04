@@ -4,8 +4,7 @@
  * 
  */
 import { executeSelectQuery } from './wsDbRw.js'
-import { initNewMc } from
-    '/f/7/libDomGrid/libDomGrid.js'
+import { initNewMc } from '/f/7/libDomGrid/libDomGrid.js'
 export const readAdnByIds = id_list => {
     const sql = selectDocVlStrByIds.replace(':idList', id_list.join(','))
     executeSelectQuery(sql).then(json => initNewMc(json.list)
@@ -14,6 +13,7 @@ export const readAdnByIds = id_list => {
     })
 }
 
+import { addNewMc, addToParentChild } from '/f/7/libDomGrid/libDomGrid.js'
 /**
  * 
  * @param {*} parentId_list 
@@ -21,8 +21,10 @@ export const readAdnByIds = id_list => {
 export const readAdnByParentIds = parentId_list => {
     const sql = selectDocVlStrByParentIds.replace(':idList', parentId_list.join(','))
     console.log(sql, parentId_list)
-    executeSelectQuery(sql).then(json => {
-        console.log(json)
+    return executeSelectQuery(sql).then(json => {
+        addNewMc(json.list)
+        const pl = addToParentChild(json.list)
+        console.log(pl, json.list,)
     })
 }
 
