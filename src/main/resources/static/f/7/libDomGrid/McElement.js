@@ -17,17 +17,21 @@ export default {
         parentChilds() { return mcData.parentChilds[this.adnId] || [] },
         vlStr() {
             return this.eMap().vl_str && marked.parseInline(this.eMap().vl_str)
+        }, isSelected() {
+            return elDomConf(this.path).selectedId == this.adnId
         }, isOpened() {
             return isTreeOpenedChild(this.path, this.treeRootId, this.adnId)
         }, click() {
             const treeConf = elDomConf(this.path)
             console.log(treeConf)
+            treeConf.selectedId = this.adnId
             treeOpenedChildOnOff(treeConf, this.treeRootId, this.adnId)
             !mcData.parentChilds[this.adnId] && readAdnByParentIds([this.adnId]
             ).then(() => this.count++) || this.count++
         }
     }, template: `
-<div @click="click" class="w3-hover-shadow" :review="count">
+<div @click="click" class="w3-hover-shadow" :review="count"
+        :class="{'w3-light-grey':isSelected(),'w3-white':!isSelected()}">
     <span class="w3-small"> {{adnId}} &nbsp;</span>
     <span v-html="vlStr()" />
 </div>
