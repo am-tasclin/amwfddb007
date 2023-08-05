@@ -24,11 +24,13 @@ export const readAdnByParentIds = parentId_list => {
     return executeSelectQuery(sql).then(json => {
         addNewMc(json.list)
         const pl = addToParentChild(json.list)
-        // console.log(pl, json.list,)
+        !json.list.length && parentId_list.forEach(andId =>
+            mcData.parentChilds[andId] = [])
     })
 }
 
 import { initSelectMaker } from './libSqlMaker.js'
+import { mcData } from '../libDomGrid/libDomGrid.js'
 const selectDocVlStrMaker = initSelectMaker('selectDocVlStr', 'doc')
     .initLeftJoin('string', 'doc_id=string_id')
     .initColumns('doc_id, parent p, reference r, reference2 r2, value vl_str')

@@ -27,6 +27,7 @@ export default {
             const oldSelectedId = actuelTreeObj().selectedId
             setActuelTreeObj(this.path).selectedId = this.adnId
             treeOpenedChildOnOff(this.treeRootId, this.adnId)
+            console.log(mcData.parentChilds[this.adnId])
             !mcData.parentChilds[this.adnId]
                 && readAdnByParentIds([this.adnId]
                 ).then(() => this.count++) || this.count++
@@ -38,7 +39,6 @@ export default {
         :class="{'w3-light-grey':isSelected(),'w3-white':!isSelected()}">
     <span class="w3-small"> {{adnId}} &nbsp;</span>
     <span v-html="vlStr()" />
-    {{count}}
 </div>
 <div class="w3-container w3-border-left" v-if="parentChilds().length && isOpened()">
     <div v-for="adnId2 in parentChilds()">
