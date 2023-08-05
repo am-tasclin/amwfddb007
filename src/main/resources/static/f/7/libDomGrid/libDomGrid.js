@@ -1,10 +1,14 @@
 'use strict'
 /**
  * Algoritmed ©, EUPL-1.2 or later.
+ * DOM grid editor logic
  * 
  */
 
-const domContainer = { conf: {}, mcData: { eMap: {}, parentChilds: {} }, }
+const domContainer = {
+    conf: { actualeEdit: {} }, mcData: { eMap: {}, parentChilds: {} },
+    components: {}
+}
 console.log(domContainer)
 /**
  * Container of data and structures for build and use the DOM Grid
@@ -12,30 +16,41 @@ console.log(domContainer)
  * 
  */
 
+export const setActualeCompomentName = ctName => domContainer.actualeComponentName = ctName
+export const setDomComponent = (ctName, ct) =>
+    setActualeCompomentName(ctName) &&
+    (domContainer.components[ctName] = ct)
+export const getDomComponent = (ctName) => domContainer.components[ctName]
+export const getActualeCompomentName = () => domContainer.actualeComponentName
+
 /**
  * 
  */
 export const mcData = domContainer.mcData
-
 /**
  * 
  */
-export const domConf = domContainer.conf
-
-/**
- * 
- * @param {*} pathTreeStr 
- * @returns 
- */
-export const setActuelTreeObj = pathTreeStr =>
-    domConf.actuelTreeObj = pathTreeStr.split(',').reduce((o, k) => o[k], domContainer.conf)
-
+const domConf = domContainer.conf
 /**
  * 
  * @returns 
  */
 export const actuelTreeObj = () => domConf.actuelTreeObj
+/**
+ * 
+ * @param {*} pathTreeStr 
+ * @returns 
+ */
+export const setActuelTreeObj = pathTreeStr => {
+    setActualeCompomentName('tree')
+    domContainer.conf.actualeEdit.tree =
+        domConf.actuelTreeObj = pathTreeStr.split(',').reduce((o, k) => o[k], domContainer.conf)
+    getDomComponent('actualeEdit').count++
+    return domConf.actuelTreeObj
+}
 
+
+export const actualeEdit = () => domConf.actualeEdit
 /**
  * 
  * @param {*} path 

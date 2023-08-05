@@ -16,23 +16,44 @@ ws.onopen = event =>
 const { createApp } = Vue
 import McElement from '/f/7/libDomGrid/McElement.js'
 const app_treeDom = createApp({
-    components: { McElement },
     methods: {
         confTree() { return confTree() },
         u_l() { return uniqueIdsForDbRead },
     }, template: `
 <div v-for="adnId in confTree()[0].rootList">
-    <McElement :adnId="adnId" :treeRootId="adnId" path="tree,0"/>
+    <t-mc-element :adnId="adnId" :treeRootId="adnId" path="tree,0" />
 </div>
 `,
 })
 app_treeDom.component('t-mc-element', McElement)
 app_treeDom.mount('#treeDom')
 
+import { actualeEdit, setDomComponent, getDomComponent, getActualeCompomentName } from
+    '/f/7/libDomGrid/libDomGrid.js'
 createApp({
+    data() { return { count: 0, } },
+    mounted() {
+        setDomComponent('actualeEdit', this)
+    }, methods: {
+        treeSelectedId() { return actualeEdit().tree && actualeEdit().tree.selectedId },
+        actualeCompomentName() { return getActualeCompomentName() },
+        click() {
+            console.log(123, actualeEdit())
+        }
+    }
+}).mount('#actualeEdit')
+
+import { setActualeCompomentName } from
+    '/f/7/libDomGrid/libDomGrid.js'
+createApp({
+    mounted() {
+        setDomComponent('devTest', this)
+    },
     methods: {
         click() {
-            console.log(123)
+            setActualeCompomentName('devTest')
+            console.log(123, getActualeCompomentName())
+            getDomComponent('actualeEdit').count++
         }
     }
 }).mount('#devTest')

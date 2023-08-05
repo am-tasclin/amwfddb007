@@ -27,12 +27,12 @@ export default {
             const oldSelectedId = actuelTreeObj().selectedId
             setActuelTreeObj(this.path).selectedId = this.adnId
             treeOpenedChildOnOff(this.treeRootId, this.adnId)
-            console.log(mcData.parentChilds[this.adnId])
             !mcData.parentChilds[this.adnId]
                 && readAdnByParentIds([this.adnId]
                 ).then(() => this.count++) || this.count++
             // init reSelected
             oldSelectedId && reViewActuelAdn(oldSelectedId)
+            console.log(actuelTreeObj())
         }
     }, template: `
 <div @click="click" class="w3-hover-shadow" :review="count"
