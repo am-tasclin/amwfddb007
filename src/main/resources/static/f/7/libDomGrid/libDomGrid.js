@@ -4,7 +4,7 @@
  * 
  */
 
-const domContainer = { conf: {}, mcData: { eMap: {}, parentChilds: {} }, component: {} }
+const domContainer = { conf: {}, mcData: { eMap: {}, parentChilds: {} }, }
 console.log(domContainer)
 /**
  * Container of data and structures for build and use the DOM Grid
@@ -16,11 +16,6 @@ console.log(domContainer)
  * 
  */
 export const mcData = domContainer.mcData
-
-/**
- * 
- */
-export const domComponent = domContainer.component
 
 /**
  * 
@@ -56,14 +51,8 @@ export const treeOpenedChildOnOff = (treeRootId, adnId) => {
         || (treeConf.openedId[treeRootId] = openedId.filter(i => i !== adnId))
     return treeConf.openedId[treeRootId]
 }
-
-/**
- * 
- * @param {*} adn 
- * @returns 
- */
-export const setToEMap = adn => mcData.eMap[adn.doc_id] = adn
-
+export const reViewActuelAdn = adnId => Okeys(actuelTreeObj().mcElement).forEach(rootId => actuelTreeObj().mcElement[rootId][adnId] &&
+    actuelTreeObj().mcElement[rootId][adnId].count++)
 /**
  * 
  * @param {*} adnList 
@@ -71,9 +60,15 @@ export const setToEMap = adn => mcData.eMap[adn.doc_id] = adn
  */
 export const initNewMc = adnList => adnList.forEach(adn => {
     setToEMap(adn)
-    domComponent.mcElement[adn.doc_id].count++
+    reViewActuelAdn(adn.doc_id)
 })
-
+/**
+ * 
+ * @param {*} adn 
+ * @returns 
+ */
+export const setToEMap = adn =>
+    mcData.eMap[adn.doc_id] = adn
 /**
  * 
  * @param {*} adnList 

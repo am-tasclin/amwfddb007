@@ -3,15 +3,16 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { mcData, domComponent, setActuelTreeObj, actuelTreeObj, treeOpenedChildOnOff } from
+import { mcData, reViewActuelAdn, setActuelTreeObj, actuelTreeObj, treeOpenedChildOnOff } from
     '/f/7/libDomGrid/libDomGrid.js'
 import { readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
 
 export default {
     props: { adnId: Number, path: String, treeRootId: Number }, data() { return { count: 0, } },
     mounted() {
-        (domComponent.mcElement || (domComponent.mcElement = {}))[this.adnId] = this
-        // console.log(this.path.split(','))
+        const treeConf = actuelTreeObj();
+        ((treeConf.mcElement || (treeConf.mcElement = {}))[this.treeRootId]
+            || (treeConf.mcElement[this.treeRootId] = {}))[this.adnId] = this
     }, methods: {
         eMap() { return mcData.eMap[this.adnId] || {} },
         parentChilds() { return mcData.parentChilds[this.adnId] || [] },
@@ -23,16 +24,21 @@ export default {
             return actuelTreeObj().openedId && actuelTreeObj()
                 .openedId[this.treeRootId].includes(this.adnId)
         }, click() {
+            const oldSelectedId = actuelTreeObj().selectedId
             setActuelTreeObj(this.path).selectedId = this.adnId
             treeOpenedChildOnOff(this.treeRootId, this.adnId)
-            !mcData.parentChilds[this.adnId] && readAdnByParentIds([this.adnId]
-            ).then(() => this.count++) || this.count++
+            !mcData.parentChilds[this.adnId]
+                && readAdnByParentIds([this.adnId]
+                ).then(() => this.count++) || this.count++
+            // init reSelected
+            oldSelectedId && reViewActuelAdn(oldSelectedId)
         }
     }, template: `
 <div @click="click" class="w3-hover-shadow" :review="count"
         :class="{'w3-light-grey':isSelected(),'w3-white':!isSelected()}">
     <span class="w3-small"> {{adnId}} &nbsp;</span>
     <span v-html="vlStr()" />
+    {{count}}
 </div>
 <div class="w3-container w3-border-left" v-if="parentChilds().length && isOpened()">
     <div v-for="adnId2 in parentChilds()">
