@@ -29,23 +29,17 @@ export const domConf = domContainer.conf
 
 /**
  * 
- * @param {*} pathStr 
+ * @param {*} pathTreeStr 
  * @returns 
  */
-export const elDomConf = pathStr =>
-    pathStr.split(',').reduce((o, k) => o[k], domContainer.conf)
+export const setActuelTreeObj = pathTreeStr =>
+    domConf.actuelTreeObj = pathTreeStr.split(',').reduce((o, k) => o[k], domContainer.conf)
 
 /**
  * 
- * @param {*} path 
- * @param {*} treeRootId 
- * @param {*} adnId 
+ * @returns 
  */
-export const isTreeOpenedChild = (path, treeRootId, adnId) => {
-    const treeConf = elDomConf(path)
-    return treeConf.openedId &&
-        treeConf.openedId[treeRootId].includes(adnId)
-}
+export const actuelTreeObj = () => domConf.actuelTreeObj
 
 /**
  * 
@@ -54,7 +48,8 @@ export const isTreeOpenedChild = (path, treeRootId, adnId) => {
  * @param {*} adnId 
  * @returns 
  */
-export const treeOpenedChildOnOff = (treeConf, treeRootId, adnId) => {
+export const treeOpenedChildOnOff = (treeRootId, adnId) => {
+    const treeConf = domConf.actuelTreeObj
     const openedId = (treeConf.openedId || (treeConf.openedId = {}))[treeRootId]
         || (treeConf.openedId[treeRootId] = [])
     !openedId.includes(adnId) && openedId.push(adnId)
@@ -134,6 +129,7 @@ const initUriDomConf = (rawUriDomConf, ppId) => {
     'tree' == uriDomConf_l[0] && ((
         domContainer.conf.tree || (domContainer.conf.tree = {})
     )[ppId] = { rootList: uriDomConf_l.slice(1) })
+    domConf.actuelTreeObj = domContainer.conf.tree[ppId]
 }
 
 const Okeys = Object.keys

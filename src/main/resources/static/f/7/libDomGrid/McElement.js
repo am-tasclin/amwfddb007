@@ -3,7 +3,7 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { mcData, domComponent, elDomConf, isTreeOpenedChild, treeOpenedChildOnOff } from
+import { mcData, domComponent, setActuelTreeObj, actuelTreeObj, treeOpenedChildOnOff } from
     '/f/7/libDomGrid/libDomGrid.js'
 import { readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
 
@@ -18,14 +18,13 @@ export default {
         vlStr() {
             return this.eMap().vl_str && marked.parseInline(this.eMap().vl_str)
         }, isSelected() {
-            return elDomConf(this.path).selectedId == this.adnId
+            return actuelTreeObj() && actuelTreeObj().selectedId == this.adnId
         }, isOpened() {
-            return isTreeOpenedChild(this.path, this.treeRootId, this.adnId)
+            return actuelTreeObj().openedId && actuelTreeObj()
+                .openedId[this.treeRootId].includes(this.adnId)
         }, click() {
-            const treeConf = elDomConf(this.path)
-            console.log(treeConf)
-            treeConf.selectedId = this.adnId
-            treeOpenedChildOnOff(treeConf, this.treeRootId, this.adnId)
+            setActuelTreeObj(this.path).selectedId = this.adnId
+            treeOpenedChildOnOff(this.treeRootId, this.adnId)
             !mcData.parentChilds[this.adnId] && readAdnByParentIds([this.adnId]
             ).then(() => this.count++) || this.count++
         }
