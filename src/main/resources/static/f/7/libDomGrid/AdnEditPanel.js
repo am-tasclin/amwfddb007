@@ -3,10 +3,11 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { mcData, setDomComponent, getActualeCompomentName, actualeEdit } from
+import { mcData, setDomComponent, getActualeCompomentName, actualeEdit, reViewAdn } from
     '/f/7/libDomGrid/libDomGrid.js'
 import { dbSendInsertAdn, dbSendDeleteAdn1 } from
     '/f/7/libDbRw/libMcRDb.js'
+import { readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
 
 export default {
     data() { return { count: 0, copyId: 0 } },
@@ -19,9 +20,9 @@ export default {
         adn() { return mcData.eMap[this.treeSelectedId()] },
         deleteAdn() {
             console.log(1123, this.adn())
-            dbSendDeleteAdn1({ adnId: this.adn().doc_id }).then(json => {
-                console.log(1123, json)
-            })
+            dbSendDeleteAdn1({ adnId: this.adn().doc_id }).then(json =>
+                readAdnByParentIds([this.adn().p]).then(() =>
+                    reViewAdn(this.adn().p)))
         }, copyAdnId() {
             this.copyId = this.adn().doc_id
             this.count++
