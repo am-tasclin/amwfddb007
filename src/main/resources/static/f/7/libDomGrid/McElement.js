@@ -28,8 +28,8 @@ export default {
             setActuelTreeObj(this.path).selectedId = this.adnId
             !mcData.parentChilds[this.adnId]
                 && readAdnByParentIds([this.adnId])
-            // init reselect new and old selected adn.
-            this.count++
+                    .then(() => this.count++) || this.count++
+            // init reselect old selected adn.
             oldSelectedId && reViewActuelAdn(oldSelectedId)
         }
     }, template: `

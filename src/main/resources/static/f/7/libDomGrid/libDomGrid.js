@@ -52,7 +52,6 @@ export const setActuelTreeObj = pathTreeStr => {
         domConf.actuelTreeObj = pathTreeStr.split(',').reduce((o, k) => o[k], domContainer.conf)
     getDomComponent('actualeEdit').count++
     getDomComponent('adnEditPanel').count++
-    console.log(domContainer, getActualeCompomentName())
     return domConf.actuelTreeObj
 }
 /**
