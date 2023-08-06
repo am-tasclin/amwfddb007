@@ -32,6 +32,10 @@ export default {
                 .then(json => {
                     console.log(1123, json)
                 })
+        }, insertAdnSibling() {
+            dbSendInsertAdn({ parent: this.adn().p }).then(json => {
+                console.log(1123, json)
+            })
         }, insertAdnChild() {
             dbSendInsertAdn({ parent: this.adn().doc_id }).then(json => {
                 console.log(1123, json)
@@ -46,6 +50,7 @@ export default {
         Adn edit panel:
     </span>
     <button @click="insertAdnChild" class="w3-border-left w3-btn am-b" title="addChild - додати дитину">˙＋</button>
+    <button @click="insertAdnSibling" class="w3-btn am-b" title="addSibling - додати побратима">＋</button>
     <button @click="deleteAdn" class="w3-btn am-b" >－</button>
     <button @click="copyAdnId" class="w3-border-left w3-btn am-b" title="copy - копіювати">⧉</button>
     <button @click="pasteAdnSibling" class="w3-btn am-b" title="paste sibling - вставити як побратима">⧠</button>
