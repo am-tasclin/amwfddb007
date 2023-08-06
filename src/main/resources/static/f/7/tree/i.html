@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<!--
+ * Algoritmed ©, Licence EUPL-1.2 or later.
+-->
 <html>
 <meta charset="utf-8" />
 <title id="headTitle">7DOM:Tree</title>
@@ -9,14 +12,20 @@
 <script src="i.js" type="module"></script>
 
 <body class="w3-container">
-    <div class="w3-border-bottom am-max-width-1">
-        <span class="w3-small">
+    <div class="w3-border-bottom am-max-width-1 w3-card">
+        <span class="">
             <a href="/" class="w3-btn w3-padding-small">
                 <img style="display: flex;" src="/f/css/homeIcon.svg"> </a>
             <span id="showDocId">
-                <span class="w3-tiny w3-topbar">
-                    <span class=" am-b ">D&amp;O&amp;M</span>
-                    <sub>Tree</sub></span>&nbsp; 📂 7 ➾
+                <span class=" w3-topbar w3-dropdown-hover w3-white">
+                    <span class="w3-tiny">
+                        <span class="am-b ">D&amp;O&amp;M</span>
+                        <sub>Tree</sub>
+                    </span>
+                    <div class="w3-dropdown-content w3-card">
+                        🗄
+                    </div>
+                </span>&nbsp; 📂 7 ➾
             </span>
             <span class="w3-small"> ⁙
                 <b>D</b>ata & <b>O</b>ntology <span class="am-u">Tree</span> editor & <b>M</b>eta data <b>M</b>odeler
@@ -27,10 +36,10 @@
         <!-- <span id="edCopyCut" class="w3-right"> <t-ed-copy-cut /> </span> -->
         <span id="dbMessagePool" class="w3-right"></span>
     </div>
-    <div class="am-max-width-1">
-        <div id="actualeEdit" class="w3-container w3-card" style="min-height: 4em;">&nbsp;
+    <div class="am-max-width-1 w3-border-left w3-border-right">
+        <div id="actualeEdit" class="w3-container " style="min-height: 4em;">&nbsp;
             <span class="w3-right w3-tiny w3-opacity">&nbsp; {{actualeCompomentName()}} </span>
-            <t-adn-edit-panel v-if="'tree'==actualeCompomentName()" ></t-adn-edit-panel>
+            <t-adn-edit-panel v-if="'tree'==actualeCompomentName()"></t-adn-edit-panel>
             <div v-if="'tree'==actualeCompomentName()" class="">
                 all context menu to here
             </div>
@@ -38,11 +47,11 @@
                 devTest:
                 <button class="w3-topbar w3-btn w3-ripple" @click="click">&nbsp; 🗄 &nbsp;</button>
             </template>
-            
+
             <span class="w3-hide">{{count}}</span>
         </div>&nbsp;
-        <div id="treeDom"></div>&nbsp;
     </div>
+    <div id="treeDom" class="w3-card am-max-width-1"></div>&nbsp;
 
     <div class="w3-border-top">
         <a class="w3-tiny" href="https://www.compart.com/en/unicode/block/U+1F300">Symbols and Pictographs</a>

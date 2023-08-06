@@ -24,14 +24,13 @@ export default {
         }, click() {
             const oldSelectedId = actuelTreeObj().selectedId;
             (oldSelectedId == this.adnId || !oldSelectedId) &&
-                treeOpenedChildOnOff(this.treeRootId, this.adnId, oldSelectedId)
+                treeOpenedChildOnOff(this.treeRootId, this.adnId)
             setActuelTreeObj(this.path).selectedId = this.adnId
             !mcData.parentChilds[this.adnId]
-                && readAdnByParentIds([this.adnId]
-                ).then(() => this.count++) || this.count++
-            // init reselect old selected adn.
+                && readAdnByParentIds([this.adnId])
+            // init reselect new and old selected adn.
+            this.count++
             oldSelectedId && reViewActuelAdn(oldSelectedId)
-            // console.log(actuelTreeObj())
         }
     }, template: `
 <div @click="click" class="w3-hover-shadow" :review="count"

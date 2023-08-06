@@ -16,7 +16,6 @@ export default {
 <span class="w3-tiny am-b">
     Adn edit panel:
 <span>
-<button @click="insertAdnChild" class="w3-btn am-b" title="addChild - додати дитину">＋</button>
-
+<button @click="insertAdnChild" class="w3-btn am-b" title="addChild - додати дитину">˙＋</button>
 `,
 }

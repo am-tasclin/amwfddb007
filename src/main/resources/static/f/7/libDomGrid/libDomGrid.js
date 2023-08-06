@@ -58,11 +58,10 @@ export const setActuelTreeObj = pathTreeStr => {
  * @param {*} adnId 
  * @returns 
  */
-export const treeOpenedChildOnOff = (treeRootId, adnId, oldSelectedId) => {
+export const treeOpenedChildOnOff = (treeRootId, adnId) => {
     const treeConf = domConf.actuelTreeObj
     const openedId = (treeConf.openedId || (treeConf.openedId = {}))[treeRootId]
         || (treeConf.openedId[treeRootId] = [])
-    // adnId == oldSelectedId && 
     !openedId.includes(adnId)
         && openedId.push(adnId)
         || (treeConf.openedId[treeRootId] = openedId.filter(i => i !== adnId))
