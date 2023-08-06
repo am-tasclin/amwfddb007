@@ -31,6 +31,9 @@ export const mcData = domContainer.mcData
  * 
  */
 const domConf = domContainer.conf
+
+export const actualeEdit = () => domConf.actualeEdit
+
 /**
  * 
  * @returns 
@@ -48,9 +51,6 @@ export const setActuelTreeObj = pathTreeStr => {
     getDomComponent('actualeEdit').count++
     return domConf.actuelTreeObj
 }
-
-
-export const actualeEdit = () => domConf.actualeEdit
 /**
  * 
  * @param {*} path 
@@ -58,11 +58,13 @@ export const actualeEdit = () => domConf.actualeEdit
  * @param {*} adnId 
  * @returns 
  */
-export const treeOpenedChildOnOff = (treeRootId, adnId) => {
+export const treeOpenedChildOnOff = (treeRootId, adnId, oldSelectedId) => {
     const treeConf = domConf.actuelTreeObj
     const openedId = (treeConf.openedId || (treeConf.openedId = {}))[treeRootId]
         || (treeConf.openedId[treeRootId] = [])
-    !openedId.includes(adnId) && openedId.push(adnId)
+    // adnId == oldSelectedId && 
+    !openedId.includes(adnId)
+        && openedId.push(adnId)
         || (treeConf.openedId[treeRootId] = openedId.filter(i => i !== adnId))
     return treeConf.openedId[treeRootId]
 }
