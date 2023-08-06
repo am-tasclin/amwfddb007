@@ -30,7 +30,8 @@ app_treeDom.mount('#treeDom')
 
 import { actualeEdit, setDomComponent, getDomComponent, getActualeCompomentName } from
     '/f/7/libDomGrid/libDomGrid.js'
-createApp({
+import AdnEditPanel from '/f/7/libDomGrid/AdnEditPanel.js'
+const app_actualeEdit = createApp({
     data() { return { count: 0, } },
     mounted() {
         setDomComponent('actualeEdit', this)
@@ -41,7 +42,10 @@ createApp({
             console.log(123, actualeEdit())
         }
     }
-}).mount('#actualeEdit')
+})
+app_actualeEdit.component('t-adn-edit-panel', AdnEditPanel)
+app_actualeEdit.mount('#actualeEdit')
+
 
 import { setActualeCompomentName } from
     '/f/7/libDomGrid/libDomGrid.js'
