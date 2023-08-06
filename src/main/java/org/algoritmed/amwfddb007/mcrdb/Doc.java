@@ -62,9 +62,9 @@ public class Doc {
         this(nextDnId);
         if (mapIn.containsKey("parent"))
             this.parent = Long.parseLong(mapIn.get("parent").toString());
-        if (mapIn.containsKey("r"))
+        if (mapIn.containsKey("r") && mapIn.get("r") != null)
             this.reference = Long.parseLong(mapIn.get("r").toString());
-        if (mapIn.containsKey("r2"))
+        if (mapIn.containsKey("r2") && mapIn.get("r2") != null)
             this.reference2 = Long.parseLong(mapIn.get("r2").toString());
     }
 

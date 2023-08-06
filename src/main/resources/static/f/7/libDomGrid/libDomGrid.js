@@ -70,8 +70,9 @@ export const treeOpenedChildOnOff = (treeRootId, adnId) => {
         || (treeConf.openedId[treeRootId] = openedId.filter(i => i !== adnId))
     return treeConf.openedId[treeRootId]
 }
-export const reViewActuelAdn = adnId => Okeys(actuelTreeObj().mcElement).forEach(rootId => actuelTreeObj().mcElement[rootId][adnId] &&
-    actuelTreeObj().mcElement[rootId][adnId].count++)
+export const reViewAdn = adnId => Okeys(actuelTreeObj().mcElement)
+    .forEach(rootId => actuelTreeObj().mcElement[rootId][adnId] &&
+        actuelTreeObj().mcElement[rootId][adnId].count++)
 /**
  * 
  * @param {*} adnList 
@@ -79,7 +80,7 @@ export const reViewActuelAdn = adnId => Okeys(actuelTreeObj().mcElement).forEach
  */
 export const initNewMc = adnList => adnList.forEach(adn => {
     setToEMap(adn)
-    reViewActuelAdn(adn.doc_id)
+    reViewAdn(adn.doc_id)
 })
 /**
  * 

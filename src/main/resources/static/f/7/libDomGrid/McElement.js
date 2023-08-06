@@ -3,7 +3,7 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { mcData, reViewActuelAdn, setActuelTreeObj, actuelTreeObj, treeOpenedChildOnOff } from
+import { mcData, reViewAdn, setActuelTreeObj, actuelTreeObj, treeOpenedChildOnOff } from
     '/f/7/libDomGrid/libDomGrid.js'
 import { readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
 
@@ -29,8 +29,7 @@ export default {
             !mcData.parentChilds[this.adnId]
                 && readAdnByParentIds([this.adnId])
                     .then(() => this.count++) || this.count++
-            // init reselect old selected adn.
-            oldSelectedId && reViewActuelAdn(oldSelectedId)
+            oldSelectedId && reViewAdn(oldSelectedId)
         }
     }, template: `
 <div @click="click" class="w3-hover-shadow" :review="count"

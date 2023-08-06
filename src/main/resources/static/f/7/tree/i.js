@@ -31,7 +31,7 @@ app_treeDom.mount('#treeDom')
 import { actualeEdit, setDomComponent, getDomComponent, getActualeCompomentName } from
     '/f/7/libDomGrid/libDomGrid.js'
 import AdnEditPanel from '/f/7/libDomGrid/AdnEditPanel.js'
-const app_actualeEdit = createApp({
+createApp({
     data() { return { count: 0, } },
     mounted() {
         setDomComponent('actualeEdit', this)
@@ -39,14 +39,8 @@ const app_actualeEdit = createApp({
     }, methods: {
         treeSelectedId() { return actualeEdit().tree && actualeEdit().tree.selectedId },
         actualeCompomentName() { return getActualeCompomentName() },
-        click() {
-            console.log(123, actualeEdit())
-        }
     }
-})
-const x = app_actualeEdit.component('t-adn-edit-panel', AdnEditPanel)
-console.log(x)
-app_actualeEdit.mount('#actualeEdit')
+}).component('t-adn-edit-panel', AdnEditPanel).mount('#actualeEdit')
 
 
 import { setActualeCompomentName } from
@@ -58,7 +52,6 @@ createApp({
     methods: {
         click() {
             setActualeCompomentName('devTest')
-            console.log(123, getActualeCompomentName())
             getDomComponent('actualeEdit').count++
             getDomComponent('adnEditPanel').count++
         }

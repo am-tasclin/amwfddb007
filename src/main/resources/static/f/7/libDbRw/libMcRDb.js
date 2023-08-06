@@ -4,7 +4,17 @@
  * 
  */
 import { executeSelectQuery } from './wsDbRw.js'
+import { executeAdnInsertQuery } from './wsDbRw.js'
+import { executeDeleteAdn1Query } from './wsDbRw.js'
+
 import { initNewMc } from '/f/7/libDomGrid/libDomGrid.js'
+
+export const dbSendInsertAdn = adnJson =>
+    executeAdnInsertQuery(adnJson)
+
+export const dbSendDeleteAdn1 = adnJson =>
+    executeDeleteAdn1Query(adnJson)
+
 export const readAdnByIds = id_list => {
     const sql = selectDocVlStrByIds.replace(':idList', id_list.join(','))
     executeSelectQuery(sql).then(json => initNewMc(json.list)
