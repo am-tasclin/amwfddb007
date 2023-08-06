@@ -17,9 +17,11 @@ console.log(domContainer)
  */
 
 export const setActualeCompomentName = ctName => domContainer.actualeComponentName = ctName
-export const setDomComponent = (ctName, ct) =>
+export const setDomComponent = (ctName, ct) => {
+    console.log(ctName);
     setActualeCompomentName(ctName) &&
-    (domContainer.components[ctName] = ct)
+        (domContainer.components[ctName] = ct)
+}
 export const getDomComponent = (ctName) => domContainer.components[ctName]
 export const getActualeCompomentName = () => domContainer.actualeComponentName
 
@@ -49,6 +51,8 @@ export const setActuelTreeObj = pathTreeStr => {
     domContainer.conf.actualeEdit.tree =
         domConf.actuelTreeObj = pathTreeStr.split(',').reduce((o, k) => o[k], domContainer.conf)
     getDomComponent('actualeEdit').count++
+    getDomComponent('adnEditPanel').count++
+    console.log(domContainer, getActualeCompomentName())
     return domConf.actuelTreeObj
 }
 /**

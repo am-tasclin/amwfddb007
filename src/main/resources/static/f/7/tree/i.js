@@ -35,6 +35,7 @@ const app_actualeEdit = createApp({
     data() { return { count: 0, } },
     mounted() {
         setDomComponent('actualeEdit', this)
+        console.log(this)
     }, methods: {
         treeSelectedId() { return actualeEdit().tree && actualeEdit().tree.selectedId },
         actualeCompomentName() { return getActualeCompomentName() },
@@ -43,7 +44,8 @@ const app_actualeEdit = createApp({
         }
     }
 })
-app_actualeEdit.component('t-adn-edit-panel', AdnEditPanel)
+const x = app_actualeEdit.component('t-adn-edit-panel', AdnEditPanel)
+console.log(x)
 app_actualeEdit.mount('#actualeEdit')
 
 
@@ -58,6 +60,7 @@ createApp({
             setActualeCompomentName('devTest')
             console.log(123, getActualeCompomentName())
             getDomComponent('actualeEdit').count++
+            getDomComponent('adnEditPanel').count++
         }
     }
 }).mount('#devTest')
