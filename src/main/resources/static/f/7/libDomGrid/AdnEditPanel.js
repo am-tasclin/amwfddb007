@@ -20,9 +20,9 @@ export default {
         adn() { return mcData.eMap[this.treeSelectedId()] },
         deleteAdn() {
             console.log(1123, this.adn())
-            dbSendDeleteAdn1({ adnId: this.adn().doc_id }).then(json =>
-                readAdnByParentIds([this.adn().p]).then(() =>
-                    reViewAdn(this.adn().p)))
+            dbSendDeleteAdn1({ adnId: this.adn().doc_id })
+                .then(json => readAdnByParentIds([this.adn().p])
+                    .then(() => reViewAdn(this.adn().p)))
         }, copyAdnId() {
             this.copyId = this.adn().doc_id
             this.count++
@@ -43,11 +43,12 @@ export default {
         }
     }, template: `
 <div  v-if="'tree'==actualeCompomentName()">
-    <span  class="w3-right w3-tiny w3-opacity">
+    <span class="w3-right w3-tiny w3-opacity">
         <span v-if="copyId">copyId:{{copyId}} ‧</span>
         {{treeSelectedId()}} tree</span>
-    <span class="w3-tiny am-b">
-        Adn edit panel:
+    <span class="w3-tiny ">
+        <span class="am-b"> Adn edit panel: </span>
+        <span class="w3-opacity"> {{treeSelectedId()}} </span>
     </span>
     <button @click="insertAdnChild" class="w3-border-left w3-btn am-b" title="addChild - додати дитину">˙＋</button>
     <button @click="insertAdnSibling" class="w3-btn am-b" title="addSibling - додати побратима">＋</button>

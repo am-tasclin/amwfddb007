@@ -23,7 +23,18 @@ export const readAdnByIds = id_list => {
     })
 }
 
-import { addNewMc, addToParentChild } from '/f/7/libDomGrid/libDomGrid.js'
+/**
+ * 
+ * @param {*} adnList 
+ * @returns 
+export const addToParentChild = adnList => adnList.reduce((pl, adn) =>
+    !(mcData.parentChilds[adn.p] || (mcData.parentChilds[adn.p] = [])
+    ).includes(adn.p) &&
+    (mcData.parentChilds[adn.p].push(adn.doc_id) && pl.push(adn.p))
+    && pl || pl, [])
+ */
+
+import { addNewMc, } from '/f/7/libDomGrid/libDomGrid.js'
 /**
  * 
  * @param {*} parentId_list 
@@ -32,10 +43,12 @@ export const readAdnByParentIds = parentId_list => {
     const sql = selectDocVlStrByParentIds.replace(':idList', parentId_list.join(','))
     // console.log(sql, parentId_list)
     return executeSelectQuery(sql).then(json => {
-        addNewMc(json.list)
-        const pl = addToParentChild(json.list)
         !json.list.length && parentId_list.forEach(andId =>
             mcData.parentChilds[andId] = [])
+        addNewMc(json.list)
+        const pl2 = json.list.reduce((o, im) =>
+            (o[im.p] || (o[im.p] = [])).push(im.doc_id) && o, {})
+        Object.keys(pl2).forEach(p => mcData.parentChilds[p] = pl2[p])
     })
 }
 
