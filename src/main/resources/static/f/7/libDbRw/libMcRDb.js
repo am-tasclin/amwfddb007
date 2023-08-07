@@ -3,17 +3,23 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { executeSelectQuery } from './wsDbRw.js'
-import { executeAdnInsertQuery } from './wsDbRw.js'
-import { executeDeleteAdn1Query } from './wsDbRw.js'
+import { executeSelectQuery, executeAdnInsertQuery, executeDeleteAdn1Query } from
+    './wsDbRw.js'
+import { initNewMc, reViewAdn } from '/f/7/libDomGrid/libDomGrid.js'
 
-import { initNewMc } from '/f/7/libDomGrid/libDomGrid.js'
+export const dbSendInsertAdn = adnJson => executeAdnInsertQuery(adnJson).then(json => {
+    json.d.p = json.d.parent
+    mcData.eMap[json.d.doc_id] = json.d
+    mcData.parentChilds[json.d.p].push(json.d.doc_id)
+    reViewAdn(json.d.p)
+})
 
-export const dbSendInsertAdn = adnJson =>
-    executeAdnInsertQuery(adnJson)
-
-export const dbSendDeleteAdn1 = adnJson =>
-    executeDeleteAdn1Query(adnJson)
+export const dbSendDeleteAdn1 = adnJson => executeDeleteAdn1Query(adnJson).then(json => {
+    delete mcData.eMap[json.adnId]
+    mcData.parentChilds[json.p] =
+        mcData.parentChilds[json.p].filter(k => k != json.adnId)
+    reViewAdn(json.p)
+})
 
 export const readAdnByIds = id_list => {
     const sql = selectDocVlStrByIds.replace(':idList', id_list.join(','))
