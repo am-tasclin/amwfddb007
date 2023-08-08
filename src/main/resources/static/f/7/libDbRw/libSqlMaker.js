@@ -4,7 +4,7 @@
  * 
  */
 const sqlMakerContainer = {}
-console.log(sqlMakerContainer)
+// console.log(sqlMakerContainer)
 
 /**
  * Block of functions to generate the SQL select with it init data collection
@@ -41,7 +41,7 @@ const SqlSelectMaker = (smContainer, sqlTableName) => {
             smContainer.where = where
             return this
         }, get() {
-            console.log(smContainer)
+            // console.log(smContainer)
             let sql = 'SELECT '.concat(this.getColumns())
                 .concat(' FROM ').concat(this.getFrom())
             const concatLeftJoin = lj => '\n LEFT JOIN ' + lj.fromTable
@@ -52,7 +52,7 @@ const SqlSelectMaker = (smContainer, sqlTableName) => {
                 s += concatLeftJoin(lj), ''))
             smContainer.where && (sql += '\n WHERE ' + smContainer.where)
             smContainer.order && (sql += '\n ORDER BY ' + smContainer.order)
-            console.log(sql)
+            // console.log(sql)
             return sql
         },
     }
