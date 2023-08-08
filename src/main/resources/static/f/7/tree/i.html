@@ -12,7 +12,7 @@
 <script src="i.js" type="module"></script>
 
 <body class="w3-container">
-    <div class="w3-border-bottom am-max-width-1 w3-border-bottom">
+    <div class="am-max-width-1" style="position: sticky; top: 0; background-color: white;">
         <span class="">
             <a href="/" class="w3-btn w3-padding-small">
                 <img style="display: flex;" src="/f/css/homeIcon.svg"> </a>
@@ -35,19 +35,19 @@
                 src="/f/img/algoritmed-logo.webp" style="width:75px;" />&nbsp;</a>
         <!-- <span id="edCopyCut" class="w3-right"> <t-ed-copy-cut /> </span> -->
         <span id="dbMessagePool" class="w3-right"></span>
+        <div class="w3-border">
+            <div id="actualeEdit" class="w3-container" style="min-height: 4em;">
+                <t-adn-edit-panel></t-adn-edit-panel>
+                <template v-if="'tree'!=actualeCompomentName()">
+                    <span class="w3-right w3-tiny w3-opacity">&nbsp; {{actualeCompomentName()}} </span>
+                    devTest:
+                    <button class="w3-topbar w3-btn w3-ripple" @click="click">&nbsp; 🗄 &nbsp;</button>
+                </template>
+                <span class="w3-hide">{{count}}</span>
+            </div>&nbsp;
+        </div>
     </div>
-    <div class="am-max-width-1 w3-border-left w3-border-right">
-        <div id="actualeEdit" class="w3-container" style="min-height: 4em;">
-            <t-adn-edit-panel></t-adn-edit-panel>
-            <template v-if="'tree'!=actualeCompomentName()">
-                <span class="w3-right w3-tiny w3-opacity">&nbsp; {{actualeCompomentName()}} </span>
-                devTest:
-                <button class="w3-topbar w3-btn w3-ripple" @click="click">&nbsp; 🗄 &nbsp;</button>
-            </template>
-            <span class="w3-hide">{{count}}</span>
-        </div>&nbsp;
-    </div>
-    <div id="treeDom" class="w3-border-bottom w3-border-right am-max-width-1"></div>&nbsp;
+    <div id="treeDom" class="am-max-width-1 w3-border-right" style=""></div>&nbsp;
 
     <div class="w3-border-top">
         <a class="w3-tiny" href="https://www.compart.com/en/unicode/block/U+1F300">Symbols and Pictographs</a>
