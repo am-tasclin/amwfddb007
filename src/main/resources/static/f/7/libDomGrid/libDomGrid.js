@@ -17,11 +17,9 @@ console.log(domContainer)
  */
 
 export const setActualeCompomentName = ctName => domContainer.actualeComponentName = ctName
-export const setDomComponent = (ctName, ct) => {
-    console.log(ctName);
-    setActualeCompomentName(ctName) &&
-        (domContainer.components[ctName] = ct)
-}
+export const setDomComponent = (ctName, ct) => 
+    setActualeCompomentName(ctName) && (domContainer.components[ctName] = ct)
+
 export const getDomComponent = (ctName) => domContainer.components[ctName]
 export const getActualeCompomentName = () => domContainer.actualeComponentName
 

@@ -15,7 +15,10 @@ console.log(sqlMakerContainer)
  */
 const SqlSelectMaker = (smContainer, sqlTableName) => {
     return {
-        getColumns: () => smContainer.columns || ' * ',
+        getColumns: () => smContainer.columns &&
+            (smContainer.order && !smContainer.columns.includes(' ' + smContainer.order)
+                && smContainer.columns + ', ' + smContainer.order || smContainer.columns)
+            || ' * ',
         getFrom: () => smContainer.from || sqlTableName,
         sqlTableName: sqlTableName,
         initFrom(from) {
@@ -27,16 +30,29 @@ const SqlSelectMaker = (smContainer, sqlTableName) => {
         }, initLeftJoin(fromTable, on) {
             smContainer.leftJoin = { fromTable: fromTable, on: on }
             return this
+        }, addLeftJoin(fromTable, on) {
+            smContainer.addLeftJoin || (smContainer.addLeftJoin = [])
+            smContainer.addLeftJoin.push({ fromTable: fromTable, on: on })
+            return this
+        }, initOrder(order) {
+            smContainer.order = order.trim()
+            return this
         }, initWhere(where) {
             smContainer.where = where
             return this
         }, get() {
+            console.log(smContainer)
             let sql = 'SELECT '.concat(this.getColumns())
                 .concat(' FROM ').concat(this.getFrom())
+            const concatLeftJoin = lj => '\n LEFT JOIN ' + lj.fromTable
+                + ' ON ' + lj.on
             smContainer.leftJoin && (sql +=
-                '\n LEFT JOIN ' + smContainer.leftJoin.fromTable
-                + ' ON ' + smContainer.leftJoin.on)
-            smContainer.where && (sql += ' WHERE ' + smContainer.where)
+                concatLeftJoin(smContainer.leftJoin))
+            smContainer.addLeftJoin && (sql += smContainer.addLeftJoin.reduce((s, lj) =>
+                s += concatLeftJoin(lj), ''))
+            smContainer.where && (sql += '\n WHERE ' + smContainer.where)
+            smContainer.order && (sql += '\n ORDER BY ' + smContainer.order)
+            console.log(sql)
             return sql
         },
     }

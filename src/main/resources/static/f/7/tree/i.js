@@ -35,7 +35,6 @@ createApp({
     data() { return { count: 0, } },
     mounted() {
         setDomComponent('actualeEdit', this)
-        console.log(this)
     }, methods: {
         treeSelectedId() { return actualeEdit().tree && actualeEdit().tree.selectedId },
         actualeCompomentName() { return getActualeCompomentName() },

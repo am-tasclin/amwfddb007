@@ -77,4 +77,7 @@ const selectDocVlStrByIds = selectDocVlStrMaker
  * 
  */
 const selectDocVlStrByParentIds = selectDocVlStrMaker
-    .initWhere('parent IN (:idList)').get()
+    .initWhere('parent IN (:idList)')
+    .addLeftJoin('sort','doc_id=sort_id')
+    .initOrder('sort')
+    .get()

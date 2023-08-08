@@ -13,7 +13,6 @@ export default {
     data() { return { count: 0, copyId: 0 } },
     mounted() {
         setDomComponent('adnEditPanel', this)
-        console.log(this)
     }, methods: {
         actualeCompomentName() { return getActualeCompomentName() },
         treeSelectedId() { return actualeEdit().tree && actualeEdit().tree.selectedId },
