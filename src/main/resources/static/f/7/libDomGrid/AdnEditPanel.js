@@ -35,20 +35,23 @@ export default {
             dbSendInsertAdn({ parent: this.adn().doc_id })
         }
     }, template: `
-<div  v-if="'tree'==actualeCompomentName()">
+<div class="w3-row" v-if="'tree'==actualeCompomentName()">
     <span class="w3-right w3-tiny w3-opacity">
         <span v-if="copyId">copyId:{{copyId}} ‧</span>
         {{treeSelectedId()}} tree</span>
-    <span class="w3-tiny ">
-        <span class="am-b"> Adn edit panel: </span>
-        <span class="w3-opacity"> {{treeSelectedId()}} </span>
-    </span>
-    <button @click="insertAdnChild" class="w3-border-left w3-btn am-b" title="addChild - додати дитину">˙＋</button>
-    <button @click="insertAdnSibling" class="w3-btn am-b" title="addSibling - додати побратима">＋</button>
-    <button @click="deleteAdn" class="w3-btn am-b" >－</button>
-    <button @click="copyAdnId" class="w3-border-left w3-btn am-b" title="copy - копіювати">⧉</button>
-    <button @click="pasteAdnSibling" class="w3-btn am-b" title="paste sibling - вставити як побратима">⧠</button>
-
-</div><span class="w3-hide">{{count}}<span>
+    <div class="w3-col" style="width: 9em;">
+        <span class="w3-tiny ">
+            <span class="w3-opacity w3-right"> {{treeSelectedId()}} &nbsp;</span>
+            <span class="am-b"> Adn edit panel: </span>
+        </span>
+    </div>
+    <div class="w3-rest">
+        <button @click="insertAdnChild" class="w3-border-left w3-btn am-b" title="addChild - додати дитину">˙＋</button>
+        <button @click="insertAdnSibling" class="w3-btn am-b" title="addSibling - додати побратима">＋</button>
+        <button @click="deleteAdn" class="w3-btn am-b" >－</button>
+        <button @click="copyAdnId" class="w3-border-left w3-btn am-b" title="copy - копіювати">⧉</button>
+        <button @click="pasteAdnSibling" class="w3-btn am-b" title="paste sibling - вставити як побратима">⧠</button>
+    </div>
+</div><span class="w3-hide">{{count}}</span>
 `,
 }

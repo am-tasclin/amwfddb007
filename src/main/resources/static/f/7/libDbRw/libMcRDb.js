@@ -9,6 +9,9 @@ import { initNewMc, reViewAdn } from '/f/7/libDomGrid/libDomGrid.js'
 
 export const dbSendInsertAdn = adnJson => executeAdnInsertQuery(adnJson).then(json => {
     json.d.p = json.d.parent
+    json.d.r = json.d.reference
+    json.d.r2 = json.d.reference2
+    console.log(json)
     mcData.eMap[json.d.doc_id] = json.d
     mcData.parentChilds[json.d.p].push(json.d.doc_id)
     reViewAdn(json.d.p)
