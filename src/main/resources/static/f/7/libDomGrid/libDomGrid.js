@@ -17,7 +17,7 @@ console.log(domContainer)
  */
 
 export const setActualeCompomentName = ctName => domContainer.actualeComponentName = ctName
-export const setDomComponent = (ctName, ct) => 
+export const setDomComponent = (ctName, ct) =>
     setActualeCompomentName(ctName) && (domContainer.components[ctName] = ct)
 
 export const getDomComponent = (ctName) => domContainer.components[ctName]
@@ -52,6 +52,16 @@ export const setActuelTreeObj = pathTreeStr => {
     getDomComponent('adnEditPanel').count++
     return domConf.actuelTreeObj
 }
+
+/**
+ * 
+ * @param {*} treeRootId 
+ * @returns 
+ */
+export const initActuelTreeOpenedId = treeRootId => (domConf.actuelTreeObj.openedId
+    || (domConf.actuelTreeObj.openedId = {}))[treeRootId]
+    || (domConf.actuelTreeObj.openedId[treeRootId] = [])
+
 /**
  * 
  * @param {*} path 
@@ -60,13 +70,12 @@ export const setActuelTreeObj = pathTreeStr => {
  * @returns 
  */
 export const treeOpenedChildOnOff = (treeRootId, adnId) => {
-    const treeConf = domConf.actuelTreeObj
-    const openedId = (treeConf.openedId || (treeConf.openedId = {}))[treeRootId]
-        || (treeConf.openedId[treeRootId] = [])
-    !openedId.includes(adnId)
-        && openedId.push(adnId)
-        || (treeConf.openedId[treeRootId] = openedId.filter(i => i !== adnId))
-    return treeConf.openedId[treeRootId]
+    const actuelTreeObj = domConf.actuelTreeObj
+    const actuelTreeOpenedId = initActuelTreeOpenedId(treeRootId)
+    !actuelTreeOpenedId.includes(adnId)
+        && actuelTreeOpenedId.push(adnId)
+        || (actuelTreeObj.openedId[treeRootId] = actuelTreeOpenedId.filter(i => i !== adnId))
+    return actuelTreeObj.openedId[treeRootId]
 }
 export const reViewAdn = adnId => Okeys(actuelTreeObj().mcElement)
     .forEach(rootId => actuelTreeObj().mcElement[rootId][adnId] &&
@@ -94,8 +103,6 @@ export const setToEMap = adn =>
  */
 export const addNewMc = adnList => adnList
     .forEach(adn => setToEMap(adn))
-
-
 
 /**
  * 

@@ -3,8 +3,10 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { mcData, reViewAdn, setActuelTreeObj, actuelTreeObj, treeOpenedChildOnOff } from
-    '/f/7/libDomGrid/libDomGrid.js'
+import {
+    mcData, reViewAdn, setActuelTreeObj, actuelTreeObj
+    , initActuelTreeOpenedId, treeOpenedChildOnOff
+} from '/f/7/libDomGrid/libDomGrid.js'
 import { readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
 
 export default {
@@ -19,8 +21,7 @@ export default {
         vlStr() { return this.adn().vl_str && marked.parseInline(this.adn().vl_str) },
         isSelected() { return actuelTreeObj() && actuelTreeObj().selectedId == this.adnId },
         isOpened() {
-            return actuelTreeObj().openedId && actuelTreeObj()
-                .openedId[this.treeRootId].includes(this.adnId)
+            return initActuelTreeOpenedId(this.treeRootId).includes(this.adnId)
         }, click() {
             const oldSelectedId = actuelTreeObj().selectedId;
             (oldSelectedId == this.adnId || !oldSelectedId) &&
