@@ -35,7 +35,9 @@ export default {
     }, template: `
 <div @click="click" class="w3-hover-shadow" :review="count"
         :class="{'w3-light-grey':isSelected(),'w3-white':!isSelected()}">
-    <span class="w3-small"> 
+    <span class="w3-small"
+    :class="{'w3-text-blue':isSelected()}"
+    > 
     <span v-if="adnId==treeRootId">🗄</span>
     {{adnId}} &nbsp;</span>
     <span v-html="vlStr()" />

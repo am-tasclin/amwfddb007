@@ -37,10 +37,11 @@ export default {
 <div class="w3-row" v-if="'tree'==actualeCompomentName()">
     <span class="w3-right w3-tiny w3-opacity">
         <span v-if="copyId">copyId:{{copyId}} ‧</span>
-        {{treeSelectedId()}} tree</span>
+        <span class="w3-text-blue am-b"> {{treeSelectedId()}}</span> 
+            ‧ tree</span>
     <div class="w3-col" style="width: 9em;">
         <span class="w3-tiny ">
-            <span class="w3-opacity w3-right"> {{treeSelectedId()}} &nbsp;</span>
+            <span class="w3-opacity w3-right w3-text-blue"> {{treeSelectedId()}} &nbsp;</span>
             <span class="am-b"> Adn edit panel: </span>
         </span>
     </div>
