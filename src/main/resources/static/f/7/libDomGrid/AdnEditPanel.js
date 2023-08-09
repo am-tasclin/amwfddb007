@@ -5,7 +5,6 @@
  */
 import {
     mcData, setDomComponent, getActualeCompomentName, actualeEdit,
-    consoleLogDomCOntainer
 } from '/f/7/libDomGrid/libDomGrid.js'
 import { dbSendInsertAdn, dbSendDeleteAdn1 } from
     '/f/7/libDbRw/libMcRDb.js'
@@ -15,10 +14,10 @@ const isAdnEditPanelSubMenu = (adnId, type) => actualeEdit().adnEditPanelSubMenu
 
 const adnEditPanelSubMenu = (adnId, type) => !isAdnEditPanelSubMenu(adnId, type)
     && (actualeEdit().adnEditPanelSubMenu = { adnId: adnId, type: type })
-    || delete actualeEdit().adnEditPanelSubMenu
+    || delete actualeEdit().adnEditPanelSubMenu.type
 
 export default {
-    data() { return { count: 0, copyId: 0 } },
+    data() { return { count: 0, edVlStr: null } },
     mounted() {
         setDomComponent('adnEditPanel', this)
     }, methods: {
@@ -28,8 +27,10 @@ export default {
         deleteAdn() {
             console.log(1123, this.adn())
             dbSendDeleteAdn1({ adnId: this.adn().doc_id, p: this.adn().p })
+        }, copyId() {
+            return actualeEdit().copyId
         }, copyAdnId() {
-            this.copyId = this.adn().doc_id
+            actualeEdit().copyId = this.adn().doc_id
             this.count++
         }, pasteAdnSibling() {
             const copyAdn = mcData.eMap[this.copyId]
@@ -42,12 +43,12 @@ export default {
         }, upOneLevel() {
             console.log(123)
         }, isEditStrMenu() {
-            console.log(actualeEdit().adnEditPanelSubMenu)
             return isAdnEditPanelSubMenu(this.treeSelectedId(), 'editStr')
+        }, sendVlStrDb() {
+            console.log(this.edVlStr)
         }, editStrMenu() {
+            // !this.edVlStr && this.adn().vl_str && (this.edVlStr && this.adn().vl_str)
             adnEditPanelSubMenu(this.treeSelectedId(), 'editStr')
-            console.log(123, actualeEdit())
-            consoleLogDomCOntainer()
             this.count++
         }, isSortMenu() {
             return isAdnEditPanelSubMenu(this.treeSelectedId(), 'sort')
@@ -56,10 +57,11 @@ export default {
             console.log(123)
             this.count++
         }
+
     }, template: `
 <div class="w3-row" v-if="'tree'==actualeCompomentName()">
     <span class="w3-right w3-tiny w3-opacity">
-        <span v-if="copyId">copyId:{{copyId}} ‧ </span>
+        <span v-if="copyId()">copyId:{{copyId()}} ‧ </span>
         <span class="w3-text-blue am-b"> {{treeSelectedId()}}</span> ‧ tree</span>
     <div class="w3-col" style="width: 9em;">
         <span class="w3-tiny ">
@@ -81,8 +83,14 @@ export default {
     </div>
 </div>
 
-<div v-if="isEditStrMenu()">
-    isEditStrMenu
+<div v-if="isEditStrMenu()" class="w3-row">
+    <div class="w3-col" style="width: 80%;">
+        <textarea class="am-width-100pr" 
+        :value="adn().vl_str" @input="edVlStr=$event.target.value" />
+    </div>
+    <div class="w3-rest">
+        <button @click="sendVlStrDb" class="w3-border w3-small">⛃  sendDb - відправити БД</button>
+    </div>
 </div>
 <div v-if="isSortMenu()">
     isSortMenu
@@ -91,3 +99,5 @@ export default {
 <span class="w3-hide">{{count}}</span>
 `,
 }
+// <textarea v-model="vl_str" class="am-width-100pr" />
+// @input="writeVlStr($event.target.value)"
