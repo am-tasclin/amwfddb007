@@ -3,10 +3,19 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { mcData, setDomComponent, getActualeCompomentName, actualeEdit } from
-    '/f/7/libDomGrid/libDomGrid.js'
+import {
+    mcData, setDomComponent, getActualeCompomentName, actualeEdit,
+    consoleLogDomCOntainer
+} from '/f/7/libDomGrid/libDomGrid.js'
 import { dbSendInsertAdn, dbSendDeleteAdn1 } from
     '/f/7/libDbRw/libMcRDb.js'
+
+const isAdnEditPanelSubMenu = (adnId, type) => actualeEdit().adnEditPanelSubMenu &&
+    actualeEdit().adnEditPanelSubMenu.adnId == adnId && actualeEdit().adnEditPanelSubMenu.type == type
+
+const adnEditPanelSubMenu = (adnId, type) => !isAdnEditPanelSubMenu(adnId, type)
+    && (actualeEdit().adnEditPanelSubMenu = { adnId: adnId, type: type })
+    || delete actualeEdit().adnEditPanelSubMenu
 
 export default {
     data() { return { count: 0, copyId: 0 } },
@@ -32,13 +41,26 @@ export default {
             dbSendInsertAdn({ parent: this.adn().doc_id })
         }, upOneLevel() {
             console.log(123)
+        }, isEditStrMenu() {
+            console.log(actualeEdit().adnEditPanelSubMenu)
+            return isAdnEditPanelSubMenu(this.treeSelectedId(), 'editStr')
+        }, editStrMenu() {
+            adnEditPanelSubMenu(this.treeSelectedId(), 'editStr')
+            console.log(123, actualeEdit())
+            consoleLogDomCOntainer()
+            this.count++
+        }, isSortMenu() {
+            return isAdnEditPanelSubMenu(this.treeSelectedId(), 'sort')
+        }, sortMenu() {
+            adnEditPanelSubMenu(this.treeSelectedId(), 'sort')
+            console.log(123)
+            this.count++
         }
     }, template: `
 <div class="w3-row" v-if="'tree'==actualeCompomentName()">
     <span class="w3-right w3-tiny w3-opacity">
-        <span v-if="copyId">copyId:{{copyId}} ‧</span>
-        <span class="w3-text-blue am-b"> {{treeSelectedId()}}</span> 
-            ‧ tree</span>
+        <span v-if="copyId">copyId:{{copyId}} ‧ </span>
+        <span class="w3-text-blue am-b"> {{treeSelectedId()}}</span> ‧ tree</span>
     <div class="w3-col" style="width: 9em;">
         <span class="w3-tiny ">
             <span class="w3-opacity w3-right w3-text-blue"> {{treeSelectedId()}} &nbsp;</span>
@@ -52,7 +74,20 @@ export default {
         <button @click="copyAdnId" class="w3-border-left w3-btn am-b" title="copy - копіювати">⧉</button>
         <button @click="pasteAdnSibling" class="w3-btn am-b" title="paste sibling - вставити як побратима">⧠</button>
         <button @click="upOneLevel" class="w3-btn am-b w3-border-left" title="up one level - на один рівень вище" >🡔</button>
+        <button @click="editStrMenu" :class="{'w3-light-grey':isEditStrMenu()}"
+            class="w3-btn am-b w3-border-left w3-topbar" title="edit string value">✎</button>
+        <button @click="sortMenu"  :class="{'w3-light-grey':isSortMenu()}"
+            class="w3-btn am-b w3-border-left w3-topbar" title="sort sibling">⇅</button>
     </div>
-</div><span class="w3-hide">{{count}}</span>
+</div>
+
+<div v-if="isEditStrMenu()">
+    isEditStrMenu
+</div>
+<div v-if="isSortMenu()">
+    isSortMenu
+</div>
+
+<span class="w3-hide">{{count}}</span>
 `,
 }

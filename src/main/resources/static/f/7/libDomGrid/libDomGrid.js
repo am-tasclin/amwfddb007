@@ -9,7 +9,8 @@ const domContainer = {
     conf: { actualeEdit: {} }, mcData: { eMap: {}, parentChilds: {} },
     components: {}
 }
-console.log(domContainer)
+export const consoleLogDomCOntainer = () => console.log(domContainer)
+consoleLogDomCOntainer()
 /**
  * Container of data and structures for build and use the DOM Grid
  * Контейнер даних і структур для створення та використання DOM Grid
@@ -27,6 +28,7 @@ export const getActualeCompomentName = () => domContainer.actualeComponentName
  * 
  */
 export const mcData = domContainer.mcData
+
 /**
  * 
  */
