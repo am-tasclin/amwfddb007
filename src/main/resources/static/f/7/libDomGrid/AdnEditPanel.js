@@ -9,9 +9,12 @@ import {
 import { dbSendVlStrData, dbSendInsertAdn, dbSendDeleteAdn1 } from
     '/f/7/libDbRw/libMcRDb.js'
 
+
 const treeSelectedId = () => actualeEdit().tree && actualeEdit().tree.selectedId
     , adn = () => mcData.eMap[treeSelectedId()]
 
+console.log(actualeEdit())
+    
 const isAdnEditPanelSubMenu = type => actualeEdit().adnEditPanelSubMenu
     && actualeEdit().adnEditPanelSubMenu[treeSelectedId()]
     && actualeEdit().adnEditPanelSubMenu.activeId == treeSelectedId()
@@ -26,7 +29,6 @@ const isAdnEditPanelSubMenu = type => actualeEdit().adnEditPanelSubMenu
     , adnEditPanelSubMenuOnOff = type => !isAdnEditPanelSubMenu(type)
         && (initAdnEditPanelSubMenu().type = type)
         || delete actualeEdit().adnEditPanelSubMenu[treeSelectedId()].type
-
 
 export default {
     data() { return { count: 0, } },
@@ -110,15 +112,19 @@ export default {
     <div class="w3-col" style="width: 80%;">
         <textarea class="am-width-100pr w3-border" 
             :value="adnEditPanelSubMenu().edVlStr"
-            @input="setEdVlStr($event.target.value)"
-            />
+            @input="setEdVlStr($event.target.value)" />
     </div>
     <div class="w3-rest">
         <button @click="sendVlStrDb" class="w3-border w3-small">⛃  sendDb - відправити БД</button>
     </div>
 </div>
 <div v-if="isSortMenu()">
-    isSortMenu
+    <span class="w3-large w3-topbar">&nbsp;⇅&nbsp;</span>
+    <button @click="sortUp" class="w3-btn" titlw="up">⬆</button>
+    <button @click="sortDown" class="w3-btn" title="down">⬇</button>
+    <button @click="sortFirst" class="w3-btn w3-border-left" title="toFirst">⮸</button>
+    <button @click="sortEnd" class="w3-btn" style="transform: rotate(180deg);"
+        title="toLast">⮸</button>
 </div>
 
 <span class="w3-hide">{{count}}</span>

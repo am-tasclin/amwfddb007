@@ -3,8 +3,10 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { confTree, initDomConfLogic, uniqueIdPageRead } from
-    '/f/7/libDomGrid/libDomGrid.js'
+import {
+    confTree, initDomConfLogic, uniqueIdPageRead,
+    domConfStrignify
+} from '/f/7/libDomGrid/libDomGrid.js'
 initDomConfLogic(window.location.hash.substring(1))
 const uniqueIdsForDbRead = uniqueIdPageRead()
 
@@ -41,7 +43,6 @@ createApp({
     }
 }).component('t-adn-edit-panel', AdnEditPanel).mount('#actualeEdit')
 
-
 import { setActualeCompomentName } from
     '/f/7/libDomGrid/libDomGrid.js'
 createApp({
@@ -49,6 +50,10 @@ createApp({
         setDomComponent('devTest', this)
     },
     methods: {
+        showConf() {
+            console.log(123)
+            const x = domConfStrignify()
+        },
         click() {
             setActualeCompomentName('devTest')
             getDomComponent('actualeEdit').count++

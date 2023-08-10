@@ -46,6 +46,7 @@ export default {
     {{adn().r2}}
     <span>
 </div>
+a1 {{parentChilds()}}
 <div class="w3-container w3-border-left" v-if="parentChilds().length && isOpened()">
     <div v-for="adnId2 in parentChilds()">
         <t-mc-element :adnId="adnId2" :path="path" :treeRootId="treeRootId" />
@@ -53,4 +54,3 @@ export default {
 </div>
 `,
 }
-

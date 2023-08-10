@@ -32,15 +32,27 @@ export const mcData = domContainer.mcData
 /**
  * 
  */
-const domConf = domContainer.conf
+const domConf = () => domContainer.conf
 
-export const actualeEdit = () => domConf.actualeEdit
+const domConfStrignifyList = ['mcElement', 'actuelTreeObj', 'actualeEdit',]
+const domConfStrignifyFn = (k, v) =>
+    !domConfStrignifyList.includes(k)
+    && v || undefined
+export const domConfLocationHash = () => JSON.stringify(domConf, domConfStrignifyFn)
+export const domConfStrignify = () => {
+    const x = JSON.stringify(domConf, domConfStrignifyFn, 2)
+    console.log(x)
+    console.log(domConfLocationHash())
+    window.location.href = '#cj=' + domConfLocationHash()
+}
+
+export const actualeEdit = () =>  domConf().actualeEdit
 
 /**
  * 
  * @returns 
  */
-export const actuelTreeObj = () => domConf.actuelTreeObj
+export const actuelTreeObj = () => domConf().actuelTreeObj
 /**
  * 
  * @param {*} pathTreeStr 
@@ -49,10 +61,10 @@ export const actuelTreeObj = () => domConf.actuelTreeObj
 export const setActuelTreeObj = pathTreeStr => {
     setActualeCompomentName('tree')
     domContainer.conf.actualeEdit.tree =
-        domConf.actuelTreeObj = pathTreeStr.split(',').reduce((o, k) => o[k], domContainer.conf)
+        domConf().actuelTreeObj = pathTreeStr.split(',').reduce((o, k) => o[k], domContainer.conf)
     getDomComponent('actualeEdit').count++
     getDomComponent('adnEditPanel').count++
-    return domConf.actuelTreeObj
+    return domConf().actuelTreeObj
 }
 
 /**
@@ -60,9 +72,9 @@ export const setActuelTreeObj = pathTreeStr => {
  * @param {*} treeRootId 
  * @returns 
  */
-export const initActuelTreeOpenedId = treeRootId => (domConf.actuelTreeObj.openedId
-    || (domConf.actuelTreeObj.openedId = {}))[treeRootId]
-    || (domConf.actuelTreeObj.openedId[treeRootId] = [])
+export const initActuelTreeOpenedId = treeRootId => (domConf().actuelTreeObj.openedId
+    || (domConf().actuelTreeObj.openedId = {}))[treeRootId]
+    || (domConf().actuelTreeObj.openedId[treeRootId] = [])
 
 /**
  * 
@@ -72,7 +84,7 @@ export const initActuelTreeOpenedId = treeRootId => (domConf.actuelTreeObj.opene
  * @returns 
  */
 export const treeOpenedChildOnOff = (treeRootId, adnId) => {
-    const actuelTreeObj = domConf.actuelTreeObj
+    const actuelTreeObj = domConf().actuelTreeObj
     const actuelTreeOpenedId = initActuelTreeOpenedId(treeRootId)
     !actuelTreeOpenedId.includes(adnId)
         && actuelTreeOpenedId.push(adnId)
@@ -124,8 +136,17 @@ export const confTree = () => domContainer.conf.tree
  * 
  * @param {*} rawConfStr 
  */
-export const initDomConfLogic = (rawConfStr) => {
+export const initDomConfLogic = (rawConfStr) =>
     !rawConfStr.includes('cj=') && initUriDomConf(rawConfStr)
+    || initJsonDomConf(rawConfStr.replace('cj=', ''))
+
+const initJsonDomConf = (rawConfStr, ppId) => {
+    const confJson = JSON.parse(decodeURI(rawConfStr))
+    console.log(domContainer.conf)
+    domContainer.conf.tree = confJson.tree
+    !ppId && (ppId = 0)
+    domContainer.conf.actuelTreeObj = domContainer.conf.tree[ppId]
+    return domContainer.conf
 }
 
 /**
@@ -142,7 +163,8 @@ const initUriDomConf = (rawUriDomConf, ppId) => {
     'tree' == uriDomConf_l[0] && ((
         domContainer.conf.tree || (domContainer.conf.tree = {})
     )[ppId] = { rootList: uriDomConf_l.slice(1) })
-    domConf.actuelTreeObj = domContainer.conf.tree[ppId]
+    domContainer.conf.actuelTreeObj = domContainer.conf.tree[ppId]
+    return domContainer.conf
 }
 
 const Okeys = Object.keys
