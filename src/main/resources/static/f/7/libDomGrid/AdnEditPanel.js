@@ -9,12 +9,17 @@ import {
 import { dbSendInsertAdn, dbSendDeleteAdn1 } from
     '/f/7/libDbRw/libMcRDb.js'
 
-const isAdnEditPanelSubMenu = (adnId, type) => actualeEdit().adnEditPanelSubMenu &&
-    actualeEdit().adnEditPanelSubMenu.adnId == adnId && actualeEdit().adnEditPanelSubMenu.type == type
+const treeSelectedId = () => actualeEdit().tree && actualeEdit().tree.selectedId
+    , adn = () => mcData.eMap[treeSelectedId()]
 
-const adnEditPanelSubMenu = (adnId, type) => !isAdnEditPanelSubMenu(adnId, type)
-    && (actualeEdit().adnEditPanelSubMenu = { adnId: adnId, type: type })
-    || delete actualeEdit().adnEditPanelSubMenu.type
+const isAdnEditPanelSubMenu = (adnId, type) => actualeEdit().adnEditPanelSubMenu &&
+    actualeEdit().adnEditPanelSubMenu[adnId] && actualeEdit().adnEditPanelSubMenu[adnId].type == type
+    , initAdnEditPanelSubMenu = adnId => (actualeEdit().adnEditPanelSubMenu || (actualeEdit().adnEditPanelSubMenu = {}))[adnId] ||
+        (actualeEdit().adnEditPanelSubMenu[adnId] = {})
+    , adnEditPanelSubMenuOnOff = (adnId, type) => !isAdnEditPanelSubMenu(adnId, type)
+        && (initAdnEditPanelSubMenu(adnId).type = type)
+        || delete actualeEdit().adnEditPanelSubMenu[adnId].type
+
 
 export default {
     data() { return { count: 0, edVlStr: null } },
@@ -22,8 +27,8 @@ export default {
         setDomComponent('adnEditPanel', this)
     }, methods: {
         actualeCompomentName() { return getActualeCompomentName() },
-        treeSelectedId() { return actualeEdit().tree && actualeEdit().tree.selectedId },
-        adn() { return mcData.eMap[this.treeSelectedId()] },
+        treeSelectedId() { return treeSelectedId() },
+        adn() { return adn()},
         deleteAdn() {
             console.log(1123, this.adn())
             dbSendDeleteAdn1({ adnId: this.adn().doc_id, p: this.adn().p })
@@ -34,26 +39,26 @@ export default {
             this.count++
         }, pasteAdnSibling() {
             const copyAdn = mcData.eMap[this.copyId]
-            dbSendInsertAdn({ parent: this.adn().p, r: copyAdn.r, r2: copyAdn.r2 })
+            dbSendInsertAdn({ parent: adn().p, r: copyAdn.r, r2: copyAdn.r2 })
         }, insertAdnSibling() {
-            !Object.keys(actualeEdit().tree.mcElement).includes(this.treeSelectedId()) &&
-                dbSendInsertAdn({ parent: this.adn().p })
+            !Object.keys(actualeEdit().tree.mcElement).includes(treeSelectedId()) &&
+                dbSendInsertAdn({ parent: adn().p })
         }, insertAdnChild() {
-            dbSendInsertAdn({ parent: this.adn().doc_id })
+            dbSendInsertAdn({ parent: adn().doc_id })
         }, upOneLevel() {
             console.log(123)
         }, isEditStrMenu() {
-            return isAdnEditPanelSubMenu(this.treeSelectedId(), 'editStr')
+            return isAdnEditPanelSubMenu(treeSelectedId(), 'editStr')
         }, sendVlStrDb() {
             console.log(this.edVlStr)
         }, editStrMenu() {
             // !this.edVlStr && this.adn().vl_str && (this.edVlStr && this.adn().vl_str)
-            adnEditPanelSubMenu(this.treeSelectedId(), 'editStr')
+            adnEditPanelSubMenuOnOff(treeSelectedId(), 'editStr')
             this.count++
         }, isSortMenu() {
-            return isAdnEditPanelSubMenu(this.treeSelectedId(), 'sort')
+            return isAdnEditPanelSubMenu(treeSelectedId(), 'sort')
         }, sortMenu() {
-            adnEditPanelSubMenu(this.treeSelectedId(), 'sort')
+            adnEditPanelSubMenuOnOff(treeSelectedId(), 'sort')
             console.log(123)
             this.count++
         }
@@ -75,11 +80,11 @@ export default {
         <button @click="deleteAdn" class="w3-btn am-b" >－</button>
         <button @click="copyAdnId" class="w3-border-left w3-btn am-b" title="copy - копіювати">⧉</button>
         <button @click="pasteAdnSibling" class="w3-btn am-b" title="paste sibling - вставити як побратима">⧠</button>
-        <button @click="upOneLevel" class="w3-btn am-b w3-border-left" title="up one level - на один рівень вище" >🡔</button>
         <button @click="editStrMenu" :class="{'w3-light-grey':isEditStrMenu()}"
             class="w3-btn am-b w3-border-left w3-topbar" title="edit string value">✎</button>
         <button @click="sortMenu"  :class="{'w3-light-grey':isSortMenu()}"
             class="w3-btn am-b w3-border-left w3-topbar" title="sort sibling">⇅</button>
+        <button @click="upOneLevel" class="w3-btn am-b w3-border-left" title="up one level - на один рівень вище" >🡖</button>
     </div>
 </div>
 
