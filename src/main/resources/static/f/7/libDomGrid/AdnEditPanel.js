@@ -6,7 +6,7 @@
 import {
     mcData, setDomComponent, getActualeCompomentName, actualeEdit,
 } from '/f/7/libDomGrid/libDomGrid.js'
-import { dbSendInsertAdn, dbSendDeleteAdn1 } from
+import { dbSendVlStrData, dbSendInsertAdn, dbSendDeleteAdn1 } from
     '/f/7/libDbRw/libMcRDb.js'
 
 const treeSelectedId = () => actualeEdit().tree && actualeEdit().tree.selectedId
@@ -58,6 +58,12 @@ export default {
             return isAdnEditPanelSubMenu('editStr')
         }, sendVlStrDb() {
             console.log(initAdnEditPanelSubMenu().edVlStr)
+            dbSendVlStrData({
+                adnId: treeSelectedId()
+                , string: initAdnEditPanelSubMenu().edVlStr,
+            }).then(() => {
+                console.log(123)
+            })
         }, setEdVlStr(vl) {
             initAdnEditPanelSubMenu().edVlStr = vl
         }, adnEditPanelSubMenu() {
@@ -92,7 +98,6 @@ export default {
         <button @click="pasteAdnSibling" class="w3-btn am-b" title="paste sibling - вставити як побратима">⧠</button>
 
         <button @click="upOneLevel" class="w3-btn am-b w3-border-left" title="up one level - на один рівень вище" >🡖</button>
-
 
         <button @click="editStrMenu" :class="{'w3-light-grey':isEditStrMenu()}"
             class="w3-btn am-b w3-border-left w3-topbar" title="edit string value">✎</button>

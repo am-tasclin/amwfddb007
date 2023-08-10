@@ -12,6 +12,14 @@ export const ws = new WebSocket(uri_wsDbRw)
  * @param {*} dbMessage 
  * @returns 
  */
+export const executeUpdateString = dbMessage =>
+    (dbMessage.cmd = 'updateString') && execute_SqlChange_API(dbMessage)
+
+/**
+ * 
+ * @param {*} dbMessage 
+ * @returns 
+ */
 export const executeAdnInsertQuery = dbMessage =>
     (dbMessage.cmd = 'insertAdn') && execute_SqlChange_API(dbMessage)
 

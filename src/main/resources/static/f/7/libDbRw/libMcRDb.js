@@ -3,9 +3,21 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { executeSelectQuery, executeAdnInsertQuery, executeDeleteAdn1Query } from
-    './wsDbRw.js'
 import { initNewMc, reViewAdn } from '/f/7/libDomGrid/libDomGrid.js'
+import {
+    executeSelectQuery, executeAdnInsertQuery, executeDeleteAdn1Query,
+    executeUpdateString
+} from './wsDbRw.js'
+
+/**
+ * 
+ * @param {*} adnJson 
+ * @returns 
+ */
+export const dbSendVlStrData = adnJson => executeUpdateString(adnJson).then(json => {
+    mcData.eMap[json.adnId].vl_str = json.string
+    reViewAdn(json.adnId)
+})
 
 export const dbSendInsertAdn = adnJson => executeAdnInsertQuery(adnJson).then(json => {
     json.d.p = json.d.parent
@@ -78,6 +90,6 @@ const selectDocVlStrByIds = selectDocVlStrMaker
  */
 const selectDocVlStrByParentIds = selectDocVlStrMaker
     .initWhere('parent IN (:idList)')
-    .addLeftJoin('sort','doc_id=sort_id')
+    .addLeftJoin('sort', 'doc_id=sort_id')
     .initOrder('sort')
     .get()
