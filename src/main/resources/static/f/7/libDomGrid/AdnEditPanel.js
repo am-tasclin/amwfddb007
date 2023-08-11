@@ -13,8 +13,6 @@ import { dbSendVlStrData, dbSendInsertAdn, dbSendDeleteAdn1 } from
 const treeSelectedId = () => actualeEdit().tree && actualeEdit().tree.selectedId
     , adn = () => mcData.eMap[treeSelectedId()]
 
-console.log(actualeEdit())
-    
 const isAdnEditPanelSubMenu = type => actualeEdit().adnEditPanelSubMenu
     && actualeEdit().adnEditPanelSubMenu[treeSelectedId()]
     && actualeEdit().adnEditPanelSubMenu.activeId == treeSelectedId()

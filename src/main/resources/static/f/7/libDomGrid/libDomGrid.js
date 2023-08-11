@@ -9,6 +9,7 @@ const domContainer = {
     conf: { actualeEdit: {} }, mcData: { eMap: {}, parentChilds: {} },
     components: {}
 }
+console.log(domContainer)
 export const consoleLogDomCOntainer = () => console.log(domContainer)
 
 /**
@@ -35,15 +36,16 @@ export const mcData = domContainer.mcData
 const domConf = () => domContainer.conf
 
 const domConfStrignifyList = ['mcElement', 'actuelTreeObj', 'actualeEdit',]
-const domConfStrignifyFn = (k, v) =>
-    !domConfStrignifyList.includes(k)
-    && v || undefined
-export const domConfLocationHash = () => JSON.stringify(domConf, domConfStrignifyFn)
+const domConfStrignifyFn = (k, v) => !domConfStrignifyList.includes(k) && v || undefined
+export const domConfLocationHash = () => JSON.stringify(domConf(), domConfStrignifyFn)
+export const domConfHrefHash = () => window.location.href = '#cj=' + domConfLocationHash()
+
 export const domConfStrignify = () => {
-    const x = JSON.stringify(domConf, domConfStrignifyFn, 2)
+    console.log(domConf())
+    const x = JSON.stringify(domConf(), domConfStrignifyFn, 2)
     console.log(x)
     console.log(domConfLocationHash())
-    window.location.href = '#cj=' + domConfLocationHash()
+    domConfHrefHash()
 }
 
 export const actualeEdit = () => domConf().actualeEdit
@@ -91,6 +93,7 @@ export const treeOpenedChildOnOff = (treeRootId, adnId) => {
         || (actuelTreeObj.openedId[treeRootId] = actuelTreeOpenedId.filter(i => i !== adnId))
     return actuelTreeObj.openedId[treeRootId]
 }
+
 export const reViewAdn = adnId => Okeys(actuelTreeObj().mcElement)
     .forEach(rootId => actuelTreeObj().mcElement[rootId][adnId] &&
         actuelTreeObj().mcElement[rootId][adnId].count++)
@@ -143,15 +146,18 @@ export const confTree = () => domContainer.conf.tree
  * @param {*} rawConfStr 
  */
 export const initDomConfLogic = (rawConfStr) =>
-    !rawConfStr.includes('cj=') && initUriDomConf(rawConfStr)
-    || initJsonDomConf(rawConfStr.replace('cj=', ''))
+    rawConfStr.includes('cj=') && initJsonDomConf(rawConfStr.replace('cj=', ''))
+    || initUriDomConf(rawConfStr)
 
 const initJsonDomConf = (rawConfStr, ppId) => {
     const confJson = JSON.parse(decodeURI(rawConfStr))
-    console.log(domContainer.conf)
     domContainer.conf.tree = confJson.tree
-    !ppId && (ppId = 0)
+    !ppId && (ppId = Okeys(domConf().tree)[0])
     domContainer.conf.actuelTreeObj = domContainer.conf.tree[ppId]
+    domContainer.conf.actualeEdit.pathTreeStr = 'tree,' + ppId
+    console.log(domContainer.conf.actualeEdit.pathTreeStr, domContainer)
+    //setActuelTreeObj(pathTreeStr)
+
     return domContainer.conf
 }
 
@@ -166,6 +172,7 @@ const initUriDomConf = (rawUriDomConf, ppId) => {
     const uriDomConf_l = rawUriDomConf.split(',')
     !ppId && (ppId = 0)
     // console.log(123, rawUriDomConf, uriDomConf_l, ppId)
+    domContainer.conf.actualeEdit.pathTreeStr = 'tree,' + ppId
     'tree' == uriDomConf_l[0] && ((
         domContainer.conf.tree || (domContainer.conf.tree = {})
     )[ppId] = { rootList: uriDomConf_l.slice(1) })
