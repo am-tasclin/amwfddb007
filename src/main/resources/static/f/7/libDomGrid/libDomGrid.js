@@ -10,7 +10,7 @@ const domContainer = {
     components: {}
 }
 export const consoleLogDomCOntainer = () => console.log(domContainer)
-consoleLogDomCOntainer()
+
 /**
  * Container of data and structures for build and use the DOM Grid
  * Контейнер даних і структур для створення та використання DOM Grid
@@ -46,7 +46,7 @@ export const domConfStrignify = () => {
     window.location.href = '#cj=' + domConfLocationHash()
 }
 
-export const actualeEdit = () =>  domConf().actualeEdit
+export const actualeEdit = () => domConf().actualeEdit
 
 /**
  * 
@@ -126,6 +126,12 @@ export const uniqueIdPageRead = () => Okeys(domContainer.conf.tree)
     .reduce((l, im) => domContainer.conf.tree[im].rootList.filter(im2 => !l.includes(im2))
         .reduce((l, im2) => l.push(im2) && l, l) && l, [])
 
+export const uniqueParentIdPageRead = () => Okeys(domConf().tree)
+    .reduce((l1, treeId) => domConf().tree[treeId].openedId && Okeys(domConf().tree[treeId].openedId)
+        .reduce((l2, treeRootId) => domConf().tree[treeId].openedId[treeRootId]
+            .reduce((l3, i) => !l3.includes(i) && l3.push(i) && l3 || l3
+                , l2) && l2, l1) && l1 || l1, [])
+
 /**
  * Short to tree configuration
  * @returns 
@@ -168,3 +174,4 @@ const initUriDomConf = (rawUriDomConf, ppId) => {
 }
 
 const Okeys = Object.keys
+

@@ -36,9 +36,17 @@ export const dbSendDeleteAdn1 = adnJson => executeDeleteAdn1Query(adnJson).then(
     reViewAdn(json.p)
 })
 
+import { uniqueParentIdPageRead } from '/f/7/libDomGrid/libDomGrid.js'
+
+export const readAdnByParentIds2 = l => {
+    const uniqueParentId_l = uniqueParentIdPageRead()
+
+    console.log(uniqueParentId_l)
+}
+
 export const readAdnByIds = id_list => {
     const sql = selectDocVlStrByIds.replace(':idList', id_list.join(','))
-    executeSelectQuery(sql).then(json => initNewMc(json.list)
+    return executeSelectQuery(sql).then(json => initNewMc(json.list)
     ).then(() => {
         console.log('read rr2', id_list)
     })
@@ -62,7 +70,7 @@ import { addNewMc, } from '/f/7/libDomGrid/libDomGrid.js'
  */
 export const readAdnByParentIds = parentId_list => {
     const sql = selectDocVlStrByParentIds.replace(':idList', parentId_list.join(','))
-    // console.log(sql, parentId_list)
+    console.log(sql, parentId_list)
     return executeSelectQuery(sql).then(json => {
         !json.list.length && parentId_list.forEach(andId =>
             mcData.parentChilds[andId] = [])
@@ -93,3 +101,4 @@ const selectDocVlStrByParentIds = selectDocVlStrMaker
     .addLeftJoin('sort', 'doc_id=sort_id')
     .initOrder('sort')
     .get()
+

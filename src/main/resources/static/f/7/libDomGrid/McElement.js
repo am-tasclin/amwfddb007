@@ -35,9 +35,7 @@ export default {
     }, template: `
 <div @click="click" class="w3-hover-shadow" :review="count"
         :class="{'w3-light-grey':isSelected(),'w3-white':!isSelected()}">
-    <span class="w3-small"
-    :class="{'w3-text-blue':isSelected()}"
-    > 
+    <span class="w3-small" :class="{'w3-text-blue':isSelected()}" > 
     <span v-if="adnId==treeRootId">🗄</span>
     {{adnId}} &nbsp;</span>
     <span v-html="vlStr()" />
@@ -46,7 +44,6 @@ export default {
     {{adn().r2}}
     <span>
 </div>
-a1 {{parentChilds()}}
 <div class="w3-container w3-border-left" v-if="parentChilds().length && isOpened()">
     <div v-for="adnId2 in parentChilds()">
         <t-mc-element :adnId="adnId2" :path="path" :treeRootId="treeRootId" />

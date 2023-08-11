@@ -4,16 +4,29 @@
  * 
  */
 import {
-    confTree, initDomConfLogic, uniqueIdPageRead,
-    domConfStrignify
+    confTree, initDomConfLogic, domConfStrignify
+    , uniqueIdPageRead, uniqueParentIdPageRead
+    , reViewAdn
 } from '/f/7/libDomGrid/libDomGrid.js'
 initDomConfLogic(window.location.hash.substring(1))
 const uniqueIdsForDbRead = uniqueIdPageRead()
 
+console.log(uniqueIdsForDbRead)
+
 import { ws } from '/f/7/libDbRw/wsDbRw.js'
-import { readAdnByIds } from '/f/7/libDbRw/libMcRDb.js'
+import { readAdnByIds, readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
+
 ws.onopen = event =>
-    readAdnByIds(uniqueIdsForDbRead)
+    readAdnByIds(uniqueIdsForDbRead).then(() => {
+        const uniqueParentId_l = uniqueParentIdPageRead()
+        console.log(uniqueParentId_l)
+        console.log(uniqueParentId_l.lenght)
+        readAdnByParentIds(uniqueParentId_l).then(() =>
+            uniqueParentId_l.forEach(parentId =>
+                reViewAdn(parentId)
+            )
+        )
+    })
 
 const { createApp } = Vue
 import McElement from '/f/7/libDomGrid/McElement.js'

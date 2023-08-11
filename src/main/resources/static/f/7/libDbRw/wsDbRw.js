@@ -1,7 +1,7 @@
 'use strict'
 /**
  * Algoritmed ©, Licence EUPL-1.2 or later.
- * 
+ * WebSocket and its DB API logic
  */
 
 const uri_wsDbRw = "ws://" + window.location.host + "/dbRw"
