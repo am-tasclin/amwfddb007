@@ -12,30 +12,29 @@ initDomConfLogic(window.location.hash.substring(1))
 const uniqueIdsForDbRead = uniqueIdPageRead()
 
 console.log(uniqueIdsForDbRead)
+console.log(!!uniqueIdsForDbRead.length,)
 
 import { ws } from '/f/7/libDbRw/wsDbRw.js'
 import { readAdnByIds, readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
 import { actualeEdit, setActuelTreeObj } from
     '/f/7/libDomGrid/libDomGrid.js'
-ws.onopen = event => readAdnByIds(uniqueIdsForDbRead).then(() => {
-    const uniqueParentId_l = uniqueParentIdPageRead()
-    console.log(uniqueParentId_l)
-    uniqueParentId_l.length && readAdnByParentIds(uniqueParentId_l)
-        .then(() => uniqueParentId_l.forEach(parentId =>
-            reViewAdn(parentId)))
-        .then(() => {
-            !actualeEdit().tree && setActuelTreeObj(actualeEdit().pathTreeStr)
-        })
-})
+
+ws.onopen = event =>
+    uniqueIdsForDbRead.length && readAdnByIds(uniqueIdsForDbRead).then(() => {
+        const uniqueParentId_l = uniqueParentIdPageRead()
+        uniqueParentId_l.length && readAdnByParentIds(uniqueParentId_l
+        ).then(() => uniqueParentId_l.forEach(parentId => reViewAdn(parentId))
+        ).then(() => !actualeEdit().tree && setActuelTreeObj(actualeEdit().pathTreeStr))
+    })
 
 const { createApp } = Vue
 import McElement from '/f/7/libDomGrid/McElement.js'
 const app_treeDom = createApp({
     methods: {
-        confTree() { return confTree() },
+        confTreeRootList() { return confTree()[0] && confTree()[0].rootList || [] },
         u_l() { return uniqueIdsForDbRead },
     }, template: `
-<div v-for="adnId in confTree()[0].rootList">
+<div v-for="adnId in confTreeRootList()">
     <t-mc-element :adnId="adnId" :treeRootId="adnId" path="tree,0" />
 </div>
 `,

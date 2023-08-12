@@ -175,8 +175,12 @@ const initUriDomConf = (rawUriDomConf, ppId) => {
     domContainer.conf.actualeEdit.pathTreeStr = 'tree,' + ppId
     'tree' == uriDomConf_l[0] && ((
         domContainer.conf.tree || (domContainer.conf.tree = {})
-    )[ppId] = { rootList: uriDomConf_l.slice(1) })
-    domContainer.conf.actuelTreeObj = domContainer.conf.tree[ppId]
+    )[ppId] = { rootList: uriDomConf_l.slice(1) }
+    ) && (domContainer.conf.actuelTreeObj = domContainer.conf.tree[ppId])
+        || (() => {
+            domContainer.conf.tree = {}
+            console.log(domContainer)
+        })()
     return domContainer.conf
 }
 
