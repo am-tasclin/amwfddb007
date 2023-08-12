@@ -7,7 +7,7 @@ import {
     confTree, initDomConfLogic, domConfStrignify
     , uniqueIdPageRead, uniqueParentIdPageRead
     , actuallyEdit, setActuallyTreeObj, reViewAdn, addTreeFn
-    , setDomComponent, getDomComponent
+    , setDomComponent, getDomComponent, mcData, domConfHrefHash
     , setActualeCompomentName, getActualeCompomentName
 } from '/f/7/libDomGrid/libDomGrid.js'
 import { ws } from '/f/7/libDbRw/wsDbRw.js'
@@ -28,13 +28,15 @@ ws.onopen = event =>
 const { createApp } = Vue
 import McElement from '/f/7/libDomGrid/McElement.js'
 const app_treeDom = createApp({
-    methods: {
+    data() { return { count: 0, } },
+    mounted() {
+        setDomComponent('treeDom', this)
+    }, methods: {
         confTreeRootList() { return confTree()[0] && confTree()[0].rootList || [] },
-        u_l() { return uniqueIdsForDbRead },
     }, template: `
 <div v-for="adnId in confTreeRootList()">
     <t-mc-element :adnId="adnId" :treeRootId="adnId" path="tree,0" />
-</div>
+</div><span class="w3-hide">{{count}}</span>
 `,
 })
 app_treeDom.component('t-mc-element', McElement)
@@ -43,12 +45,15 @@ app_treeDom.mount('#treeDom')
 import AdnEditPanel from '/f/7/libDomGrid/AdnEditPanel.js'
 
 createApp({
-    data() { return { count: 0, addTree: 0, } },
+    data() { return { count: 0, addTreeId: 0, } },
     mounted() {
         setDomComponent('actuallyEdit', this)
     }, methods: {
         addTreeFn() {
-            addTreeFn(this.addTree)
+            addTreeFn(this.addTreeId)
+            !mcData.eMap[this.addTreeId] && readAdnByIds([this.addTreeId]
+            ).then(() => getDomComponent('treeDom').count++
+            ).then(() => domConfHrefHash())
         },
         treeSelectedId() { return actuallyEdit().tree && actuallyEdit().tree.selectedId },
         actuallyCompomentName() { return getActualeCompomentName() },
@@ -60,7 +65,6 @@ createApp({
         setDomComponent('devTest', this)
     }, methods: {
         showConf() {
-            console.log(123,123)
             domConfStrignify()
         }, click() {
             setActualeCompomentName('devTest')

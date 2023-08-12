@@ -5,10 +5,11 @@
  * 
  */
 
-const domContainer = {
-    conf: { actuallyEdit: {} }, mcData: { eMap: {}, parentChilds: {} },
-    components: {}
-}
+const eMap = {}, parentChilds = {}
+    , domContainer = {
+        conf: { actuallyEdit: {} }, mcData: { eMap: eMap, parentChilds: parentChilds },
+        components: {}
+    }
 console.log(domContainer)
 export const consoleLogDomCOntainer = () => console.log(domContainer)
 
@@ -94,7 +95,7 @@ export const treeOpenedChildOnOff = (treeRootId, adnId) => {
     return actuallyTreeObj.openedId[treeRootId]
 }
 
-export const reViewAdn = adnId => Okeys(actuallyTreeObj().mcElement)
+export const reViewAdn = adnId => actuallyTreeObj().mcElement && Okeys(actuallyTreeObj().mcElement)
     .forEach(rootId => actuallyTreeObj().mcElement[rootId][adnId] &&
         actuallyTreeObj().mcElement[rootId][adnId].count++)
 /**
@@ -184,11 +185,15 @@ const initUriDomConf = (rawUriDomConf, ppId) => {
     return domContainer.conf
 }
 
-export const addTreeFn = addTree => {
-    console.log(addTree)
-    console.log(actuallyTreeObj())
-    console.log(domContainer.conf)
+export const addTreeFn = addTreeId => {
     !Okeys(domContainer.conf.tree).length && (domContainer.conf.tree = { 0: {} })
+    const firstRootTreeId = Okeys(domContainer.conf.tree)[0];
+    (domContainer.conf.tree[firstRootTreeId].rootList
+        || (domContainer.conf.tree[firstRootTreeId].rootList = []))
+    !domContainer.conf.tree[firstRootTreeId].rootList.includes(addTreeId)
+        && domContainer.conf.tree[firstRootTreeId].rootList.push(addTreeId)
+    const pathTreeStr = 'tree,' + firstRootTreeId
+    setActuallyTreeObj(pathTreeStr)
 }
 
 const Okeys = Object.keys
