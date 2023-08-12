@@ -4,51 +4,51 @@
  * 
  */
 import {
-    mcData, setDomComponent, getActualeCompomentName, actualeEdit,
+    mcData, setDomComponent, getActualeCompomentName, actuallyEdit,
 } from '/f/7/libDomGrid/libDomGrid.js'
 import { dbSendVlStrData, dbSendInsertAdn, dbSendDeleteAdn1 } from
     '/f/7/libDbRw/libMcRDb.js'
 
 
-const treeSelectedId = () => actualeEdit().tree && actualeEdit().tree.selectedId
+const treeSelectedId = () => actuallyEdit().tree && actuallyEdit().tree.selectedId
     , adn = () => mcData.eMap[treeSelectedId()]
 
-const isAdnEditPanelSubMenu = type => actualeEdit().adnEditPanelSubMenu
-    && actualeEdit().adnEditPanelSubMenu[treeSelectedId()]
-    && actualeEdit().adnEditPanelSubMenu.activeId == treeSelectedId()
-    && actualeEdit().adnEditPanelSubMenu[treeSelectedId()].type == type
+const isAdnEditPanelSubMenu = type => actuallyEdit().adnEditPanelSubMenu
+    && actuallyEdit().adnEditPanelSubMenu[treeSelectedId()]
+    && actuallyEdit().adnEditPanelSubMenu.activeId == treeSelectedId()
+    && actuallyEdit().adnEditPanelSubMenu[treeSelectedId()].type == type
     , initAdnEditPanelSubMenu = () => {
-        !actualeEdit().adnEditPanelSubMenu && (actualeEdit().adnEditPanelSubMenu = { activeId: treeSelectedId() })
-            || (actualeEdit().adnEditPanelSubMenu.activeId = treeSelectedId())
-        !actualeEdit().adnEditPanelSubMenu[treeSelectedId()] &&
-            (actualeEdit().adnEditPanelSubMenu[treeSelectedId()] = { edVlStr: adn().vl_str })
-        return actualeEdit().adnEditPanelSubMenu[treeSelectedId()]
+        !actuallyEdit().adnEditPanelSubMenu && (actuallyEdit().adnEditPanelSubMenu = { activeId: treeSelectedId() })
+            || (actuallyEdit().adnEditPanelSubMenu.activeId = treeSelectedId())
+        !actuallyEdit().adnEditPanelSubMenu[treeSelectedId()] &&
+            (actuallyEdit().adnEditPanelSubMenu[treeSelectedId()] = { edVlStr: adn().vl_str })
+        return actuallyEdit().adnEditPanelSubMenu[treeSelectedId()]
     }
     , adnEditPanelSubMenuOnOff = type => !isAdnEditPanelSubMenu(type)
         && (initAdnEditPanelSubMenu().type = type)
-        || delete actualeEdit().adnEditPanelSubMenu[treeSelectedId()].type
+        || delete actuallyEdit().adnEditPanelSubMenu[treeSelectedId()].type
 
 export default {
     data() { return { count: 0, } },
     mounted() {
         setDomComponent('adnEditPanel', this)
     }, methods: {
-        actualeCompomentName() { return getActualeCompomentName() },
+        actuallyCompomentName() { return getActualeCompomentName() },
         treeSelectedId() { return treeSelectedId() },
         adn() { return adn() },
         deleteAdn() {
             console.log(1123, this.adn())
             dbSendDeleteAdn1({ adnId: this.adn().doc_id, p: this.adn().p })
         }, copyId() {
-            return actualeEdit().copyId
+            return actuallyEdit().copyId
         }, copyAdnId() {
-            actualeEdit().copyId = this.adn().doc_id
+            actuallyEdit().copyId = this.adn().doc_id
             this.count++
         }, pasteAdnSibling() {
             const copyAdn = mcData.eMap[this.copyId]
             dbSendInsertAdn({ parent: adn().p, r: copyAdn.r, r2: copyAdn.r2 })
         }, insertAdnSibling() {
-            !Object.keys(actualeEdit().tree.mcElement).includes(treeSelectedId()) &&
+            !Object.keys(actuallyEdit().tree.mcElement).includes(treeSelectedId()) &&
                 dbSendInsertAdn({ parent: adn().p })
         }, insertAdnChild() {
             dbSendInsertAdn({ parent: adn().doc_id })
@@ -67,7 +67,7 @@ export default {
         }, setEdVlStr(vl) {
             initAdnEditPanelSubMenu().edVlStr = vl
         }, adnEditPanelSubMenu() {
-            return actualeEdit().adnEditPanelSubMenu[treeSelectedId()]
+            return actuallyEdit().adnEditPanelSubMenu[treeSelectedId()]
         }, editStrMenu() {
             adnEditPanelSubMenuOnOff('editStr')
             this.count++
@@ -80,7 +80,7 @@ export default {
         }
 
     }, template: `
-<div class="w3-row" v-if="'tree'==actualeCompomentName()">
+<div class="w3-row" v-if="'tree'==actuallyCompomentName()">
     <span class="w3-right w3-tiny w3-opacity">
         <span v-if="copyId()">copyId:{{copyId()}} ‧ </span>
         <span class="w3-text-blue am-b"> {{treeSelectedId()}}</span> ‧ tree</span>

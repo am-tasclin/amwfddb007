@@ -4,8 +4,8 @@
  * 
  */
 import {
-    mcData, reViewAdn, setActuelTreeObj, actuelTreeObj
-    , initActuelTreeOpenedId, treeOpenedChildOnOff
+    mcData, reViewAdn, setActuallyTreeObj, actuallyTreeObj
+    , initActuallyTreeOpenedId, treeOpenedChildOnOff
     , domConfHrefHash
 } from '/f/7/libDomGrid/libDomGrid.js'
 import { readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
@@ -13,21 +13,21 @@ import { readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
 export default {
     props: { adnId: Number, path: String, treeRootId: Number }, data() { return { count: 0, } },
     mounted() {
-        const treeConf = actuelTreeObj();
+        const treeConf = actuallyTreeObj();
         ((treeConf.mcElement || (treeConf.mcElement = {}))[this.treeRootId]
             || (treeConf.mcElement[this.treeRootId] = {}))[this.adnId] = this
     }, methods: {
         adn() { return mcData.eMap[this.adnId] || {} },
         parentChilds() { return mcData.parentChilds[this.adnId] || [] },
         vlStr() { return this.adn().vl_str && marked.parseInline(this.adn().vl_str) },
-        isSelected() { return actuelTreeObj() && actuelTreeObj().selectedId == this.adnId },
+        isSelected() { return actuallyTreeObj() && actuallyTreeObj().selectedId == this.adnId },
         isOpened() {
-            return initActuelTreeOpenedId(this.treeRootId).includes(this.adnId)
+            return initActuallyTreeOpenedId(this.treeRootId).includes(this.adnId)
         }, click() {
-            const oldSelectedId = actuelTreeObj().selectedId;
+            const oldSelectedId = actuallyTreeObj().selectedId;
             (oldSelectedId == this.adnId || !oldSelectedId) &&
                 treeOpenedChildOnOff(this.treeRootId, this.adnId)
-            setActuelTreeObj(this.path).selectedId = this.adnId
+            setActuallyTreeObj(this.path).selectedId = this.adnId
             !mcData.parentChilds[this.adnId]
                 && readAdnByParentIds([this.adnId])
                     .then(() => this.count++) || this.count++

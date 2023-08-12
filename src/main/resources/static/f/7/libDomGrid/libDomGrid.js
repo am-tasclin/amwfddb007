@@ -6,7 +6,7 @@
  */
 
 const domContainer = {
-    conf: { actualeEdit: {} }, mcData: { eMap: {}, parentChilds: {} },
+    conf: { actuallyEdit: {} }, mcData: { eMap: {}, parentChilds: {} },
     components: {}
 }
 console.log(domContainer)
@@ -18,12 +18,12 @@ export const consoleLogDomCOntainer = () => console.log(domContainer)
  * 
  */
 
-export const setActualeCompomentName = ctName => domContainer.actualeComponentName = ctName
+export const setActualeCompomentName = ctName => domContainer.actuallyComponentName = ctName
 export const setDomComponent = (ctName, ct) =>
     setActualeCompomentName(ctName) && (domContainer.components[ctName] = ct)
 
 export const getDomComponent = (ctName) => domContainer.components[ctName]
-export const getActualeCompomentName = () => domContainer.actualeComponentName
+export const getActualeCompomentName = () => domContainer.actuallyComponentName
 
 /**
  * 
@@ -35,7 +35,7 @@ export const mcData = domContainer.mcData
  */
 const domConf = () => domContainer.conf
 
-const domConfStrignifyList = ['mcElement', 'actuelTreeObj', 'actualeEdit',]
+const domConfStrignifyList = ['mcElement', 'actuallyTreeObj', 'actuallyEdit',]
 const domConfStrignifyFn = (k, v) => !domConfStrignifyList.includes(k) && v || undefined
 export const domConfLocationHash = () => JSON.stringify(domConf(), domConfStrignifyFn)
 export const domConfHrefHash = () => window.location.href = '#cj=' + domConfLocationHash()
@@ -48,25 +48,25 @@ export const domConfStrignify = () => {
     domConfHrefHash()
 }
 
-export const actualeEdit = () => domConf().actualeEdit
+export const actuallyEdit = () => domConf().actuallyEdit
 
 /**
  * 
  * @returns 
  */
-export const actuelTreeObj = () => domConf().actuelTreeObj
+export const actuallyTreeObj = () => domConf().actuallyTreeObj
 /**
  * 
  * @param {*} pathTreeStr 
  * @returns 
  */
-export const setActuelTreeObj = pathTreeStr => {
+export const setActuallyTreeObj = pathTreeStr => {
     setActualeCompomentName('tree')
-    domContainer.conf.actualeEdit.tree =
-        domConf().actuelTreeObj = pathTreeStr.split(',').reduce((o, k) => o[k], domContainer.conf)
-    getDomComponent('actualeEdit').count++
+    domContainer.conf.actuallyEdit.tree =
+        domConf().actuallyTreeObj = pathTreeStr.split(',').reduce((o, k) => o[k], domContainer.conf)
+    getDomComponent('actuallyEdit').count++
     getDomComponent('adnEditPanel').count++
-    return domConf().actuelTreeObj
+    return domConf().actuallyTreeObj
 }
 
 /**
@@ -74,9 +74,9 @@ export const setActuelTreeObj = pathTreeStr => {
  * @param {*} treeRootId 
  * @returns 
  */
-export const initActuelTreeOpenedId = treeRootId => (domConf().actuelTreeObj.openedId
-    || (domConf().actuelTreeObj.openedId = {}))[treeRootId]
-    || (domConf().actuelTreeObj.openedId[treeRootId] = [])
+export const initActuallyTreeOpenedId = treeRootId => (domConf().actuallyTreeObj.openedId
+    || (domConf().actuallyTreeObj.openedId = {}))[treeRootId]
+    || (domConf().actuallyTreeObj.openedId[treeRootId] = [])
 
 /**
  * 
@@ -86,17 +86,17 @@ export const initActuelTreeOpenedId = treeRootId => (domConf().actuelTreeObj.ope
  * @returns 
  */
 export const treeOpenedChildOnOff = (treeRootId, adnId) => {
-    const actuelTreeObj = domConf().actuelTreeObj
-    const actuelTreeOpenedId = initActuelTreeOpenedId(treeRootId)
-    !actuelTreeOpenedId.includes(adnId)
-        && actuelTreeOpenedId.push(adnId)
-        || (actuelTreeObj.openedId[treeRootId] = actuelTreeOpenedId.filter(i => i !== adnId))
-    return actuelTreeObj.openedId[treeRootId]
+    const actuallyTreeObj = domConf().actuallyTreeObj
+    const actuallyTreeOpenedId = initActuallyTreeOpenedId(treeRootId)
+    !actuallyTreeOpenedId.includes(adnId)
+        && actuallyTreeOpenedId.push(adnId)
+        || (actuallyTreeObj.openedId[treeRootId] = actuallyTreeOpenedId.filter(i => i !== adnId))
+    return actuallyTreeObj.openedId[treeRootId]
 }
 
-export const reViewAdn = adnId => Okeys(actuelTreeObj().mcElement)
-    .forEach(rootId => actuelTreeObj().mcElement[rootId][adnId] &&
-        actuelTreeObj().mcElement[rootId][adnId].count++)
+export const reViewAdn = adnId => Okeys(actuallyTreeObj().mcElement)
+    .forEach(rootId => actuallyTreeObj().mcElement[rootId][adnId] &&
+        actuallyTreeObj().mcElement[rootId][adnId].count++)
 /**
  * 
  * @param {*} adnList 
@@ -153,10 +153,10 @@ const initJsonDomConf = (rawConfStr, ppId) => {
     const confJson = JSON.parse(decodeURI(rawConfStr))
     domContainer.conf.tree = confJson.tree
     !ppId && (ppId = Okeys(domConf().tree)[0])
-    domContainer.conf.actuelTreeObj = domContainer.conf.tree[ppId]
-    domContainer.conf.actualeEdit.pathTreeStr = 'tree,' + ppId
-    console.log(domContainer.conf.actualeEdit.pathTreeStr, domContainer)
-    //setActuelTreeObj(pathTreeStr)
+    domContainer.conf.actuallyTreeObj = domContainer.conf.tree[ppId]
+    domContainer.conf.actuallyEdit.pathTreeStr = 'tree,' + ppId
+    console.log(domContainer.conf.actuallyEdit.pathTreeStr, domContainer)
+    //setActuallyTreeObj(pathTreeStr)
 
     return domContainer.conf
 }
@@ -172,16 +172,23 @@ const initUriDomConf = (rawUriDomConf, ppId) => {
     const uriDomConf_l = rawUriDomConf.split(',')
     !ppId && (ppId = 0)
     // console.log(123, rawUriDomConf, uriDomConf_l, ppId)
-    domContainer.conf.actualeEdit.pathTreeStr = 'tree,' + ppId
+    domContainer.conf.actuallyEdit.pathTreeStr = 'tree,' + ppId
     'tree' == uriDomConf_l[0] && ((
         domContainer.conf.tree || (domContainer.conf.tree = {})
     )[ppId] = { rootList: uriDomConf_l.slice(1) }
-    ) && (domContainer.conf.actuelTreeObj = domContainer.conf.tree[ppId])
+    ) && (domContainer.conf.actuallyTreeObj = domContainer.conf.tree[ppId])
         || (() => {
             domContainer.conf.tree = {}
             console.log(domContainer)
         })()
     return domContainer.conf
+}
+
+export const addTreeFn = addTree => {
+    console.log(addTree)
+    console.log(actuallyTreeObj())
+    console.log(domContainer.conf)
+    !Okeys(domContainer.conf.tree).length && (domContainer.conf.tree = { 0: {} })
 }
 
 const Okeys = Object.keys
