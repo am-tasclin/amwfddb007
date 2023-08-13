@@ -8,8 +8,7 @@ ws.onopen = event => executeSelectQuery(
     'SELECT * FROM kassa.entry'
 ).then(json => {
     console.log('jj ', json)
-    console.log('pp ',  page)
-
+    console.log('pp ', page)
     page.list = json.list
     page.tDbTable02.count++
 })
@@ -18,15 +17,14 @@ createApp({
     data() { return { count: 0 } },
     mounted() {
         page.tDbTable02 = this
-    }, 
-    methods: {
+    }, methods: {
         colList() { return page.list && Object.keys(page.list[0] || []) },
         list() { return page.list }
     }
 }).mount('#tDbTable02')
 
 import ddPersonal from './ddPersonal.js'
-console.log('   ffff ',ddPersonal)
+console.log('   ffff ', ddPersonal)
 import THead from './libGridTable/THead.js'
 import TBody from './libGridTable/TBody.js'
 import { getBodyColumns, getHeadKeyObject } from './libGridTable/libGridTable.js'
@@ -41,7 +39,7 @@ createApp({
     }, template: `
 <div style="max-height:22em; overflow: auto;">
     <table class="am-hf-sticky01" >
-        <caption>Hi table!</caption>
+        <caption v-if="false">Hi table!</caption>
         <THead />
         <TBody />
         <tfoot class="w3-white ">

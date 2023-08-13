@@ -23,9 +23,36 @@ SELECT e1m.*, m.naim_mat \n\
     , select01Entry1Maker = gridEntry1.initSelectMaker('select01', 'kassa.entry1')
     , select01Entry1 = select01Entry1Maker.get()
 
-console.log(select01Entry1mat)
-console.log(select01DdMaterial)
-console.log(select01Entry1)
+gridEntry1mat.setConfig({
+    toAllHead: { classHead: 'w3-blue' },
+    id_doc: { alias: '№№' },
+    id_mat: { alias: '№№ мат-ла' },
+    naim_mat: { alias: 'найменування' },
+    kilkist: { alias: 'Кіл-ть', classHead: 'w3-green' },
+    money: {
+        alias: 'Грн',
+        children: {
+            sena: { alias: 'ціна' },
+            suma: { alias: 'сума' },
+        }
+    },
+})
+
+console.log(gridEntry1mat.getConfig())
+const headToColumns = h => Object.keys(h)
+    .filter(im => 'toAllHead' != im)
+    .reduce((l, im) => (h[im].children
+        && Object.keys(h[im].children)
+            .reduce((l, im) => l.push(im) && l, l)
+        || l.push(im)) && l, [])
+
+const l = headToColumns(gridEntry1mat.getConfig())
+console.log(l)
+gridEntry1mat.setBodyColumns(l)
+
+// console.log(select01Entry1mat)
+// console.log(select01DdMaterial)
+// console.log(select01Entry1)
 
 import { TBodyFnInitializer } from
     '../5rGridTable/libGridTable/libGridTable.js'
@@ -40,17 +67,26 @@ TBodyFnInitializer.initTable({
 
 import { ws, executeSelectQuery } from '/f/6/lib/wsDbRw.js'
 
+const reViewGridTable = gridTable => {
+    gridTable.get().tBody.count++
+    gridTable.get().tHead.count++
+    gridTable.get().tFoot.count++
+}
+
 export const initLogic = () => ws.onopen = event =>
     executeSelectQuery(select01Entry1mat
-    ).then(json => gridEntry1mat.setTableBody(json.list)
-        .get().tBody.count++
-    ).then(() => executeSelectQuery(select01DdMaterial
-    ).then(json => gridDdMaterial.setTableBody(json.list)
-        .get().tBody.count++
-    ).then(() => executeSelectQuery(select01Entry1
-    ).then(json => gridEntry1.setTableBody(json.list)
-        .get().tBody.count++
-    )))
+    ).then(json => {
+        gridEntry1mat.setTableBody(json.list)
+        reViewGridTable(gridEntry1mat)
+    }).then(() => executeSelectQuery(select01DdMaterial
+    ).then(json => {
+        gridDdMaterial.setTableBody(json.list)
+        reViewGridTable(gridDdMaterial)
+    }).then(() => executeSelectQuery(select01Entry1
+    ).then(json => {
+        gridEntry1.setTableBody(json.list)
+        reViewGridTable(gridEntry1)
+    })))
 
 import { TBodyFn, gridTable } from
     '/f/ar/5rGridTable/libGridTable/libGridTable.js'

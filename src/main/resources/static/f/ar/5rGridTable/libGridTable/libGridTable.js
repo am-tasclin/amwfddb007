@@ -29,6 +29,8 @@ export const makerGridTable = tableName => {
     return {
         get: () => gridTable(tableName),
         setBodyColumns: bodyColumns => gridTable(tableName).bodyColumns = bodyColumns,
+        setConfig: config => gridTable(tableName).config = config,
+        getConfig: () => gridTable(tableName).config,
         setTableBody(tableBody) {
             this.get().tableBody = tableBody
             !this.get().bodyColumns && this.setBodyColumns(Object.keys(tableBody[0]))
