@@ -39,14 +39,14 @@ gridEntry1mat.setConfig({
 })
 
 console.log(gridEntry1mat.getConfig())
-const headToColumns = h => Object.keys(h)
+const configHeadToColumns = h => Object.keys(h)
     .filter(im => 'toAllHead' != im)
-    .reduce((l, im) => (h[im].children
+    .reduce((l, im) => h[im].children
         && Object.keys(h[im].children)
             .reduce((l, im) => l.push(im) && l, l)
-        || l.push(im)) && l, [])
+        || l.push(im) && l, [])
 
-const l = headToColumns(gridEntry1mat.getConfig())
+const l = configHeadToColumns(gridEntry1mat.getConfig())
 console.log(l)
 gridEntry1mat.setBodyColumns(l)
 
