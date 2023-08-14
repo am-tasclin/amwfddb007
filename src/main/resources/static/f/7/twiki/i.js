@@ -5,19 +5,33 @@
  */
 import { ws } from '/f/7/libDbRw/wsDbRw.js'
 import { readAdnByIds, readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
-import { initDomConfLogic, getHewList, } from '/f/7/libDomGrid/libDomGrid.js'
-console.log(123)
+import { initDomConfLogic, confHew, mcData } from '/f/7/libDomGrid/libDomGrid.js'
 initDomConfLogic(window.location.hash.substring(1))
-const uniqueIdsForDbRead = getHewList()
+const uniqueIdsForDbRead = confHew().l
 
 ws.onopen = event =>
     uniqueIdsForDbRead.length && readAdnByIds(uniqueIdsForDbRead
-    ).then(() => readAdnByParentIds(uniqueIdsForDbRead).then(() => {
-        console.log(uniqueIdsForDbRead)
+    ).then(() => readAdnByParentIds(uniqueIdsForDbRead
+    ).then(() => uniqueIdsForDbRead.forEach(hewId => confHew().hewComponent[hewId].count++)
+    ).then(() => {
+        const unqParentId_l = uniqueIdsForDbRead.reduce((l, im) => mcData.parentChilds[im]
+            .reduce((l1, im1) => !l1.includes(im1) && l1.push(im1) && l1 || l1, l) && l, [])
+        readAdnByParentIds(unqParentId_l).then(() => {
+            console.log(unqParentId_l)
+            unqParentId_l.forEach(hewId => confHew().hewComponent[hewId].count++)
+        })
     }))
 
 
+import Hew from '/f/7/libHew/Hew.js'
 const { createApp } = Vue
+
+createApp({
+    methods: {
+        hew_l() { return confHew().l }
+    },
+}).component('t-hew', Hew).mount('#hew')
+
 createApp({
     data() { return { count: 0, hewId: 0, } },
     methods: {

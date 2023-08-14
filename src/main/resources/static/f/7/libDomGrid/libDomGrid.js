@@ -144,6 +144,12 @@ export const confTree = () => domContainer.conf.tree
 
 /**
  * 
+ * @returns 
+ */
+export const confHew = () => domContainer.conf.hew
+
+/**
+ * 
  * @param {*} rawConfStr 
  */
 export const initDomConfLogic = (rawConfStr) =>
@@ -191,12 +197,13 @@ const initTreeUriDomConf = (uriDomConf_l, ppId) => {
         })()
 }
 
-export const getHewList = () => domConf().hew
-
 const initHewUriDomConf = (uriDomConf_l) => {
-    const hew = domContainer.conf.hew || (domContainer.conf.hew = [])
+    const hew = domContainer.conf.hew || (domContainer.conf.hew = {
+        l: [],
+        hewComponent: {},
+    })
     uriDomConf_l.slice(1).forEach(im =>
-        !hew.includes(im) && hew.push(im))
+        !hew.l.includes(im) && hew.l.push(im))
     return true
 }
 
