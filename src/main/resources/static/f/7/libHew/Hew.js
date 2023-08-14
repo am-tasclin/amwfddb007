@@ -23,10 +23,11 @@ export default {
         hew() { return mcData.eMap[this.hewid] || {} },
         childIds() { return mcData.parentChilds[this.hewid] || [] },
     }, template: `
+<span class="w3-tiny w3-right w3-opacity">{{hewid}}.</span>
 <H1 v-if="is('h1')" :vlStr="hew().vl_str" />
 <P v-else-if="is('p')" :vlStr="hew().vl_str" />
 <template v-else>
-    a2:{{hewid}}.
+    tag?:{{hewid}}.
 </template>
 <template v-for="hewId2 in childIds()">
     <t-hew :hewid="hewId2"></t-hew>

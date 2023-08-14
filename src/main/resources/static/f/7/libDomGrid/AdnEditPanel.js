@@ -36,6 +36,8 @@ export default {
         actuallyCompomentName() { return getActualeCompomentName() },
         treeSelectedId() { return treeSelectedId() },
         adn() { return adn() },
+        r1() { return adn() && adn().r },
+        r2() { return adn() && adn().r2 },
         deleteAdn() {
             console.log(1123, this.adn())
             dbSendDeleteAdn1({ adnId: this.adn().doc_id, p: this.adn().p })
@@ -101,8 +103,23 @@ export default {
 
         <button @click="editStrMenu" :class="{'w3-light-grey':isEditStrMenu()}"
             class="w3-btn am-b w3-border-left w3-topbar" title="edit string value">✎</button>
-        <button @click="sortMenu"  :class="{'w3-light-grey':isSortMenu()}"
+        <button @click="sortMenu" :class="{'w3-light-grey':isSortMenu()}"
             class="w3-btn am-b w3-border-left w3-topbar" title="sort sibling">⇅</button>
+            &nbsp;
+        <span class="w3-border-left">&nbsp; 𝑟¹
+            <span @click="delR1" class="w3-hover-shadow" v-if="adn().r">-</span>
+            <button @click="copyR" class="w3-btn w3-padding-small" title="copy R1">⧉</button>
+            <button @click="setR" class="w3-btn w3-padding-small" title="set R1">⧠</button>
+            <span class="w3-tiny am-i">{{adn().r}}:</span>
+        </span>&nbsp;
+        <span class="w3-border-left w3-border-right">&nbsp; 𝑟²
+            <span @click="delR2" class="w3-hover-shadow" v-if="adn().r2">-</span>
+            <button @click="copyR2" class="w3-btn w3-padding-small" title="copy R2">⧉</button>
+            <button @click="setR2" class="w3-btn w3-padding-small" title="set R2">⧠</button>
+            <span class="w3-tiny">{{adn().r2}} :{{adn().r2_vl_str}}</span>
+            &nbsp;
+        </span>
+
     </div>
 </div>
 
@@ -116,13 +133,21 @@ export default {
         <button @click="sendVlStrDb" class="w3-border w3-small">⛃  sendDb - відправити БД</button>
     </div>
 </div>
-<div v-if="isSortMenu()">
+<template v-else-if="isSortMenu()">
     <span class="w3-large w3-topbar">&nbsp;⇅&nbsp;</span>
     <button @click="sortUp" class="w3-btn" titlw="up">⬆</button>
     <button @click="sortDown" class="w3-btn" title="down">⬇</button>
     <button @click="sortFirst" class="w3-btn w3-border-left" title="toFirst">⮸</button>
     <button @click="sortEnd" class="w3-btn" style="transform: rotate(180deg);"
         title="toLast">⮸</button>
+</template>
+<div v-else class="w3-row">
+    <div class="w3-half">𝑟¹
+        <span class="w3-tiny">{{r1()}}</span>:
+    </div>
+    <div class="w3-half">𝑟²
+        <span class="w3-tiny">{{r2()}}</span>:
+    </div>
 </div>
 
 <span class="w3-hide">{{count}}</span>
