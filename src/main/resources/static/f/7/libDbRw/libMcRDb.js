@@ -36,14 +36,6 @@ export const dbSendDeleteAdn1 = adnJson => executeDeleteAdn1Query(adnJson).then(
     reViewAdn(json.p)
 })
 
-import { uniqueParentIdPageRead } from '/f/7/libDomGrid/libDomGrid.js'
-
-export const readAdnByParentIds2 = l => {
-    const uniqueParentId_l = uniqueParentIdPageRead()
-
-    console.log(uniqueParentId_l)
-}
-
 export const readAdnByIds = id_list => {
     const sql = selectDocVlStrByIds.replace(':idList', id_list.join(','))
     return executeSelectQuery(sql).then(json => initNewMc(json.list)

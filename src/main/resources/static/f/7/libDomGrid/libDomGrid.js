@@ -105,7 +105,7 @@ export const reViewAdn = adnId => actuallyTreeObj().mcElement && Okeys(actuallyT
  */
 export const initNewMc = adnList => adnList.forEach(adn => {
     setToEMap(adn)
-    reViewAdn(adn.doc_id)
+    actuallyTreeObj() && reViewAdn(adn.doc_id)
 })
 /**
  * 
@@ -130,7 +130,7 @@ export const uniqueIdPageRead = () => Okeys(domContainer.conf.tree)
     .reduce((l, im) => domContainer.conf.tree[im].rootList.filter(im2 => !l.includes(im2))
         .reduce((l, im2) => l.push(im2) && l, l) && l, [])
 
-export const uniqueParentIdPageRead = () => Okeys(domConf().tree)
+export const uniqueTreeOpenedId = () => Okeys(domConf().tree)
     .reduce((l1, treeId) => domConf().tree[treeId].openedId && Okeys(domConf().tree[treeId].openedId)
         .reduce((l2, treeRootId) => domConf().tree[treeId].openedId[treeRootId]
             .reduce((l3, i) => !l3.includes(i) && l3.push(i) && l3 || l3
@@ -172,7 +172,14 @@ const initJsonDomConf = (rawConfStr, ppId) => {
 const initUriDomConf = (rawUriDomConf, ppId) => {
     const uriDomConf_l = rawUriDomConf.split(',')
     !ppId && (ppId = 0)
-    // console.log(123, rawUriDomConf, uriDomConf_l, ppId)
+    console.log(123, rawUriDomConf, uriDomConf_l, ppId, 'hew' == uriDomConf_l[0])
+    console.log(uriDomConf_l, ppId);
+    'hew' == uriDomConf_l[0] && initHewUriDomConf(uriDomConf_l)
+        || initTreeUriDomConf(uriDomConf_l, ppId)
+    return domContainer.conf
+}
+
+const initTreeUriDomConf = (uriDomConf_l, ppId) => {
     domContainer.conf.actuallyEdit.pathTreeStr = 'tree,' + ppId
     'tree' == uriDomConf_l[0] && ((
         domContainer.conf.tree || (domContainer.conf.tree = {})
@@ -182,7 +189,15 @@ const initUriDomConf = (rawUriDomConf, ppId) => {
             domContainer.conf.tree = {}
             console.log(domContainer)
         })()
-    return domContainer.conf
+}
+
+export const getHewList = () => domConf().hew
+
+const initHewUriDomConf = (uriDomConf_l) => {
+    const hew = domContainer.conf.hew || (domContainer.conf.hew = [])
+    uriDomConf_l.slice(1).forEach(im =>
+        !hew.includes(im) && hew.push(im))
+    return true
 }
 
 export const addTreeFn = addTreeId => {

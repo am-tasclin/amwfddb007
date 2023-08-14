@@ -16,8 +16,7 @@ export default {
             console.log(k1, k, getHead()[k1].child[k])
         },
         childCount(o) { return !o && 1 || Okeys(o).length }
-    },
-    template: `
+    }, template: `
 <thead v-if="headKeysWithChild().length" class="w3-small w3-white">
     <tr>
         <th v-for="(v,k) in head()" class="w3-border w3-hover-shadow" 

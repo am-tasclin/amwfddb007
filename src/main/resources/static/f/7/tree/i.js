@@ -5,7 +5,7 @@
  */
 import {
     confTree, initDomConfLogic, domConfStrignify
-    , uniqueIdPageRead, uniqueParentIdPageRead
+    , uniqueIdPageRead, uniqueTreeOpenedId
     , actuallyEdit, setActuallyTreeObj, reViewAdn, addTreeFn
     , setDomComponent, getDomComponent, mcData, domConfHrefHash
     , setActualeCompomentName, getActualeCompomentName
@@ -19,9 +19,9 @@ console.log(uniqueIdsForDbRead)
 
 ws.onopen = event =>
     uniqueIdsForDbRead.length && readAdnByIds(uniqueIdsForDbRead).then(() => {
-        const uniqueParentId_l = uniqueParentIdPageRead()
-        uniqueParentId_l.length && readAdnByParentIds(uniqueParentId_l
-        ).then(() => uniqueParentId_l.forEach(parentId => reViewAdn(parentId))
+        const uniqueTreeOpenedId_l = uniqueTreeOpenedId()
+        uniqueTreeOpenedId_l.length && readAdnByParentIds(uniqueTreeOpenedId_l
+        ).then(() => uniqueTreeOpenedId_l.forEach(parentId => reViewAdn(parentId))
         ).then(() => !actuallyEdit().tree && setActuallyTreeObj(actuallyEdit().pathTreeStr))
     })
 
