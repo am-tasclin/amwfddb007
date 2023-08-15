@@ -49,7 +49,7 @@ export const domConfStrignify = () => {
     domConfHrefHash()
 }
 
-export const actuallyEdit = () => domConf().actuallyEdit
+// export const actuallyEdit = () => domConf().actuallyEdit
 
 /**
  * 
@@ -63,10 +63,9 @@ export const actuallyTreeObj = () => domConf().actuallyTreeObj
  */
 export const setActuallyTreeObj = pathTreeStr => {
     setActualeCompomentName('tree')
-    domContainer.conf.actuallyEdit.tree =
-        domConf().actuallyTreeObj = pathTreeStr.split(',').reduce((o, k) => o[k], domContainer.conf)
+    domConf().actuallyTreeObj = pathTreeStr.split(',').reduce((o, k) => o[k], domContainer.conf)
     getDomComponent('actuallyEdit').count++
-    getDomComponent('adnEditPanel').count++
+    getDomComponent('actuallyTreeObj').count++
     return domConf().actuallyTreeObj
 }
 
@@ -152,21 +151,24 @@ export const confHew = () => domContainer.conf.hew
  * 
  * @param {*} rawConfStr 
  */
-export const initDomConfLogic = (rawConfStr) =>
-    rawConfStr.includes('cj=') && initJsonDomConf(rawConfStr.replace('cj=', ''))
+export const initDomConfLogic = (rawConfStr) => rawConfStr.includes('cj=') && initJsonDomConf(rawConfStr.replace('cj=', ''))
     || initUriDomConf(rawConfStr)
 
-const initJsonDomConf = (rawConfStr, ppId) => {
+const initJsonDomConf = (rawConfStr) => {
     const confJson = JSON.parse(decodeURI(rawConfStr))
     domContainer.conf.tree = confJson.tree
-    !ppId && (ppId = Okeys(domConf().tree)[0])
+    // !ppId && (ppId = Okeys(domConf().tree)[0])
+    const ppId = Okeys(domConf().tree)[0]
     domContainer.conf.actuallyTreeObj = domContainer.conf.tree[ppId]
-    domContainer.conf.actuallyEdit.pathTreeStr = 'tree,' + ppId
-    console.log(domContainer.conf.actuallyEdit.pathTreeStr, domContainer)
+    domContainer.conf.pathActuallyTreeObj = 'tree,' + ppId
+    console.log(domContainer.conf.pathActuallyTreeObj, domContainer)
     //setActuallyTreeObj(pathTreeStr)
 
     return domContainer.conf
 }
+
+export const pathActuallyTreeObj = () =>
+    domContainer.conf.pathActuallyTreeObj
 
 /**
  * Primary initialization from simple URI syntax
@@ -186,7 +188,7 @@ const initUriDomConf = (rawUriDomConf, ppId) => {
 }
 
 const initTreeUriDomConf = (uriDomConf_l, ppId) => {
-    domContainer.conf.actuallyEdit.pathTreeStr = 'tree,' + ppId
+    domContainer.conf.pathActuallyTreeObj = 'tree,' + ppId
     'tree' == uriDomConf_l[0] && ((
         domContainer.conf.tree || (domContainer.conf.tree = {})
     )[ppId] = { rootList: uriDomConf_l.slice(1) }

@@ -4,58 +4,71 @@
  * 
  */
 import {
-    mcData, setDomComponent, getActualeCompomentName, actuallyEdit,
+    mcData, setDomComponent, getActualeCompomentName, actuallyTreeObj,
 } from '/f/7/libDomGrid/libDomGrid.js'
 import { dbSendVlStrData, dbSendInsertAdn, dbSendDeleteAdn1 } from
     '/f/7/libDbRw/libMcRDb.js'
+import { readAdnByIds, readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
 
 
-const treeSelectedId = () => actuallyEdit().tree && actuallyEdit().tree.selectedId
+const treeSelectedId = () => actuallyTreeObj() && actuallyTreeObj().selectedId
     , adn = () => mcData.eMap[treeSelectedId()]
 
-const isAdnEditPanelSubMenu = type => actuallyEdit().adnEditPanelSubMenu
-    && actuallyEdit().adnEditPanelSubMenu[treeSelectedId()]
-    && actuallyEdit().adnEditPanelSubMenu.activeId == treeSelectedId()
-    && actuallyEdit().adnEditPanelSubMenu[treeSelectedId()].type == type
+const isAdnEditPanelSubMenu = type => actuallyTreeObj().adnEditPanelSubMenu
+    && actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()]
+    && actuallyTreeObj().adnEditPanelSubMenu.activeId == treeSelectedId()
+    && actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()].type == type
     , initAdnEditPanelSubMenu = () => {
-        !actuallyEdit().adnEditPanelSubMenu && (actuallyEdit().adnEditPanelSubMenu = { activeId: treeSelectedId() })
-            || (actuallyEdit().adnEditPanelSubMenu.activeId = treeSelectedId())
-        !actuallyEdit().adnEditPanelSubMenu[treeSelectedId()] &&
-            (actuallyEdit().adnEditPanelSubMenu[treeSelectedId()] = { edVlStr: adn().vl_str })
-        return actuallyEdit().adnEditPanelSubMenu[treeSelectedId()]
+        !actuallyTreeObj().adnEditPanelSubMenu && (actuallyTreeObj().adnEditPanelSubMenu = { activeId: treeSelectedId() })
+            || (actuallyTreeObj().adnEditPanelSubMenu.activeId = treeSelectedId())
+        !actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()] &&
+            (actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()] = { edVlStr: adn().vl_str })
+        return actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()]
     }
     , adnEditPanelSubMenuOnOff = type => !isAdnEditPanelSubMenu(type)
         && (initAdnEditPanelSubMenu().type = type)
-        || delete actuallyEdit().adnEditPanelSubMenu[treeSelectedId()].type
+        || delete actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()].type
 
 export default {
     data() { return { count: 0, } },
     mounted() {
-        setDomComponent('adnEditPanel', this)
+        setDomComponent('actuallyTreeObj', this)
+        console.log(actuallyTreeObj())
+        // console.log(actuallyEdit())
     }, methods: {
         actuallyCompomentName() { return getActualeCompomentName() },
         treeSelectedId() { return treeSelectedId() },
+        selectedRootId() { return actuallyTreeObj().selectedRootId },
         adn() { return adn() },
+        p() { return adn() && adn().p },
         r1() { return adn() && adn().r },
         r2() { return adn() && adn().r2 },
         deleteAdn() {
             console.log(1123, this.adn())
             dbSendDeleteAdn1({ adnId: this.adn().doc_id, p: this.adn().p })
         }, copyId() {
-            return actuallyEdit().copyId
+            return actuallyTreeObj().copyId
         }, copyAdnId() {
-            actuallyEdit().copyId = this.adn().doc_id
+            actuallyTreeObj().copyId = this.adn().doc_id
             this.count++
         }, pasteAdnSibling() {
             const copyAdn = mcData.eMap[this.copyId]
             dbSendInsertAdn({ parent: adn().p, r: copyAdn.r, r2: copyAdn.r2 })
         }, insertAdnSibling() {
-            !Object.keys(actuallyEdit().tree.mcElement).includes(treeSelectedId()) &&
+            !Object.keys(actuallyTreeObj().mcElement).includes(treeSelectedId()) &&
                 dbSendInsertAdn({ parent: adn().p })
         }, insertAdnChild() {
             dbSendInsertAdn({ parent: adn().doc_id })
-        }, upOneLevel() {
+        }, takeToRoot() {
             console.log(123)
+        }, upOneLevel() {
+            console.log(123, treeSelectedId(), this.p())
+            readAdnByIds([this.p()]).then(() => {
+                console.log(mcData.eMap[this.p()])
+                readAdnByParentIds([this.p()]).then(()=>{
+                    console.log(mcData.parentChilds[this.p()])
+                })
+            })
         }, isEditStrMenu() {
             return isAdnEditPanelSubMenu('editStr')
         }, sendVlStrDb() {
@@ -99,8 +112,11 @@ export default {
         <button @click="copyAdnId" class="w3-border-left w3-btn am-b" title="copy - копіювати">⧉</button>
         <button @click="pasteAdnSibling" class="w3-btn am-b" title="paste sibling - вставити як побратима">⧠</button>
 
-        <button @click="upOneLevel" class="w3-btn am-b w3-border-left" title="up one level - на один рівень вище" >🡖</button>
-
+        <button @click="upOneLevel" v-if="treeSelectedId()==selectedRootId()" class="w3-btn am-b w3-border-left" title="up one level - на один рівень вище" >🡖</button>
+        <button @click="takeToRoot" v-if="treeSelectedId()!=selectedRootId()"
+            :class="{'w3-disabled':p()!=selectedRootId()}"
+            class="w3-btn am-b w3-border-left" title="take to root - вкоренити" >🡔</button>
+        
         <button @click="editStrMenu" :class="{'w3-light-grey':isEditStrMenu()}"
             class="w3-btn am-b w3-border-left w3-topbar" title="edit string value">✎</button>
         <button @click="sortMenu" :class="{'w3-light-grey':isSortMenu()}"
@@ -108,14 +124,14 @@ export default {
             &nbsp;
         <span class="w3-border-left">&nbsp; 𝑟¹
             <span @click="delR1" class="w3-hover-shadow" v-if="adn().r">-</span>
-            <button @click="copyR" class="w3-btn w3-padding-small" title="copy R1">⧉</button>
-            <button @click="setR" class="w3-btn w3-padding-small" title="set R1">⧠</button>
+            <button @click="copyR" class="w3-btn " title="copy R1">⧉</button>
+            <button @click="setR" class="w3-btn " title="set R1">⧠</button>
             <span class="w3-tiny am-i">{{adn().r}}:</span>
         </span>&nbsp;
         <span class="w3-border-left w3-border-right">&nbsp; 𝑟²
             <span @click="delR2" class="w3-hover-shadow" v-if="adn().r2">-</span>
-            <button @click="copyR2" class="w3-btn w3-padding-small" title="copy R2">⧉</button>
-            <button @click="setR2" class="w3-btn w3-padding-small" title="set R2">⧠</button>
+            <button @click="copyR2" class="w3-btn " title="copy R2">⧉</button>
+            <button @click="setR2" class="w3-btn " title="set R2">⧠</button>
             <span class="w3-tiny">{{adn().r2}} :{{adn().r2_vl_str}}</span>
             &nbsp;
         </span>

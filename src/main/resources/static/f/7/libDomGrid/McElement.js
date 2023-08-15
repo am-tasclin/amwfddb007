@@ -27,7 +27,9 @@ export default {
             const oldSelectedId = actuallyTreeObj().selectedId;
             (oldSelectedId == this.adnId || !oldSelectedId) &&
                 treeOpenedChildOnOff(this.treeRootId, this.adnId)
-            setActuallyTreeObj(this.path).selectedId = this.adnId
+            setActuallyTreeObj(this.path)
+            actuallyTreeObj().selectedId = this.adnId
+            actuallyTreeObj().selectedRootId = this.treeRootId
             !mcData.parentChilds[this.adnId]
                 && readAdnByParentIds([this.adnId])
                     .then(() => this.count++) || this.count++

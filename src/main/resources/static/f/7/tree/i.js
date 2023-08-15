@@ -5,8 +5,8 @@
  */
 import {
     confTree, initDomConfLogic, domConfStrignify
-    , uniqueIdPageRead, uniqueTreeOpenedId
-    , actuallyEdit, setActuallyTreeObj, reViewAdn, addTreeFn
+    , uniqueIdPageRead, uniqueTreeOpenedId, pathActuallyTreeObj
+    , actuallyTreeObj, setActuallyTreeObj, reViewAdn, addTreeFn
     , setDomComponent, getDomComponent, mcData, domConfHrefHash
     , setActualeCompomentName, getActualeCompomentName
 } from '/f/7/libDomGrid/libDomGrid.js'
@@ -22,7 +22,10 @@ ws.onopen = event =>
         const uniqueTreeOpenedId_l = uniqueTreeOpenedId()
         uniqueTreeOpenedId_l.length && readAdnByParentIds(uniqueTreeOpenedId_l
         ).then(() => uniqueTreeOpenedId_l.forEach(parentId => reViewAdn(parentId))
-        ).then(() => !actuallyEdit().tree && setActuallyTreeObj(actuallyEdit().pathTreeStr))
+        ).then(() => {
+            console.log(actuallyTreeObj())
+            !actuallyTreeObj().tree && setActuallyTreeObj(pathActuallyTreeObj())
+        })
     })
 
 const { createApp } = Vue
@@ -48,6 +51,7 @@ createApp({
     data() { return { count: 0, addTreeId: 0, } },
     mounted() {
         setDomComponent('actuallyEdit', this)
+        console.log(actuallyTreeObj())
     }, methods: {
         addTreeFn() {
             addTreeFn(this.addTreeId)
@@ -55,7 +59,7 @@ createApp({
             ).then(() => getDomComponent('treeDom').count++
             ).then(() => domConfHrefHash())
         },
-        treeSelectedId() { return actuallyEdit().tree && actuallyEdit().tree.selectedId },
+        treeSelectedId() { return actuallyTreeObj().tree && actuallyTreeObj().selectedId },
         actuallyCompomentName() { return getActualeCompomentName() },
     }
 }).component('t-adn-edit-panel', AdnEditPanel).mount('#actuallyEdit')
