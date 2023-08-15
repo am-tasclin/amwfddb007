@@ -15,7 +15,6 @@ import { readAdnByIds, readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
 
 initDomConfLogic(window.location.hash.substring(1))
 const uniqueIdsForDbRead = uniqueIdPageRead()
-console.log(uniqueIdsForDbRead)
 
 ws.onopen = event =>
     uniqueIdsForDbRead.length && readAdnByIds(uniqueIdsForDbRead).then(() => {
@@ -23,7 +22,6 @@ ws.onopen = event =>
         uniqueTreeOpenedId_l.length && readAdnByParentIds(uniqueTreeOpenedId_l
         ).then(() => uniqueTreeOpenedId_l.forEach(parentId => reViewAdn(parentId))
         ).then(() => {
-            console.log(actuallyTreeObj())
             !actuallyTreeObj().tree && setActuallyTreeObj(pathActuallyTreeObj())
         })
     })
@@ -51,7 +49,6 @@ createApp({
     data() { return { count: 0, addTreeId: 0, } },
     mounted() {
         setDomComponent('actuallyEdit', this)
-        console.log(actuallyTreeObj())
     }, methods: {
         addTreeFn() {
             addTreeFn(this.addTreeId)

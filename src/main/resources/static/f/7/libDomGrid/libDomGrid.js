@@ -7,7 +7,7 @@
 
 const eMap = {}, parentChilds = {}
     , domContainer = {
-        conf: { actuallyEdit: {} }, mcData: { eMap: eMap, parentChilds: parentChilds },
+        conf: {}, mcData: { eMap: eMap, parentChilds: parentChilds },
         components: {}
     }
 console.log(domContainer)
@@ -120,6 +120,23 @@ export const setToEMap = adn =>
  */
 export const addNewMc = adnList => adnList
     .forEach(adn => setToEMap(adn))
+
+/**
+ * 
+ * @param {*} adnId 
+ */
+export const setUpOneLevel = (adnId, oldRootId) => {
+    console.log(adnId, oldRootId, domConf().pathActuallyTreeObj, actuallyTreeObj())
+    actuallyTreeObj().rootList.find((v, p) =>
+        v == oldRootId && (actuallyTreeObj().rootList[p] = adnId))
+    actuallyTreeObj().openedId[oldRootId].push(adnId)
+    actuallyTreeObj().openedId[adnId] =
+        actuallyTreeObj().openedId[oldRootId]
+    actuallyTreeObj().selectedRootId =
+        actuallyTreeObj().selectedId = adnId
+    delete actuallyTreeObj().openedId[oldRootId]
+    getDomComponent('treeDom').count++
+}
 
 /**
  * 

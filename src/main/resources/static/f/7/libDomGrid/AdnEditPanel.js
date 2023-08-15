@@ -5,6 +5,7 @@
  */
 import {
     mcData, setDomComponent, getActualeCompomentName, actuallyTreeObj,
+    setUpOneLevel,
 } from '/f/7/libDomGrid/libDomGrid.js'
 import { dbSendVlStrData, dbSendInsertAdn, dbSendDeleteAdn1 } from
     '/f/7/libDbRw/libMcRDb.js'
@@ -33,8 +34,6 @@ export default {
     data() { return { count: 0, } },
     mounted() {
         setDomComponent('actuallyTreeObj', this)
-        console.log(actuallyTreeObj())
-        // console.log(actuallyEdit())
     }, methods: {
         actuallyCompomentName() { return getActualeCompomentName() },
         treeSelectedId() { return treeSelectedId() },
@@ -65,8 +64,9 @@ export default {
             console.log(123, treeSelectedId(), this.p())
             readAdnByIds([this.p()]).then(() => {
                 console.log(mcData.eMap[this.p()])
-                readAdnByParentIds([this.p()]).then(()=>{
+                readAdnByParentIds([this.p()]).then(() => {
                     console.log(mcData.parentChilds[this.p()])
+                    setUpOneLevel(this.p(), treeSelectedId())
                 })
             })
         }, isEditStrMenu() {
