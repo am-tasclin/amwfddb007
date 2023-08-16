@@ -18,6 +18,9 @@ export default {
             || (treeConf.mcElement[this.treeRootId] = {}))[this.adnId] = this
     }, methods: {
         adn() { return mcData.eMap[this.adnId] || {} },
+        p() { return this.adn() && this.adn().p },
+        r1() { return this.adn() && this.adn().r },
+        r2() { return this.adn() && this.adn().r2 },
         parentChilds() { return mcData.parentChilds[this.adnId] || [] },
         vlStr() { return this.adn().vl_str && marked.parseInline(this.adn().vl_str) },
         isSelected() { return actuallyTreeObj() && actuallyTreeObj().selectedId == this.adnId },
@@ -44,7 +47,7 @@ export default {
         {{adnId}} &nbsp;</span>
     <span v-html="vlStr()" />
     <span class="w3-tiny">&nbsp;
-        {{adn().r}}, {{adn().r2}} <span>
+        {{r1()}}, {{r2()}} <span>
 </div>
 <div class="w3-container w3-border-left" v-if="parentChilds().length && isOpened()">
     <div v-for="adnId2 in parentChilds()">

@@ -56,7 +56,7 @@ createApp({
             ).then(() => getDomComponent('treeDom').count++
             ).then(() => domConfHrefHash())
         },
-        treeSelectedId() { return actuallyTreeObj().tree && actuallyTreeObj().selectedId },
+        treeSelectedId() { return actuallyTreeObj() && actuallyTreeObj().selectedId },
         actuallyCompomentName() { return getActualeCompomentName() },
     }
 }).component('t-adn-edit-panel', AdnEditPanel).mount('#actuallyEdit')

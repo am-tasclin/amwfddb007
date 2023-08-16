@@ -5,7 +5,7 @@
  */
 import {
     mcData, setDomComponent, getActualeCompomentName, actuallyTreeObj,
-    setUpOneLevel,
+    setUpOneLevel, setTakeToRoot,
 } from '/f/7/libDomGrid/libDomGrid.js'
 import { dbSendVlStrData, dbSendInsertAdn, dbSendDeleteAdn1 } from
     '/f/7/libDbRw/libMcRDb.js'
@@ -15,7 +15,7 @@ import { readAdnByIds, readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
 const treeSelectedId = () => actuallyTreeObj() && actuallyTreeObj().selectedId
     , adn = () => mcData.eMap[treeSelectedId()]
 
-const isAdnEditPanelSubMenu = type => actuallyTreeObj().adnEditPanelSubMenu
+const isAdnEditPanelSubMenu = type => actuallyTreeObj() && actuallyTreeObj().adnEditPanelSubMenu
     && actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()]
     && actuallyTreeObj().adnEditPanelSubMenu.activeId == treeSelectedId()
     && actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()].type == type
@@ -56,12 +56,11 @@ export default {
         }, insertAdnSibling() {
             !Object.keys(actuallyTreeObj().mcElement).includes(treeSelectedId()) &&
                 dbSendInsertAdn({ parent: adn().p })
-        }, insertAdnChild() {
-            dbSendInsertAdn({ parent: adn().doc_id })
-        }, takeToRoot() {
-            console.log(123, treeSelectedId(), this.p())
-
-        }, upOneLevel() {
+        },
+        isEditStrMenu() { return isAdnEditPanelSubMenu('editStr') },
+        insertAdnChild() { dbSendInsertAdn({ parent: adn().doc_id }) },
+        takeToRoot() { setTakeToRoot(treeSelectedId()) },
+        upOneLevel() {
             console.log(123, treeSelectedId(), this.p())
             readAdnByIds([this.p()]).then(() => {
                 console.log(mcData.eMap[this.p()])
@@ -70,9 +69,8 @@ export default {
                     setUpOneLevel(this.p(), treeSelectedId())
                 })
             })
-        }, isEditStrMenu() {
-            return isAdnEditPanelSubMenu('editStr')
-        }, sendVlStrDb() {
+        },
+        sendVlStrDb() {
             console.log(initAdnEditPanelSubMenu().edVlStr)
             dbSendVlStrData({
                 adnId: treeSelectedId()
@@ -124,49 +122,46 @@ export default {
             class="w3-btn am-b w3-border-left w3-topbar" title="sort sibling">⇅</button>
             &nbsp;
         <span class="w3-border-left">&nbsp; 𝑟¹
-            <span @click="delR1" class="w3-hover-shadow" v-if="adn().r">-</span>
+            <span @click="delR1" class="w3-hover-shadow" v-if="r1()">-</span>
             <button @click="copyR" class="w3-btn " title="copy R1">⧉</button>
             <button @click="setR" class="w3-btn " title="set R1">⧠</button>
-            <span class="w3-tiny am-i">{{adn().r}}:</span>
+            <span class="w3-tiny am-i">{{r1()}}:</span>
         </span>&nbsp;
         <span class="w3-border-left w3-border-right">&nbsp; 𝑟²
-            <span @click="delR2" class="w3-hover-shadow" v-if="adn().r2">-</span>
+            <span @click="delR2" class="w3-hover-shadow" v-if="r2()">-</span>
             <button @click="copyR2" class="w3-btn " title="copy R2">⧉</button>
             <button @click="setR2" class="w3-btn " title="set R2">⧠</button>
-            <span class="w3-tiny">{{adn().r2}} :{{adn().r2_vl_str}}</span>
+            <span class="w3-tiny">{{r2()}}:</span>
             &nbsp;
         </span>
 
     </div>
-</div>
-
-<div v-if="isEditStrMenu()" class="w3-row">
-    <div class="w3-col" style="width: 80%;">
-        <textarea class="am-width-100pr w3-border" 
-            :value="adnEditPanelSubMenu().edVlStr"
-            @input="setEdVlStr($event.target.value)" />
+    <div v-if="isEditStrMenu()" class="w3-row">
+        <div class="w3-col" style="width: 80%;">
+            <textarea class="am-width-100pr w3-border" 
+                :value="adnEditPanelSubMenu().edVlStr"
+                @input="setEdVlStr($event.target.value)" />
+        </div>
+        <div class="w3-rest">
+            <button @click="sendVlStrDb" class="w3-border w3-small">⛃  sendDb - відправити БД</button>
+        </div>
     </div>
-    <div class="w3-rest">
-        <button @click="sendVlStrDb" class="w3-border w3-small">⛃  sendDb - відправити БД</button>
+    <template v-else-if="isSortMenu()">
+        <span class="w3-large w3-topbar">&nbsp;⇅&nbsp;</span>
+        <button @click="sortUp" class="w3-btn" titlw="up">⬆</button>
+        <button @click="sortDown" class="w3-btn" title="down">⬇</button>
+        <button @click="sortFirst" class="w3-btn w3-border-left" title="toFirst">⮸</button>
+        <button @click="sortEnd" class="w3-btn" style="transform: rotate(180deg);"
+            title="toLast">⮸</button>
+    </template>
+    <div v-else class="w3-row">
+        <div class="w3-half">𝑟¹
+            <span class="w3-tiny">{{r1()}}</span>:
+        </div>
+        <div class="w3-half">𝑟²
+            <span class="w3-tiny">{{r2()}}</span>:
+        </div>
     </div>
-</div>
-<template v-else-if="isSortMenu()">
-    <span class="w3-large w3-topbar">&nbsp;⇅&nbsp;</span>
-    <button @click="sortUp" class="w3-btn" titlw="up">⬆</button>
-    <button @click="sortDown" class="w3-btn" title="down">⬇</button>
-    <button @click="sortFirst" class="w3-btn w3-border-left" title="toFirst">⮸</button>
-    <button @click="sortEnd" class="w3-btn" style="transform: rotate(180deg);"
-        title="toLast">⮸</button>
-</template>
-<div v-else class="w3-row">
-    <div class="w3-half">𝑟¹
-        <span class="w3-tiny">{{r1()}}</span>:
-    </div>
-    <div class="w3-half">𝑟²
-        <span class="w3-tiny">{{r2()}}</span>:
-    </div>
-</div>
-
-<span class="w3-hide">{{count}}</span>
+</div> <span class="w3-hide">{{count}}</span>
 `,
 }

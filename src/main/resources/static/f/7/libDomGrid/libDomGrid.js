@@ -86,11 +86,12 @@ export const initActuallyTreeOpenedId = treeRootId => (domConf().actuallyTreeObj
  * @returns 
  */
 export const treeOpenedChildOnOff = (treeRootId, adnId) => {
+    const adnIdi = 1*adnId
     const actuallyTreeObj = domConf().actuallyTreeObj
     const actuallyTreeOpenedId = initActuallyTreeOpenedId(treeRootId)
-    !actuallyTreeOpenedId.includes(adnId)
-        && actuallyTreeOpenedId.push(adnId)
-        || (actuallyTreeObj.openedId[treeRootId] = actuallyTreeOpenedId.filter(i => i !== adnId))
+    !actuallyTreeOpenedId.includes(adnIdi)
+        && actuallyTreeOpenedId.push(adnIdi)
+        || (actuallyTreeObj.openedId[treeRootId] = actuallyTreeOpenedId.filter(i => i != adnIdi))
     return actuallyTreeObj.openedId[treeRootId]
 }
 
@@ -137,6 +138,13 @@ export const setUpOneLevel = (adnId, oldRootId) => {
     delete actuallyTreeObj().openedId[oldRootId]
     getDomComponent('treeDom').count++
     domConfHrefHash()
+}
+
+export const setTakeToRoot = adnId => {
+    const oldRootId = mcData.eMap[adnId].p
+    console.log(adnId, oldRootId, actuallyTreeObj())
+    console.log(actuallyTreeObj().openedId[oldRootId])
+    console.log(actuallyTreeObj().openedId[oldRootId].filter(i => i != oldRootId))
 }
 
 /**
@@ -228,12 +236,16 @@ const initHewUriDomConf = (uriDomConf_l) => {
 }
 
 export const addTreeFn = addTreeId => {
+    const addTreeIdi = 1*addTreeId
+    console.log(addTreeId, addTreeIdi)
     !Okeys(domContainer.conf.tree).length && (domContainer.conf.tree = { 0: {} })
     const firstRootTreeId = Okeys(domContainer.conf.tree)[0];
+    console.log(firstRootTreeId);
+
     (domContainer.conf.tree[firstRootTreeId].rootList
         || (domContainer.conf.tree[firstRootTreeId].rootList = []))
-    !domContainer.conf.tree[firstRootTreeId].rootList.includes(addTreeId)
-        && domContainer.conf.tree[firstRootTreeId].rootList.push(addTreeId)
+    !domContainer.conf.tree[firstRootTreeId].rootList.includes(addTreeIdi)
+        && domContainer.conf.tree[firstRootTreeId].rootList.push(addTreeIdi)
     const pathTreeStr = 'tree,' + firstRootTreeId
     setActuallyTreeObj(pathTreeStr)
 }
