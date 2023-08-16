@@ -59,7 +59,8 @@ export default {
         }, insertAdnChild() {
             dbSendInsertAdn({ parent: adn().doc_id })
         }, takeToRoot() {
-            console.log(123)
+            console.log(123, treeSelectedId(), this.p())
+
         }, upOneLevel() {
             console.log(123, treeSelectedId(), this.p())
             readAdnByIds([this.p()]).then(() => {

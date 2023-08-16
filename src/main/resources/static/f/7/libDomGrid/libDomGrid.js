@@ -136,6 +136,7 @@ export const setUpOneLevel = (adnId, oldRootId) => {
         actuallyTreeObj().selectedId = adnId
     delete actuallyTreeObj().openedId[oldRootId]
     getDomComponent('treeDom').count++
+    domConfHrefHash()
 }
 
 /**
