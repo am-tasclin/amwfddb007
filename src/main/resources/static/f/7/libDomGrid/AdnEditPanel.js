@@ -11,7 +11,6 @@ import { dbSendVlStrData, dbSendInsertAdn, dbSendDeleteAdn1 } from
     '/f/7/libDbRw/libMcRDb.js'
 import { readAdnByIds, readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
 
-
 const treeSelectedId = () => actuallyTreeObj() && actuallyTreeObj().selectedId
     , adn = () => mcData.eMap[treeSelectedId()]
 
@@ -42,12 +41,9 @@ export default {
         p() { return adn() && adn().p },
         r1() { return adn() && adn().r },
         r2() { return adn() && adn().r2 },
-        deleteAdn() {
-            console.log(1123, this.adn())
-            dbSendDeleteAdn1({ adnId: this.adn().doc_id, p: this.adn().p })
-        }, copyId() {
-            return actuallyTreeObj().copyId
-        }, copyAdnId() {
+        deleteAdn() { dbSendDeleteAdn1({ adnId: this.adn().doc_id, p: this.adn().p }) },
+        copyId() { return actuallyTreeObj().copyId },
+        copyAdnId() {
             actuallyTreeObj().copyId = this.adn().doc_id
             this.count++
         }, pasteAdnSibling() {
@@ -61,14 +57,8 @@ export default {
         insertAdnChild() { dbSendInsertAdn({ parent: adn().doc_id }) },
         takeToRoot() { setTakeToRoot(treeSelectedId()) },
         upOneLevel() {
-            console.log(123, treeSelectedId(), this.p())
-            readAdnByIds([this.p()]).then(() => {
-                console.log(mcData.eMap[this.p()])
-                readAdnByParentIds([this.p()]).then(() => {
-                    console.log(mcData.parentChilds[this.p()])
-                    setUpOneLevel(this.p(), treeSelectedId())
-                })
-            })
+            readAdnByIds([this.p()]).then(() => readAdnByParentIds([this.p()]).then(() =>
+                setUpOneLevel(this.p(), treeSelectedId())))
         },
         sendVlStrDb() {
             console.log(initAdnEditPanelSubMenu().edVlStr)
@@ -92,7 +82,6 @@ export default {
             console.log(123)
             this.count++
         }
-
     }, template: `
 <div class="w3-row" v-if="'tree'==actuallyCompomentName()">
     <span class="w3-right w3-tiny w3-opacity">

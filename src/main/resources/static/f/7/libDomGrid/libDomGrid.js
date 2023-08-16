@@ -6,18 +6,16 @@
  */
 
 const eMap = {}, parentChilds = {}
-    , domContainer = {
-        conf: {}, mcData: { eMap: eMap, parentChilds: parentChilds },
-        components: {}
-    }
-console.log(domContainer)
-export const consoleLogDomCOntainer = () => console.log(domContainer)
-
 /**
  * Container of data and structures for build and use the DOM Grid
  * Контейнер даних і структур для створення та використання DOM Grid
- * 
  */
+const domContainer = {
+    conf: {}, mcData: { eMap: eMap, parentChilds: parentChilds },
+    components: {}
+}
+console.log(domContainer)
+export const consoleLogDomCOntainer = () => console.log(domContainer)
 
 export const setActualeCompomentName = ctName => domContainer.actuallyComponentName = ctName
 export const setDomComponent = (ctName, ct) =>
@@ -25,12 +23,10 @@ export const setDomComponent = (ctName, ct) =>
 
 export const getDomComponent = (ctName) => domContainer.components[ctName]
 export const getActualeCompomentName = () => domContainer.actuallyComponentName
-
 /**
  * 
  */
 export const mcData = domContainer.mcData
-
 /**
  * 
  */
@@ -40,17 +36,13 @@ const domConfStrignifyList = ['mcElement', 'actuallyTreeObj', 'actuallyEdit',]
 const domConfStrignifyFn = (k, v) => !domConfStrignifyList.includes(k) && v || undefined
 export const domConfLocationHash = () => JSON.stringify(domConf(), domConfStrignifyFn)
 export const domConfHrefHash = () => window.location.href = '#cj=' + domConfLocationHash()
-
+/**
+ * Href hash config for init page
+ */
 export const domConfStrignify = () => {
-    console.log(domConf())
     const x = JSON.stringify(domConf(), domConfStrignifyFn, 2)
-    console.log(x)
-    console.log(domConfLocationHash())
     domConfHrefHash()
 }
-
-// export const actuallyEdit = () => domConf().actuallyEdit
-
 /**
  * 
  * @returns 
@@ -68,7 +60,6 @@ export const setActuallyTreeObj = pathTreeStr => {
     getDomComponent('actuallyTreeObj').count++
     return domConf().actuallyTreeObj
 }
-
 /**
  * 
  * @param {*} treeRootId 
@@ -77,7 +68,6 @@ export const setActuallyTreeObj = pathTreeStr => {
 export const initActuallyTreeOpenedId = treeRootId => (domConf().actuallyTreeObj.openedId
     || (domConf().actuallyTreeObj.openedId = {}))[treeRootId]
     || (domConf().actuallyTreeObj.openedId[treeRootId] = [])
-
 /**
  * 
  * @param {*} path 
@@ -86,7 +76,7 @@ export const initActuallyTreeOpenedId = treeRootId => (domConf().actuallyTreeObj
  * @returns 
  */
 export const treeOpenedChildOnOff = (treeRootId, adnId) => {
-    const adnIdi = 1*adnId
+    const adnIdi = 1 * adnId
     const actuallyTreeObj = domConf().actuallyTreeObj
     const actuallyTreeOpenedId = initActuallyTreeOpenedId(treeRootId)
     !actuallyTreeOpenedId.includes(adnIdi)
@@ -94,7 +84,11 @@ export const treeOpenedChildOnOff = (treeRootId, adnId) => {
         || (actuallyTreeObj.openedId[treeRootId] = actuallyTreeOpenedId.filter(i => i != adnIdi))
     return actuallyTreeObj.openedId[treeRootId]
 }
-
+/**
+ * 
+ * @param {*} adnId 
+ * @returns 
+ */
 export const reViewAdn = adnId => actuallyTreeObj().mcElement && Okeys(actuallyTreeObj().mcElement)
     .forEach(rootId => actuallyTreeObj().mcElement[rootId][adnId] &&
         actuallyTreeObj().mcElement[rootId][adnId].count++)
@@ -139,14 +133,21 @@ export const setUpOneLevel = (adnId, oldRootId) => {
     getDomComponent('treeDom').count++
     domConfHrefHash()
 }
-
+/**
+ * 
+ * @param {*} adnId 
+ */
 export const setTakeToRoot = adnId => {
     const oldRootId = mcData.eMap[adnId].p
     console.log(adnId, oldRootId, actuallyTreeObj())
-    console.log(actuallyTreeObj().openedId[oldRootId])
-    console.log(actuallyTreeObj().openedId[oldRootId].filter(i => i != oldRootId))
+    const filterNewRoot = i => i != oldRootId && (i == adnId || mcData.eMap[i].p != oldRootId)
+    const newOpenedId = actuallyTreeObj().openedId[oldRootId].filter(filterNewRoot)
+    console.log(newOpenedId)
+    const mcElList = Okeys(actuallyTreeObj().mcElement[oldRootId])
+    console.log(mcElList.length)
+    console.log(mcElList.filter(i => i != adnId && mcData.eMap[i].p == oldRootId))
+    // newMcElListToDel
 }
-
 /**
  * 
  * @returns 
@@ -154,33 +155,37 @@ export const setTakeToRoot = adnId => {
 export const uniqueIdPageRead = () => Okeys(domContainer.conf.tree)
     .reduce((l, im) => domContainer.conf.tree[im].rootList.filter(im2 => !l.includes(im2))
         .reduce((l, im2) => l.push(im2) && l, l) && l, [])
-
+/**
+ * 
+ * @returns 
+ */
 export const uniqueTreeOpenedId = () => Okeys(domConf().tree)
     .reduce((l1, treeId) => domConf().tree[treeId].openedId && Okeys(domConf().tree[treeId].openedId)
         .reduce((l2, treeRootId) => domConf().tree[treeId].openedId[treeRootId]
             .reduce((l3, i) => !l3.includes(i) && l3.push(i) && l3 || l3
                 , l2) && l2, l1) && l1 || l1, [])
-
 /**
  * Short to tree configuration
  * @returns 
  */
 export const confTree = () => domContainer.conf.tree
-
 /**
  * 
  * @returns 
  */
 export const confHew = () => domContainer.conf.hew
-
 /**
  * 
  * @param {*} rawConfStr 
  */
 export const initDomConfLogic = (rawConfStr) => rawConfStr.includes('cj=') && initJsonDomConf(rawConfStr.replace('cj=', ''))
     || initUriDomConf(rawConfStr)
-
-const initJsonDomConf = (rawConfStr) => {
+/**
+ * 
+ * @param {*} rawConfStr 
+ * @returns 
+ */
+const initJsonDomConf = rawConfStr => {
     const confJson = JSON.parse(decodeURI(rawConfStr))
     domContainer.conf.tree = confJson.tree
     // !ppId && (ppId = Okeys(domConf().tree)[0])
@@ -189,13 +194,14 @@ const initJsonDomConf = (rawConfStr) => {
     domContainer.conf.pathActuallyTreeObj = 'tree,' + ppId
     console.log(domContainer.conf.pathActuallyTreeObj, domContainer)
     //setActuallyTreeObj(pathTreeStr)
-
     return domContainer.conf
 }
-
+/**
+ * 
+ * @returns 
+ */
 export const pathActuallyTreeObj = () =>
     domContainer.conf.pathActuallyTreeObj
-
 /**
  * Primary initialization from simple URI syntax
  * Первинна ініціалізація з простого синтаксису URI
@@ -212,7 +218,11 @@ const initUriDomConf = (rawUriDomConf, ppId) => {
         || initTreeUriDomConf(uriDomConf_l, ppId)
     return domContainer.conf
 }
-
+/**
+ * 
+ * @param {*} uriDomConf_l 
+ * @param {*} ppId 
+ */
 const initTreeUriDomConf = (uriDomConf_l, ppId) => {
     domContainer.conf.pathActuallyTreeObj = 'tree,' + ppId
     'tree' == uriDomConf_l[0] && ((
@@ -224,7 +234,11 @@ const initTreeUriDomConf = (uriDomConf_l, ppId) => {
             console.log(domContainer)
         })()
 }
-
+/**
+ * 
+ * @param {*} uriDomConf_l 
+ * @returns 
+ */
 const initHewUriDomConf = (uriDomConf_l) => {
     const hew = domContainer.conf.hew || (domContainer.conf.hew = {
         l: [],
@@ -234,13 +248,14 @@ const initHewUriDomConf = (uriDomConf_l) => {
         !hew.l.includes(im) && hew.l.push(im))
     return true
 }
-
+/**
+ * 
+ * @param {*} addTreeId 
+ */
 export const addTreeFn = addTreeId => {
-    const addTreeIdi = 1*addTreeId
-    console.log(addTreeId, addTreeIdi)
+    const addTreeIdi = 1 * addTreeId
     !Okeys(domContainer.conf.tree).length && (domContainer.conf.tree = { 0: {} })
     const firstRootTreeId = Okeys(domContainer.conf.tree)[0];
-    console.log(firstRootTreeId);
 
     (domContainer.conf.tree[firstRootTreeId].rootList
         || (domContainer.conf.tree[firstRootTreeId].rootList = []))
