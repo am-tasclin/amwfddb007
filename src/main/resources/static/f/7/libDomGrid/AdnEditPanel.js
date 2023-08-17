@@ -56,11 +56,13 @@ export default {
         isEditStrMenu() { return isAdnEditPanelSubMenu('editStr') },
         insertAdnChild() { dbSendInsertAdn({ parent: adn().doc_id }) },
         takeToRoot() { setTakeToRoot(treeSelectedId()) },
+        setEdVlStr(vl) { initAdnEditPanelSubMenu().edVlStr = vl },
+        adnEditPanelSubMenu() { return actuallyEdit().adnEditPanelSubMenu[treeSelectedId()] },
+        isSortMenu() { return isAdnEditPanelSubMenu('sort') },
         upOneLevel() {
             readAdnByIds([this.p()]).then(() => readAdnByParentIds([this.p()]).then(() =>
                 setUpOneLevel(this.p(), treeSelectedId())))
-        },
-        sendVlStrDb() {
+        }, sendVlStrDb() {
             console.log(initAdnEditPanelSubMenu().edVlStr)
             dbSendVlStrData({
                 adnId: treeSelectedId()
@@ -68,15 +70,9 @@ export default {
             }).then(() => {
                 console.log(123)
             })
-        }, setEdVlStr(vl) {
-            initAdnEditPanelSubMenu().edVlStr = vl
-        }, adnEditPanelSubMenu() {
-            return actuallyEdit().adnEditPanelSubMenu[treeSelectedId()]
         }, editStrMenu() {
             adnEditPanelSubMenuOnOff('editStr')
             this.count++
-        }, isSortMenu() {
-            return isAdnEditPanelSubMenu('sort')
         }, sortMenu() {
             adnEditPanelSubMenuOnOff('sort')
             console.log(123)

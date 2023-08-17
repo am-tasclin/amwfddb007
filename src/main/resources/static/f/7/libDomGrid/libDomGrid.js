@@ -134,32 +134,33 @@ export const setUpOneLevel = (adnId, oldRootId) => {
     domConfHrefHash()
 }
 /**
- * 
+ * Make one deep child as new rootTreeId
  * @param {*} adnId 
  */
 export const setTakeToRoot = adnId => {
     const oldRootId = mcData.eMap[adnId].p
-    console.log(adnId, oldRootId, actuallyTreeObj())
-    const filterNewRoot = i => i != oldRootId && (i == adnId || mcData.eMap[i].p != oldRootId)
-    const newOpenedId = actuallyTreeObj().openedId[oldRootId].filter(filterNewRoot)
-    console.log(newOpenedId)
-    const mcElList = actuallyTreeObj().mcElement[oldRootId]
-    const mcElIdList = Okeys(mcElList)
-    console.log(mcElIdList.length)
-    console.log(mcElIdList.filter(i => i != adnId && mcData.eMap[i].p == oldRootId))
-    // newMcElListToDel
-    const deleteOthers = p => {
-        mcElIdList.forEach(i => p.find(i1 => i1 == i && delete mcElList[i]))
+    console.log('-1--------------\n', adnId, oldRootId, actuallyTreeObj())
+    const deleteOthers = (p, fn) => {
+        fn(p)
         return p.filter(i => mcData.parentChilds[i]).reduce((l, i) =>
             l.concat(mcData.parentChilds[i]), [])
-    }, deleteOthersDeep = p => {
-        const p2 = deleteOthers(p)
-        return p2.length && deleteOthersDeep(p2)
+    }, deleteOthersDeep = (p, fn) => {
+        const p2 = deleteOthers(p, fn)
+        return p2.length && deleteOthersDeep(p2, fn)
     }
-    const p1 = mcData.parentChilds[oldRootId].filter(i => i != adnId)
-    console.log(p1)
-    const p2n = deleteOthersDeep(p1)
-    console.log(p2n)
+    const parentChildsWIthoutNewRoot = mcData.parentChilds[oldRootId].filter(i => i != adnId)
+    console.log(parentChildsWIthoutNewRoot)
+    const mcElList = actuallyTreeObj().mcElement[oldRootId]
+    deleteOthersDeep(parentChildsWIthoutNewRoot, p => Okeys(mcElList)
+        .forEach(i => p.find(i1 => i1 == i && delete mcElList[i])))
+    console.log('-2----------------\n')
+    const newOpenerId = actuallyTreeObj().openedId[oldRootId]
+    console.log(newOpenerId)
+    const p2n1 = deleteOthersDeep(parentChildsWIthoutNewRoot, p =>
+        p.filter(i => newOpenerId.indexOf(i) > 0).forEach(i =>
+            newOpenerId.splice(newOpenerId.indexOf(i), 1)))
+    newOpenerId.splice(newOpenerId.indexOf(oldRootId), 1)
+    console.log(newOpenerId)
 }
 /**
  * 
