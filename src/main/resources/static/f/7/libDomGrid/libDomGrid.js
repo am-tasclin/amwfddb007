@@ -139,7 +139,6 @@ export const setUpOneLevel = (adnId, oldRootId) => {
  */
 export const setTakeToRoot = adnId => {
     const oldRootId = mcData.eMap[adnId].p
-    console.log('-1--------------\n', adnId, oldRootId, actuallyTreeObj())
     const deleteOthers = (p, fn) => {
         fn(p)
         return p.filter(i => mcData.parentChilds[i]).reduce((l, i) =>
@@ -149,18 +148,22 @@ export const setTakeToRoot = adnId => {
         return p2.length && deleteOthersDeep(p2, fn)
     }
     const parentChildsWIthoutNewRoot = mcData.parentChilds[oldRootId].filter(i => i != adnId)
-    console.log(parentChildsWIthoutNewRoot)
     const mcElList = actuallyTreeObj().mcElement[oldRootId]
     deleteOthersDeep(parentChildsWIthoutNewRoot, p => Okeys(mcElList)
         .forEach(i => p.find(i1 => i1 == i && delete mcElList[i])))
-    console.log('-2----------------\n')
+    delete mcElList[oldRootId]
+    actuallyTreeObj().mcElement[adnId] = mcElList
+    delete actuallyTreeObj().mcElement[oldRootId]
     const newOpenerId = actuallyTreeObj().openedId[oldRootId]
-    console.log(newOpenerId)
-    const p2n1 = deleteOthersDeep(parentChildsWIthoutNewRoot, p =>
+    deleteOthersDeep(parentChildsWIthoutNewRoot, p =>
         p.filter(i => newOpenerId.indexOf(i) > 0).forEach(i =>
             newOpenerId.splice(newOpenerId.indexOf(i), 1)))
     newOpenerId.splice(newOpenerId.indexOf(oldRootId), 1)
-    console.log(newOpenerId)
+    actuallyTreeObj().openedId[adnId] = actuallyTreeObj().openedId[oldRootId]
+    delete actuallyTreeObj().openedId[oldRootId]
+    actuallyTreeObj().rootList.splice(actuallyTreeObj().rootList.indexOf(oldRootId), 1, adnId)
+    getDomComponent('treeDom').count++
+    domConfHrefHash()
 }
 /**
  * 
