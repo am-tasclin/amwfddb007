@@ -143,10 +143,23 @@ export const setTakeToRoot = adnId => {
     const filterNewRoot = i => i != oldRootId && (i == adnId || mcData.eMap[i].p != oldRootId)
     const newOpenedId = actuallyTreeObj().openedId[oldRootId].filter(filterNewRoot)
     console.log(newOpenedId)
-    const mcElList = Okeys(actuallyTreeObj().mcElement[oldRootId])
-    console.log(mcElList.length)
-    console.log(mcElList.filter(i => i != adnId && mcData.eMap[i].p == oldRootId))
+    const mcElList = actuallyTreeObj().mcElement[oldRootId]
+    const mcElIdList = Okeys(mcElList)
+    console.log(mcElIdList.length)
+    console.log(mcElIdList.filter(i => i != adnId && mcData.eMap[i].p == oldRootId))
     // newMcElListToDel
+    const deleteOthers = p => {
+        mcElIdList.forEach(i => p.find(i1 => i1 == i && delete mcElList[i]))
+        return p.filter(i => mcData.parentChilds[i]).reduce((l, i) =>
+            l.concat(mcData.parentChilds[i]), [])
+    }, deleteOthersDeep = p => {
+        const p2 = deleteOthers(p)
+        return p2.length && deleteOthersDeep(p2)
+    }
+    const p1 = mcData.parentChilds[oldRootId].filter(i => i != adnId)
+    console.log(p1)
+    const p2n = deleteOthersDeep(p1)
+    console.log(p2n)
 }
 /**
  * 
