@@ -127,10 +127,11 @@ export const setUpOneLevel = (adnId, oldRootId) => {
     actuallyTreeObj().openedId[oldRootId].push(adnId)
     actuallyTreeObj().openedId[adnId] =
         actuallyTreeObj().openedId[oldRootId]
+    delete actuallyTreeObj().openedId[oldRootId]
     actuallyTreeObj().selectedRootId =
         actuallyTreeObj().selectedId = adnId
-    delete actuallyTreeObj().openedId[oldRootId]
     getDomComponent('treeDom').count++
+    getDomComponent('actuallyTreeObj').count++
     domConfHrefHash()
 }
 /**
@@ -162,7 +163,10 @@ export const setTakeToRoot = adnId => {
     actuallyTreeObj().openedId[adnId] = actuallyTreeObj().openedId[oldRootId]
     delete actuallyTreeObj().openedId[oldRootId]
     actuallyTreeObj().rootList.splice(actuallyTreeObj().rootList.indexOf(oldRootId), 1, adnId)
+    actuallyTreeObj().selectedRootId =
+        actuallyTreeObj().selectedId = adnId
     getDomComponent('treeDom').count++
+    getDomComponent('actuallyTreeObj').count++
     domConfHrefHash()
 }
 /**
