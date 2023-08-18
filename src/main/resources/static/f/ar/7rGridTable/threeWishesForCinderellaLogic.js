@@ -31,6 +31,10 @@ gridEntry1mat.setConfig({
         alias: 'найменування',
         style: 'width: 6em;',
         seekValue: '', seekType: String,
+        seekMakeSql(){
+            console.log(123)
+            console.log(this.seekValue)
+        }
     },
     kilkist: { alias: 'Кіл-ть', classHead: 'w3-green' },
     money: {

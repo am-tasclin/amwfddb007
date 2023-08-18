@@ -14,29 +14,19 @@ export default {
             return gridTable(this.tagName).bodyColumns
         },
         conf(c) { return gridTable(this.tagName).config[c] || {} },
-        inputSeekFn(c){
+        inputSeekFn(c) {
             console.log(c, this.conf(c).seekValue)
+            this.conf(c).seekMakeSql
+                && this.conf(c).seekMakeSql()
         }
     },
     template: `
-<tr>
-    <th class="w3-tiny w3-border-top" colspan=12>
-    a1 {{keys()}}
-    </th>
-</tr>
-<tr>
-    <th v-for="c in keys()" class="w3-tiny">
-    {{c}}
-    </th>
-</tr>
-<tr>
-    <td v-for="c in keys()" :style="conf(c).style">
+<tr><th v-for="c in keys()" class="w3-tiny">{{c}}</th></tr>
+<tr><td v-for="c in keys()" :style="conf(c).style">
         <input v-if="conf(c).seekType" class="am-width-100pr"
             v-model="conf(c).seekValue"
             @keyup.enter="inputSeekFn(c)"
         />
-    </td>
-</tr>
-
+    </td></tr>
 `
 }
