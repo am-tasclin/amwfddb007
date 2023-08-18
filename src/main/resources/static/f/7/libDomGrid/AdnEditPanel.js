@@ -47,8 +47,17 @@ export default {
             actuallyTreeObj().copyId = this.adn().doc_id
             this.count++
         }, pasteAdnSibling() {
-            const copyAdn = mcData.eMap[this.copyId]
-            dbSendInsertAdn({ parent: adn().p, r: copyAdn.r, r2: copyAdn.r2 })
+            const copyAdn = mcData.eMap[actuallyTreeObj().copyId]
+            console.log(copyAdn)
+            dbSendInsertAdn({ parent: adn().p, r: copyAdn.r, r2: copyAdn.r2 }).then(() => {
+                const lastChildId = mcData.parentChilds[adn().p]
+                [mcData.parentChilds[adn().p].length - 1]
+                console.log(adn().p, mcData.parentChilds[adn().p])
+                console.log(lastChildId, actuallyTreeObj())
+                actuallyTreeObj().selectedId = lastChildId
+                actuallyTreeObj().mcElement[actuallyTreeObj().selectedRootId][lastChildId].count++
+                actuallyTreeObj().mcElement[actuallyTreeObj().selectedRootId][actuallyTreeObj().copyId].count++
+            })
         }, insertAdnSibling() {
             !Object.keys(actuallyTreeObj().mcElement).includes(treeSelectedId()) &&
                 dbSendInsertAdn({ parent: adn().p })
@@ -57,7 +66,7 @@ export default {
         insertAdnChild() { dbSendInsertAdn({ parent: adn().doc_id }) },
         takeToRoot() { setTakeToRoot(treeSelectedId()) },
         setEdVlStr(vl) { initAdnEditPanelSubMenu().edVlStr = vl },
-        adnEditPanelSubMenu() { return actuallyEdit().adnEditPanelSubMenu[treeSelectedId()] },
+        adnEditPanelSubMenu() { return actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()] },
         isSortMenu() { return isAdnEditPanelSubMenu('sort') },
         upOneLevel() {
             readAdnByIds([this.p()]).then(() => readAdnByParentIds([this.p()]).then(() =>
