@@ -5,10 +5,12 @@
  */
 import { gridTable } from
     '/f/ar/5rGridTable/libGridTable/libGridTable.js'
+import TSeek from './TSeek.js'
 
 export default {
     data() { return { count: 0, } },
     props: { tagName: String },
+    components: { TSeek },
     mounted() {
         gridTable(this.tagName).tFoot = this
     }, methods: {
@@ -26,6 +28,7 @@ export default {
             </div>
         </th>
     </tr>
+    <TSeek :tagName="tagName"/>
 <tfoot>
 `,
 }
