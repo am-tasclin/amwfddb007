@@ -27,7 +27,11 @@ gridEntry1mat.setConfig({
     toAllHead: { classHead: 'w3-blue' },
     id_doc: { alias: '№№' },
     id_mat: { alias: '№№ мат-ла' },
-    naim_mat: { alias: 'найменування' },
+    naim_mat: {
+        alias: 'найменування',
+        style: 'width: 6em;',
+        seekValue: '', seekType: String,
+    },
     kilkist: { alias: 'Кіл-ть', classHead: 'w3-green' },
     money: {
         alias: 'Грн',
@@ -37,8 +41,8 @@ gridEntry1mat.setConfig({
         }
     },
 })
-
 console.log(gridEntry1mat.getConfig())
+
 const configHeadToColumns = h => Object.keys(h)
     .filter(im => 'toAllHead' != im)
     .reduce((l, im) => h[im].children
