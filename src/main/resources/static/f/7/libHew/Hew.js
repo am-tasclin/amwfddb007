@@ -27,8 +27,7 @@ export default {
         class="w3-hover-shadow" >
     <span class="w3-tiny w3-right w3-opacity">{{adnId}}.</span>
     {{vlStr()}}
-</component>
-`,
+</component>`,
         },
     }, mounted() {
         confHew().hewComponent[this.hewid] = this
@@ -45,11 +44,5 @@ export default {
 <template v-for="hewId2 in childIds()">
     <t-hew :hewid="hewId2"></t-hew>
 </template>
-<span class="w3-hide">{{count}}</span>
-`,
+<span class="w3-hide">{{count}}</span>`,
 }
-/**
-<H1 v-if="is('h1')" :vlStr="hew().vl_str" />
-<P v-if="is('p')" :vlStr="hew().vl_str" />
- * 
- */
