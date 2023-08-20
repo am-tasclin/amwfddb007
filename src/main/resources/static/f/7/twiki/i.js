@@ -8,7 +8,9 @@ import { initDomConfLogic, setDomComponent, getDomComponent } from
 const domConf = initDomConfLogic(window.location.hash.substring(1))
 console.log(domConf)
 
-const reViewActivePanel = () => {
+const reViewActivePanel = (adnId, activeEditObjName) => {
+    domConf.activeEditObjName = activeEditObjName
+    domConf.activeEditId = adnId
     console.log(domConf)
     getDomComponent('actuallyEdit').count++
 }
@@ -16,15 +18,8 @@ const reViewActivePanel = () => {
 const { createApp } = Vue
 createApp({
     methods: {
-        clickTree(treeId) {
-            domConf.activeEditObjName = 'Tree'
-            domConf.activeEditId = treeId
-            reViewActivePanel()
-        }, clickHew(hewId) {
-            domConf.activeEditObjName = 'Hew'
-            domConf.activeEditId = hewId
-            reViewActivePanel()
-        },
+        clickTree(treeId) { reViewActivePanel(treeId, 'Tree') },
+        clickHew(hewId) { reViewActivePanel(hewId, 'Hew') },
         domConf() { return domConf },
         domConfStringify() { return JSON.stringify(domConf, '', 2) },
     }
