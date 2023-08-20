@@ -1,5 +1,6 @@
 package org.algoritmed.amwfddb007.websocket;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -26,8 +27,8 @@ public class DbRwWebSocketHandler extends SimpleWebSocketHandler implements WebS
             try {
                 mapIn = objectMapper.readValue(sqlSelectJson, Map.class);
                 mapIn.put("incrementAndGet", incrementAndGet);
-                logger.info("-28-\n" + incrementAndGet + ": " + mapIn.get("cmd"));
-                logger.info("-29-\n" + dbSqlClient.getClass().getMethods());
+                logger.info("-28-" + incrementAndGet + ": " + mapIn.get("cmd"));
+                // logger.info("-29-\n" + dbSqlClient.getClass().getMethods());
                 switch (mapIn.get("cmd").toString()) {
                     case "insertAdnChild":
                         logger.info("-33-\n" + mapIn); // DEPRICATED TO DELETE
@@ -65,7 +66,8 @@ public class DbRwWebSocketHandler extends SimpleWebSocketHandler implements WebS
                         dbSqlClient.executeQuery(mapIn);
                         break;
                 }
-                logger.info("-68-" + incrementAndGet + ":--\n" + mapIn);
+                List<Object> x= (List<Object>) mapIn.get("list");
+                logger.info("-68-" + incrementAndGet + ":-size-" + x.size());
                 String jsonStr = objectMapper.writeValueAsString(mapIn);
                 m = session.textMessage(jsonStr);
             } catch (JsonProcessingException | InterruptedException | ExecutionException e) {

@@ -204,7 +204,7 @@ public class DbSqlClient {
 
     public void executeQuery(Map<String, Object> mapIn) throws InterruptedException, ExecutionException {
         String sql = mapIn.get("sql").toString();
-        logger.info("sql -171- \n" + sql);
+        // logger.info("sql -171- \n" + sql);
         List<Map<java.lang.String, Object>> list = getListOfRowObject(sql).get();
         mapIn.remove("sql");
         mapIn.put("list", list);

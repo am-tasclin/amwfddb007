@@ -24,9 +24,21 @@
         </span>
         <a href="http://algoritmed.com/" class="am-0u w3-right w3-hover-shadow" target="_blank">&nbsp;<img
                 src="/f/img/algoritmed-logo.webp" style="width:75px;" />&nbsp;</a>
-        <div id="actuallyEdit" class="w3-border w3-border-light-blue" style="min-height: 7em;"></div>
-        Hi twiki
+        <div id="actuallyEdit" class="w3-border w3-border-light-blue">
+            &nbsp;
+            <div :review="count">
+                set the HEW parameter
+                <input @keyup.enter="setHewId" v-model="hewId" class="w3-border" />
+            </div>
+            &nbsp;
+        </div>
+        
+        <div id="hew" class="w3-border-bottom">
+            <template v-for="hewId in hew_l()">
+                <t-hew :hewid="hewId"></t-hew>
+                <hr />
+            </template>
+        </div>
+
     </div>
 </body>
-
-</html>
