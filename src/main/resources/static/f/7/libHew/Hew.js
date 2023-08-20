@@ -24,7 +24,7 @@ export default {
                 vlStr() { return mcData.eMap[this.adnId].vl_str }
             }, template: `
 <component :is="tagName" :review="count" @click="click"
-        class="w3-hover-shadow" >
+        class="w3-hover-shadow">
     <span class="w3-tiny w3-right w3-opacity">{{adnId}}.</span>
     {{vlStr()}}
 </component>`,
