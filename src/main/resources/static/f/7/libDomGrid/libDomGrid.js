@@ -231,12 +231,14 @@ export const pathActuallyTreeObj = () =>
  * @param {*} ppId 
  */
 const initUriDomConf = (rawUriDomConf, ppId) => {
-    const uriDomConf_l = rawUriDomConf.split(',')
     !ppId && (ppId = 0)
-    console.log(123, rawUriDomConf, uriDomConf_l, ppId, 'hew' == uriDomConf_l[0])
-    console.log(uriDomConf_l, ppId);
-    'hew' == uriDomConf_l[0] && initHewUriDomConf(uriDomConf_l)
-        || initTreeUriDomConf(uriDomConf_l, ppId)
+    rawUriDomConf.split(';').forEach(rawUriDomConf1 => {
+        console.log(rawUriDomConf1)
+        const uriDomConf_l = rawUriDomConf1.split(',')
+        // console.log(uriDomConf_l, ppId, 'hew' == uriDomConf_l[0]);
+        'hew' == uriDomConf_l[0] && initHewUriDomConf(uriDomConf_l)
+            || initTreeUriDomConf(uriDomConf_l, ppId)
+    })
     return domContainer.conf
 }
 /**
