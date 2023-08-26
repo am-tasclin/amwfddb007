@@ -3,7 +3,7 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { mcData, confHew, reViewActivePanel } from '/f/7/libDomGrid/libDomGrid.js'
+import { mcData, confHew } from '/f/7/libDomGrid/libDomGrid.js'
 const idsTag = { 376600: 'h1', 371359: 'p' }
 
 export default {
@@ -20,10 +20,6 @@ export default {
             }, methods: {
                 click() {
                     console.log(this.adnId, 1 * this.adnId, mcData.eMap[this.adnId])
-                    mcData.parentChilds[this.adnId].forEach(adn2Id => {
-                        console.log(mcData.eMap[adn2Id])
-                    });
-                    reViewActivePanel(this.adnId, 'Hew')
                 },
                 vlStr() { return mcData.eMap[this.adnId].vl_str }
             }, template: `

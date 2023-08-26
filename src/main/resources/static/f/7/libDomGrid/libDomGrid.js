@@ -87,6 +87,17 @@ export const treeOpenedChildOnOff = (treeRootId, adnId) => {
 /**
  * 
  * @param {*} adnId 
+ * @param {*} activeEditObjName 
+ */
+export const reViewActivePanel = (adnId, activeEditObjName) => {
+    domConf().activeEditObjName = activeEditObjName
+    domConf().activeEditId = adnId
+    console.log(domConf())
+    getDomComponent('actuallyEdit').count++
+}
+/**
+ * 
+ * @param {*} adnId 
  * @returns 
  */
 export const reViewAdn = adnId => actuallyTreeObj().mcElement && Okeys(actuallyTreeObj().mcElement)

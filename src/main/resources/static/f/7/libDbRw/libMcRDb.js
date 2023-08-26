@@ -35,7 +35,11 @@ export const dbSendDeleteAdn1 = adnJson => executeDeleteAdn1Query(adnJson).then(
         mcData.parentChilds[json.p].filter(k => k != json.adnId)
     reViewAdn(json.p)
 })
-
+/**
+ * 
+ * @param {*} id_list 
+ * @returns 
+ */
 export const readAdnByIds = id_list => {
     const sql = selectDocVlStrByIds.replace(':idList', id_list.join(','))
     return executeSelectQuery(sql).then(json => initNewMc(json.list)
@@ -43,7 +47,6 @@ export const readAdnByIds = id_list => {
         console.log('read rr2', id_list)
     })
 }
-
 /**
  * 
  * @param {*} adnList 

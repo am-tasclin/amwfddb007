@@ -6,39 +6,52 @@
 import { initDomConfLogic, setDomComponent, getDomComponent } from
     '/f/7/libDomGrid/libDomGrid.js'
 const domConf = initDomConfLogic(window.location.hash.substring(1))
-console.log(domConf)
 
-const reViewActivePanel = (adnId, activeEditObjName) => {
-    domConf.activeEditObjName = activeEditObjName
-    domConf.activeEditId = adnId
-    console.log(domConf)
-    getDomComponent('actuallyEdit').count++
-}
+// console.log(domConf)
+const uniqueIdsForDbRead = domConf.hew.l.concat(domConf.actuallyTreeObj.rootList)
+console.log(uniqueIdsForDbRead)
 
+import { ws } from '/f/7/libDbRw/wsDbRw.js'
+import { readAdnByIds, readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
+import { confHew } from '/f/7/libDomGrid/libDomGrid.js'
+
+ws.onopen = event =>
+    uniqueIdsForDbRead.length && readAdnByIds(uniqueIdsForDbRead
+    ).then(() => readAdnByParentIds(uniqueIdsForDbRead
+    ).then(() => {
+        console.log(domConf)
+        console.log(confHew())
+    }
+    ).then(() => uniqueIdsForDbRead.forEach(hewId => confHew().hewComponent[hewId].count++)))
+
+import { reViewActivePanel } from '/f/7/libDomGrid/libDomGrid.js'
+import Hew from '/f/7/libHew/Hew.js'
 const { createApp } = Vue
-createApp({
+const pageConf = createApp({
     methods: {
         clickTree(treeId) { reViewActivePanel(treeId, 'Tree') },
         clickHew(hewId) { reViewActivePanel(hewId, 'Hew') },
         domConf() { return domConf },
         domConfStringify() { return JSON.stringify(domConf, '', 2) },
     }
-}).mount('#domConf')
+})
+pageConf.component('t-hew', Hew).mount('#hew')
+pageConf.mount('#pageConf')
 
-import Hew from '/f/7/libDomGrid/editPanel/Hew.js'
-import Tree from '/f/7/libDomGrid/editPanel/Tree.js'
+import HewEp from '/f/7/libDomGrid/editPanel/HewEp.js'
+import TreeEp from '/f/7/libDomGrid/editPanel/TreeEp.js'
 createApp({
     data() { return { count: 0, } },
     mounted() { setDomComponent('actuallyEdit', this) },
-    components: { Hew, Tree },
+    components: { HewEp, TreeEp },
     methods: {
         domConf() { return domConf },
         tagName() {
             console.log(domConf.activeEditObjName)
-            return domConf.activeEditObjName
+            return domConf.activeEditObjName + 'Ep'
         }
     }, template: `
-    <h3> Hi Edit</h3>
+<h3> Hi Edit</h3>
 {{domConf().activeEditObjName}}:{{domConf().activeEditId}}
 a12{{tagName()}}a12{{count}}
 <component :is="tagName()"></component>

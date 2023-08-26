@@ -17,7 +17,8 @@ initDomConfLogic(window.location.hash.substring(1))
 const uniqueIdsForDbRead = uniqueIdPageRead()
 
 ws.onopen = event =>
-    uniqueIdsForDbRead.length && readAdnByIds(uniqueIdsForDbRead).then(() => {
+    uniqueIdsForDbRead.length && readAdnByIds(uniqueIdsForDbRead
+    ).then(() => {
         const uniqueTreeOpenedId_l = uniqueTreeOpenedId()
         uniqueTreeOpenedId_l.length && readAdnByParentIds(uniqueTreeOpenedId_l
         ).then(() => uniqueTreeOpenedId_l.forEach(parentId => reViewAdn(parentId))

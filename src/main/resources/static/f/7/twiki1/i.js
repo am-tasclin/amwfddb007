@@ -9,6 +9,8 @@ import { initDomConfLogic, confHew, mcData } from '/f/7/libDomGrid/libDomGrid.js
 initDomConfLogic(window.location.hash.substring(1))
 const uniqueIdsForDbRead = confHew().l
 
+console.log(uniqueIdsForDbRead, 123)
+
 ws.onopen = event =>
     uniqueIdsForDbRead.length && readAdnByIds(uniqueIdsForDbRead
     ).then(() => readAdnByParentIds(uniqueIdsForDbRead
@@ -22,7 +24,7 @@ ws.onopen = event =>
         })
     }))
 
-import Hew from '/f/7/libHew/Hew.js'
+import Hew from './Hew.js'
 const { createApp } = Vue
 
 createApp({

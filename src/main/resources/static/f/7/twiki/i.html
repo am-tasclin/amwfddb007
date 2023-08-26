@@ -26,11 +26,13 @@
                 src="/f/img/algoritmed-logo.webp" style="width:75px;" />&nbsp;</a>
         <div id="actuallyEdit" class="w3-border w3-border-light-blue" style="min-height: 7em;"></div>
         Hi twiki
-        <div id="domConf">
+        <div id="pageConf">
             HEW
-            <div @click="clickHew(hewId)" v-for="hewId in domConf().hew.l" class="w3-hover-shadow">
-                {{hewId}}
-            </div>
+            <template v-for="hewId in domConf().hew.l">
+                <!-- <div @click="clickHew(hewId)" class="w3-hover-shadow"> {{hewId}} </div> -->
+                <t-hew :hewid="hewId"></t-hew>
+                <hr />
+            </template>
             TREE
             <div v-for="(tg,tgi) in domConf().tree">
                 {{tgi}}
