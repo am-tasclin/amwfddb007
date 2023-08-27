@@ -100,9 +100,12 @@ export const reViewActivePanel = (adnId, activeEditObjName) => {
  * @param {*} adnId 
  * @returns 
  */
-export const reViewAdn = adnId => actuallyTreeObj().mcElement && Okeys(actuallyTreeObj().mcElement)
-    .forEach(rootId => actuallyTreeObj().mcElement[rootId][adnId] &&
-        actuallyTreeObj().mcElement[rootId][adnId].count++)
+export const reViewAdn = adnId => {
+    console.log(adnId, actuallyTreeObj().mcElement)
+    actuallyTreeObj().mcElement && Okeys(actuallyTreeObj().mcElement)
+        .forEach(rootId => actuallyTreeObj().mcElement[rootId][adnId] &&
+            actuallyTreeObj().mcElement[rootId][adnId].count++)
+}
 /**
  * 
  * @param {*} adnList 
@@ -258,6 +261,7 @@ const initUriDomConf = (rawUriDomConf, ppId) => {
  * @param {*} ppId 
  */
 const initTreeUriDomConf = (uriDomConf_l, ppId) => {
+    console.log(uriDomConf_l, uriDomConf_l[0], 'tree' == uriDomConf_l[0], domContainer.conf.tree)
     domContainer.conf.pathActuallyTreeObj = 'tree,' + ppId
     'tree' == uriDomConf_l[0] && ((
         domContainer.conf.tree || (domContainer.conf.tree = {})
@@ -266,7 +270,8 @@ const initTreeUriDomConf = (uriDomConf_l, ppId) => {
         || (() => {
             domContainer.conf.tree = {}
             console.log(domContainer)
-        })()
+        })();
+    console.log(JSON.stringify(domContainer.conf, '', 2))
 }
 /**
  * 

@@ -25,9 +25,7 @@
         <a href="http://algoritmed.com/" class="am-0u w3-right w3-hover-shadow" target="_blank">&nbsp;<img
                 src="/f/img/algoritmed-logo.webp" style="width:75px;" />&nbsp;</a>
         <div id="actuallyEdit" class="w3-border w3-border-light-blue" style="min-height: 7em;"></div>
-        Hi twiki
         <div id="pageConf">
-            HEW
             <template v-for="hewId in domConf().hew.l">
                 <!-- <div @click="clickHew(hewId)" class="w3-hover-shadow"> {{hewId}} </div> -->
                 <t-hew :hewid="hewId"></t-hew>
@@ -39,6 +37,11 @@
                 <div @click="clickTree(treeId)" v-for="treeId in tg.rootList" class="w3-hover-shadow">
                     {{treeId}}
                 </div>
+                a11
+                <template v-for="adnId in tg.rootList">
+                    {{adnId}}
+                    <t-mc-element :adnId="adnId" :treeRootId="adnId" path="tree,0" />
+                </template>
             </div>
             <div class="w3-tiny w3-opacity" style="white-space: pre-wrap; overflow: auto;">
                 {{domConfStringify()}}

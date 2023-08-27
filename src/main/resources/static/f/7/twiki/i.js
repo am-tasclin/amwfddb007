@@ -3,9 +3,11 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
-import { initDomConfLogic, setDomComponent, getDomComponent } from
+import { initDomConfLogic, setDomComponent, reViewAdn, uniqueIdPageRead } from
     '/f/7/libDomGrid/libDomGrid.js'
 const domConf = initDomConfLogic(window.location.hash.substring(1))
+// const uniqueIdsForDbRead1 = uniqueIdPageRead()
+// console.log(uniqueIdsForDbRead1)
 
 // console.log(domConf)
 const uniqueIdsForDbRead = domConf.hew.l.concat(domConf.actuallyTreeObj.rootList)
@@ -19,13 +21,15 @@ ws.onopen = event =>
     uniqueIdsForDbRead.length && readAdnByIds(uniqueIdsForDbRead
     ).then(() => readAdnByParentIds(uniqueIdsForDbRead
     ).then(() => {
-        console.log(domConf)
-        console.log(confHew())
+        console.log(domConf, confHew())
+        console.log(domConf.actuallyTreeObj.rootList, 123)
+        domConf.actuallyTreeObj.rootList.forEach(treeId => reViewAdn(treeId))
     }
     ).then(() => uniqueIdsForDbRead.forEach(hewId => confHew().hewComponent[hewId].count++)))
 
 import { reViewActivePanel } from '/f/7/libDomGrid/libDomGrid.js'
 import Hew from '/f/7/libHew/Hew.js'
+import McElement from '/f/7/libDomGrid/McElement.js'
 const { createApp } = Vue
 const pageConf = createApp({
     methods: {
@@ -36,6 +40,7 @@ const pageConf = createApp({
     }
 })
 pageConf.component('t-hew', Hew).mount('#hew')
+pageConf.component('t-mc-element', McElement)
 pageConf.mount('#pageConf')
 
 import HewEp from '/f/7/libDomGrid/editPanel/HewEp.js'
@@ -53,7 +58,7 @@ createApp({
     }, template: `
 <h3> Hi Edit</h3>
 {{domConf().activeEditObjName}}:{{domConf().activeEditId}}
-a12{{tagName()}}a12{{count}}
+:{{tagName()}}:{{count}}
 <component :is="tagName()"></component>
 `,
 }).mount('#actuallyEdit')

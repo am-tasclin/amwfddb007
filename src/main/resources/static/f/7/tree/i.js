@@ -24,6 +24,7 @@ ws.onopen = event =>
         uniqueTreeOpenedId_l.length && readAdnByParentIds(uniqueTreeOpenedId_l
         ).then(() => uniqueTreeOpenedId_l.forEach(parentId => reViewAdn(parentId))
         ).then(() => {
+            console.log(uniqueTreeOpenedId_l)
             !actuallyTreeObj().tree && setActuallyTreeObj(pathActuallyTreeObj())
         })
     })
