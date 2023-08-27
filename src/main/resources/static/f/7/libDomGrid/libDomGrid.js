@@ -21,7 +21,7 @@ export const setActualeCompomentName = ctName => domContainer.actuallyComponentN
 export const setDomComponent = (ctName, ct) =>
     setActualeCompomentName(ctName) && (domContainer.components[ctName] = ct)
 
-export const getDomComponent = (ctName) => domContainer.components[ctName]
+export const getDomComponent = (ctName) => domContainer.components[ctName] || domContainer.components
 export const getActualeCompomentName = () => domContainer.actuallyComponentName
 /**
  * 

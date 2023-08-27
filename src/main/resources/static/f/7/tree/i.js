@@ -7,7 +7,7 @@ import {
     confTree, initDomConfLogic, domConfStrignify
     , uniqueIdPageRead, uniqueTreeOpenedId, pathActuallyTreeObj
     , actuallyTreeObj, setActuallyTreeObj, reViewAdn, addTreeFn
-    , setDomComponent, getDomComponent, mcData, domConfHrefHash
+    , setDomComponent, mcData
     , setActualeCompomentName, getActualeCompomentName
 } from '/f/7/libDomGrid/libDomGrid.js'
 import { ws } from '/f/7/libDbRw/wsDbRw.js'
@@ -16,6 +16,7 @@ import { readAdnByIds, readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
 initDomConfLogic(window.location.hash.substring(1))
 const uniqueIdsForDbRead = uniqueIdPageRead()
 
+import { getDomComponent, domConfHrefHash, } from '/f/7/libDomGrid/libDomGrid.js'
 ws.onopen = event =>
     uniqueIdsForDbRead.length && readAdnByIds(uniqueIdsForDbRead
     ).then(() => {
@@ -45,20 +46,19 @@ app_treeDom.component('t-mc-element', McElement)
 app_treeDom.mount('#treeDom')
 
 import AdnEditPanel from '/f/7/libDomGrid/AdnEditPanel.js'
-
 createApp({
     data() { return { count: 0, addTreeId: 0, } },
     mounted() {
         setDomComponent('actuallyEdit', this)
     }, methods: {
+        treeSelectedId() { return actuallyTreeObj() && actuallyTreeObj().selectedId },
+        actuallyCompomentName() { return getActualeCompomentName() },
         addTreeFn() {
             addTreeFn(this.addTreeId)
             !mcData.eMap[this.addTreeId] && readAdnByIds([this.addTreeId]
             ).then(() => getDomComponent('treeDom').count++
             ).then(() => domConfHrefHash())
         },
-        treeSelectedId() { return actuallyTreeObj() && actuallyTreeObj().selectedId },
-        actuallyCompomentName() { return getActualeCompomentName() },
     }
 }).component('t-adn-edit-panel', AdnEditPanel).mount('#actuallyEdit')
 

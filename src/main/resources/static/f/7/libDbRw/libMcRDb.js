@@ -8,7 +8,6 @@ import {
     executeSelectQuery, executeAdnInsertQuery, executeDeleteAdn1Query,
     executeUpdateString
 } from './wsDbRw.js'
-
 /**
  * 
  * @param {*} adnJson 
