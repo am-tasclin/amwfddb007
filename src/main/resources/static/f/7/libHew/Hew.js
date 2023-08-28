@@ -15,10 +15,7 @@ export default {
             props: { adnId: Number },
             data() { return { count: 0 } },
             computed: {
-                tagName() {
-                    // console.log(this.adnId, 123)
-                    return idsTag[mcData.eMap[this.adnId].r]
-                }
+                tagName() { return idsTag[mcData.eMap[this.adnId].r] }
             }, methods: {
                 click() {
                     console.log(this.adnId, 1 * this.adnId, mcData.eMap[this.adnId])

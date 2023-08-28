@@ -72,9 +72,10 @@ createApp({
             return domConf.activeEditObjName + 'Ep'
         }
     }, template: `
-<h3> Hi Edit</h3>
-{{domConf().activeEditObjName}}:{{domConf().activeEditId}}
-:{{tagName()}}:{{count}}
 <component :is="tagName()"></component>
+<div> Hi Edit
+    :{{tagName()}}:{{count}}
+    {{domConf().activeEditObjName}}:{{domConf().activeEditId}}
+</div>
 `,
 }).mount('#actuallyEdit')
