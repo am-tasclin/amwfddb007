@@ -34,7 +34,11 @@ const domConf = () => domContainer.conf
 
 const domConfStrignifyList = ['mcElement', 'actuallyTreeObj', 'actuallyEdit', 'hewComponent']
 const domConfStrignifyFn = (k, v) => !domConfStrignifyList.includes(k) && v || undefined
-export const domConfLocationHash = () => JSON.stringify(domConf(), domConfStrignifyFn)
+export const domConfLocationHash = () => {
+    // console.log(domConf())
+    // console.log(JSON.stringify(domConf(), domConfStrignifyFn, 2))
+    return JSON.stringify(domConf(), domConfStrignifyFn)
+}
 export const domConfHrefHash = () => window.location.href = '#cj=' + domConfLocationHash()
 /**
  * Href hash config for init page
@@ -222,6 +226,8 @@ export const initDomConfLogic = (rawConfStr) => rawConfStr.includes('cj=') && in
 const initJsonDomConf = rawConfStr => {
     const confJson = JSON.parse(decodeURI(rawConfStr))
     domContainer.conf.tree = confJson.tree
+    domContainer.conf.hew = confJson.hew
+    domContainer.conf.hew && (domContainer.conf.hew.hewComponent = {})
     // !ppId && (ppId = Okeys(domConf().tree)[0])
     const ppId = Okeys(domConf().tree)[0]
     domContainer.conf.actuallyTreeObj = domContainer.conf.tree[ppId]

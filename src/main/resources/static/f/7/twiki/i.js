@@ -9,7 +9,7 @@ const domConf = initDomConfLogic(window.location.hash.substring(1))
 // const uniqueIdsForDbRead1 = uniqueIdPageRead()
 // console.log(uniqueIdsForDbRead1)
 
-// console.log(domConf)
+console.log(domConf)
 const uniqueIdsForDbRead = domConf.hew.l.concat(domConf.actuallyTreeObj.rootList)
 console.log(uniqueIdsForDbRead)
 
@@ -35,7 +35,12 @@ const pageConf = createApp({
         clickHew(hewId) { reViewActivePanel(hewId, 'Hew') },
         domConf() { return domConf },
         domConfStringify() { return JSON.stringify(domConf, '', 2) },
-    }
+    },template:`
+<template v-for="hewId in domConf().hew.l">
+    <t-hew :hewid="hewId"></t-hew>
+    <hr />
+</template>
+    `,
 })
 pageConf.component('t-hew', Hew).mount('#hew')
 pageConf.mount('#pageConf')
