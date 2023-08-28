@@ -31,22 +31,19 @@
                 <t-hew :hewid="hewId"></t-hew>
                 <hr />
             </template>
-            TREE
+            <!-- TREE
             <div v-for="(tg,tgi) in domConf().tree">
                 {{tgi}}
                 <div @click="clickTree(treeId)" v-for="treeId in tg.rootList" class="w3-hover-shadow">
                     {{treeId}}
                 </div>
-                a11
-                <template v-for="adnId in tg.rootList">
-                    {{adnId}}
-                    <t-mc-element :adnId="adnId" :treeRootId="adnId" path="tree,0" />
-                </template>
-            </div>
-            <div class="w3-tiny w3-opacity" style="white-space: pre-wrap; overflow: auto;">
+            </div> -->
+            <!-- <div class="w3-tiny w3-opacity" style="white-space: pre-wrap; overflow: auto;">
                 {{domConfStringify()}}
-            </div>
+            </div> -->
         </div>
+        <div id="treeDom" class="am-max-width-1 w3-border-right"></div>&nbsp;
+
     </div>
 </body>
 

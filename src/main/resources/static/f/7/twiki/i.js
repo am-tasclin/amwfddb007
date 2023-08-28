@@ -21,11 +21,9 @@ ws.onopen = event =>
     uniqueIdsForDbRead.length && readAdnByIds(uniqueIdsForDbRead
     ).then(() => readAdnByParentIds(uniqueIdsForDbRead
     ).then(() => {
-        console.log(domConf, confHew())
-        console.log(domConf.actuallyTreeObj.rootList, 123)
+        // console.log(domConf.actuallyTreeObj.rootList, 123, domConf, confHew())
         domConf.actuallyTreeObj.rootList.forEach(treeId => reViewAdn(treeId))
-    }
-    ).then(() => uniqueIdsForDbRead.forEach(hewId => confHew().hewComponent[hewId].count++)))
+    }).then(() => uniqueIdsForDbRead.forEach(hewId => confHew().hewComponent[hewId].count++)))
 
 import { reViewActivePanel } from '/f/7/libDomGrid/libDomGrid.js'
 import Hew from '/f/7/libHew/Hew.js'
@@ -40,8 +38,21 @@ const pageConf = createApp({
     }
 })
 pageConf.component('t-hew', Hew).mount('#hew')
-pageConf.component('t-mc-element', McElement)
 pageConf.mount('#pageConf')
+
+const app_treeDom = createApp({
+    methods: {
+        domConf() { return domConf },
+    }, template: `
+<div v-for="(tg,tgi) in domConf().tree">
+    <template v-for="adnId in tg.rootList">
+        <t-mc-element :adnId="adnId" :treeRootId="adnId" :path="'tree,'+tgi" />
+    </template>
+</div>
+`,
+})
+app_treeDom.component('t-mc-element', McElement)
+app_treeDom.mount('#treeDom')
 
 import HewEp from '/f/7/libDomGrid/editPanel/HewEp.js'
 import TreeEp from '/f/7/libDomGrid/editPanel/TreeEp.js'

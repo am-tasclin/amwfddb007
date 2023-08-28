@@ -6,7 +6,7 @@
 import {
     mcData, reViewAdn, setActuallyTreeObj, actuallyTreeObj
     , initActuallyTreeOpenedId, treeOpenedChildOnOff
-    , domConfHrefHash
+    , domConfHrefHash, reViewActivePanel
 } from '/f/7/libDomGrid/libDomGrid.js'
 import { readAdnByParentIds } from '/f/7/libDbRw/libMcRDb.js'
 
@@ -25,7 +25,9 @@ export default {
         vlStr() { return this.adn().vl_str && marked.parseInline(this.adn().vl_str) },
         isSelected() { return actuallyTreeObj() && actuallyTreeObj().selectedId == this.adnId },
         isOpened() {
-            return initActuallyTreeOpenedId(this.treeRootId).includes(this.adnId)
+            const x = initActuallyTreeOpenedId(this.treeRootId)
+            return x.join(',').includes(this.adnId)
+            // return x.includes(this.adnId)
         }, click() {
             const oldSelectedId = actuallyTreeObj().selectedId;
             (oldSelectedId == this.adnId || !oldSelectedId) &&
@@ -37,6 +39,7 @@ export default {
                 && readAdnByParentIds([this.adnId])
                     .then(() => this.count++) || this.count++
             oldSelectedId && reViewAdn(oldSelectedId)
+            reViewActivePanel(this.adnId, 'Tree')
             domConfHrefHash()
         }
     }, template: `

@@ -16,7 +16,7 @@ export default {
             data() { return { count: 0 } },
             computed: {
                 tagName() {
-                    console.log(this.adnId, 123)
+                    // console.log(this.adnId, 123)
                     return idsTag[mcData.eMap[this.adnId].r]
                 }
             }, methods: {

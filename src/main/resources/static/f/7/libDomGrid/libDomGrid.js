@@ -32,7 +32,7 @@ export const mcData = domContainer.mcData
  */
 const domConf = () => domContainer.conf
 
-const domConfStrignifyList = ['mcElement', 'actuallyTreeObj', 'actuallyEdit',]
+const domConfStrignifyList = ['mcElement', 'actuallyTreeObj', 'actuallyEdit', 'hewComponent']
 const domConfStrignifyFn = (k, v) => !domConfStrignifyList.includes(k) && v || undefined
 export const domConfLocationHash = () => JSON.stringify(domConf(), domConfStrignifyFn)
 export const domConfHrefHash = () => window.location.href = '#cj=' + domConfLocationHash()
@@ -92,7 +92,7 @@ export const treeOpenedChildOnOff = (treeRootId, adnId) => {
 export const reViewActivePanel = (adnId, activeEditObjName) => {
     domConf().activeEditObjName = activeEditObjName
     domConf().activeEditId = adnId
-    console.log(domConf())
+    // console.log(domConf())
     getDomComponent('actuallyEdit').count++
 }
 /**
@@ -100,12 +100,11 @@ export const reViewActivePanel = (adnId, activeEditObjName) => {
  * @param {*} adnId 
  * @returns 
  */
-export const reViewAdn = adnId => {
-    console.log(adnId, actuallyTreeObj().mcElement)
+export const reViewAdn = adnId =>
     actuallyTreeObj().mcElement && Okeys(actuallyTreeObj().mcElement)
         .forEach(rootId => actuallyTreeObj().mcElement[rootId][adnId] &&
             actuallyTreeObj().mcElement[rootId][adnId].count++)
-}
+
 /**
  * 
  * @param {*} adnList 
@@ -261,7 +260,6 @@ const initUriDomConf = (rawUriDomConf, ppId) => {
  * @param {*} ppId 
  */
 const initTreeUriDomConf = (uriDomConf_l, ppId) => {
-    console.log(uriDomConf_l, uriDomConf_l[0], 'tree' == uriDomConf_l[0], domContainer.conf.tree)
     domContainer.conf.pathActuallyTreeObj = 'tree,' + ppId
     'tree' == uriDomConf_l[0] && ((
         domContainer.conf.tree || (domContainer.conf.tree = {})
@@ -271,7 +269,7 @@ const initTreeUriDomConf = (uriDomConf_l, ppId) => {
             domContainer.conf.tree = {}
             console.log(domContainer)
         })();
-    console.log(JSON.stringify(domContainer.conf, '', 2))
+    // console.log(JSON.stringify(domContainer.conf, '', 2))
 }
 /**
  * 
