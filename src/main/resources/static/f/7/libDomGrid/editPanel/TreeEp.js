@@ -5,30 +5,63 @@
  */
 import {
     mcData, setDomComponent, getActualeCompomentName, actuallyTreeObj,
+    getDomComponent,
     setUpOneLevel, setTakeToRoot,
 } from '/f/7/libDomGrid/libDomGrid.js'
+import { dbSendVlStrData, dbSendInsertAdn, dbSendDeleteAdn1 } from
+    '/f/7/libDbRw/libMcRDb.js'
 
 const treeSelectedId = () => actuallyTreeObj() && actuallyTreeObj().selectedId
     , adn = () => mcData.eMap[treeSelectedId()]
-
+    , reViewEditPanel = () => {
+        getDomComponent('TreeEp').count++
+        getDomComponent('actuallyEdit').count++
+    }
 const isAdnEditPanelSubMenu = type => actuallyTreeObj() && actuallyTreeObj().adnEditPanelSubMenu
     && actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()]
     && actuallyTreeObj().adnEditPanelSubMenu.activeId == treeSelectedId()
     && actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()].type == type
+    , initAdnEditPanelSubMenu = () => {
+        !actuallyTreeObj().adnEditPanelSubMenu && (actuallyTreeObj().adnEditPanelSubMenu = { activeId: treeSelectedId() })
+            || (actuallyTreeObj().adnEditPanelSubMenu.activeId = treeSelectedId())
+        !actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()] &&
+            (actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()] = { edVlStr: adn().vl_str })
+        return actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()]
+    }
+    , adnEditPanelSubMenuOnOff = type => !isAdnEditPanelSubMenu(type)
+        && (initAdnEditPanelSubMenu().type = type)
+        || delete actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()].type
 
 export default {
-    methods: {
+    data() { return { count: 0, } },
+    mounted() {
+        setDomComponent('TreeEp', this)
+    }, methods: {
         adn() { return adn() },
         p() { return adn() && adn().p },
         r1() { return adn() && adn().r },
         r2() { return adn() && adn().r2 },
         actuallyCompomentName() { return getActualeCompomentName() },
+        insertAdnChild() { dbSendInsertAdn({ parent: adn().doc_id }) },
+        deleteAdn() { dbSendDeleteAdn1({ adnId: this.adn().doc_id, p: this.adn().p }) },
         copyId() { return actuallyTreeObj().copyId },
+        copyAdnId() {
+            actuallyTreeObj().copyId = this.adn().doc_id
+            reViewEditPanel()
+        },
         treeSelectedId() { return treeSelectedId() },
         selectedRootId() { return actuallyTreeObj().selectedRootId },
         isEditStrMenu() { return isAdnEditPanelSubMenu('editStr') },
         isSortMenu() { return isAdnEditPanelSubMenu('sort') },
+        setEdVlStr(vl) { initAdnEditPanelSubMenu().edVlStr = vl },
+        editStrMenu() {
+            console.log(actuallyTreeObj())
+            console.log(actuallyTreeObj().adnEditPanelSubMenu)
+            adnEditPanelSubMenuOnOff('editStr')
+            // this.count++
+            reViewEditPanel()
 
+        },
     }, template: `
 <div class="w3-row" v-if="'tree'==actuallyCompomentName()">
     <span class="w3-right w3-tiny w3-opacity">

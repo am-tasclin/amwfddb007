@@ -3,6 +3,7 @@
  * Algoritmed ©, Licence EUPL-1.2 or later.
  * 
  */
+import { ws } from '/f/7/libDbRw/wsDbRw.js'
 import {
     mcData, setDomComponent, getActualeCompomentName, actuallyTreeObj,
     setUpOneLevel, setTakeToRoot,
@@ -41,7 +42,10 @@ export default {
         p() { return adn() && adn().p },
         r1() { return adn() && adn().r },
         r2() { return adn() && adn().r2 },
-        deleteAdn() { dbSendDeleteAdn1({ adnId: this.adn().doc_id, p: this.adn().p }) },
+        deleteAdn() {
+            console.log({ adnId: this.adn().doc_id, p: this.adn().p })
+            dbSendDeleteAdn1({ adnId: this.adn().doc_id, p: this.adn().p })
+        },
         copyId() { return actuallyTreeObj().copyId },
         copyAdnId() {
             actuallyTreeObj().copyId = this.adn().doc_id
@@ -63,7 +67,16 @@ export default {
                 dbSendInsertAdn({ parent: adn().p })
         },
         isEditStrMenu() { return isAdnEditPanelSubMenu('editStr') },
-        insertAdnChild() { dbSendInsertAdn({ parent: adn().doc_id }) },
+        insertAdnChild() {
+            const sqlApi = { parent: adn().doc_id, cmd: 'insertAdn', }
+            console.log(sqlApi, 123)
+            // dbSendInsertAdn({ parent: adn().doc_id })
+            ws.send(JSON.stringify(sqlApi))
+            new Promise((thenFn, reject) => ws.onmessage = event =>
+                thenFn(JSON.parse(event.data))).then(json => {
+                    console.log(json)
+                })
+        },
         takeToRoot() { setTakeToRoot(treeSelectedId()) },
         setEdVlStr(vl) { initAdnEditPanelSubMenu().edVlStr = vl },
         adnEditPanelSubMenu() { return actuallyTreeObj().adnEditPanelSubMenu[treeSelectedId()] },

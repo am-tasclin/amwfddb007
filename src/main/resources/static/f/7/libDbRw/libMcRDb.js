@@ -18,20 +18,25 @@ export const dbSendVlStrData = adnJson => executeUpdateString(adnJson).then(json
     reViewAdn(json.adnId)
 })
 
-export const dbSendInsertAdn = adnJson => executeAdnInsertQuery(adnJson).then(json => {
-    json.d.p = json.d.parent
-    json.d.r = json.d.reference
-    json.d.r2 = json.d.reference2
-    console.log(json)
-    mcData.eMap[json.d.doc_id] = json.d
-    mcData.parentChilds[json.d.p].push(json.d.doc_id)
-    reViewAdn(json.d.p)
-})
+export const dbSendInsertAdn = adnJson => {
+    console.log(adnJson, 123)
+    return executeAdnInsertQuery(adnJson).then(json => {
+        console.log(json, 123)
+        json.d.p = json.d.parent
+        json.d.r = json.d.reference
+        json.d.r2 = json.d.reference2
+        console.log(json)
+        mcData.eMap[json.d.doc_id] = json.d
+        mcData.parentChilds[json.d.p].push(json.d.doc_id)
+        reViewAdn(json.d.p)
+    })
+}
 
 export const dbSendDeleteAdn1 = adnJson => executeDeleteAdn1Query(adnJson).then(json => {
     delete mcData.eMap[json.adnId]
     mcData.parentChilds[json.p] =
         mcData.parentChilds[json.p].filter(k => k != json.adnId)
+    console.log(json.adnId, json.p)
     reViewAdn(json.p)
 })
 /**
