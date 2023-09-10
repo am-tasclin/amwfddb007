@@ -18,12 +18,12 @@ console.log(domContainer)
 export const consoleLogDomCOntainer = () => console.log(domContainer)
 
 export const setActualeCompomentName = ctName => domContainer.actuallyComponentName = ctName
+export const getActualeCompomentName = () => domContainer.actuallyComponentName
+
 export const setDomComponent = (ctName, ct) =>
     setActualeCompomentName(ctName) && (domContainer.components[ctName] = ct)
-
 export const getDomComponent = (ctName) => domContainer.components[ctName]
 export const getDomComponentAll = () => domContainer.components
-export const getActualeCompomentName = () => domContainer.actuallyComponentName
 /**
  * 
  */
@@ -109,16 +109,9 @@ export const reViewActivePanel = (adnId, activeEditObjName) => {
  * @param {*} adnId 
  * @returns 
  */
-export const reViewAdn = adnId => {
-    console.log(adnId)
-    console.log(Okeys(actuallyTreeObj().mcElement))
-    actuallyTreeObj().mcElement && Okeys(actuallyTreeObj().mcElement)
-        .forEach(rootId => {
-            console.log(rootId)
-            actuallyTreeObj().mcElement[rootId][adnId] &&
-                actuallyTreeObj().mcElement[rootId][adnId].count++
-        })
-}
+export const reViewAdn = adnId => actuallyTreeObj().mcElement && Okeys(actuallyTreeObj().mcElement)
+    .forEach(rootId => actuallyTreeObj().mcElement[rootId][adnId] &&
+        actuallyTreeObj().mcElement[rootId][adnId].count++)
 
 /**
  * 

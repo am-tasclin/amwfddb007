@@ -155,7 +155,8 @@ public class DbSqlClient {
         logger.info("-155-\n" + mapIn);
         Doc newDoc = new Doc(nextDbId(), mapIn);
         logger.info("-157-\n" + newDoc);
-        sqlTemplate.insert(newDoc).toFuture().get();
+        Mono<Doc> insert = sqlTemplate.insert(newDoc);
+        insert.toFuture().get();
         mapIn.put("d", newDoc);
     }
 

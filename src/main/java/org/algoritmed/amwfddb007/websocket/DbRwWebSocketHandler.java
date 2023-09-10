@@ -3,6 +3,7 @@ package org.algoritmed.amwfddb007.websocket;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
 
 import reactor.core.publisher.Mono;
 import org.springframework.web.reactive.socket.WebSocketHandler;
@@ -20,7 +21,9 @@ public class DbRwWebSocketHandler extends SimpleWebSocketHandler implements WebS
     @Override
     public Mono<Void> handle(WebSocketSession session) {
 
-        return session.send(session.receive().map(WebSocketMessage::getPayloadAsText).map(sqlSelectJson -> {
+        Function<? super String, ? extends WebSocketMessage> mapper = sqlSelectJson -> {
+            logger.info("-25-");
+            logger.info(sqlSelectJson);
             int incrementAndGet = aInt.incrementAndGet();
             WebSocketMessage m = null;
             Map<String, Object> mapIn = null;
@@ -66,7 +69,7 @@ public class DbRwWebSocketHandler extends SimpleWebSocketHandler implements WebS
                         dbSqlClient.executeQuery(mapIn);
                         break;
                 }
-                List<Object> x= (List<Object>) mapIn.get("list");
+                List<Object> x = (List<Object>) mapIn.get("list");
                 logger.info("-68-" + incrementAndGet + ":-size-" + x.size());
                 String jsonStr = objectMapper.writeValueAsString(mapIn);
                 m = session.textMessage(jsonStr);
@@ -74,7 +77,8 @@ public class DbRwWebSocketHandler extends SimpleWebSocketHandler implements WebS
                 e.printStackTrace();
             }
             return m;
-        }));
+        };
+        return session.send(session.receive().map(WebSocketMessage::getPayloadAsText).map(mapper));
 
     }
 }

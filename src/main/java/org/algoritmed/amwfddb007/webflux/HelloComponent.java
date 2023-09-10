@@ -30,6 +30,7 @@ public class HelloComponent {
 
   public Mono<ServerResponse> select2list01(ServerRequest request) {
     int incrementAndGet = ai.incrementAndGet();
+    
     logger.info("-93-" + incrementAndGet + ": /r/url_sql_read_db1");
     Map<String, Object> m = new HashMap<String, Object>();
     String sql = request.queryParam("sql").get();
@@ -67,6 +68,15 @@ public class HelloComponent {
   }
 
   // Right Hello - history of 'recherche'
+
+  // public Mono<String> helloPerson(String name) {
+  public Mono<ServerResponse> helloPerson(ServerRequest request) {
+    Map m = new HashMap();
+    m.put("name", "m");
+    return builderResponse.body(BodyInserters.fromValue(m));
+    // return builderResponse.body(Mono.just("Hello " + name + "!"));
+    // return Mono.just("Hello " + name + "!");
+  }
 
   public Mono<ServerResponse> hello(ServerRequest request) {
     return select2list(dbSqlClient.sqlAll);

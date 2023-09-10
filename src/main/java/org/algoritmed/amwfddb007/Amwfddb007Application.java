@@ -57,18 +57,18 @@ public class Amwfddb007Application {
 
 			Sort s = new Sort(376642, 1111);
 			logger.info(" " + s);
-			
+
 			// List<Sort> sortL = Arrays.asList(s);
 			// Sort x = sortRepository.saveAll(sortL).blockLast();
 			// logger.info(" " + x);
-/*
- * 
- StringContent sc = new StringContent(376642, "qwe 123");
- Long y = sqlTemplate.update(StringContent.class)
- .matching(Query.query(Criteria.where("string_id").is(sc.getString_id())))
- .apply(Update.update("value", sc.getValue())).block();
- logger.info(" " + y + " " + sc);
- */
+			/*
+			 * 
+			 * StringContent sc = new StringContent(376642, "qwe 123");
+			 * Long y = sqlTemplate.update(StringContent.class)
+			 * .matching(Query.query(Criteria.where("string_id").is(sc.getString_id())))
+			 * .apply(Update.update("value", sc.getValue())).block();
+			 * logger.info(" " + y + " " + sc);
+			 */
 
 		};
 	}
@@ -101,6 +101,8 @@ public class Amwfddb007Application {
 						helloComponent::selectListResponse)
 				.andRoute(GET("/wf/hello").and(accept(MediaType.APPLICATION_JSON)),
 						helloComponent::hello)
+				.andRoute(GET("/wf/helloPerson").and(accept(MediaType.APPLICATION_JSON)),
+						helloComponent::helloPerson)
 				.andRoute(GET("/r/url_sql_read_db2").and(accept(MediaType.APPLICATION_JSON)),
 						helloComponent::select2list)
 				.andRoute(GET("/r/url_sql_read_db1").and(accept(MediaType.APPLICATION_JSON)),
